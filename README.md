@@ -22,7 +22,7 @@
 
 ## 主题
 
-八种主题共用同一套玩法和布局，切换时不会打断正在进行的一局：
+七种主题共用同一套玩法和布局，切换时不会打断正在进行的一局：
 
 | 分组 | 主题 | 主页 | 推荐卡面 |
 |---|---|---|---|
@@ -31,7 +31,6 @@
 | 传统和风 | 砂纹石庭 | 一圈砂纹，一块石 | 墨染 |
 | 节令生活 | 灯火夜祭 | 广重「两国花火」上的灯笼与摊位 | 朱缘 |
 | 节令生活 | 旅行手账 | 纸页、印章集、北斋草花小稿 | 剪纸 |
-| 动画漫画 | 梦之游行 | 雪佳「六歌仙」整页背景加图案拼贴的梦游行海报 | 花图 |
 | 动画漫画 | 四叠青春 | 四叠半杂志页 | 剪纸 |
 | 动画漫画 | 昭和漫画 | 以《北斋漫画》为刊头的连载目次 | 网点 |
 
@@ -53,5 +52,5 @@ python3 -m http.server 8000
 - 纸牌音效（`sfx/`）：Kenney「[Casino Audio](https://kenney.nl/assets/casino-audio)」，CC0，已转码为 MP3。
 - 琴声、风铃、尺八与环境音：[Tone.js](https://github.com/Tonejs/Tone.js)（MIT）实时合成。
 - 落花特效：[canvas-confetti](https://github.com/catdad/canvas-confetti)（ISC）。
-- 字体：Shippori Mincho B1、Zen Old Mincho、Zen Antique、Dela Gothic One、Yusei Magic、Klee One、Kaisei Decol、Yuji Syuku、ZCOOL XiaoWei、ZCOOL KuaiLe、ZCOOL QingKe HuangYou、Long Cang、Noto Serif SC、Noto Sans SC（SIL OFL 1.1），经 Google Fonts 提供。
+- 字体：每个主题两到三种。日文显示字体 Shippori Mincho B1、Zen Old Mincho、Shippori Mincho、Kaisei Decol、Klee One、Yusei Magic、Zen Antique；中文 Noto Serif SC、Noto Sans SC；点缀用 Yuji Syuku、ZCOOL XiaoWei、ZCOOL KuaiLe（SIL OFL 1.1），经 Google Fonts 提供。
 - 俳句：服部嵐雪、松尾芭蕉、山口素堂、与謝蕪村的作品（公有领域），中文译文为本项目所作。

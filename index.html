@@ -3,47 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="日本庭院主题的花札记忆配对小游戏：八种主题、七套卡面、48 张花札图鉴与御守徽章。">
+<meta name="description" content="日本庭院主题的花札记忆配对小游戏：七种主题、七套卡面、48 张花札图鉴与御守徽章。">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>御守花札</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600;900&family=Zen+Old+Mincho:wght@600;900&family=Shippori+Mincho+B1:wght@600;800&family=Kaisei+Decol:wght@700&family=ZCOOL+XiaoWei&family=Dela+Gothic+One&family=Yusei+Magic&family=Zen+Antique&family=Klee+One:wght@600&family=ZCOOL+KuaiLe&family=ZCOOL+QingKe+HuangYou&family=Yuji+Syuku&family=Long+Cang&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&family=Zen+Old+Mincho:wght@600;900&family=Shippori+Mincho+B1:wght@600;800&family=Shippori+Mincho:wght@500;700&family=Kaisei+Decol:wght@700&family=Yusei+Magic&family=Zen+Antique&family=Klee+One:wght@600&family=ZCOOL+XiaoWei&family=ZCOOL+KuaiLe&family=Yuji+Syuku&display=swap">
 <style>
 /* Layout: one game shell shared by eight looks. Each look swaps tokens (colour, type, button and panel shape), paints its own garden
    backdrops, and has its own home page (poster, paperback cover, magazine contents page, journal spread …).
    Tokens sit on [data-look] so a look can also be applied to a small preview inside the theme picker. Card faces are never filtered. */
 :root,[data-look="ukiyo"]{
   --bg:#f3ecdd; --panel:rgba(250,246,236,.92); --panel-solid:#f8f2e4; --line:rgba(31,58,104,.16); --line-2:rgba(31,58,104,.34);
-  --text:#1c2a44; --muted:#4a5670; --faint:#8590a4; --accent:#1f3a68; --accent-ink:#f8f2e4; --shu:#c8402a; --moss:#3e7a5e; --gold:#b8913e;
+  --text:#1c2a44; --muted:#4a5670; --faint:#5f697f; --accent:#1f3a68; --accent-ink:#f8f2e4; --shu:#c8402a; --moss:#3e7a5e; --gold:#b8913e;
   --back:#1f3a68; --back-line:rgba(243,236,221,.6); --stone:#6b7890; --stone-2:#8994a8; --unlit:#d9d2c2; --scrim:rgba(28,42,68,.45); --chip:rgba(31,58,104,.06);
   --f-jp:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif; --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
   --w-jp:800; --w-head:900; --btn-radius:3px; --btn-bw:2px; --btn-shadow:none; --panel-radius:4px; --panel-bw:1.5px;
   --panel-shadow:inset 0 0 0 3px #f8f2e4,inset 0 0 0 4px rgba(31,58,104,.16); --blur:3px; --board-bg:transparent; --board-pad:0px;
   color-scheme:light;
 }
-[data-look="dream"]{
-  --bg:#1b1033; --panel:rgba(40,18,72,.82); --panel-solid:#261245; --line:rgba(255,244,230,.16); --line-2:rgba(255,244,230,.32);
-  --text:#fff4e6; --muted:#d6c3e6; --faint:#9d87b3; --accent:#ff4fa3; --accent-ink:#2a0716; --shu:#ff6b4a; --moss:#2ee6d0; --gold:#ffd23f;
-  --back:#5b1d8a; --back-line:rgba(255,210,63,.8); --stone:#6a4a9a; --stone-2:#4a2f7a; --unlit:#2f1a52; --scrim:rgba(15,6,30,.72); --chip:rgba(255,255,255,.06);
-  --f-jp:"Dela Gothic One","Hiragino Sans","Noto Sans SC",sans-serif; --f-head:"ZCOOL QingKe HuangYou","Noto Sans SC",sans-serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
-  --f-num:"Noto Sans SC",sans-serif;
-  --w-jp:400; --w-head:400; --btn-radius:999px; --btn-bw:2px; --btn-shadow:0 0 0 2px rgba(46,230,208,.5),0 10px 24px -10px #ff4fa3; --panel-radius:20px; --panel-bw:1px;
-  --panel-shadow:0 0 0 1px rgba(46,230,208,.22),0 12px 30px -16px rgba(255,79,163,.6); --blur:10px; --board-bg:rgba(27,16,51,.6); --board-pad:10px;
-  color-scheme:dark;
-}
 [data-look="youth"]{
   --bg:#f7e9c6; --panel:rgba(255,250,236,.96); --panel-solid:#fffaf0; --line:#222; --line-2:#222;
-  --text:#1e1e1e; --muted:#4b4637; --faint:#8b836c; --accent:#e8553e; --accent-ink:#fff; --shu:#e8553e; --moss:#3f9b6a; --gold:#f2b134;
+  --text:#1e1e1e; --muted:#4b4637; --faint:#6d6558; --accent:#d6381b; --accent-ink:#fff; --shu:#e8553e; --moss:#3f9b6a; --gold:#f2b134;
   --back:#4aa3df; --back-line:rgba(255,255,255,.85); --stone:#222; --stone-2:#4aa3df; --unlit:#fff3cf; --scrim:rgba(30,30,30,.45); --chip:rgba(0,0,0,.05);
-  --f-jp:"Yusei Magic","Hiragino Maru Gothic ProN","Noto Sans SC",sans-serif; --f-head:"ZCOOL KuaiLe","Noto Sans SC",sans-serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
-  --w-jp:400; --w-head:400; --btn-radius:255px 18px 225px 18px/18px 225px 18px 255px; --btn-bw:2.5px; --btn-shadow:3px 4px 0 #222;
+  --f-jp:"Yusei Magic","Hiragino Maru Gothic ProN","Noto Sans SC",sans-serif; --f-head:"Noto Sans SC","PingFang SC",sans-serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
+  --w-jp:400; --w-head:900; --btn-radius:255px 18px 225px 18px/18px 225px 18px 255px; --btn-bw:2.5px; --btn-shadow:3px 4px 0 #222;
   --panel-radius:18px 6px 22px 8px; --panel-bw:2px; --panel-shadow:4px 4px 0 #f2b134; --blur:0px; --board-bg:rgba(255,250,236,.72); --board-pad:10px;
   color-scheme:light;
 }
 [data-look="manga"]{
   --bg:#f7f5f0; --panel:#fff; --panel-solid:#fff; --line:#111; --line-2:#111;
-  --text:#111; --muted:#3a3a3a; --faint:#7a7a7a; --accent:#111; --accent-ink:#fff; --shu:#d7261e; --moss:#111; --gold:#d7261e;
+  --text:#111; --muted:#3a3a3a; --faint:#6e6e6e; --accent:#111; --accent-ink:#fff; --shu:#d7261e; --moss:#111; --gold:#d7261e;
   --back:#111; --back-line:rgba(255,255,255,.8); --stone:#111; --stone-2:#555; --unlit:#fff; --scrim:rgba(0,0,0,.5); --chip:rgba(0,0,0,.04);
   --f-jp:"Zen Antique","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Serif SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
   --w-jp:400; --w-head:900; --btn-radius:0; --btn-bw:2px; --btn-shadow:3px 3px 0 #111; --panel-radius:0; --panel-bw:2px; --panel-shadow:4px 4px 0 #111;
@@ -51,7 +41,7 @@
 }
 [data-look="washi"]{
   --bg:#f4efe3; --panel:rgba(255,253,247,.92); --panel-solid:#fbf8f0; --line:rgba(74,58,44,.15); --line-2:rgba(74,58,44,.3);
-  --text:#3a2f26; --muted:#6b5e50; --faint:#9b8f80; --accent:#b8392a; --accent-ink:#fbf8f0; --shu:#b8392a; --moss:#6b7a4a; --gold:#b8963e;
+  --text:#3a2f26; --muted:#6b5e50; --faint:#77685e; --accent:#b8392a; --accent-ink:#fbf8f0; --shu:#b8392a; --moss:#6b7a4a; --gold:#b8963e;
   --back:#6e2a20; --back-line:rgba(184,150,62,.75); --stone:#8a7a66; --stone-2:#a8988a; --unlit:#e2dacb; --scrim:rgba(58,47,38,.42); --chip:rgba(74,58,44,.05);
   --f-jp:"Zen Old Mincho","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif; --f-head:"ZCOOL XiaoWei","Noto Serif SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
   --w-jp:600; --w-head:400; --btn-radius:2px; --btn-bw:1px; --btn-shadow:none; --panel-radius:2px; --panel-bw:1px; --panel-shadow:0 1px 0 rgba(74,58,44,.08);
@@ -59,25 +49,26 @@
 }
 [data-look="kare"]{
   --bg:#ebe7dd; --panel:rgba(250,248,242,.9); --panel-solid:#f6f3ec; --line:rgba(43,43,40,.12); --line-2:rgba(43,43,40,.24);
-  --text:#2b2b28; --muted:#615f58; --faint:#94918a; --accent:#55704a; --accent-ink:#f6f3ec; --shu:#b8432f; --moss:#6e7f4f; --gold:#a89060;
+  --text:#2b2b28; --muted:#5e5c56; --faint:#6a6564; --accent:#55704a; --accent-ink:#f6f3ec; --shu:#b8432f; --moss:#6e7f4f; --gold:#a89060;
   --back:#4b4a45; --back-line:rgba(235,231,221,.55); --stone:#9a968c; --stone-2:#b4b0a6; --unlit:#dcd7cb; --scrim:rgba(43,43,40,.4); --chip:rgba(43,43,40,.04);
-  --f-jp:"Yuji Syuku","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif; --f-head:"Noto Serif SC",serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
-  --w-jp:400; --w-head:600; --btn-radius:999px; --btn-bw:1px; --btn-shadow:none; --panel-radius:14px; --panel-bw:1px; --panel-shadow:none;
+  --f-jp:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif; --f-display:"Yuji Syuku","Shippori Mincho",serif;
+  --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --w-jp:500; --w-head:600; --btn-radius:999px; --btn-bw:1px; --btn-shadow:none; --panel-radius:14px; --panel-bw:1px; --panel-shadow:none;
   --blur:4px; --board-bg:transparent; --board-pad:0px; color-scheme:light;
 }
 [data-look="matsuri"]{
   --bg:#121c36; --panel:rgba(26,38,70,.86); --panel-solid:#1b2747; --line:rgba(244,234,210,.14); --line-2:rgba(244,234,210,.3);
-  --text:#f4ead2; --muted:#c9c1aa; --faint:#8a8778; --accent:#f29a3a; --accent-ink:#2a1606; --shu:#d8432c; --moss:#7fb59a; --gold:#f2c46a;
+  --text:#f4ead2; --muted:#c9c1aa; --faint:#949187; --accent:#f29a3a; --accent-ink:#2a1606; --shu:#d8432c; --moss:#7fb59a; --gold:#f2c46a;
   --back:#c43a26; --back-line:rgba(244,234,210,.65); --stone:#3a4566; --stone-2:#2c3656; --unlit:#26304e; --scrim:rgba(8,12,26,.72); --chip:rgba(255,255,255,.05);
-  --f-jp:"Kaisei Decol","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"ZCOOL XiaoWei","Noto Serif SC",serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
-  --w-jp:700; --w-head:400; --btn-radius:14px; --btn-bw:1px; --btn-shadow:0 0 22px -8px #f29a3a; --panel-radius:14px; --panel-bw:1px; --panel-shadow:none;
+  --f-jp:"Kaisei Decol","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Sans SC","PingFang SC",sans-serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
+  --w-jp:700; --w-head:700; --btn-radius:14px; --btn-bw:1px; --btn-shadow:0 0 22px -8px #f29a3a; --panel-radius:14px; --panel-bw:1px; --panel-shadow:none;
   --blur:6px; --board-bg:rgba(18,28,54,.55); --board-pad:8px; color-scheme:dark;
 }
 [data-look="techo"]{
   --bg:#f3ecdf; --panel:rgba(255,253,248,.96); --panel-solid:#fffdf8; --line:rgba(110,90,70,.18); --line-2:rgba(110,90,70,.32);
-  --text:#4a3d32; --muted:#7a6a5a; --faint:#a89a8a; --accent:#c0675a; --accent-ink:#fff; --shu:#c0675a; --moss:#7d9a74; --gold:#c9a77c;
+  --text:#4a3d32; --muted:#6e5e52; --faint:#766558; --accent:#b85644; --accent-ink:#fff; --shu:#c0675a; --moss:#7d9a74; --gold:#c9a77c;
   --back:#c9a77c; --back-line:rgba(255,255,255,.75); --stone:#b9a48a; --stone-2:#d1bfa6; --unlit:#ece3d3; --scrim:rgba(74,61,50,.4); --chip:rgba(110,90,70,.06);
-  --f-jp:"Klee One","Hiragino Maru Gothic ProN","Noto Sans SC",sans-serif; --f-head:"Long Cang","Noto Serif SC",serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
+  --f-jp:"Klee One","Hiragino Maru Gothic ProN","Noto Sans SC",sans-serif; --f-head:"ZCOOL KuaiLe","Noto Sans SC",sans-serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
   --w-jp:600; --w-head:400; --btn-radius:12px; --btn-bw:1px; --btn-shadow:0 2px 0 rgba(110,90,70,.25); --panel-radius:6px; --panel-bw:1px;
   --panel-shadow:0 3px 10px -4px rgba(110,90,70,.35); --blur:0px; --board-bg:transparent; --board-pad:0px; color-scheme:light;
 }
@@ -85,10 +76,13 @@
 [hidden]{display:none!important}
 html{height:100%;box-sizing:border-box}
 *,*::before,*::after{box-sizing:inherit}
-body{height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.55;-webkit-tap-highlight-color:transparent}
+body{height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.6;-webkit-tap-highlight-color:transparent;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 button{font:inherit;color:inherit}
 button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .jp{font-family:var(--f-jp);font-weight:var(--w-jp)}
+/* Japanese display faces get proportional kana spacing; Chinese text never sits in a Japanese-only face */
+.jp,.g-title b,.e-name b,.s-kanji,.pv-top,[class^="hv-"] h1{font-feature-settings:"palt" 1}
 .tnum{font-variant-numeric:tabular-nums}
 .eyebrow{font-size:12px;letter-spacing:.16em;color:var(--muted)}
 
@@ -121,10 +115,10 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .flowers svg{width:14px;height:14px}
 .haiku{margin:0;display:grid;gap:2px}
 .haiku .jp{font-size:16px;letter-spacing:.1em;line-height:1.6}
-.haiku .cn{font-family:var(--f-head);font-size:14px;color:var(--muted)}
+.haiku .cn{font-family:var(--f-body);font-size:14px;color:var(--muted)}
 .haiku small{font-size:12px;color:var(--faint)}
 .seal{display:inline-grid;place-items:center;width:52px;height:52px;border:2.5px solid #c23b22;border-radius:9px;color:#c23b22;background:rgba(194,59,34,.06);
-  writing-mode:vertical-rl;font-family:"Zen Old Mincho",serif;font-weight:900;font-size:17px;letter-spacing:.08em;line-height:1;transform:rotate(-5deg)}
+  writing-mode:vertical-rl;font-family:var(--f-jp);font-weight:900;font-size:17px;letter-spacing:.08em;line-height:1;transform:rotate(-5deg)}
 .seal.off{border-style:dashed;border-color:var(--line-2);color:var(--faint);background:transparent}
 
 /* ---------- home shell + tab bar ---------- */
@@ -144,6 +138,19 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 
 /* ---------- game ---------- */
 #game{padding-block:8px 10px;gap:8px;max-width:760px;margin:0 auto}
+/* compact: big decks on short screens get a one-line HUD so every card stays on screen */
+#game.compact{gap:5px;padding-block:4px 6px}
+#game.compact .g-top .icon-btn{min-height:40px;min-width:40px}
+#game.compact .g-title b{font-size:18px}
+#game.compact .g-title .eyebrow{font-size:10px}
+#game.compact .stat{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:3px 10px}
+#game.compact .stat .top{display:block}
+#game.compact #usedMoves,#game.compact .mbar{display:none}
+#game.compact .stat .val b{font-size:20px}
+#game.compact .stat .val small{font-size:12px}
+#game.compact .hint{min-height:20px;padding:0 10px;font-size:12px;line-height:20px}
+#game.compact .g-actions .btn{min-height:44px}
+#game.compact .deck{padding:min(var(--board-pad),4px)}
 .g-top{display:flex;align-items:center;gap:6px}
 .g-title{flex:1;min-width:0;text-align:center;line-height:1.15}
 .g-title .eyebrow{display:block;font-size:11px;color:var(--season);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -152,7 +159,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .stat{padding:7px 12px 8px;min-width:0}
 .stat .lab{font-size:12px;color:var(--muted);letter-spacing:.06em}
 .stat .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.stat .val{display:flex;align-items:baseline;gap:4px;font-family:var(--f-num,var(--f-head));font-weight:900;line-height:1.1}
+.stat .val{display:flex;align-items:baseline;gap:4px;font-family:var(--f-num,var(--f-body));font-weight:900;line-height:1.1}
 .stat .val b{font-size:28px}
 .stat .val small{font-size:14px;color:var(--muted);font-weight:600}
 .mbar{height:4px;border-radius:99px;background:var(--line);margin-top:5px;overflow:hidden}
@@ -270,6 +277,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .e-text{min-width:0}
 .e-name{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
 .e-name b{font-family:var(--f-jp);font-weight:var(--w-jp);font-size:18px;line-height:1.25}
+.e-name b.zh{font-family:var(--f-head);font-weight:var(--w-head);font-size:16px}
 .e-sub{font-size:12px;color:var(--faint)}
 .e-mean{margin-top:4px;font-size:13px;color:var(--text)}
 .e-mean span{color:var(--accent);margin-right:6px;font-size:12px}
@@ -278,7 +286,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .e-om{display:inline-flex;align-items:center;gap:6px}
 .e-om svg{width:14px;height:auto;flex:none}
 .e-date{color:var(--faint)}
-.tag{font-size:11px;padding:1px 7px;border-radius:99px;border:1px solid var(--line-2);color:var(--muted);white-space:nowrap}
+.tag{font-size:12px;padding:1px 7px;border-radius:99px;border:1px solid var(--line-2);color:var(--muted);white-space:nowrap}
 .tag.hikari{border-color:var(--gold);color:var(--gold)}
 .tag.tane{border-color:var(--moss);color:var(--moss)}
 .tag.tan{border-color:var(--shu);color:var(--shu)}
@@ -300,18 +308,17 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .theme-card{display:grid;gap:0;padding:0;border:0;border-radius:12px;overflow:hidden;cursor:pointer;text-align:left;background:var(--panel-solid);color:var(--text);outline:2px solid var(--line);outline-offset:0}
 .theme-card[aria-checked="true"]{outline:3px solid var(--sel);outline-offset:2px}
 .theme-card .tc-txt{padding:8px 10px 10px;display:grid;gap:2px;border-top:1px solid var(--line)}
-.theme-card .tc-txt b{font-family:var(--f-jp);font-weight:var(--w-jp);font-size:16px;line-height:1.25}
+.theme-card .tc-txt b{font-family:var(--f-head);font-weight:var(--w-head);font-size:16px;line-height:1.25}
 .theme-card .tc-txt small{font-size:12px;line-height:1.5;color:var(--muted)}
-.theme-card .tc-txt em{font-style:normal;font-size:11px;color:var(--accent)}
-.theme-card .tc-jp{margin-left:6px;font-size:11px;font-weight:400;opacity:.7}
+.theme-card .tc-txt em{font-style:normal;font-size:12px;color:var(--accent)}
+.theme-card .tc-jp{margin-left:6px;font-family:var(--f-jp);font-size:12px;font-weight:400;opacity:.75}
 .th-groups{display:grid;gap:22px}
 .th-group h3{margin:0 0 10px;font-family:var(--f-head);font-weight:var(--w-head);font-size:17px;color:var(--text);letter-spacing:.2em}
-.art-credit{margin:0;font-size:11px;color:var(--faint);text-align:center}
+.art-credit{margin:0;font-size:12px;line-height:1.5;color:var(--faint);text-align:center}
 .scene-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 28%}
 .scene-veil{position:absolute;inset:0}
 .sv-matsuri{background:linear-gradient(rgba(18,28,54,.3),rgba(18,28,54,.6) 30%,rgba(18,28,54,.86) 60%)}
 .sa-ukiyo{object-position:50% 18%;filter:blur(1.5px)} .sv-ukiyo{background:linear-gradient(rgba(243,236,221,.62),rgba(243,236,221,.86) 40%,rgba(243,236,221,.95))}
-.sa-dream{filter:saturate(1.35) hue-rotate(-28deg)} .sv-dream{background:linear-gradient(160deg,rgba(27,16,51,.7),rgba(91,29,138,.58) 50%,rgba(27,16,51,.9))}
 :root[data-look="techo"] #homeView{background:linear-gradient(rgba(250,246,238,.86),rgba(250,246,238,.86)),url(art/techo-paper.jpg) 0 0/320px,var(--bg)}
 /* mini game mock used as the theme preview */
 .pv{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--bg)}
@@ -321,7 +328,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .pv-top{display:flex;justify-content:center;font-family:var(--f-jp);font-weight:var(--w-jp);font-size:15px;letter-spacing:.08em;color:var(--text)}
 .pv-hud{display:grid;grid-template-columns:1.3fr 1fr;gap:4px}
 .pv-hud span{padding:2px 6px;font-size:10px;color:var(--muted);background:var(--panel);border:var(--panel-bw) solid var(--line);border-radius:var(--panel-radius);box-shadow:var(--panel-shadow)}
-.pv-hud b{font-size:13px;color:var(--text);font-family:var(--f-num,var(--f-head))}
+.pv-hud b{font-size:13px;color:var(--text);font-family:var(--f-num,var(--f-body))}
 .pv-deck{align-self:center;justify-self:center;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:var(--board-pad);background:var(--board-bg);border-radius:var(--panel-radius);transform:scale(.92)}
 .pv-deck i{display:block;width:24px;aspect-ratio:61/100;border-radius:2px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .pv-deck i svg,.pv-deck i img{display:block;width:100%;height:100%;object-fit:contain}
@@ -350,42 +357,11 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .go{cursor:pointer;touch-action:manipulation}
 .go:disabled{cursor:default}
 .st-lock{opacity:.5}
-/* 1 · 浮世绘梦境 — a dream-parade poster */
-.hv-dream{position:relative;overflow:hidden}
-.hv-dream > :not(.dr-collage){position:relative;z-index:1}
-.hv-dream .dr-collage{position:absolute;inset:0;z-index:0;pointer-events:none}
-.hv-dream .dr-piece{position:absolute;width:var(--w);box-shadow:0 10px 26px rgba(0,0,0,.45);transform:rotate(var(--r));animation:bob 9s ease-in-out infinite;
-  clip-path:polygon(0 4%,8% 0,30% 3%,55% 0,78% 4%,100% 0,97% 30%,100% 58%,96% 100%,70% 96%,44% 100%,18% 95%,0 100%,3% 62%)}
-.hv-dream .dr-piece:nth-child(2){animation-delay:-3s} .hv-dream .dr-piece:nth-child(3){animation-delay:-6s} .hv-dream .dr-piece:nth-child(4){animation-delay:-2s} .hv-dream .dr-piece:nth-child(5){animation-delay:-5s}
-.hv-dream .dr-title{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end}
-.hv-dream .dr-title span{display:grid;place-items:center;width:58px;height:62px;font-family:var(--f-jp);font-size:38px;color:#1b1033;border-radius:10px;box-shadow:4px 5px 0 rgba(0,0,0,.35)}
-.hv-dream .dr-title span:nth-child(1){background:#ff4fa3;transform:rotate(-7deg)}
-.hv-dream .dr-title span:nth-child(2){background:#2ee6d0;transform:rotate(4deg) translateY(-6px)}
-.hv-dream .dr-title span:nth-child(3){background:#ffd23f;transform:rotate(-3deg) translateY(4px)}
-.hv-dream .dr-title span:nth-child(4){background:#9b5cff;color:#fff4e6;transform:rotate(8deg)}
-.hv-dream .dr-title small{flex-basis:100%;font-family:var(--f-head);font-size:14px;letter-spacing:.3em;color:#2ee6d0}
-.hv-dream .dr-portal{position:relative;align-self:center;width:min(78vw,270px);aspect-ratio:1;border:0;border-radius:50%;background:transparent;display:grid;place-items:center}
-.hv-dream .dr-ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(#ff4fa3,#ffd23f,#2ee6d0,#9b5cff,#ff4fa3);animation:spin 24s linear infinite;
-  -webkit-mask:radial-gradient(circle,transparent 63%,#000 64%);mask:radial-gradient(circle,transparent 63%,#000 64%)}
-.hv-dream .dr-in{position:absolute;inset:9%;border-radius:50%;background:radial-gradient(circle at 50% 35%,#3a1a6a,#1b1033 70%);display:grid;place-items:center;align-content:center;gap:6px;padding:12px;text-align:center}
-.hv-dream .dr-card{width:58px;animation:bob 5s ease-in-out infinite}
-.hv-dream .dr-card img{display:block;width:100%;height:auto}
-.hv-dream .dr-in em{font-style:normal;font-size:12px;letter-spacing:.3em;color:#ffd23f}
-.hv-dream .dr-in b{font-family:var(--f-jp);font-size:26px;line-height:1.1}
-.hv-dream .dr-in small{font-size:12px;color:var(--muted)}
-.hv-dream .dr-parade{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 12px;margin-inline:-4px}
-.hv-dream .dr-ticket{flex:none;scroll-snap-align:center;width:108px;min-height:118px;padding:10px;border-radius:14px;border:2px solid var(--season);background:var(--panel);display:grid;gap:2px;text-align:left;transform:rotate(var(--rot))}
-.hv-dream .dr-ticket b{font-family:var(--f-jp);font-size:26px;color:var(--season);line-height:1}
-.hv-dream .dr-ticket .jp{font-size:18px}
-.hv-dream .dr-ticket small{font-size:11px;color:var(--muted)}
-.hv-dream .dr-ticket.next{box-shadow:0 0 0 3px #ffd23f}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes bob{50%{transform:translateY(-6px)}}
 /* 2 · 手绘青春 — a lopsided magazine page in flat colour blocks */
 .hv-youth{position:relative}
 .hv-youth .yo-head{position:relative;padding:18px 16px 14px;background:#4aa3df;border:2.5px solid #222;border-radius:16px 4px 22px 6px;transform:perspective(600px) rotateY(-8deg) rotate(-1.5deg);box-shadow:6px 6px 0 #222}
 .hv-youth .yo-head h1{margin:0;font-family:var(--f-jp);font-size:44px;line-height:1;color:#fff;-webkit-text-stroke:2px #222;paint-order:stroke fill;letter-spacing:.04em}
-.hv-youth .yo-head span{display:inline-block;margin-top:8px;padding:2px 10px;background:#f2b134;border:2px solid #222;font-family:var(--f-head);font-size:14px;transform:rotate(2deg)}
+.hv-youth .yo-head span{display:inline-block;margin-top:8px;padding:2px 10px;background:#f2b134;border:2px solid #222;font-family:var(--f-head);font-size:16px;transform:rotate(2deg)}
 .hv-youth .yo-cta{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:12px 14px;text-align:left;background:#e8553e;color:#fff;border:2.5px solid #222;
   border-radius:var(--btn-radius);box-shadow:5px 6px 0 #222;transform:rotate(1deg)}
 .hv-youth .yo-cta .yo-num{font-family:var(--f-jp);font-size:54px;line-height:.9;-webkit-text-stroke:2px #222;paint-order:stroke fill;color:#f2b134}
@@ -479,7 +455,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .hv-washi .wa-toc .next .jp{color:#b8392a}
 /* 6 · 枯山水庭园 — one raked circle, one stone */
 .hv-kare{gap:22px;text-align:center}
-.hv-kare .ka-head h1{margin:0;font-family:var(--f-jp);font-size:40px;letter-spacing:.3em;font-weight:400}
+.hv-kare .ka-head h1{margin:0;font-family:var(--f-display,var(--f-jp));font-size:40px;letter-spacing:.3em;font-weight:400}
 .hv-kare .ka-head small{display:block;margin-top:4px;font-size:12px;letter-spacing:.2em;color:var(--faint)}
 .hv-kare .ka-stone{position:relative;align-self:center;width:min(80vw,300px);aspect-ratio:1;border:0;background:transparent;padding:0}
 .hv-kare .ka-stone svg{display:block;width:100%;height:100%}
@@ -487,7 +463,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .hv-kare .ka-stone b{font-family:var(--f-jp);font-size:28px;font-weight:400;letter-spacing:.2em}
 .hv-kare .ka-stone small{font-size:12px;color:var(--muted)}
 .hv-kare .ka-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 6px}
-.hv-kare .ka-pebble{display:grid;justify-items:center;gap:2px;border:0;background:transparent;padding:4px 0;font-size:13px;font-family:var(--f-jp)}
+.hv-kare .ka-pebble{display:grid;justify-items:center;gap:2px;border:0;background:transparent;padding:4px 0;font-size:14px;font-family:var(--f-jp);font-weight:var(--w-jp)}
 .hv-kare .ka-pebble svg{width:52px;height:34px}
 .hv-kare .ka-pebble.next{color:var(--accent)}
 .hv-kare .ka-hk{margin:0;font-size:13px;color:var(--muted);letter-spacing:.1em}
@@ -523,7 +499,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .hv-techo .tc-press figure::before{content:"";position:absolute;top:-7px;left:30%;width:40%;height:12px;background:rgba(168,195,160,.8);transform:rotate(-4deg)}
 .hv-techo .tc-head{display:flex;justify-content:space-between;align-items:baseline}
 .hv-techo .tc-head h1{margin:0;font-family:var(--f-jp);font-size:34px}
-.hv-techo .tc-head span{font-family:var(--f-jp);font-size:14px;color:var(--muted);border-bottom:2px solid #e8b4b8}
+.hv-techo .tc-head span{font-family:var(--f-head);font-size:15px;color:var(--muted);border-bottom:2px solid #e8b4b8}
 .hv-techo .tc-spread{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;align-items:start}
 .hv-techo .tc-polaroid{position:relative;padding:8px 8px 10px;border:0;background:#fff;box-shadow:0 6px 16px -6px rgba(74,61,50,.45);transform:rotate(-3deg);display:grid;gap:6px;text-align:center}
 .hv-techo .tc-photo{display:block;aspect-ratio:1;overflow:hidden}
@@ -535,7 +511,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .hv-techo .tc-ticket{position:relative;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 18px;border:0;background:#c0675a;color:#fff;border-radius:8px;
   -webkit-mask:radial-gradient(circle at 0 50%,transparent 9px,#000 10px) left/51% 100% no-repeat,radial-gradient(circle at 100% 50%,transparent 9px,#000 10px) right/51% 100% no-repeat;
   mask:radial-gradient(circle at 0 50%,transparent 9px,#000 10px) left/51% 100% no-repeat,radial-gradient(circle at 100% 50%,transparent 9px,#000 10px) right/51% 100% no-repeat}
-.hv-techo .tc-ticket b{font-family:var(--f-jp);font-size:22px}
+.hv-techo .tc-ticket b{font-family:var(--f-head);font-weight:var(--w-head);font-size:22px}
 .hv-techo .tc-ticket small{font-size:12px;opacity:.9}
 .hv-techo .tc-rally{padding:14px 12px;background:#fffdf8;border:1px dashed var(--line-2);border-radius:8px}
 .hv-techo .tc-rally h2{margin:0 0 10px;font-family:var(--f-head);font-weight:400;font-size:22px}
@@ -559,7 +535,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 @media (max-height:640px){ .stat{padding:5px 10px 6px} .stat .val b{font-size:24px} .btn{min-height:46px} }
 @media (prefers-reduced-motion:reduce){
   .card .inner{transition:none}
-  .deck.dealing .card,.card.pop .inner,.modal-card,.float,#board.aura,.hv-dream .dr-ring,.hv-dream .dr-card,.hv-matsuri .mt-l{animation:none}
+  .deck.dealing .card,.card.pop .inner,.modal-card,.float,#board.aura,.hv-matsuri .mt-l{animation:none}
   .stamp-fx .seal,.stamp-fx small{animation-duration:.01s;animation-delay:1.6s}
   .toast,.rail i,.mbar i{transition:none}
 }
@@ -777,7 +753,6 @@ const MODES = {
 };
 // Eight looks. deck = the card skin that suits it; fx tunes the drifting particles; homeScene shows the garden backdrop behind the home page.
 const THEMES = {
-  dream: {name: '梦之游行', jp: '夢の行列', line: '游行从梦里走出，纸灯笼与折扇浮在半空。', deck: 'hwatu', light: false, homeScene: false, fx: {k: 1, colors: ['#ff4fa3', '#2ee6d0', '#ffd23f', '#9b5cff'], mix: true}},
   youth: {name: '四叠青春', jp: '四畳半', line: '歪歪的线，饱满的色块，四叠半被透视拉长。', deck: 'kirie', light: true, homeScene: false, fx: {k: .8, colors: ['#e8553e', '#4aa3df', '#f2b134', '#3f9b6a']}},
   manga: {name: '昭和漫画', jp: '漫画', line: '网点、细线和一点朱红，像旧杂志的连载。', deck: 'tone', light: true, homeScene: false, mono: true, fx: {k: .55, colors: ['#111', '#555', '#d7261e']}},
   ukiyo: {name: '浮世锦绘', jp: '錦絵', line: '主页是当季的广重《名所江户百景》，庭院里是靛蓝与朱红的原创版画。', deck: 'classic', light: true, homeScene: false, fx: {k: .8}},
@@ -786,14 +761,14 @@ const THEMES = {
   matsuri: {name: '灯火夜祭', jp: '夜祭り', line: '广重的烟花照着夜色，灯笼一串串亮起。', deck: 'shu', light: false, homeScene: false, homeArt: 'art/matsuri-fireworks.jpg', fx: {k: .7}},
   techo: {name: '旅行手账', jp: '旅の手帳', line: '纸页、邮戳、纸胶带，北斋的草花夹在页间。', deck: 'kirie', light: true, homeScene: false, fx: {k: .7, colors: ['#e8b4b8', '#a8c3a0', '#a9c6e0', '#f2d18b']}}
 };
-const THEME_GROUPS = [['传统和风', ['ukiyo', 'washi', 'kare']], ['节令生活', ['matsuri', 'techo']], ['动画漫画', ['dream', 'youth', 'manga']]];
+const THEME_GROUPS = [['传统和风', ['ukiyo', 'washi', 'kare']], ['节令生活', ['matsuri', 'techo']], ['动画漫画', ['youth', 'manga']]];
 // Public-domain art used on the home pages (Art Institute of Chicago open access, CC0) plus a CC0 paper texture from ambientCG.
 const WASHI_COVERS = [['spring', '梅与诗笺'], ['summer', '紫阳花'], ['autumn', '武藏野之月'], ['winter', '冬之川']];
 // 歌川广重《名所江户百景》, one per season, chosen to echo that season's gardens (梅 → 初音, 夕立, 月見, 除夜の雪).
-const UKIYO_PRINTS = [['spring', '龟户梅屋敷', 1857], ['summer', '大桥阿宅骤雨', 1857], ['autumn', '月之岬', 1857], ['winter', '浅草金龙山', 1856]];
+const UKIYO_PRINTS = [['spring', '龟户梅屋敷', 1857, '亀戸梅屋舗'], ['summer', '大桥阿宅骤雨', 1857, '大はしあたけの夕立'], ['autumn', '月之岬', 1857, '月の岬'], ['winter', '浅草金龙山', 1856, '浅草金龍山']];
 // Full-page home backdrops: an artwork under a veil tuned per look so text stays readable.
 const HOME_BG = {
-  ukiyo: c => `art/ukiyo-${UKIYO_PRINTS[c.tgt.s][0]}.jpg`, dream: () => 'art/dream-bg.jpg', matsuri: () => 'art/matsuri-fireworks.jpg'
+  ukiyo: c => `art/ukiyo-${UKIYO_PRINTS[c.tgt.s][0]}.jpg`, matsuri: () => 'art/matsuri-fireworks.jpg'
 };
 const calendarSeason = () => { const m = new Date().getMonth() + 1; return m >= 3 && m <= 5 ? 0 : m >= 6 && m <= 8 ? 1 : m >= 9 && m <= 11 ? 2 : 3; };
 const previewMs = (cards, k) => Math.round((2200 + cards * 130) * k);
@@ -803,7 +778,7 @@ const peekMs = cards => 1500 + cards * 50;
 const KEY = 'omamori-hanafuda-v1';
 const save = {unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, collectedAt: {}, seals: {}, unseen: [], sound: true, ambience: false, bgm: true,
   seenRules: false, mode: 'std', look: 'ukiyo', skin: 'classic', skinPinned: false};
-const OLD_LOOKS = {emaki: 'ukiyo', cha: 'washi'};
+const OLD_LOOKS = {emaki: 'ukiyo', cha: 'washi', dream: 'ukiyo'};
 function mergeBest(src, into) { for (const k in src) { const v = Number(src[k]); if (v > 0 && LEVELS[k - 1]) into[k] = Math.max(into[k] || 0, Math.min(3, v)); } }
 function mergeProgress(d, withPrefs) {
   const n = Number(d.unlocked);
@@ -898,9 +873,9 @@ function omamoriSVG(m, locked) {
     + `<path d="M30 18 C21 4 13 11 22 15 C26 17 30 18 30 18 C30 18 34 17 38 15 C47 11 39 4 30 18Z" fill="none" stroke="${hik ? '#e9c46a' : '#c23b22'}" stroke-width="2.2"/>`
     + `<path d="${pouch}" fill="url(#${id})" stroke="rgba(0,0,0,.35)" stroke-width="1"/>`
     + `<path d="M13 30 H47" stroke="rgba(0,0,0,.25)" stroke-width=".8"/><path d="M14 33 L15.6 89 Q15.8 92 18 92 L42 92 Q44.2 92 44.4 89 L46 33" fill="none" stroke="#e9c46a" stroke-width=".55" stroke-dasharray="1.6 1.2"/>`
-    + `<circle cx="30" cy="25" r="4.6" fill="${hik ? '#e9c46a' : '#f7f1e1'}" stroke="rgba(0,0,0,.3)" stroke-width=".5"/><text x="30" y="27.4" text-anchor="middle" font-size="5.6" font-family="Zen Old Mincho,Noto Serif SC,serif" font-weight="900" fill="${m.omc}">${PLANT_NAMES[m.m - 1].slice(0, 1)}</text>`
+    + `<circle cx="30" cy="25" r="4.6" fill="${hik ? '#e9c46a' : '#f7f1e1'}" stroke="rgba(0,0,0,.3)" stroke-width=".5"/><text x="30" y="27.4" text-anchor="middle" font-size="5.6" style="font-family:var(--f-jp)" font-weight="900" fill="${m.omc}">${PLANT_NAMES[m.m - 1].slice(0, 1)}</text>`
     + `<rect x="21" y="36" width="18" height="52" rx="1.6" fill="${hik ? '#e9c46a' : '#f7f1e1'}" stroke="${hik ? '#a87a22' : '#e9c46a'}" stroke-width=".9"/>`
-    + [...label].map((c, i) => `<text x="30" y="${r2(y0 + i * gap)}" text-anchor="middle" font-size="${fs}" font-family="Zen Old Mincho,Noto Serif SC,serif" font-weight="900" fill="${hik ? '#3a2410' : m.omc}">${c}</text>`).join('')
+    + [...label].map((c, i) => `<text x="30" y="${r2(y0 + i * gap)}" text-anchor="middle" font-size="${fs}" style="font-family:var(--f-body)" font-weight="900" fill="${hik ? '#3a2410' : m.omc}">${c}</text>`).join('')
     + `</svg>`;
 }
 
@@ -912,8 +887,6 @@ const SCENE_ACCENT = {plum: '#d24d63', cherry: '#f0a3b5', maple: '#6fae6a', pamp
 const acc = (p, k) => p.mono ? '#1a1a1a' : (p.acc && p.acc[k]) || SCENE_ACCENT[k];
 const PAL = {
   ukiyo: {sky: ['#f6efdf', '#efe6d1'], ink: '#1f2b44', inkA: .9, flowerA: 1, moon: '#fbf6e8', ground: '#e9dfc9', line: '#cdbf9f', mist: '#ffffff', rain: '#1f3a68', snow: '#ffffff', water: '#1f3a68'},
-  dream: {sky: ['#1b0f38', '#4a1a6e'], ink: '#0e0620', inkA: .9, flowerA: .95, moon: '#ffe9c4', ground: '#2a1450', line: '#5b2d8a', mist: '#ff9fd0', rain: '#2ee6d0', snow: '#fff4e6', water: '#2ee6d0',
-    acc: {plum: '#ff4fa3', cherry: '#ff9fd0', maple: '#2ee6d0', pampas: '#ffd23f', willow: '#2ee6d0'}},
   youth: {sky: ['#f7e9c6', '#f3dfae'], ink: '#222', inkA: 1, flowerA: 1, moon: '#fffaf0', ground: '#e8553e', line: '#222', mist: '#ffffff', rain: '#4aa3df', snow: '#ffffff', water: '#4aa3df',
     acc: {plum: '#e8553e', cherry: '#ff9fb4', maple: '#3f9b6a', pampas: '#f2b134', willow: '#3f9b6a'}},
   manga: {sky: ['#f7f5f0', '#f7f5f0'], ink: '#111', inkA: 1, flowerA: 1, moon: '#ffffff', ground: '#ffffff', line: '#111', mist: '#ffffff', rain: '#111', snow: '#ffffff', mono: true},
@@ -1050,28 +1023,6 @@ const PAINT = {
       + `<g transform="translate(20 22)"><rect width="34" height="${22 + lv.name.length * 26}" fill="#fbf6ea" stroke="#1f3a68" stroke-width="2"/>`
       + [...lv.name].map((c, i) => `<text x="17" y="${30 + i * 26}" text-anchor="middle" font-size="21" font-family="Shippori Mincho B1, serif" font-weight="800" fill="#1c2a44">${c}</text>`).join('')
       + `<rect x="8" y="${30 + lv.name.length * 26}" width="18" height="18" fill="#c8402a"/></g>`;
-  },
-  dream(lv, p, rnd) {   // dream parade: checker floor in false perspective, a ringed moon, and floating festival things
-    const m = sceneMotifs(lv, p, rnd);
-    let floor = '';
-    for (let j = 0; j < 8; j++) {
-      const y0 = 600 + j * j * 3.4, y1 = 600 + (j + 1) * (j + 1) * 3.4, w0 = 1 + j * .55, w1 = 1 + (j + 1) * .55;
-      for (let i = -6; i < 6; i++) { const x = k => 200 + k * 34; floor += `<path d="M${r2(x(i * w0))} ${r2(y0)} L${r2(x((i + 1) * w0))} ${r2(y0)} L${r2(x((i + 1) * w1))} ${r2(y1)} L${r2(x(i * w1))} ${r2(y1)}Z" fill="${(i + j) % 2 ? '#ff4fa3' : '#2ee6d0'}" opacity=".32"/>`; }
-    }
-    let stars = ''; for (let i = 0; i < 40; i++) stars += `<circle cx="${r2(rnd() * 400)}" cy="${r2(rnd() * 560)}" r="${r2(.6 + rnd() * 1.4)}" fill="#fff4e6" opacity="${r2(.3 + rnd() * .6)}"/>`;
-    const things = [
-      (x, y) => `<rect x="${x - 12}" y="${y - 16}" width="24" height="32" rx="12" fill="#ff4fa3"/><rect x="${x - 8}" y="${y - 19}" width="16" height="4" fill="#1b1033"/><rect x="${x - 8}" y="${y + 15}" width="16" height="4" fill="#1b1033"/>`,
-      (x, y) => `<path d="M${x} ${y + 16} L${x - 24} ${y - 8} A34 34 0 0 1 ${x + 24} ${y - 8}Z" fill="#ffd23f"/><path d="M${x} ${y + 16} L${x - 12} ${y - 14} M${x} ${y + 16} L${x} ${y - 18} M${x} ${y + 16} L${x + 12} ${y - 14}" stroke="#1b1033" stroke-width="1.5"/>`,
-      (x, y) => `<path d="M${x - 28} ${y} A28 18 0 0 1 ${x + 28} ${y}Z" fill="#2ee6d0"/><path d="M${x} ${y} V${y + 26}" stroke="#fff4e6" stroke-width="2.5"/>`,
-      (x, y) => `<path d="M${x - 22} ${y} Q${x} ${y - 14} ${x + 18} ${y} Q${x} ${y + 14} ${x - 22} ${y}Z M${x + 18} ${y} L${x + 28} ${y - 8} L${x + 28} ${y + 8}Z" fill="#ff6b4a"/><circle cx="${x - 12}" cy="${y - 2}" r="2" fill="#1b1033"/>`,
-      (x, y) => `<rect x="${x - 26}" y="${y - 20}" width="52" height="7" fill="#ff4fa3"/><rect x="${x - 20}" y="${y - 10}" width="40" height="4" fill="#ff4fa3"/><rect x="${x - 17}" y="${y - 13}" width="5" height="34" fill="#ff4fa3"/><rect x="${x + 12}" y="${y - 13}" width="5" height="34" fill="#ff4fa3"/>`,
-      (x, y) => `<rect x="${x - 10}" y="${y - 16}" width="20" height="32" rx="2" fill="#5b1d8a" stroke="#ffd23f" stroke-width="1.5"/>`
-    ];
-    let floats = '';
-    [[50, 80], [350, 300], [70, 330], [330, 560], [180, 40], [40, 560], [300, 70], [380, 450]].forEach(([x, y], i) =>
-      floats += `<g transform="rotate(${r2(rnd() * 50 - 25)} ${x} ${y})" opacity=".9">${things[i % things.length](x, y)}</g>`);
-    return sky(p) + stars + `<circle cx="300" cy="170" r="70" fill="#ffd23f" opacity=".9"/><ellipse cx="300" cy="170" rx="118" ry="22" fill="none" stroke="#2ee6d0" stroke-width="6" transform="rotate(-18 300 170)"/>`
-      + `<g opacity=".75">${m.top}</g>` + floor + `<g opacity=".8">${m.bottom}</g>` + floats;
   },
   youth(lv, p, rnd) {   // a skewed four-and-a-half-mat room in flat colour, outlined by a wobbling pen
     const m = sceneMotifs(lv, p, rnd), vp = [292, 420];
@@ -1433,14 +1384,6 @@ function homeCtx() {
 const go = (l, cls, inner, extra = '') => `<button type="button" class="go ${cls} ${l.cls}" data-go="${l.n}" ${l.locked ? 'disabled' : ''} aria-label="第${l.k}庭 ${l.name}${l.locked ? '，未解锁' : l.done ? '，已通关' : ''}" ${extra}>${inner}</button>`;
 const haikuHTML = (hk, cls = '') => `<p class="haiku ${cls}"><span class="jp">${hk[0]}</span><span class="cn">${hk[1]}</span><small>— ${hk[2]}</small></p>`;
 const HOME = {
-  dream: c => `<div class="hv hv-dream">
-      <div class="dr-collage" aria-hidden="true">${[['peonies', 'top:4px;right:-34px', 150, 9], ['carriages', 'top:300px;left:-48px', 150, -11], ['waves', 'top:470px;right:-40px', 140, 7], ['flutist', 'top:640px;left:-30px', 130, -6], ['petals', 'top:900px;right:-26px', 150, 10]]
-        .map(([f, pos, w, rot]) => `<img class="dr-piece" src="art/dream-${f}.jpg" alt="" style="${pos};--w:${w}px;--r:${rot}deg">`).join('')}</div>
-      <header class="dr-title" aria-label="御守花札"><span>御</span><span>守</span><span>花</span><span>札</span><small>梦游行 · 四季八景</small></header>
-      <button type="button" class="go dr-portal" data-go="${c.tgt.n}"><span class="dr-ring"></span><span class="dr-in"><span class="dr-card">${art(c.card)}</span><em>入梦 · ${c.verb}</em><b>${c.tgt.name}</b><small>${c.S.name} · 第${c.k}庭 · ${c.meta}</small></span></button>
-      ${haikuHTML(c.hk)}${modeSegHTML()}
-      <div class="dr-parade" role="list">${c.levels.map((l, i) => go(l, 'dr-ticket', `<b>${l.k}</b><span class="jp">${l.name}</span><small>${l.sub} · ${l.status}</small>`, `role="listitem" style="--rot:${i % 2 ? 3 : -3}deg;--season:${l.sc}"`)).join('')}</div>
-      ${c.stats}<p class="art-credit">背景与拼贴：神坂雪佳《百々世草》（1909–10）「六歌仙」等，芝加哥艺术博物馆开放馆藏</p></div>`,
   youth: c => `<div class="hv hv-youth">
       <header class="yo-head"><h1>御守花札</h1><span>四叠半花札部 · 招新中</span></header>
       <button type="button" class="go yo-cta" data-go="${c.tgt.n}"><span class="yo-num">${c.tgt.n}</span><span><small>NEXT! ${c.S.name} · ${c.verb}</small><b>${c.tgt.name}</b><small>${c.meta}</small></span><span class="yo-arrow" aria-hidden="true">→</span></button>
@@ -1455,7 +1398,7 @@ const HOME = {
       ${c.stats}<p class="art-credit">刊头底图：葛饰北斋《北斋漫画》，芝加哥艺术博物馆开放馆藏</p></div>`,
   ukiyo: c => `<div class="hv hv-ukiyo">
       <header class="uk-head"><div class="uk-cart"><b>御守花札</b><small>四季八景</small></div><div class="uk-side"><span class="uk-seal">${c.S.name}</span>${haikuHTML(c.hk)}</div></header>
-      <button type="button" class="go uk-print" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><span class="uk-scene"><img src="art/ukiyo-${UKIYO_PRINTS[c.tgt.s][0]}.jpg" alt="歌川广重《名所江户百景 · ${UKIYO_PRINTS[c.tgt.s][1]}》"></span><span class="uk-label">名所江户百景 · ${UKIYO_PRINTS[c.tgt.s][1]}</span><span class="uk-go"><span>第${c.k}庭「${c.tgt.name}」 · ${c.meta}</span><b>${c.verb} ▶</b></span></button>
+      <button type="button" class="go uk-print" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><span class="uk-scene"><img src="art/ukiyo-${UKIYO_PRINTS[c.tgt.s][0]}.jpg" alt="歌川广重《名所江户百景 · ${UKIYO_PRINTS[c.tgt.s][1]}》"></span><span class="uk-label">名所江戸百景 · ${UKIYO_PRINTS[c.tgt.s][3]}</span><span class="uk-go"><span>第${c.k}庭「${c.tgt.name}」 · ${c.meta}</span><b>${c.verb} ▶</b></span></button>
       <p class="art-credit">歌川广重《名所江户百景 · ${UKIYO_PRINTS[c.tgt.s][1]}》（${UKIYO_PRINTS[c.tgt.s][2]}），芝加哥艺术博物馆开放馆藏</p>
       ${modeSegHTML()}
       <div class="uk-grid">${c.levels.map(l => go(l, 'uk-thumb', `<span class="uk-mini">${sceneSVG(l, 'ukiyo', 'ht' + l.n, '40 80 320 427')}</span><span class="uk-lab">${l.k} ${l.name}</span>${l.done ? '<span class="uk-done">済</span>' : ''}`)).join('')}</div>
@@ -1491,8 +1434,8 @@ const HOME = {
         <div class="tc-note">${haikuHTML(c.hk)}</div></div>
       <button type="button" class="go tc-ticket" data-go="${c.tgt.n}"><b>${c.verb} ▶</b><small>${c.S.name} · ${c.meta}</small></button>
       ${modeSegHTML()}
-      <div class="tc-press" aria-label="北斋的草花小稿">${[['peony', '牡丹', -4], ['iris', '杜若', 3], ['orchid', '兰', -2], ['morning', '朝颜', 4]].map(([f, n, r]) => `<figure style="--r:${r}deg"><img src="art/techo-${f}.jpg" alt="${n}"><figcaption>${n}</figcaption></figure>`).join('')}</div>
-      <section class="tc-rally"><h2>四季印章集</h2><div class="tc-stamps">${c.levels.map(l => go(l, 'tc-stamp', `<span class="ring">${l.done ? `${l.name}<br>${l.sub}` : l.next ? '下一站' : l.k}</span><small>${l.name}</small>`)).join('')}</div></section>
+      <div class="tc-press" aria-label="北斋的草花小稿">${[['peony', '牡丹', -4], ['iris', '杜若', 3], ['orchid', '蘭', -2], ['morning', '朝顔', 4]].map(([f, n, r]) => `<figure style="--r:${r}deg"><img src="art/techo-${f}.jpg" alt="${n}"><figcaption>${n}</figcaption></figure>`).join('')}</div>
+      <section class="tc-rally"><h2>四季印章集</h2><div class="tc-stamps">${c.levels.map(l => go(l, 'tc-stamp', `<span class="ring">${l.done ? `${l.name}<br>${SEASONS[l.s].name}` : l.next ? '次の駅' : l.k}</span><small>${l.name}</small>`)).join('')}</div></section>
       ${c.stats}<p class="art-credit">草花：葛饰北斋《北斋漫画》 · 纸纹：ambientCG（CC0）</p></div>`
 };
 function mangaLines() {
@@ -1542,7 +1485,7 @@ function renderDex() {
   const month = ([m, cn, jp]) => `<section class="month"><h3>${cn}<span class="jp">${jp}</span><small>${PLANT_NAMES[m - 1]}之月</small></h3><div class="entries">${MOTIFS.filter(x => x.m === m).map(x => {
     const n = save.collected[x.id] || 0, tagCls = {'光札': ' hikari', '种札': ' tane', '短册': ' tan'}[x.tag] || '';
     if (!n) return `<article class="entry locked"><div class="e-art">${BACK}</div><div class="e-text">
-      <div class="e-name"><b>未解锁</b><span class="tag${tagCls}">${x.tag}</span></div><div class="e-sub">${cn} · ${jp}</div>
+      <div class="e-name"><b class="zh">未解锁</b><span class="tag${tagCls}">${x.tag}</span></div><div class="e-sub">${cn} · ${jp}</div>
       <p>在庭院里翻出这张花札，就会记入图鉴。</p></div></article>`;
     const at = save.collectedAt[x.id] ? new Date(save.collectedAt[x.id]) : null;
     return `<article class="entry">${save.unseen.includes(x.id) ? '<span class="new-badge">新</span>' : ''}<div class="e-art">${art(x)}</div><div class="e-text">
@@ -1628,7 +1571,7 @@ function creditsHTML() {
       <li><b>纸牌音效</b>：Kenney「<a href="https://kenney.nl/assets/casino-audio" target="_blank" rel="noopener">Casino Audio</a>」，CC0。</li>
       <li><b>琴声、风铃、尺八与环境音</b>：<a href="https://github.com/Tonejs/Tone.js" target="_blank" rel="noopener">Tone.js</a>（MIT）实时合成。</li>
       <li><b>落花特效</b>：<a href="https://github.com/catdad/canvas-confetti" target="_blank" rel="noopener">canvas-confetti</a>（ISC）。</li>
-      <li><b>字体</b>：Shippori Mincho B1、Zen Old Mincho、Zen Antique、Dela Gothic One、Yusei Magic、Klee One、Kaisei Decol、Yuji Syuku、ZCOOL XiaoWei、ZCOOL KuaiLe、ZCOOL QingKe HuangYou、Long Cang、Noto Serif SC、Noto Sans SC，均为 SIL OFL 1.1，经 Google Fonts 提供。</li>
+      <li><b>字体</b>：每个主题两到三种。日文显示字体 Shippori Mincho B1、Zen Old Mincho、Shippori Mincho、Kaisei Decol、Klee One、Yusei Magic、Zen Antique；中文 Noto Serif SC、Noto Sans SC；点缀用 Yuji Syuku（石庭标题）、ZCOOL XiaoWei（和纸标题）、ZCOOL KuaiLe（手账标题），均为 SIL OFL 1.1，经 Google Fonts 提供。</li>
     </ul>
     <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>关闭</button></div>`;
 }
@@ -1673,7 +1616,8 @@ function startLevel(n, sameSet) {
   const L = LEVELS[n - 1], mode = save.mode, M = MODES[mode];
   const ids = sameSet && G && G.n === n ? G.ids : pickMotifs(L);
   G = {n, L, mode, ids, deck: shuffle(ids.concat(ids)).map(id => ({id, up: false, done: false, peek: false})),
-    budget: budgetOf(L, mode), used: 0, peeks: M.peeks(L), peeksUsed: 0, misses: 0, phase: 'deal', first: null, pairs: 0, fresh: [], yaku: [], seals: [], timers: []};
+    budget: budgetOf(L, mode), used: 0, peeks: M.peeks(L), peeksUsed: 0, misses: 0, phase: 'deal', first: null, pairs: 0, fresh: [], yaku: [], seals: [], timers: [], compact: false};
+  $('#game').classList.remove('compact');
   A.combo = 0;
   $('#gNum').textContent = `${SEASONS[L.s].name} · 第${KANJI[n - 1]}庭 · ${M.name}`;
   $('#gName').textContent = L.name;
@@ -1855,9 +1799,10 @@ function layoutBoard() {
   if (!G || current !== 'game') return;
   const board = $('#board'), deck = $('#deck');
   const pad = parseFloat(getComputedStyle(deck).paddingLeft) || 0;
-  const W = board.clientWidth - pad * 2, H = board.clientHeight - 8 - pad * 2, N = G.deck.length;
+  const bs = getComputedStyle(board);
+  const W = board.clientWidth - pad * 2, H = board.clientHeight - parseFloat(bs.paddingTop) - parseFloat(bs.paddingBottom) - 2 - pad * 2, N = G.deck.length;
   if (W <= 0 || H <= 0) return;
-  const ratio = 100 / 61, gap = W < 480 ? 6 : 10, MAX = W < 480 ? 92 : 118, MIN = 44;
+  const ratio = 100 / 61, gap = G.compact ? (W < 480 ? 4 : 8) : (W < 480 ? 6 : 10), MAX = W < 480 ? 92 : 118;
   let best = null;
   for (let cols = 2; cols <= N; cols++) {
     const rows = Math.ceil(N / cols);
@@ -1865,10 +1810,12 @@ function layoutBoard() {
     const score = w - (cols * rows - N) * .6;
     if (!best || score > best.score) best = {cols, w, score};
   }
-  const w = Math.max(MIN, Math.min(Math.floor(best.w), Math.floor((W - gap * (best.cols - 1)) / best.cols)));
-  const cols = Math.max(1, Math.min(best.cols, Math.floor((W + gap) / (w + gap))));
+  // Cards getting small: switch this garden to the compact chrome once, then measure again with the freed-up height.
+  if (!G.compact && best.w < 58) { G.compact = true; $('#game').classList.add('compact'); requestAnimationFrame(layoutBoard); return; }
+  // The width always comes from both limits, so the whole deck fits on screen and never scrolls.
+  const w = Math.max(28, Math.floor(best.w));
   deck.style.setProperty('--gap', gap + 'px');
-  deck.style.width = (cols * w + (cols - 1) * gap) + 'px';
+  deck.style.width = (best.cols * w + (best.cols - 1) * gap) + 'px';
   for (const el of deck.children) el.style.setProperty('--cw', w + 'px');
 }
 
