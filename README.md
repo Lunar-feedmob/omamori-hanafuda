@@ -1,6 +1,6 @@
 # 御守花札
 
-日本庭院主题的花札记忆配对小游戏。记住花札的位置，在步数用尽前翻出成对的两张，沿着四季点亮八盏灯笼。适配手机竖屏。
+日本庭院主题的花札记忆配对小游戏。记住花札的位置，在步数用尽前翻出成对的两张，沿着四季走完八处庭院。适配手机竖屏。
 
 在线游玩：https://lunar-feedmob.github.io/omamori-hanafuda/
 
@@ -8,38 +8,49 @@
 
 - 开局所有牌亮出几秒，记住位置。
 - 一次翻两张算一步；相同便留下，不同就合上。
-- 在步数用尽前配完，点亮下一处庭院的灯笼。
+- 在步数用尽前配完，点亮下一处庭院。
 - 「重新看牌」让未配的牌再亮一瞬，不耗步数。
-- 难度分三档：悠闲（不计步数）、标准、挑战。
+- 难度三档：悠闲（不计步数）、标准、挑战。
 - 连续配对会盖下朱印：三連多给一步，五連多一次回看，七連下一阵花吹雪。
+- 设置里可以一键清除全部进度，从头再来。
 
 ## 收集
 
-- 图鉴收录完整的 48 张花札，附寓意、介绍和对应的御守。
-- 「役」（五光、猪鹿蝶、赤短、青短、花見酒、月見酒）的收集进度。
-- 朱印帖：三連、五連、七連、無垢、一目、八景、全札。
-- 进度保存在浏览器里。
+- **花札图鉴**：完整 48 张，附寓意、介绍、收集日期，以及「役」的进度。
+- **御守帖**：48 枚御守徽章，获得即点亮，未获得只显示剪影。
+- **朱印帖**：三連、五連、七連、無垢、一目、八景、全札。
 
-## 主题与声音
+## 主题
 
-- 四种庭院主题：月下枯山水、四季绘卷 · 金云、和纸晨光 · 淡墨、茶室侘寂。八处庭院各有一幅场景，并配一首当季的古典俳句。
-- 三套卡面：彩绘、墨染、朱缘。
-- 音色随季节变化：春琴、夏风铃、秋尺八、冬钵铃；可选背景琴声与庭院环境音。
+八种主题共用同一套玩法和布局，切换时不会打断正在进行的一局：
+
+| 主题 | 主页 | 推荐卡面 |
+|---|---|---|
+| 浮世绘梦境 | 梦游行海报 | 花图 |
+| 手绘青春 | 四叠半杂志页 | 剪纸 |
+| 黑白漫画 | 连载杂志目次 | 网点 |
+| 浮世绘四季 | 版画系列海报 | 彩绘 |
+| 京都和纸 | 文库本封面 | 墨绘 |
+| 枯山水庭园 | 一圈砂纹，一块石 | 墨染 |
+| 夏日祭典 | 灯笼与摊位 | 朱缘 |
+| 手账收藏 | 旅行手账与印章集 | 剪纸 |
 
 ## 本地运行
-
-音效通过 `fetch` 加载，需要用本地服务器打开：
 
 ```sh
 python3 -m http.server 8000
 # 打开 http://localhost:8000
 ```
 
+`tools/make-decks.mjs` 用来重新生成三套原创牌面：`node tools/make-decks.mjs cards`。
+
 ## 素材致谢
 
-- 花札图像（`cards/`）：Louie Mantia 绘制；「墨染」(`cards/sumi`) 与「朱缘」(`cards/shu`) 两套另有すけじょ参与。来自 [Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:SVG_Hanafuda)，按 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) 授权，图像未作修改。
+- 花札「彩绘」(`cards/classic`)、「墨染」(`cards/sumi`)、「朱缘」(`cards/shu`)：Louie Mantia 绘制，后两套另有すけじょ参与；来自 [Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:SVG_Hanafuda)，[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)，未作修改。
+- 花札「花图」(`cards/hwatu`)：韩式 Hwatu，Marcus Richert 以 Louie Mantia 的花札为基础制作，Spenĉjo 整理上传；[Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:SVG_Hwatu)，CC BY-SA 4.0，未作修改。文件按日式月份重命名（韩式的十一月桐、十二月柳已对调）。
+- 花札「墨绘」「剪纸」「网点」(`cards/ink`、`cards/kirie`、`cards/tone`) 与御守徽章：本项目原创，由程序绘制；御守花纹取自传统和柄。
 - 纸牌音效（`sfx/`）：Kenney「[Casino Audio](https://kenney.nl/assets/casino-audio)」，CC0，已转码为 MP3。
 - 琴声、风铃、尺八与环境音：[Tone.js](https://github.com/Tonejs/Tone.js)（MIT）实时合成。
 - 落花特效：[canvas-confetti](https://github.com/catdad/canvas-confetti)（ISC）。
-- 字体：Zen Old Mincho、Shippori Mincho B1、Yuji Boku、Kaisei Decol、ZCOOL XiaoWei、Noto Serif SC、Noto Sans SC（SIL OFL 1.1），经 Google Fonts 提供。
+- 字体：Shippori Mincho B1、Zen Old Mincho、Zen Antique、Dela Gothic One、Yusei Magic、Klee One、Kaisei Decol、Yuji Syuku、ZCOOL XiaoWei、ZCOOL KuaiLe、ZCOOL QingKe HuangYou、Long Cang、Noto Serif SC、Noto Sans SC（SIL OFL 1.1），经 Google Fonts 提供。
 - 俳句：服部嵐雪、松尾芭蕉、山口素堂、与謝蕪村的作品（公有领域），中文译文为本项目所作。

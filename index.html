@@ -3,50 +3,85 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="日本庭院主题的花札记忆配对小游戏：四季八处庭院、四种画风、48 张花札图鉴与朱印成就。">
+<meta name="description" content="日本庭院主题的花札记忆配对小游戏：八种主题、七套卡面、48 张花札图鉴与御守徽章。">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>御守花札</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600;900&family=Zen+Old+Mincho:wght@600;900&family=Shippori+Mincho+B1:wght@600;800&family=Yuji+Boku&family=Kaisei+Decol:wght@500;700&family=ZCOOL+XiaoWei&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600;900&family=Zen+Old+Mincho:wght@600;900&family=Shippori+Mincho+B1:wght@600;800&family=Kaisei+Decol:wght@700&family=ZCOOL+XiaoWei&family=Dela+Gothic+One&family=Yusei+Magic&family=Zen+Antique&family=Klee+One:wght@600&family=ZCOOL+KuaiLe&family=ZCOOL+QingKe+HuangYou&family=Yuji+Syuku&family=Long+Cang&display=swap">
 <style>
-/* Layout: one-screen garden. A painted scene (per garden, per look) sits behind everything; the home page is a lantern-lit path through four seasons; the game is HUD / card field / thumb actions.
-   Four deliberate single-mode looks, switched with data-look on <html>: kare (moonlit dry garden, default), emaki (gold-cloud screen), washi (paper & ink), cha (tea room). */
-:root{
-  --bg:#141a24; --panel:rgba(28,36,50,.74); --panel-solid:#1d2534; --line:rgba(232,228,216,.12); --line-2:rgba(232,228,216,.24);
-  --text:#ebe6d9; --muted:#aab0bb; --faint:#767e8c; --accent:#e2b65c; --accent-ink:#231a08; --shu:#d0533c; --moss:#93b8a0;
-  --back:#22304c; --back-line:rgba(226,182,92,.55); --stone:#5b6577; --stone-2:#454e5f; --unlit:#2a3140; --scrim:rgba(8,11,17,.68);
-  --season:#e2b65c; --chip:rgba(255,255,255,.05);
-  --f-jp:"Zen Old Mincho","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif;
-  --f-head:"Noto Serif SC","Songti SC","STSong",serif;
-  --f-body:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
-  --w-jp:900; --w-head:600;
+/* Layout: one game shell shared by eight looks. Each look swaps tokens (colour, type, button and panel shape), paints its own garden
+   backdrops, and has its own home page (poster, paperback cover, magazine contents page, journal spread …).
+   Tokens sit on [data-look] so a look can also be applied to a small preview inside the theme picker. Card faces are never filtered. */
+:root,[data-look="ukiyo"]{
+  --bg:#f3ecdd; --panel:rgba(250,246,236,.92); --panel-solid:#f8f2e4; --line:rgba(31,58,104,.16); --line-2:rgba(31,58,104,.34);
+  --text:#1c2a44; --muted:#4a5670; --faint:#8590a4; --accent:#1f3a68; --accent-ink:#f8f2e4; --shu:#c8402a; --moss:#3e7a5e; --gold:#b8913e;
+  --back:#1f3a68; --back-line:rgba(243,236,221,.6); --stone:#6b7890; --stone-2:#8994a8; --unlit:#d9d2c2; --scrim:rgba(28,42,68,.45); --chip:rgba(31,58,104,.06);
+  --f-jp:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif; --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --w-jp:800; --w-head:900; --btn-radius:3px; --btn-bw:2px; --btn-shadow:none; --panel-radius:4px; --panel-bw:1.5px;
+  --panel-shadow:inset 0 0 0 3px #f8f2e4,inset 0 0 0 4px rgba(31,58,104,.16); --blur:3px; --board-bg:transparent; --board-pad:0px;
+  color-scheme:light;
+}
+[data-look="dream"]{
+  --bg:#1b1033; --panel:rgba(40,18,72,.82); --panel-solid:#261245; --line:rgba(255,244,230,.16); --line-2:rgba(255,244,230,.32);
+  --text:#fff4e6; --muted:#d6c3e6; --faint:#9d87b3; --accent:#ff4fa3; --accent-ink:#2a0716; --shu:#ff6b4a; --moss:#2ee6d0; --gold:#ffd23f;
+  --back:#5b1d8a; --back-line:rgba(255,210,63,.8); --stone:#6a4a9a; --stone-2:#4a2f7a; --unlit:#2f1a52; --scrim:rgba(15,6,30,.72); --chip:rgba(255,255,255,.06);
+  --f-jp:"Dela Gothic One","Hiragino Sans","Noto Sans SC",sans-serif; --f-head:"ZCOOL QingKe HuangYou","Noto Sans SC",sans-serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
+  --f-num:"Noto Sans SC",sans-serif;
+  --w-jp:400; --w-head:400; --btn-radius:999px; --btn-bw:2px; --btn-shadow:0 0 0 2px rgba(46,230,208,.5),0 10px 24px -10px #ff4fa3; --panel-radius:20px; --panel-bw:1px;
+  --panel-shadow:0 0 0 1px rgba(46,230,208,.22),0 12px 30px -16px rgba(255,79,163,.6); --blur:10px; --board-bg:rgba(27,16,51,.6); --board-pad:10px;
   color-scheme:dark;
 }
-:root[data-look="emaki"]{
-  --bg:#f4efe4; --panel:rgba(255,252,244,.82); --panel-solid:#fbf7ee; --line:rgba(35,38,58,.12); --line-2:rgba(35,38,58,.24);
-  --text:#23263a; --muted:#565a6c; --faint:#8a8c97; --accent:#a87a22; --accent-ink:#fffaf0; --shu:#b8381f; --moss:#2f7f6a;
-  --back:#a8321f; --back-line:rgba(240,206,120,.75); --stone:#9c9483; --stone-2:#b9b09c; --unlit:#d8cfbc; --scrim:rgba(35,38,58,.42);
-  --chip:rgba(35,38,58,.05);
-  --f-jp:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif; --f-head:"Noto Serif SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
-  --w-jp:800; --w-head:900; color-scheme:light;
+[data-look="youth"]{
+  --bg:#f7e9c6; --panel:rgba(255,250,236,.96); --panel-solid:#fffaf0; --line:#222; --line-2:#222;
+  --text:#1e1e1e; --muted:#4b4637; --faint:#8b836c; --accent:#e8553e; --accent-ink:#fff; --shu:#e8553e; --moss:#3f9b6a; --gold:#f2b134;
+  --back:#4aa3df; --back-line:rgba(255,255,255,.85); --stone:#222; --stone-2:#4aa3df; --unlit:#fff3cf; --scrim:rgba(30,30,30,.45); --chip:rgba(0,0,0,.05);
+  --f-jp:"Yusei Magic","Hiragino Maru Gothic ProN","Noto Sans SC",sans-serif; --f-head:"ZCOOL KuaiLe","Noto Sans SC",sans-serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
+  --w-jp:400; --w-head:400; --btn-radius:255px 18px 225px 18px/18px 225px 18px 255px; --btn-bw:2.5px; --btn-shadow:3px 4px 0 #222;
+  --panel-radius:18px 6px 22px 8px; --panel-bw:2px; --panel-shadow:4px 4px 0 #f2b134; --blur:0px; --board-bg:rgba(255,250,236,.72); --board-pad:10px;
+  color-scheme:light;
 }
-:root[data-look="washi"]{
-  --bg:#f1ece0; --panel:rgba(255,253,247,.78); --panel-solid:#faf6ec; --line:rgba(43,42,40,.13); --line-2:rgba(43,42,40,.26);
-  --text:#2b2a28; --muted:#5f5b54; --faint:#938e86; --accent:#2b4a6f; --accent-ink:#f6f2e8; --shu:#c23b22; --moss:#55764a;
-  --back:#2b4a6f; --back-line:rgba(241,236,224,.6); --stone:#8f8a80; --stone-2:#aaa59b; --unlit:#ddd6c8; --scrim:rgba(43,42,40,.4);
-  --chip:rgba(43,42,40,.05);
-  --f-jp:"Yuji Boku","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif; --f-head:"ZCOOL XiaoWei","Noto Serif SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
-  --w-jp:400; --w-head:400; color-scheme:light;
+[data-look="manga"]{
+  --bg:#f7f5f0; --panel:#fff; --panel-solid:#fff; --line:#111; --line-2:#111;
+  --text:#111; --muted:#3a3a3a; --faint:#7a7a7a; --accent:#111; --accent-ink:#fff; --shu:#d7261e; --moss:#111; --gold:#d7261e;
+  --back:#111; --back-line:rgba(255,255,255,.8); --stone:#111; --stone-2:#555; --unlit:#fff; --scrim:rgba(0,0,0,.5); --chip:rgba(0,0,0,.04);
+  --f-jp:"Zen Antique","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Serif SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --w-jp:400; --w-head:900; --btn-radius:0; --btn-bw:2px; --btn-shadow:3px 3px 0 #111; --panel-radius:0; --panel-bw:2px; --panel-shadow:4px 4px 0 #111;
+  --blur:0px; --board-bg:#fff; --board-pad:10px; color-scheme:light;
 }
-:root[data-look="cha"]{
-  --bg:#2f2a24; --panel:rgba(58,50,41,.82); --panel-solid:#3a3229; --line:rgba(239,230,210,.13); --line-2:rgba(239,230,210,.26);
-  --text:#efe6d2; --muted:#c3b597; --faint:#8f846e; --accent:#cdbd85; --accent-ink:#2b261f; --shu:#c0533a; --moss:#9fae74;
-  --back:#2b2621; --back-line:rgba(159,174,116,.6); --stone:#6d6253; --stone-2:#564d41; --unlit:#3b342b; --scrim:rgba(20,17,13,.66);
-  --chip:rgba(255,255,255,.05);
-  --f-jp:"Kaisei Decol","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif; --f-head:"Noto Serif SC",serif; --f-body:"Noto Sans SC","PingFang SC",system-ui,sans-serif;
-  --w-jp:700; --w-head:600; color-scheme:dark;
+[data-look="washi"]{
+  --bg:#f4efe3; --panel:rgba(255,253,247,.92); --panel-solid:#fbf8f0; --line:rgba(74,58,44,.15); --line-2:rgba(74,58,44,.3);
+  --text:#3a2f26; --muted:#6b5e50; --faint:#9b8f80; --accent:#b8392a; --accent-ink:#fbf8f0; --shu:#b8392a; --moss:#6b7a4a; --gold:#b8963e;
+  --back:#6e2a20; --back-line:rgba(184,150,62,.75); --stone:#8a7a66; --stone-2:#a8988a; --unlit:#e2dacb; --scrim:rgba(58,47,38,.42); --chip:rgba(74,58,44,.05);
+  --f-jp:"Zen Old Mincho","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif; --f-head:"ZCOOL XiaoWei","Noto Serif SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --w-jp:600; --w-head:400; --btn-radius:2px; --btn-bw:1px; --btn-shadow:none; --panel-radius:2px; --panel-bw:1px; --panel-shadow:0 1px 0 rgba(74,58,44,.08);
+  --blur:2px; --board-bg:transparent; --board-pad:0px; color-scheme:light;
 }
+[data-look="kare"]{
+  --bg:#ebe7dd; --panel:rgba(250,248,242,.9); --panel-solid:#f6f3ec; --line:rgba(43,43,40,.12); --line-2:rgba(43,43,40,.24);
+  --text:#2b2b28; --muted:#615f58; --faint:#94918a; --accent:#55704a; --accent-ink:#f6f3ec; --shu:#b8432f; --moss:#6e7f4f; --gold:#a89060;
+  --back:#4b4a45; --back-line:rgba(235,231,221,.55); --stone:#9a968c; --stone-2:#b4b0a6; --unlit:#dcd7cb; --scrim:rgba(43,43,40,.4); --chip:rgba(43,43,40,.04);
+  --f-jp:"Yuji Syuku","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif; --f-head:"Noto Serif SC",serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
+  --w-jp:400; --w-head:600; --btn-radius:999px; --btn-bw:1px; --btn-shadow:none; --panel-radius:14px; --panel-bw:1px; --panel-shadow:none;
+  --blur:4px; --board-bg:transparent; --board-pad:0px; color-scheme:light;
+}
+[data-look="matsuri"]{
+  --bg:#121c36; --panel:rgba(26,38,70,.86); --panel-solid:#1b2747; --line:rgba(244,234,210,.14); --line-2:rgba(244,234,210,.3);
+  --text:#f4ead2; --muted:#c9c1aa; --faint:#8a8778; --accent:#f29a3a; --accent-ink:#2a1606; --shu:#d8432c; --moss:#7fb59a; --gold:#f2c46a;
+  --back:#c43a26; --back-line:rgba(244,234,210,.65); --stone:#3a4566; --stone-2:#2c3656; --unlit:#26304e; --scrim:rgba(8,12,26,.72); --chip:rgba(255,255,255,.05);
+  --f-jp:"Kaisei Decol","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"ZCOOL XiaoWei","Noto Serif SC",serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
+  --w-jp:700; --w-head:400; --btn-radius:14px; --btn-bw:1px; --btn-shadow:0 0 22px -8px #f29a3a; --panel-radius:14px; --panel-bw:1px; --panel-shadow:none;
+  --blur:6px; --board-bg:rgba(18,28,54,.55); --board-pad:8px; color-scheme:dark;
+}
+[data-look="techo"]{
+  --bg:#f3ecdf; --panel:rgba(255,253,248,.96); --panel-solid:#fffdf8; --line:rgba(110,90,70,.18); --line-2:rgba(110,90,70,.32);
+  --text:#4a3d32; --muted:#7a6a5a; --faint:#a89a8a; --accent:#c0675a; --accent-ink:#fff; --shu:#c0675a; --moss:#7d9a74; --gold:#c9a77c;
+  --back:#c9a77c; --back-line:rgba(255,255,255,.75); --stone:#b9a48a; --stone-2:#d1bfa6; --unlit:#ece3d3; --scrim:rgba(74,61,50,.4); --chip:rgba(110,90,70,.06);
+  --f-jp:"Klee One","Hiragino Maru Gothic ProN","Noto Sans SC",sans-serif; --f-head:"Long Cang","Noto Serif SC",serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
+  --w-jp:600; --w-head:400; --btn-radius:12px; --btn-bw:1px; --btn-shadow:0 2px 0 rgba(110,90,70,.25); --panel-radius:6px; --panel-bw:1px;
+  --panel-shadow:0 3px 10px -4px rgba(110,90,70,.35); --blur:0px; --board-bg:transparent; --board-pad:0px; color-scheme:light;
+}
+:root{--season:#e08a45}
 [hidden]{display:none!important}
 html{height:100%;box-sizing:border-box}
 *,*::before,*::after{box-sizing:inherit}
@@ -60,211 +95,178 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 #scene{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--bg)}
 #scene svg{display:block;width:100%;height:100%}
 #petals{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
-#app{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.screen{flex:1;min-height:0;width:100%;max-width:760px;margin:0 auto;display:flex;flex-direction:column}
+#app{position:relative;z-index:2;height:100%;display:flex;flex-direction:column}
+.screen{flex:1;min-height:0;width:100%;display:flex;flex-direction:column}
+.pad-x{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 
-/* ---------- controls ---------- */
-.btn{min-height:48px;padding:0 18px;border-radius:14px;border:1px solid var(--line-2);background:var(--panel);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:500;cursor:pointer;touch-action:manipulation;transition:transform .12s,opacity .2s}
-.btn:active{transform:scale(.97)}
+/* ---------- shared controls (shape comes from tokens) ---------- */
+.btn{min-height:48px;padding:0 18px;border-radius:var(--btn-radius);border:var(--btn-bw) solid var(--line-2);background:var(--panel);box-shadow:var(--btn-shadow);
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;cursor:pointer;touch-action:manipulation;transition:transform .12s,opacity .2s}
+.btn:active{transform:translate(1px,1px) scale(.98)}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
 .btn:disabled{opacity:.42;cursor:default;transform:none}
-.icon-btn{min-height:44px;min-width:44px;padding:0 10px;border-radius:12px;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+.icon-btn{min-height:44px;min-width:44px;padding:0 10px;border-radius:var(--btn-radius);border:var(--btn-bw) solid var(--line);background:var(--panel);
   display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;touch-action:manipulation;font-size:14px;position:relative;white-space:nowrap}
 .icon-btn svg{width:20px;height:20px;flex:none}
 .icon-btn[aria-pressed="false"]{color:var(--faint)}
-.icon-only span{display:none}
 .dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--shu);box-shadow:0 0 0 2px var(--panel-solid)}
-.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border-radius:14px;background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.seg button{min-height:40px;border:0;border-radius:10px;background:transparent;cursor:pointer;font-size:14px;color:var(--muted)}
+.panel{background:var(--panel);border:var(--panel-bw) solid var(--line);border-radius:var(--panel-radius);box-shadow:var(--panel-shadow);
+  backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur))}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border-radius:var(--panel-radius);background:var(--panel);border:var(--panel-bw) solid var(--line)}
+.seg button{min-height:40px;border:0;border-radius:var(--btn-radius);background:transparent;cursor:pointer;font-size:14px;color:var(--muted)}
 .seg button[aria-checked="true"]{background:var(--accent);color:var(--accent-ink);font-weight:700}
 .rail{height:5px;border-radius:99px;background:var(--line);overflow:hidden}
 .rail i{display:block;height:100%;background:var(--accent);border-radius:inherit;transition:width .6s}
 .flowers{display:inline-flex;gap:2px;vertical-align:middle}
-.flowers svg{width:15px;height:15px}
-
-/* ---------- home ---------- */
-#home{overflow-y:auto;overscroll-behavior:contain;padding-block:14px 32px;gap:16px}
-.h-top{display:flex;align-items:center;gap:8px}
-.brand{flex:1;min-width:0;line-height:1.05}
-.brand h1{margin:0;font-family:var(--f-jp);font-weight:var(--w-jp);font-size:clamp(32px,9vw,46px);letter-spacing:.08em}
-.brand .kana{display:block;margin-top:6px;font-family:var(--f-jp);font-size:12px;letter-spacing:.42em;color:var(--accent)}
-.verse{margin:0;font-family:var(--f-head);font-weight:400;font-size:14px;line-height:1.9;color:var(--muted);letter-spacing:.06em}
-.continue{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;width:100%;padding:12px 16px 12px 12px;text-align:left;cursor:pointer;
-  border-radius:18px;border:1px solid var(--season);background:var(--panel);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  box-shadow:0 10px 30px -14px var(--season);touch-action:manipulation;transition:transform .12s}
-.continue:active{transform:scale(.985)}
-.c-art{width:46px;aspect-ratio:61/100;border-radius:5px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.3)}
-.c-art img{display:block;width:100%;height:100%;object-fit:contain}
-.c-text{min-width:0;display:grid;gap:2px}
-.c-text .eyebrow{color:var(--season)}
-.c-text b{font-family:var(--f-jp);font-weight:var(--w-jp);font-size:26px;line-height:1.15;letter-spacing:.06em}
-.c-text small{color:var(--muted);font-size:13px}
-.c-go{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink)}
-.haiku{margin:0;display:grid;gap:2px;padding-left:12px;border-left:2px solid var(--season)}
-.haiku .jp{font-size:17px;letter-spacing:.12em;line-height:1.6}
-.haiku span:nth-child(2){font-family:var(--f-head);font-size:14px;color:var(--muted);letter-spacing:.04em}
+.flowers svg{width:14px;height:14px}
+.haiku{margin:0;display:grid;gap:2px}
+.haiku .jp{font-size:16px;letter-spacing:.1em;line-height:1.6}
+.haiku .cn{font-family:var(--f-head);font-size:14px;color:var(--muted)}
 .haiku small{font-size:12px;color:var(--faint)}
-.seal{display:inline-grid;place-items:center;width:52px;height:52px;border:2.5px solid var(--shu);border-radius:9px;color:var(--shu);background:rgba(194,59,34,.06);
+.seal{display:inline-grid;place-items:center;width:52px;height:52px;border:2.5px solid #c23b22;border-radius:9px;color:#c23b22;background:rgba(194,59,34,.06);
   writing-mode:vertical-rl;font-family:"Zen Old Mincho",serif;font-weight:900;font-size:17px;letter-spacing:.08em;line-height:1;transform:rotate(-5deg)}
 .seal.off{border-style:dashed;border-color:var(--line-2);color:var(--faint);background:transparent}
-.seals{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:12px 8px}
-.seal-cell{display:grid;justify-items:center;gap:6px;text-align:center;font-size:12px;color:var(--muted);line-height:1.4}
-.stamp-fx{position:fixed;left:50%;top:44%;z-index:38;pointer-events:none;display:grid;justify-items:center;gap:8px;transform:translate(-50%,-50%)}
-.stamp-fx .seal{width:96px;height:96px;font-size:32px;border-width:4px;background:rgba(250,246,236,.92);box-shadow:0 10px 30px rgba(0,0,0,.3);animation:stamp 1.9s ease-out forwards}
-.stamp-fx small{padding:3px 12px;border-radius:99px;background:var(--panel-solid);border:1px solid var(--line-2);font-size:13px;color:var(--text);animation:fadeout 1.9s ease-out forwards}
-@keyframes stamp{0%{opacity:0;transform:scale(2.2) rotate(-14deg)}18%{opacity:1;transform:scale(.94) rotate(-5deg)}26%{transform:scale(1) rotate(-5deg)}80%{opacity:1}100%{opacity:0;transform:scale(1) rotate(-5deg)}}
-@keyframes fadeout{0%,15%{opacity:0}25%,80%{opacity:1}100%{opacity:0}}
-#board.aura .deck{animation:aura 1.4s ease-out}
-@keyframes aura{0%{filter:drop-shadow(0 0 0 transparent)}35%{filter:drop-shadow(0 0 18px var(--season))}100%{filter:drop-shadow(0 0 0 transparent)}}
+
+/* ---------- home shell + tab bar ---------- */
+#home{position:relative}
+#homeView{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.hv{width:100%;max-width:540px;margin:0 auto;display:flex;flex-direction:column;gap:16px;padding-block:16px 22px}
+.hv-stats{display:flex;flex-wrap:wrap;gap:8px}
+.hv-stats button{flex:1 1 30%;min-height:44px;padding:6px 10px;border-radius:var(--btn-radius);border:var(--panel-bw) solid var(--line);background:var(--panel);cursor:pointer;
+  display:grid;gap:0;text-align:left;font-size:12px;color:var(--muted)}
+.hv-stats b{font-size:15px;color:var(--text)}
 .mode-note{margin:-8px 0 0;font-size:12px;color:var(--faint);text-align:center}
-.collect{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px 12px;padding:12px 14px;border-radius:16px;background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.collect .rail{grid-column:1/-1}
-.collect b{font-family:var(--f-head);font-weight:var(--w-head);font-size:16px}
-.collect small{display:block;font-size:12px;color:var(--muted)}
-.path{position:relative;display:grid;gap:4px;padding-block:6px 4px}
-.trail{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
-.p-season{position:relative;display:grid;gap:4px}
-.season-h{display:flex;align-items:center;gap:12px;padding-block:10px 4px}
-.s-kanji{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--season);color:var(--season);background:var(--panel);
-  font-family:var(--f-jp);font-weight:var(--w-jp);font-size:20px;line-height:1}
-.season-h b{display:block;font-family:var(--f-head);font-weight:var(--w-head);font-size:15px}
-.season-h small{display:block;font-size:12px;color:var(--muted)}
-.stop{position:relative;display:flex;align-items:center;gap:10px;width:min(82%,330px);padding:6px 14px 6px 6px;border-radius:18px;border:1px solid transparent;
-  background:transparent;text-align:left;cursor:pointer;touch-action:manipulation}
-.stop.right{margin-left:auto;flex-direction:row-reverse;text-align:right;padding:6px 6px 6px 14px}
-.stop .lantern{flex:none;width:46px;height:66px}
-.stop .lantern svg{display:block;width:100%;height:100%}
-.stop .l-roof{fill:var(--stone)} .stop .l-box{fill:var(--stone-2)} .stop .l-win{fill:var(--unlit);transition:fill .4s}
-.stop .s-txt{min-width:0;display:grid;gap:1px;padding:8px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.stop .s-name{font-family:var(--f-jp);font-weight:var(--w-jp);font-size:20px;line-height:1.2;letter-spacing:.05em}
-.stop .s-meta{font-size:12px;color:var(--muted)}
-.stop.lit .l-win{fill:var(--season)}
-.stop.lit .lantern{filter:drop-shadow(0 0 10px var(--season))}
-.stop.next .l-win{fill:var(--accent);animation:flicker 2.6s ease-in-out infinite}
-.stop.next .lantern{filter:drop-shadow(0 0 14px var(--accent))}
-.stop.next .s-txt{border-color:var(--accent)}
-.stop:disabled{cursor:default}
-.stop:disabled .s-txt{opacity:.55}
-@keyframes flicker{0%,100%{opacity:1}45%{opacity:.82}55%{opacity:.95}}
-.home-foot{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-size:12px;color:var(--faint);text-align:center}
+.tabs{flex:none;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:var(--panel-solid);border-top:var(--panel-bw) solid var(--line);
+  padding:4px max(8px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 4px) max(8px,env(safe-area-inset-left,0px))}
+.tabs button{min-height:52px;border:0;background:transparent;cursor:pointer;display:grid;justify-items:center;align-content:center;gap:2px;font-size:11px;color:var(--muted);position:relative;border-radius:var(--btn-radius)}
+.tabs button svg{width:22px;height:22px}
+.tabs button[aria-current="page"]{color:var(--accent);font-weight:700}
 
 /* ---------- game ---------- */
-#game{padding-block:8px 10px;gap:8px}
-.g-top{display:flex;align-items:center;gap:8px}
+#game{padding-block:8px 10px;gap:8px;max-width:760px;margin:0 auto}
+.g-top{display:flex;align-items:center;gap:6px}
 .g-title{flex:1;min-width:0;text-align:center;line-height:1.15}
-.g-title .eyebrow{display:block;font-size:11px;color:var(--season)}
+.g-title .eyebrow{display:block;font-size:11px;color:var(--season);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .g-title b{font-family:var(--f-jp);font-weight:var(--w-jp);font-size:22px;letter-spacing:.08em}
 .hud{display:grid;grid-template-columns:1.35fr 1fr;gap:8px}
-.stat{padding:7px 12px 8px;border-radius:14px;background:var(--panel);border:1px solid var(--line);min-width:0;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.stat{padding:7px 12px 8px;min-width:0}
 .stat .lab{font-size:12px;color:var(--muted);letter-spacing:.06em}
 .stat .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.stat .val{display:flex;align-items:baseline;gap:4px;font-family:var(--f-head);font-weight:900;line-height:1.1}
+.stat .val{display:flex;align-items:baseline;gap:4px;font-family:var(--f-num,var(--f-head));font-weight:900;line-height:1.1}
 .stat .val b{font-size:28px}
 .stat .val small{font-size:14px;color:var(--muted);font-weight:600}
 .mbar{height:4px;border-radius:99px;background:var(--line);margin-top:5px;overflow:hidden}
 .mbar i{display:block;height:100%;background:var(--accent);border-radius:inherit;transition:width .35s}
 .stat.low .val b{color:var(--shu)} .stat.low .mbar i{background:var(--shu)}
-.hint{align-self:center;min-height:26px;padding:2px 14px;border-radius:99px;background:var(--panel);font-size:13px;color:var(--muted);position:relative;text-align:center}
+.hint{align-self:center;min-height:26px;padding:2px 14px;font-size:13px;color:var(--muted);position:relative;text-align:center}
 .hint .tbar{position:absolute;left:14px;right:14px;bottom:0;height:2px;border-radius:2px;background:var(--season);transform-origin:left;opacity:0}
 .hint .tbar.run{opacity:.9;animation:tbar var(--dur,3s) linear forwards}
 @keyframes tbar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 .combo{color:var(--season);font-weight:700}
-#board{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow-y:auto;overflow-x:hidden;padding:4px 0}
-.deck{display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:var(--gap,8px);margin:auto}
-.card{--cw:70px;width:var(--cw);aspect-ratio:5/8;padding:0;border:0;background:none;cursor:pointer;perspective:800px;touch-action:manipulation;border-radius:calc(var(--cw)*.08)}
+#board{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow-y:auto;overflow-x:hidden;padding:4px 0;border-radius:var(--panel-radius);transition:box-shadow .6s}
+#board.aura{animation:aura 1.4s ease-out}
+@keyframes aura{0%{box-shadow:inset 0 0 0 transparent}35%{box-shadow:inset 0 0 46px var(--season)}100%{box-shadow:inset 0 0 0 transparent}}
+.deck{box-sizing:content-box;display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:var(--gap,8px);margin:auto;padding:var(--board-pad);background:var(--board-bg);border-radius:var(--panel-radius)}
+/* Cards keep the artwork's own 61:100 shape; faces are shown as-is: no crop, no filter, nothing drawn on top. */
+.card{--cw:70px;width:var(--cw);aspect-ratio:61/100;padding:0;border:0;background:none;cursor:pointer;perspective:800px;touch-action:manipulation;border-radius:calc(var(--cw)*.04)}
 .card .inner{position:relative;display:block;width:100%;height:100%;transition:transform .45s cubic-bezier(.3,.7,.25,1);transform-style:preserve-3d}
 .card.up .inner{transform:rotateY(180deg)}
-.face{position:absolute;inset:0;display:block;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:calc(var(--cw)*.08);overflow:hidden;
-  box-shadow:0 2px 0 rgba(0,0,0,.28),0 7px 16px rgba(0,0,0,.26)}
+.face{position:absolute;inset:0;display:block;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:calc(var(--cw)*.04);box-shadow:0 2px 0 rgba(0,0,0,.22),0 7px 16px rgba(0,0,0,.22)}
+.face.back{overflow:hidden;border-radius:calc(var(--cw)*.08)}
 .face svg{display:block;width:100%;height:100%}
-.face img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;user-select:none}
-.front{transform:rotateY(180deg);background:#fff}
-.stamp{position:absolute;right:5%;bottom:3%;width:38%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
-  font-family:"Zen Old Mincho",serif;font-weight:900;font-size:calc(var(--cw)*.19);line-height:1;color:#c23b22;border:1.5px solid #c23b22;
-  background:rgba(250,246,236,.92);opacity:0;transform:scale(1.5) rotate(-14deg);transition:opacity .3s,transform .35s}
+.front{transform:rotateY(180deg);background:transparent}
+.front img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;user-select:none}
 .card.done{cursor:default}
-.card.done .front img{filter:saturate(.72) brightness(.88)}
-.card.done .stamp{opacity:1;transform:scale(1) rotate(-14deg)}
+.card.done .front{box-shadow:0 0 0 3px var(--accent),0 6px 14px rgba(0,0,0,.18)}
 .card.pop .inner{animation:pop .5s ease-out}
-@keyframes pop{0%{transform:rotateY(180deg) scale(1)}40%{transform:rotateY(180deg) scale(1.08)}100%{transform:rotateY(180deg) scale(1)}}
-.card.pop .face.front{box-shadow:0 0 0 3px var(--accent),0 0 22px var(--accent)}
+@keyframes pop{0%{transform:rotateY(180deg) scale(1)}40%{transform:rotateY(180deg) scale(1.07)}100%{transform:rotateY(180deg) scale(1)}}
 .deck.dealing .card{animation:deal .42s cubic-bezier(.2,.8,.3,1) both;animation-delay:calc(var(--d,0)*22ms)}
 @keyframes deal{from{opacity:0;transform:translateY(14px) scale(.92)}to{opacity:1;transform:none}}
 .g-actions{display:flex;gap:10px}
 .g-actions .peek{flex:1}
 .pill{min-width:22px;height:22px;padding:0 7px;border-radius:99px;background:rgba(0,0,0,.14);font-size:13px;display:inline-grid;place-items:center}
 
-/* ---------- toast / float ---------- */
+/* ---------- toast, stamp, float ---------- */
 .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 84px);z-index:35;transform:translate(-50%,16px);opacity:0;pointer-events:none;
-  width:max-content;max-width:calc(100% - 32px);display:flex;align-items:center;gap:12px;padding:8px 16px 8px 8px;border-radius:14px;
-  background:var(--panel-solid);border:1px solid var(--accent);box-shadow:0 10px 30px rgba(0,0,0,.35);transition:opacity .35s,transform .35s}
+  width:max-content;max-width:calc(100% - 32px);display:flex;align-items:center;gap:12px;padding:8px 16px 8px 8px;border-radius:var(--panel-radius);
+  background:var(--panel-solid);border:1px solid var(--accent);box-shadow:0 10px 30px rgba(0,0,0,.3);transition:opacity .35s,transform .35s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-.toast .t-art{width:30px;aspect-ratio:61/100;border-radius:4px;overflow:hidden;flex:none}
-.toast .t-art img{display:block;width:100%;height:100%;object-fit:contain}
+.toast .t-art{width:30px;flex:none}
+.toast .t-art img,.toast .t-art svg{display:block;width:100%;height:auto}
 .toast .t1{font-size:12px;color:var(--accent);letter-spacing:.08em}
 .toast .t2{font-weight:700;line-height:1.3}
 .toast .t3{font-size:12px;color:var(--muted)}
-.float{position:fixed;z-index:36;width:24px;pointer-events:none;animation:floatUp 1.2s ease-out forwards}
-.float svg{display:block;width:100%}
+.stamp-fx{position:fixed;right:max(16px,env(safe-area-inset-right,0px));top:calc(env(safe-area-inset-top,0px) + 54px);z-index:38;pointer-events:none;display:flex;align-items:center;gap:8px}
+.stamp-fx .seal{width:64px;height:64px;font-size:22px;border-width:3px;background:rgba(250,246,236,.95);box-shadow:0 8px 20px rgba(0,0,0,.25);animation:stamp 1.9s ease-out forwards}
+.stamp-fx small{order:-1;padding:3px 10px;border-radius:99px;background:var(--panel-solid);border:1px solid var(--line-2);font-size:13px;animation:fadeout 1.9s ease-out forwards}
+@keyframes stamp{0%{opacity:0;transform:scale(2) rotate(-14deg)}18%{opacity:1;transform:scale(.94) rotate(-5deg)}26%{transform:scale(1) rotate(-5deg)}80%{opacity:1}100%{opacity:0;transform:scale(1) rotate(-5deg)}}
+@keyframes fadeout{0%,15%{opacity:0}25%,80%{opacity:1}100%{opacity:0}}
+.float{position:fixed;z-index:36;width:22px;pointer-events:none;animation:floatUp 1.2s ease-out forwards}
+.float svg{display:block;width:100%;height:auto}
 @keyframes floatUp{0%{opacity:0;transform:translate(-50%,-30%) scale(.6)}25%{opacity:1;transform:translate(-50%,-90%) scale(1)}100%{opacity:0;transform:translate(-50%,-260%) scale(.9)}}
 
 /* ---------- modal ---------- */
 .modal{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:var(--scrim);
   padding:calc(env(safe-area-inset-top,0px) + 16px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 16px) max(16px,env(safe-area-inset-left,0px))}
-.modal-card{width:min(430px,100%);max-height:100%;overflow-y:auto;background:var(--panel-solid);border:1px solid var(--line-2);border-radius:20px;padding:22px 20px 20px;
-  box-shadow:0 24px 60px rgba(0,0,0,.4);animation:rise .35s ease-out}
+.modal-card{width:min(430px,100%);max-height:100%;overflow-y:auto;background:var(--panel-solid);border:var(--panel-bw) solid var(--line-2);border-radius:var(--panel-radius);
+  padding:22px 20px 20px;box-shadow:var(--panel-shadow),0 24px 60px rgba(0,0,0,.35);animation:rise .35s ease-out}
 @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-.modal-card h2{margin:4px 0 8px;font-family:var(--f-head);font-weight:900;font-size:24px;letter-spacing:.04em;text-wrap:balance}
+.modal-card h2{margin:4px 0 8px;font-family:var(--f-head);font-weight:var(--w-head);font-size:24px;letter-spacing:.04em;text-wrap:balance}
 .modal-card p{margin:0 0 12px;color:var(--muted)}
 .modal-actions{display:flex;flex-direction:column;gap:8px;margin-top:16px}
 .rules{list-style:none;margin:6px 0 12px;padding:0;display:grid;gap:10px}
 .rules li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
-.rules .n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--chip);border:1px solid var(--line-2);color:var(--accent);font-family:var(--f-head);font-weight:900;font-size:14px}
+.rules .n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--chip);border:1px solid var(--line-2);color:var(--accent);font-family:var(--f-head);font-size:14px}
 .rules b{color:var(--text);font-weight:600}
 .big-flowers{display:flex;gap:6px;margin:6px 0 12px}
 .big-flowers svg{width:34px;height:34px}
 .got-row{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 4px}
 .got{display:flex;flex-direction:column;align-items:center;gap:4px;width:64px;text-align:center;font-size:12px;line-height:1.25}
-.got .g-art{width:44px;aspect-ratio:61/100;border-radius:5px;overflow:hidden}
-.got .g-art img{display:block;width:100%;height:100%;object-fit:contain}
+.got .g-art{width:44px}
+.got .g-art img{display:block;width:100%;height:auto}
 .got span{font-family:var(--f-jp);font-weight:var(--w-jp)}
 .credits{margin:6px 0 4px;padding:0;list-style:none;display:grid;gap:10px;font-size:13px;color:var(--muted)}
 .credits b{color:var(--text);font-weight:600}
 .credits a{color:var(--accent)}
+.seals{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:12px 8px}
+.seal-cell{display:grid;justify-items:center;gap:6px;text-align:center;font-size:12px;color:var(--muted);line-height:1.4}
+.om-big{display:grid;justify-items:center;gap:8px;text-align:center}
+.om-big svg{width:120px;height:auto}
 
-/* ---------- sheets (dex, settings) ---------- */
+/* ---------- sheets ---------- */
 .sheet{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;background:var(--bg);padding-top:env(safe-area-inset-top,0px)}
-.sheet-head{display:flex;align-items:center;gap:12px;padding:12px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line)}
-.sheet-head h2{margin:0;font-family:var(--f-head);font-weight:900;font-size:22px;letter-spacing:.06em}
+.sheet-head{display:flex;align-items:center;gap:12px;padding:12px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));border-bottom:var(--panel-bw) solid var(--line)}
+.sheet-head h2{margin:0;font-family:var(--f-head);font-weight:var(--w-head);font-size:22px;letter-spacing:.06em}
 .sheet-head .count{color:var(--muted);font-size:13px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sheet-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;
   padding:16px max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 28px) max(16px,env(safe-area-inset-left,0px))}
 .sheet-inner{max-width:900px;margin:0 auto;display:grid;gap:22px}
-.intro{padding:16px;border-radius:16px;background:var(--panel-solid);border:1px solid var(--line);display:grid;gap:10px}
-.intro h3{margin:0;font-family:var(--f-head);font-weight:var(--w-head);font-size:17px}
+.sheet-note{margin:0;font-size:13px;color:var(--muted)}
+.intro{padding:16px;display:grid;gap:10px}
+.intro h3{margin:0;font-family:var(--f-head);font-weight:var(--w-head);font-size:18px}
 .intro p{margin:0;font-size:14px;line-height:1.8;color:var(--muted);max-width:42em}
 .intro p b{color:var(--text);font-weight:600}
-.kinds{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
-.kind{padding:8px 10px;border-radius:12px;background:var(--chip);border:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.6}
+.kinds,.yaku{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.kind,.yk{padding:8px 10px;border-radius:var(--panel-radius);background:var(--chip);border:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.6}
 .kind b{display:block;font-size:14px;color:var(--text)}
-.yaku{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
-.yk{padding:8px 10px;border-radius:12px;border:1px solid var(--line);background:var(--chip);font-size:12px;color:var(--muted);line-height:1.5}
 .yk b{display:flex;justify-content:space-between;gap:6px;font-size:15px;color:var(--text);font-family:var(--f-jp);font-weight:var(--w-jp)}
 .yk b span{font-family:var(--f-body);font-size:12px;font-weight:500;color:var(--muted)}
 .yk.done{border-color:var(--accent);background:var(--panel)}
 .yk.done b span{color:var(--accent)}
 .dex-seasons{display:grid;gap:30px}
-.dex-seasons .season-h{margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.season-h{display:flex;align-items:center;gap:12px;margin-bottom:10px;padding-bottom:10px;border-bottom:var(--panel-bw) solid var(--line)}
+.s-kanji{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--season);color:var(--season);font-family:var(--f-jp);font-weight:var(--w-jp);font-size:20px;line-height:1}
+.season-h b{display:block;font-family:var(--f-head);font-weight:var(--w-head);font-size:15px}
+.season-h small{display:block;font-size:12px;color:var(--muted)}
 .months{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr));gap:20px 18px}
 .month h3{margin:0 0 8px;font-family:var(--f-head);font-weight:var(--w-head);font-size:15px;display:flex;align-items:baseline;gap:8px}
 .month h3 .jp{color:var(--accent)}
 .month h3 small{color:var(--faint);font-weight:400;font-family:var(--f-body);font-size:12px}
 .entries{display:grid;gap:8px}
-.entry{display:grid;grid-template-columns:60px 1fr;gap:12px;padding:10px 12px 10px 10px;border-radius:14px;background:var(--panel-solid);border:1px solid var(--line);position:relative}
-.e-art{width:60px;aspect-ratio:61/100;border-radius:6px;overflow:hidden;align-self:start}
-.e-art svg,.e-art img{display:block;width:100%;height:100%;object-fit:contain}
+.entry{display:grid;grid-template-columns:60px 1fr;gap:12px;padding:10px 12px 10px 10px;position:relative;background:var(--panel-solid);border:var(--panel-bw) solid var(--line);border-radius:var(--panel-radius);box-shadow:var(--panel-shadow)}
+.e-art{width:60px;align-self:start;position:relative}
+.e-art img{display:block;width:100%;height:auto}
+.e-art svg{display:block;width:100%;height:auto;border-radius:6px}
 .e-text{min-width:0}
 .e-name{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
 .e-name b{font-family:var(--f-jp);font-weight:var(--w-jp);font-size:18px;line-height:1.25}
@@ -272,34 +274,59 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .e-mean{margin-top:4px;font-size:13px;color:var(--text)}
 .e-mean span{color:var(--accent);margin-right:6px;font-size:12px}
 .e-text p{margin:2px 0 6px;font-size:13px;line-height:1.7;color:var(--muted)}
+.e-foot{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:12px}
+.e-om{display:inline-flex;align-items:center;gap:6px}
+.e-om svg{width:14px;height:auto;flex:none}
+.e-date{color:var(--faint)}
 .tag{font-size:11px;padding:1px 7px;border-radius:99px;border:1px solid var(--line-2);color:var(--muted);white-space:nowrap}
-.tag.hikari{border-color:var(--accent);color:var(--accent)}
+.tag.hikari{border-color:var(--gold);color:var(--gold)}
 .tag.tane{border-color:var(--moss);color:var(--moss)}
 .tag.tan{border-color:var(--shu);color:var(--shu)}
-.e-om{display:flex;align-items:center;gap:6px;font-size:12px}
-.e-om svg{width:14px;height:20px;flex:none}
-.e-om .cnt{color:var(--muted)}
 .entry.locked .e-text,.entry.locked .e-name b{color:var(--faint)}
 .new-badge{position:absolute;top:8px;right:10px;font-size:11px;color:var(--accent-ink);background:var(--accent);border-radius:99px;padding:0 7px;font-weight:700}
-.set-group{display:grid;gap:10px}
-.set-group h3{margin:0;font-family:var(--f-head);font-weight:var(--w-head);font-size:16px}
-.set-group > p{margin:-4px 0 0;font-size:12px;color:var(--faint)}
-.looks{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));gap:10px}
-.look{display:grid;grid-template-rows:auto auto;gap:0;padding:0;border-radius:14px;overflow:hidden;border:2px solid var(--line);background:var(--panel-solid);cursor:pointer;text-align:left}
-.look[aria-checked="true"]{border-color:var(--accent)}
-.look .sw{height:84px;position:relative}
-.look .sw svg{display:block;width:100%;height:100%}
-.look .lt{padding:8px 12px 10px;display:grid;gap:2px}
-.look .lt b{font-size:15px}
-.look .lt small{font-size:12px;color:var(--muted);line-height:1.6}
-.skins{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.skin{display:grid;justify-items:center;gap:6px;padding:10px 6px;border-radius:14px;border:2px solid var(--line);background:var(--panel-solid);cursor:pointer;font-size:13px}
+.om-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:14px 8px}
+.om-cell{display:grid;justify-items:center;gap:4px;padding:2px;border:0;background:transparent;cursor:pointer;text-align:center;font-size:12px;line-height:1.3;color:var(--muted)}
+/* badges: a round plate; collected ones light up, the rest stay as silhouettes */
+.om-badge{width:72px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 50% 38%,var(--panel-solid),var(--chip) 72%);
+  border:2px solid var(--line);box-shadow:inset 0 0 0 4px var(--panel-solid);transition:box-shadow .3s}
+.om-badge svg{width:44%;height:auto}
+.om-cell:not(.locked) .om-badge{border-color:var(--accent);box-shadow:inset 0 0 0 4px var(--panel-solid),0 0 18px -6px var(--accent)}
+.om-cell b{color:var(--text);font-weight:600;font-size:12px}
+.om-cell.locked{cursor:default;color:var(--faint)}
+.om-cell .cnt{color:var(--accent)}
+.danger{color:var(--shu);border-color:var(--shu)}
+.btn.primary.danger-fill{background:var(--shu);border-color:var(--shu);color:#fff}
+.themes{--sel:var(--accent);display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.theme-card{display:grid;gap:0;padding:0;border:0;border-radius:12px;overflow:hidden;cursor:pointer;text-align:left;background:var(--panel-solid);color:var(--text);outline:2px solid var(--line);outline-offset:0}
+.theme-card[aria-checked="true"]{outline:3px solid var(--sel);outline-offset:2px}
+.theme-card .tc-txt{padding:8px 10px 10px;display:grid;gap:2px;border-top:1px solid var(--line)}
+.theme-card .tc-txt b{font-family:var(--f-jp);font-weight:var(--w-jp);font-size:16px;line-height:1.25}
+.theme-card .tc-txt small{font-size:12px;line-height:1.5;color:var(--muted)}
+.theme-card .tc-txt em{font-style:normal;font-size:11px;color:var(--accent)}
+/* mini game mock used as the theme preview */
+.pv{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--bg)}
+.pv-bg{position:absolute;inset:0}
+.pv-bg svg{display:block;width:100%;height:100%}
+.pv-ui{position:absolute;inset:0;display:grid;grid-template-rows:auto auto 1fr auto;gap:5px;padding:8px}
+.pv-top{display:flex;justify-content:center;font-family:var(--f-jp);font-weight:var(--w-jp);font-size:15px;letter-spacing:.08em;color:var(--text)}
+.pv-hud{display:grid;grid-template-columns:1.3fr 1fr;gap:4px}
+.pv-hud span{padding:2px 6px;font-size:10px;color:var(--muted);background:var(--panel);border:var(--panel-bw) solid var(--line);border-radius:var(--panel-radius);box-shadow:var(--panel-shadow)}
+.pv-hud b{font-size:13px;color:var(--text);font-family:var(--f-num,var(--f-head))}
+.pv-deck{align-self:center;justify-self:center;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:var(--board-pad);background:var(--board-bg);border-radius:var(--panel-radius);transform:scale(.92)}
+.pv-deck i{display:block;width:24px;aspect-ratio:61/100;border-radius:2px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.pv-deck i svg,.pv-deck i img{display:block;width:100%;height:100%;object-fit:contain}
+.pv-btn{justify-self:stretch;text-align:center;padding:5px 0;font-size:11px;font-weight:700;border-radius:var(--btn-radius);background:var(--accent);color:var(--accent-ink);box-shadow:var(--btn-shadow)}
+.skins{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px}
+.skin{display:grid;justify-items:center;gap:6px;padding:10px 6px;border-radius:var(--panel-radius);border:2px solid var(--line);background:var(--panel-solid);cursor:pointer;font-size:13px;text-align:center}
 .skin[aria-checked="true"]{border-color:var(--accent)}
 .skin .mini{display:flex;gap:3px}
-.skin .mini img{width:30px;aspect-ratio:61/100;object-fit:contain;border-radius:3px}
-.skin small{font-size:11px;color:var(--muted)}
+.skin .mini img{width:30px;height:auto}
+.skin small{font-size:11px;color:var(--muted);line-height:1.4}
+.set-group{display:grid;gap:10px}
+.set-group h3{margin:0;font-family:var(--f-head);font-weight:var(--w-head);font-size:17px}
+.set-group > p{margin:-4px 0 0;font-size:12px;color:var(--faint)}
 .toggles{display:grid;gap:8px}
-.toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:8px 14px;border-radius:14px;border:1px solid var(--line);background:var(--panel-solid);cursor:pointer;text-align:left}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:8px 14px;border-radius:var(--panel-radius);border:var(--panel-bw) solid var(--line);background:var(--panel-solid);cursor:pointer;text-align:left}
 .toggle small{display:block;font-size:12px;color:var(--muted)}
 .toggle .sw2{flex:none;width:44px;height:26px;border-radius:99px;background:var(--line-2);position:relative;transition:background .2s}
 .toggle .sw2::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--panel-solid);transition:transform .2s}
@@ -309,11 +336,205 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .links{display:flex;flex-wrap:wrap;gap:8px}
 .save-note{font-size:12px;color:var(--faint)}
 
+/* ================= theme home pages ================= */
+.go{cursor:pointer;touch-action:manipulation}
+.go:disabled{cursor:default}
+.st-lock{opacity:.5}
+/* 1 · 浮世绘梦境 — a dream-parade poster */
+.hv-dream .dr-title{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end}
+.hv-dream .dr-title span{display:grid;place-items:center;width:58px;height:62px;font-family:var(--f-jp);font-size:38px;color:#1b1033;border-radius:10px;box-shadow:4px 5px 0 rgba(0,0,0,.35)}
+.hv-dream .dr-title span:nth-child(1){background:#ff4fa3;transform:rotate(-7deg)}
+.hv-dream .dr-title span:nth-child(2){background:#2ee6d0;transform:rotate(4deg) translateY(-6px)}
+.hv-dream .dr-title span:nth-child(3){background:#ffd23f;transform:rotate(-3deg) translateY(4px)}
+.hv-dream .dr-title span:nth-child(4){background:#9b5cff;color:#fff4e6;transform:rotate(8deg)}
+.hv-dream .dr-title small{flex-basis:100%;font-family:var(--f-head);font-size:14px;letter-spacing:.3em;color:#2ee6d0}
+.hv-dream .dr-portal{position:relative;align-self:center;width:min(78vw,270px);aspect-ratio:1;border:0;border-radius:50%;background:transparent;display:grid;place-items:center}
+.hv-dream .dr-ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(#ff4fa3,#ffd23f,#2ee6d0,#9b5cff,#ff4fa3);animation:spin 24s linear infinite;
+  -webkit-mask:radial-gradient(circle,transparent 63%,#000 64%);mask:radial-gradient(circle,transparent 63%,#000 64%)}
+.hv-dream .dr-in{position:absolute;inset:9%;border-radius:50%;background:radial-gradient(circle at 50% 35%,#3a1a6a,#1b1033 70%);display:grid;place-items:center;align-content:center;gap:6px;padding:12px;text-align:center}
+.hv-dream .dr-card{width:58px;animation:bob 5s ease-in-out infinite}
+.hv-dream .dr-card img{display:block;width:100%;height:auto}
+.hv-dream .dr-in em{font-style:normal;font-size:12px;letter-spacing:.3em;color:#ffd23f}
+.hv-dream .dr-in b{font-family:var(--f-jp);font-size:26px;line-height:1.1}
+.hv-dream .dr-in small{font-size:12px;color:var(--muted)}
+.hv-dream .dr-parade{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 12px;margin-inline:-4px}
+.hv-dream .dr-ticket{flex:none;scroll-snap-align:center;width:108px;min-height:118px;padding:10px;border-radius:14px;border:2px solid var(--season);background:var(--panel);display:grid;gap:2px;text-align:left;transform:rotate(var(--rot))}
+.hv-dream .dr-ticket b{font-family:var(--f-jp);font-size:26px;color:var(--season);line-height:1}
+.hv-dream .dr-ticket .jp{font-size:18px}
+.hv-dream .dr-ticket small{font-size:11px;color:var(--muted)}
+.hv-dream .dr-ticket.next{box-shadow:0 0 0 3px #ffd23f}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bob{50%{transform:translateY(-6px)}}
+/* 2 · 手绘青春 — a lopsided magazine page in flat colour blocks */
+.hv-youth{position:relative}
+.hv-youth .yo-head{position:relative;padding:18px 16px 14px;background:#4aa3df;border:2.5px solid #222;border-radius:16px 4px 22px 6px;transform:perspective(600px) rotateY(-8deg) rotate(-1.5deg);box-shadow:6px 6px 0 #222}
+.hv-youth .yo-head h1{margin:0;font-family:var(--f-jp);font-size:44px;line-height:1;color:#fff;-webkit-text-stroke:2px #222;paint-order:stroke fill;letter-spacing:.04em}
+.hv-youth .yo-head span{display:inline-block;margin-top:8px;padding:2px 10px;background:#f2b134;border:2px solid #222;font-family:var(--f-head);font-size:14px;transform:rotate(2deg)}
+.hv-youth .yo-cta{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:12px 14px;text-align:left;background:#e8553e;color:#fff;border:2.5px solid #222;
+  border-radius:var(--btn-radius);box-shadow:5px 6px 0 #222;transform:rotate(1deg)}
+.hv-youth .yo-cta .yo-num{font-family:var(--f-jp);font-size:54px;line-height:.9;-webkit-text-stroke:2px #222;paint-order:stroke fill;color:#f2b134}
+.hv-youth .yo-cta b{display:block;font-family:var(--f-jp);font-size:28px;line-height:1.1}
+.hv-youth .yo-cta small{display:block;font-size:12px;opacity:.92}
+.hv-youth .yo-cta .yo-arrow{font-size:34px;font-weight:900}
+.hv-youth .yo-bubble{position:relative;padding:12px 14px;background:#fff;border:2.5px solid #222;border-radius:24px 24px 24px 4px;margin-left:18px}
+.hv-youth .yo-bubble::before{content:"";position:absolute;left:-14px;bottom:-2px;width:18px;height:16px;background:#fff;border-left:2.5px solid #222;border-bottom:2.5px solid #222;transform:skewX(30deg)}
+.hv-youth .yo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px}
+.hv-youth .yo-tile{position:relative;min-height:104px;padding:10px 12px;text-align:left;border:2.5px solid #222;border-radius:var(--panel-radius);box-shadow:4px 4px 0 #222;display:grid;align-content:end;gap:2px}
+.hv-youth .yo-tile:nth-child(4n+1){background:#fff;transform:rotate(-1.5deg)} .hv-youth .yo-tile:nth-child(4n+2){background:#bfe3f7;transform:rotate(1.2deg) translateY(10px)}
+.hv-youth .yo-tile:nth-child(4n+3){background:#ffe3a1;transform:rotate(1deg)} .hv-youth .yo-tile:nth-child(4n+4){background:#cdeedb;transform:rotate(-1deg) translateY(10px)}
+.hv-youth .yo-tile .yo-big{position:absolute;top:2px;right:8px;font-family:var(--f-jp);font-size:44px;line-height:1;color:transparent;-webkit-text-stroke:1.6px #222}
+.hv-youth .yo-tile .jp{font-size:22px}
+.hv-youth .yo-tile small{font-size:12px;color:var(--muted)}
+.hv-youth .yo-tile.next{outline:3px dashed #e8553e;outline-offset:3px}
+/* 3 · 黑白漫画 — a serial magazine's cover strip and contents page */
+.hv-manga .mg-mast{position:relative;border:3px solid #111;background:#fff;padding:14px 14px 10px;overflow:hidden}
+.hv-manga .mg-lines{position:absolute;inset:0;pointer-events:none}
+.hv-manga .mg-lines svg{width:100%;height:100%}
+.hv-manga .mg-mast h1{position:relative;margin:0;font-family:var(--f-jp);font-size:46px;line-height:1;letter-spacing:.02em;background:#fff;display:inline-block;padding:0 6px;border:3px solid #111}
+.hv-manga .mg-issue{position:relative;display:flex;justify-content:space-between;gap:8px;margin-top:10px;font-size:12px;font-weight:700}
+.hv-manga .mg-issue span{background:#111;color:#fff;padding:2px 8px}
+.hv-manga .mg-issue span:last-child{background:#d7261e}
+.hv-manga .mg-koma{display:grid;grid-template-columns:auto 1fr auto;align-items:stretch;gap:0;padding:0;border:3px solid #111;background:#fff;box-shadow:6px 6px 0 #111;text-align:left}
+.hv-manga .mg-art{width:78px;padding:10px;border-right:3px solid #111;background:radial-gradient(#111 .9px,transparent 1.2px) 0 0/5px 5px}
+.hv-manga .mg-art img{display:block;width:100%;height:auto}
+.hv-manga .mg-v{padding:10px 12px;display:grid;align-content:center;gap:2px}
+.hv-manga .mg-v small{font-size:12px;font-weight:700;color:#d7261e;letter-spacing:.1em}
+.hv-manga .mg-v b{font-family:var(--f-jp);font-size:30px;line-height:1.1}
+.hv-manga .mg-v span{font-size:12px;color:var(--muted)}
+.hv-manga .mg-read{display:grid;place-items:center;padding:0 12px;background:#111;color:#fff;font-weight:900;writing-mode:vertical-rl;letter-spacing:.3em}
+.hv-manga .mg-balloon{position:relative;padding:12px 16px;background:#fff;border:2.5px solid #111;border-radius:50% / 40%;text-align:center}
+.hv-manga .mg-balloon::after{content:"";position:absolute;right:22%;bottom:-16px;border:9px solid transparent;border-top:14px solid #111;border-bottom:0}
+.hv-manga .mg-toc{list-style:none;margin:0;padding:0;border-top:3px solid #111}
+.hv-manga .mg-toc h2{margin:0;padding:8px 0;font-family:var(--f-jp);font-size:20px;border-bottom:1px solid #111}
+.hv-manga .mg-toc button{width:100%;min-height:48px;display:grid;grid-template-columns:auto auto 1fr auto;align-items:center;gap:10px;padding:6px 2px;border:0;border-bottom:1px solid #111;background:transparent;text-align:left}
+.hv-manga .mg-toc .no{font-size:12px;font-weight:900;letter-spacing:.06em}
+.hv-manga .mg-toc .jp{font-size:20px}
+.hv-manga .mg-toc i{height:0;border-bottom:2px dotted #111;align-self:center}
+.hv-manga .mg-toc .mk{min-width:36px;text-align:center;font-weight:900;font-size:13px}
+.hv-manga .mg-toc .done .mk{color:#d7261e;border:2px solid #d7261e;border-radius:50%;width:34px;height:34px;display:grid;place-items:center;transform:rotate(-10deg)}
+.hv-manga .mg-toc .next{background:repeating-linear-gradient(90deg,transparent 0 3px,rgba(0,0,0,.06) 3px 4px)}
+/* 4 · 浮世绘四季 — a woodblock series poster */
+.hv-ukiyo .uk-head{display:flex;align-items:flex-start;gap:12px}
+.hv-ukiyo .uk-cart{writing-mode:vertical-rl;padding:10px 6px;background:#fbf6ea;border:2px solid #1f3a68;outline:1px solid #1f3a68;outline-offset:3px;display:flex;gap:6px}
+.hv-ukiyo .uk-cart b{font-family:var(--f-jp);font-size:30px;letter-spacing:.12em;line-height:1}
+.hv-ukiyo .uk-cart small{font-size:12px;letter-spacing:.3em;color:#c8402a}
+.hv-ukiyo .uk-side{display:grid;gap:8px;padding-top:4px}
+.hv-ukiyo .uk-seal{width:44px;height:44px;display:grid;place-items:center;background:#c8402a;color:#fbf6ea;font-family:var(--f-jp);font-size:22px;border-radius:4px}
+.hv-ukiyo .uk-print{position:relative;padding:0;border:2px solid #1f3a68;background:#fbf6ea;box-shadow:0 0 0 5px #fbf6ea,0 0 0 6px rgba(31,58,104,.4);text-align:left;display:block;width:100%}
+.hv-ukiyo .uk-print .uk-scene{display:block;aspect-ratio:4/3;overflow:hidden}
+.hv-ukiyo .uk-print .uk-scene svg{display:block;width:100%;height:100%}
+.hv-ukiyo .uk-print .uk-label{position:absolute;top:10px;right:10px;writing-mode:vertical-rl;padding:8px 5px;background:#fbf6ea;border:1.5px solid #1f3a68;font-family:var(--f-jp);font-size:16px;letter-spacing:.1em}
+.hv-ukiyo .uk-print .uk-go{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-top:2px solid #1f3a68;font-size:13px}
+.hv-ukiyo .uk-print .uk-go b{padding:6px 14px;background:#1f3a68;color:#fbf6ea;border-radius:2px}
+.hv-ukiyo .uk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.hv-ukiyo .uk-thumb{position:relative;padding:0;border:1.5px solid #1f3a68;background:#fbf6ea;display:grid;text-align:center}
+.hv-ukiyo .uk-thumb .uk-mini{display:block;aspect-ratio:3/4;overflow:hidden}
+.hv-ukiyo .uk-thumb .uk-mini svg{display:block;width:100%;height:100%}
+.hv-ukiyo .uk-thumb .uk-lab{padding:3px 0;font-family:var(--f-jp);font-size:13px;border-top:1px solid #1f3a68}
+.hv-ukiyo .uk-thumb .uk-done{position:absolute;top:4px;left:4px;width:20px;height:20px;display:grid;place-items:center;background:#c8402a;color:#fbf6ea;font-size:11px;border-radius:2px}
+.hv-ukiyo .uk-thumb.st-lock .uk-mini{filter:grayscale(1) opacity(.45)}
+.hv-ukiyo .uk-thumb.next{outline:2px solid #c8402a;outline-offset:2px}
+/* 5 · 京都和纸 — a bunko paperback cover with an obi, then its contents page */
+.hv-washi .wa-lattice{height:22px;margin-inline:-4px;background:repeating-linear-gradient(90deg,#5a4532 0 4px,transparent 4px 22px),linear-gradient(#5a4532,#5a4532) bottom/100% 4px no-repeat}
+.hv-washi .wa-cover{position:relative;align-self:center;width:min(74vw,250px);aspect-ratio:105/148;padding:0;border:1px solid rgba(74,58,44,.25);background:#fbf8f0;
+  box-shadow:8px 10px 0 -2px rgba(74,58,44,.12),0 18px 30px -18px rgba(74,58,44,.6);overflow:hidden;text-align:left}
+.hv-washi .wa-cover::before{content:"";position:absolute;inset:0;background:radial-gradient(rgba(74,58,44,.06) 1px,transparent 1.4px) 0 0/7px 7px}
+.hv-washi .wa-title{position:absolute;right:16%;top:9%;writing-mode:vertical-rl;font-family:var(--f-jp);font-weight:900;font-size:38px;letter-spacing:.24em;line-height:1}
+.hv-washi .wa-author{position:absolute;right:calc(16% + 48px);top:10%;writing-mode:vertical-rl;font-size:12px;letter-spacing:.3em;color:var(--muted)}
+.hv-washi .wa-mark{position:absolute;left:12%;top:10%;width:30px;height:30px;display:grid;place-items:center;background:#b8392a;color:#fbf8f0;font-family:var(--f-jp);font-size:15px;border-radius:2px}
+.hv-washi .wa-obi{position:absolute;left:0;right:0;bottom:0;height:34%;padding:10px 12px;background:#b8392a;color:#fbf8f0;display:grid;align-content:center;gap:3px}
+.hv-washi .wa-obi em{font-style:normal;font-family:var(--f-jp);font-size:13px;letter-spacing:.06em;line-height:1.5}
+.hv-washi .wa-obi small{font-size:11px;opacity:.9}
+.hv-washi .wa-obi b{font-family:var(--f-jp);font-size:14px;color:#f3d998}
+.hv-washi .wa-pub{position:absolute;left:12%;bottom:calc(34% + 10px);font-size:11px;letter-spacing:.2em;color:var(--muted)}
+.hv-washi .wa-toc{padding:16px 14px;background:#fbf8f0;border:1px solid var(--line)}
+.hv-washi .wa-toc h2{margin:0 0 8px;font-family:var(--f-jp);font-size:20px;letter-spacing:.6em;text-align:center}
+.hv-washi .wa-toc ol{list-style:none;margin:0;padding:0}
+.hv-washi .wa-toc button{width:100%;min-height:46px;display:grid;grid-template-columns:auto auto 1fr auto;align-items:center;gap:10px;border:0;background:transparent;text-align:left;padding:4px 0;border-bottom:1px solid var(--line)}
+.hv-washi .wa-toc .no{font-size:12px;color:var(--muted);letter-spacing:.1em}
+.hv-washi .wa-toc .jp{font-size:18px}
+.hv-washi .wa-toc i{border-bottom:1px dotted var(--line-2);height:0}
+.hv-washi .wa-toc .pg{font-size:12px;color:var(--faint);min-width:32px;text-align:right}
+.hv-washi .wa-toc .done .pg{color:#fbf8f0;background:#b8392a;width:24px;min-width:24px;height:24px;display:grid;place-items:center;border-radius:2px;font-family:var(--f-jp)}
+.hv-washi .wa-toc .next .jp{color:#b8392a}
+/* 6 · 枯山水庭园 — one raked circle, one stone */
+.hv-kare{gap:22px;text-align:center}
+.hv-kare .ka-head h1{margin:0;font-family:var(--f-jp);font-size:40px;letter-spacing:.3em;font-weight:400}
+.hv-kare .ka-head small{display:block;margin-top:4px;font-size:12px;letter-spacing:.2em;color:var(--faint)}
+.hv-kare .ka-stone{position:relative;align-self:center;width:min(80vw,300px);aspect-ratio:1;border:0;background:transparent;padding:0}
+.hv-kare .ka-stone svg{display:block;width:100%;height:100%}
+.hv-kare .ka-stone span{position:absolute;left:0;right:0;bottom:6%;display:grid;gap:2px}
+.hv-kare .ka-stone b{font-family:var(--f-jp);font-size:28px;font-weight:400;letter-spacing:.2em}
+.hv-kare .ka-stone small{font-size:12px;color:var(--muted)}
+.hv-kare .ka-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 6px}
+.hv-kare .ka-pebble{display:grid;justify-items:center;gap:2px;border:0;background:transparent;padding:4px 0;font-size:13px;font-family:var(--f-jp)}
+.hv-kare .ka-pebble svg{width:52px;height:34px}
+.hv-kare .ka-pebble.next{color:var(--accent)}
+.hv-kare .ka-hk{margin:0;font-size:13px;color:var(--muted);letter-spacing:.1em}
+/* 7 · 夏日祭典 — lanterns over a row of stalls */
+.hv-matsuri .mt-lanterns{display:flex;justify-content:center;gap:10px;padding-top:18px;position:relative}
+.hv-matsuri .mt-lanterns::before{content:"";position:absolute;left:-10px;right:-10px;top:8px;height:16px;border-top:2px solid rgba(244,234,210,.5);border-radius:50%}
+.hv-matsuri .mt-l{position:relative;width:62px;height:78px;display:grid;place-items:center;border-radius:46%/40%;background:radial-gradient(circle at 50% 40%,#ffd59a,#f29a3a 55%,#c4511f);
+  color:#2a1606;font-family:var(--f-jp);font-size:30px;box-shadow:0 0 26px rgba(242,154,58,.55);animation:sway 6s ease-in-out infinite;transform-origin:50% -12px}
+.hv-matsuri .mt-l::before,.hv-matsuri .mt-l::after{content:"";position:absolute;left:14px;right:14px;height:7px;background:#2a1a12;border-radius:2px}
+.hv-matsuri .mt-l::before{top:-3px} .hv-matsuri .mt-l::after{bottom:-3px}
+.hv-matsuri .mt-l:nth-child(2){animation-delay:-1.5s} .hv-matsuri .mt-l:nth-child(3){animation-delay:-3s} .hv-matsuri .mt-l:nth-child(4){animation-delay:-4.5s}
+@keyframes sway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+.hv-matsuri .mt-sub{margin:0;text-align:center;font-family:var(--f-head);letter-spacing:.4em;color:var(--accent)}
+.hv-matsuri .mt-noren{position:relative;padding:0 0 12px;border:0;border-radius:6px;background:#f4ead2;color:#1b2747;overflow:hidden;text-align:center;display:grid;gap:4px;box-shadow:0 0 30px -10px #f29a3a}
+.hv-matsuri .mt-noren .mt-stripes{height:30px;background:repeating-linear-gradient(90deg,#d8432c 0 22px,#f4ead2 22px 30px);-webkit-mask:linear-gradient(#000 70%,transparent);mask:linear-gradient(#000 70%,transparent)}
+.hv-matsuri .mt-noren b{font-family:var(--f-jp);font-size:32px;line-height:1.1}
+.hv-matsuri .mt-noren small{font-size:13px;color:#4a5670}
+.hv-matsuri .mt-noren .mt-go{justify-self:center;margin-top:4px;padding:6px 18px;background:#d8432c;color:#f4ead2;border-radius:99px;font-weight:700}
+.hv-matsuri .mt-fan{padding:12px 16px;border-radius:60px 60px 14px 14px;background:rgba(244,234,210,.08);border:1px solid var(--line-2);text-align:center}
+.hv-matsuri .mt-stalls{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hv-matsuri .mt-stall{padding:0 0 10px;border:1px solid var(--line-2);border-radius:8px;background:var(--panel);overflow:hidden;display:grid;gap:2px;text-align:center}
+.hv-matsuri .mt-stall .mt-roof{height:16px;background:repeating-linear-gradient(90deg,var(--season) 0 14px,#f4ead2 14px 20px)}
+.hv-matsuri .mt-stall .jp{font-size:20px;margin-top:4px}
+.hv-matsuri .mt-stall small{font-size:12px;color:var(--muted)}
+.hv-matsuri .mt-stall.done{box-shadow:0 0 20px -6px #f29a3a;border-color:#f29a3a}
+.hv-matsuri .mt-stall.next{outline:2px solid #f29a3a;outline-offset:2px}
+/* 8 · 手账收藏 — a travel-journal spread with a stamp-rally card */
+.hv-techo{position:relative}
+.hv-techo .tc-head{display:flex;justify-content:space-between;align-items:baseline}
+.hv-techo .tc-head h1{margin:0;font-family:var(--f-jp);font-size:34px}
+.hv-techo .tc-head span{font-family:var(--f-jp);font-size:14px;color:var(--muted);border-bottom:2px solid #e8b4b8}
+.hv-techo .tc-spread{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;align-items:start}
+.hv-techo .tc-polaroid{position:relative;padding:8px 8px 10px;border:0;background:#fff;box-shadow:0 6px 16px -6px rgba(74,61,50,.45);transform:rotate(-3deg);display:grid;gap:6px;text-align:center}
+.hv-techo .tc-photo{display:block;aspect-ratio:1;overflow:hidden}
+.hv-techo .tc-photo svg{display:block;width:100%;height:100%}
+.hv-techo .tc-cap{font-family:var(--f-jp);font-size:14px}
+.hv-techo .tc-tape{position:absolute;top:-10px;left:30%;width:56px;height:20px;background:repeating-linear-gradient(45deg,rgba(232,180,184,.85) 0 6px,rgba(255,255,255,.6) 6px 10px);transform:rotate(4deg)}
+.hv-techo .tc-note{padding:12px 10px;background:#fdf1b8;box-shadow:0 4px 10px -6px rgba(74,61,50,.5);transform:rotate(2deg);font-size:13px}
+.hv-techo .tc-note .jp{font-size:14px}
+.hv-techo .tc-ticket{position:relative;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 18px;border:0;background:#c0675a;color:#fff;border-radius:8px;
+  -webkit-mask:radial-gradient(circle at 0 50%,transparent 9px,#000 10px) left/51% 100% no-repeat,radial-gradient(circle at 100% 50%,transparent 9px,#000 10px) right/51% 100% no-repeat;
+  mask:radial-gradient(circle at 0 50%,transparent 9px,#000 10px) left/51% 100% no-repeat,radial-gradient(circle at 100% 50%,transparent 9px,#000 10px) right/51% 100% no-repeat}
+.hv-techo .tc-ticket b{font-family:var(--f-jp);font-size:22px}
+.hv-techo .tc-ticket small{font-size:12px;opacity:.9}
+.hv-techo .tc-rally{padding:14px 12px;background:#fffdf8;border:1px dashed var(--line-2);border-radius:8px}
+.hv-techo .tc-rally h2{margin:0 0 10px;font-family:var(--f-head);font-weight:400;font-size:22px}
+.hv-techo .tc-stamps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 6px}
+.hv-techo .tc-stamp{display:grid;justify-items:center;gap:4px;border:0;background:transparent;padding:0;font-family:var(--f-jp);font-size:12px}
+.hv-techo .tc-stamp .ring{width:58px;height:58px;border-radius:50%;border:2px dashed var(--line-2);display:grid;place-items:center;font-size:18px;color:var(--faint)}
+.hv-techo .tc-stamp.done .ring{border:2.5px double #c0675a;color:#c0675a;transform:rotate(-12deg);font-size:12px;line-height:1.2;text-align:center}
+.hv-techo .tc-stamp.next .ring{border-color:#c0675a;color:#c0675a}
+/* techo: dex entries as stickers */
+:root[data-look="techo"] .entry:not(.locked) .e-art{background:#fff;padding:3px;box-shadow:0 2px 6px rgba(0,0,0,.2);transform:rotate(-2.5deg)}
+:root[data-look="techo"] .entry:nth-child(even):not(.locked) .e-art{transform:rotate(2deg)}
+:root[data-look="techo"] .entry:not(.locked) .e-art::before{content:"";position:absolute;top:-7px;left:14px;width:30px;height:12px;background:rgba(168,195,160,.75);transform:rotate(-6deg)}
+:root[data-look="techo"] .entry.locked .e-art{border:2px dashed var(--line-2);border-radius:4px}
+:root[data-look="techo"] .entry.locked .e-art svg{opacity:0}
+:root[data-look="techo"] .e-date{padding:0 6px;border:1px dashed #c0675a;color:#c0675a;border-radius:99px;transform:rotate(-3deg)}
+:root[data-look="washi"] .s-kanji{border-radius:3px;background:#b8392a;color:#fbf8f0;border:0}
+:root[data-look="ukiyo"] .s-kanji{border-radius:3px}
+:root[data-look="manga"] .s-kanji{border-radius:0;border:2px solid #111;color:#111}
+
 @media (min-width:720px){ .stat .val b{font-size:32px} }
 @media (max-height:640px){ .stat{padding:5px 10px 6px} .stat .val b{font-size:24px} .btn{min-height:46px} }
 @media (prefers-reduced-motion:reduce){
   .card .inner{transition:none}
-  .deck.dealing .card,.card.pop .inner,.modal-card,.float,.stop.next .l-win,#board.aura .deck{animation:none}
+  .deck.dealing .card,.card.pop .inner,.modal-card,.float,#board.aura,.hv-dream .dr-ring,.hv-dream .dr-card,.hv-matsuri .mt-l{animation:none}
   .stamp-fx .seal,.stamp-fx small{animation-duration:.01s;animation-delay:1.6s}
   .toast,.rail i,.mbar i{transition:none}
 }
@@ -324,57 +545,36 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 <canvas id="petals" aria-hidden="true"></canvas>
 <div id="app">
   <section id="home" class="screen" aria-label="庭院">
-    <header class="h-top">
-      <div class="brand"><h1>御守花札</h1><span class="kana">おまもり　はなふだ</span></div>
-      <button class="icon-btn" id="btnDexHome" type="button" aria-label="打开图鉴">
-        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 4.5h5.5a1.5 1.5 0 0 1 1.5 1.5v10a1.5 1.5 0 0 0-1.5-1.5H3zM17 4.5h-5.5A1.5 1.5 0 0 0 10 6v10a1.5 1.5 0 0 1 1.5-1.5H17z"/></svg>
-        <span class="tnum" id="dexMiniHome">0/48</span><span class="dot" id="dotHome" hidden></span>
-      </button>
-      <button class="icon-btn" id="btnSettings" type="button" aria-label="设置">
-        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 6h9M15 6h2M3 14h2M8 14h9"/><circle cx="13.5" cy="6" r="1.8"/><circle cx="6.5" cy="14" r="1.8"/></svg>
-      </button>
-    </header>
-    <p class="haiku" id="haiku"></p>
-    <button class="continue" id="btnContinue" type="button">
-      <span class="c-art" id="cArt"></span>
-      <span class="c-text"><span class="eyebrow" id="cEyebrow">继续</span><b id="cName">初音</b><small id="cMeta"></small></span>
-      <span class="c-go" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M6 4l10 6-10 6z"/></svg></span>
-    </button>
-    <div class="seg" id="modeSeg" role="radiogroup" aria-label="难度"></div>
-    <p class="mode-note" id="modeNote"></p>
-    <button class="collect" id="btnDexStrip" type="button" style="text-align:left;cursor:pointer;color:inherit">
-      <span><b>图鉴与朱印帖</b><small id="homeCount">花札 0 / 48 · 御守 0 枚</small></span>
-      <span class="eyebrow">打开 ›</span>
-      <span class="rail"><i id="homeRail" style="width:0%"></i></span>
-    </button>
-    <div class="path" id="path"></div>
-    <div class="home-foot"><span id="saveNote">收集进度保存在这台设备的浏览器里，刷新页面不会丢失。</span></div>
+    <div id="homeView" class="pad-x"></div>
+    <nav class="tabs" aria-label="主要导航">
+      <button type="button" aria-current="page" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 10 12 4l9 6M5 9v11h14V9M10 20v-6h4v6"/></svg>庭院</button>
+      <button type="button" data-sheet="dex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 5h6.5A2.5 2.5 0 0 1 12 7.5V20a2 2 0 0 0-2-2H3zM21 5h-6.5A2.5 2.5 0 0 0 12 7.5V20a2 2 0 0 1 2-2h7z"/></svg>图鉴<span class="dot" id="dotHome" hidden></span></button>
+      <button type="button" data-sheet="omamori"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M7 8q0-2 2-2h6q2 0 2 2v12H7zM12 6Q9 2 12 3q3-1 0 3M10 11h4M10 14h4"/></svg>御守</button>
+      <button type="button" data-sheet="themes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 1.8-1.2 1.2-2.2-.7-1.2.1-2.8 1.6-2.8H17a4 4 0 0 0 4-4c0-5-4-9-9-9z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10.5" cy="7.5" r="1.2"/><circle cx="15" cy="7.5" r="1.2"/></svg>主题</button>
+      <button type="button" data-sheet="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h11M19 7h1M4 17h3M11 17h9"/><circle cx="17" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>设置</button>
+    </nav>
   </section>
 
-  <section id="game" class="screen" aria-label="对局" hidden>
+  <section id="game" class="screen pad-x" aria-label="对局" hidden>
     <div class="g-top">
-      <button class="icon-btn" id="btnHome" type="button" aria-label="返回庭院">
-        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4 6.5 10l6 6"/></svg>庭院
-      </button>
+      <button class="icon-btn" id="btnHome" type="button" aria-label="返回庭院"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4 6.5 10l6 6"/></svg></button>
       <div class="g-title"><span class="eyebrow" id="gNum">春 · 第一庭</span><b id="gName">初音</b></div>
-      <button class="icon-btn" id="btnDexGame" type="button" aria-label="打开图鉴">
-        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 4.5h5.5a1.5 1.5 0 0 1 1.5 1.5v10a1.5 1.5 0 0 0-1.5-1.5H3zM17 4.5h-5.5A1.5 1.5 0 0 0 10 6v10a1.5 1.5 0 0 1 1.5-1.5H17z"/></svg>
-        <span class="tnum" id="dexMini">0/48</span><span class="dot" id="dotGame" hidden></span>
-      </button>
-      <button class="icon-btn sound-btn icon-only" type="button" aria-pressed="true"></button>
+      <button class="icon-btn" type="button" data-sheet="dex" aria-label="打开图鉴"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 5h6.5A2.5 2.5 0 0 1 12 7.5V20a2 2 0 0 0-2-2H3zM21 5h-6.5A2.5 2.5 0 0 0 12 7.5V20a2 2 0 0 1 2-2h7z"/></svg><span class="dot" id="dotGame" hidden></span></button>
+      <button class="icon-btn" type="button" data-sheet="themes" aria-label="切换主题"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 1.8-1.2 1.2-2.2-.7-1.2.1-2.8 1.6-2.8H17a4 4 0 0 0 4-4c0-5-4-9-9-9z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10.5" cy="7.5" r="1.2"/><circle cx="15" cy="7.5" r="1.2"/></svg></button>
+      <button class="icon-btn sound-btn" type="button" aria-pressed="true"></button>
     </div>
     <div class="hud">
-      <div class="stat" id="statMoves">
+      <div class="stat panel" id="statMoves">
         <div class="top"><span class="lab" id="movesLab">剩余步数</span><span class="lab tnum" id="usedMoves">已用 0</span></div>
         <div class="val tnum"><b id="movesLeft">11</b><small id="movesTotal">/ 11</small></div>
         <div class="mbar" id="movesRail"><i id="movesBar" style="width:100%"></i></div>
       </div>
-      <div class="stat">
+      <div class="stat panel">
         <div class="top"><span class="lab">已配对</span><span class="lab" id="comboLab"></span></div>
         <div class="val tnum"><b id="pairsDone">0</b><small id="pairsTotal">/ 4 组</small></div>
       </div>
     </div>
-    <div class="hint" id="hint" aria-live="polite"><span id="hintText">记住花札的位置</span><span class="tbar" id="tbar"></span></div>
+    <div class="hint panel" id="hint" aria-live="polite"><span id="hintText">记住花札的位置</span><span class="tbar" id="tbar"></span></div>
     <div id="board"><div class="deck" id="deck"></div></div>
     <div class="g-actions">
       <button class="btn primary peek" id="btnPeek" type="button">
@@ -387,26 +587,31 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 </div>
 
 <div class="sheet" id="dex" role="dialog" aria-modal="true" aria-labelledby="dexTitle" hidden>
-  <div class="sheet-head">
-    <h2 id="dexTitle">花札图鉴</h2>
-    <span class="count tnum" id="dexCount">0 / 48 张</span>
-    <button class="btn" id="dexClose" type="button">关闭</button>
-  </div>
+  <div class="sheet-head"><h2 id="dexTitle">花札图鉴</h2><span class="count tnum" id="dexCount"></span><button class="btn" data-close="dex" type="button">关闭</button></div>
   <div class="sheet-body"><div class="sheet-inner">
     <div class="rail"><i id="dexRail" style="width:0%"></i></div>
-    <section class="intro" id="dexIntro"></section>
+    <section class="intro panel" id="dexIntro"></section>
     <div class="dex-seasons" id="months"></div>
   </div></div>
 </div>
-
-<div class="sheet" id="settings" role="dialog" aria-modal="true" aria-labelledby="setTitle" hidden>
-  <div class="sheet-head">
-    <h2 id="setTitle">设置</h2><span class="count"></span>
-    <button class="btn" id="setClose" type="button">完成</button>
-  </div>
+<div class="sheet" id="omamori" role="dialog" aria-modal="true" aria-labelledby="omTitle" hidden>
+  <div class="sheet-head"><h2 id="omTitle">御守帖</h2><span class="count tnum" id="omCount"></span><button class="btn" data-close="omamori" type="button">关闭</button></div>
   <div class="sheet-body"><div class="sheet-inner">
-    <section class="set-group"><h3>庭院主题</h3><p>配色、字体和每处庭院的背景画法都会随之改变。</p><div class="looks" id="looks" role="radiogroup" aria-label="庭院主题"></div></section>
-    <section class="set-group"><h3>卡面</h3><p>三套都出自 Louie Mantia（墨染、朱缘另有すけじょ参与），配色与边框各不相同。</p><div class="skins" id="skins" role="radiogroup" aria-label="卡面"></div></section>
+    <p class="sheet-note">四十八枚御守徽章。配对一组花札，对应的徽章就会点亮；还没求得的只留一道剪影。点开亮着的徽章，看看它保佑什么。</p>
+    <div id="omSeasons" class="dex-seasons"></div>
+  </div></div>
+</div>
+<div class="sheet" id="themes" role="dialog" aria-modal="true" aria-labelledby="thTitle" hidden>
+  <div class="sheet-head"><h2 id="thTitle">庭院主题</h2><span class="count" id="thCount"></span><button class="btn" data-close="themes" type="button">完成</button></div>
+  <div class="sheet-body"><div class="sheet-inner">
+    <p class="sheet-note">主题只改变画面、字体和装饰。正在进行的这一局、步数和收集进度都会原样保留。</p>
+    <div class="themes" id="themeList" role="radiogroup" aria-label="庭院主题"></div>
+  </div></div>
+</div>
+<div class="sheet" id="settings" role="dialog" aria-modal="true" aria-labelledby="setTitle" hidden>
+  <div class="sheet-head"><h2 id="setTitle">设置</h2><span class="count"></span><button class="btn" data-close="settings" type="button">完成</button></div>
+  <div class="sheet-body"><div class="sheet-inner">
+    <section class="set-group"><h3>卡面</h3><p>七套牌面，图像原样显示。切换主题时会换成推荐卡面，自己选过之后就不再自动更换。</p><div class="skins" id="skins" role="radiogroup" aria-label="卡面"></div></section>
     <section class="set-group"><h3>难度</h3><div class="seg" id="modeSeg2" role="radiogroup" aria-label="难度"></div><p id="modeNote2"></p></section>
     <section class="set-group"><h3>声音</h3><div class="toggles">
       <button class="toggle" id="tgSound" type="button" role="switch"><span><b>音效</b><small>翻牌、配对与通关的声音</small></span><span class="sw2"></span></button>
@@ -417,6 +622,8 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
       <button class="btn" id="btnRules" type="button">游玩说明</button>
       <button class="btn" id="btnCredits" type="button">素材致谢</button>
     </div><p class="save-note" id="saveNote2"></p></section>
+    <section class="set-group"><h3>从头再来</h3><p>清除花札图鉴、御守、朱印和全部通关记录。主题、卡面、难度和声音设置会保留。</p>
+      <div class="links"><button class="btn danger" id="btnReset" type="button">清除全部进度</button></div></section>
   </div></div>
 </div>
 
@@ -444,7 +651,6 @@ function blossom(x, y, r, fill, center) {
 const MONTHS = [[1, '一月', '睦月'], [2, '二月', '如月'], [3, '三月', '弥生'], [4, '四月', '卯月'], [5, '五月', '皐月'], [6, '六月', '水無月'],
   [7, '七月', '文月'], [8, '八月', '葉月'], [9, '九月', '長月'], [10, '十月', '神無月'], [11, '十一月', '霜月'], [12, '十二月', '師走']];
 const PLANT_NAMES = ['松', '梅', '桜', '藤', '菖蒲', '牡丹', '萩', '芒', '菊', '紅葉', '柳', '桐'];
-const OMC = ['#c8432f', '#d9a23a', '#3f5f9a', '#4f7a45', '#d97a92', '#7a55a8', '#9a4a2a', '#2f6f6a'];
 // [id, month, file, 日本名, 读音, 中文名, 札种, 寓意, 御守, 介绍]
 const RAW = [
   ['matsu', 1, '01-kasu1', '松', 'まつ', '松', '素札', '不老长寿', '长寿守', '冬天也不褪的绿。新年门前立起门松，好让年神认得回家的路。'],
@@ -496,7 +702,9 @@ const RAW = [
   ['kiri-iro', 12, '12-kasu3', '桐の色札', 'きりのいろふだ', '桐（色札）', '素札', '招财', '金运守', '三张里底色不同的那张，旧时常印上制牌商的名号。'],
   ['kiri-hoo', 12, '12-hikari', '桐に鳳凰', 'きりにほうおう', '桐与凤凰', '光札', '太平盛世', '大愿守', '传说凤凰只停在桐树上。它来了，便是太平年。五光的最后一张。']
 ];
-const MOTIFS = RAW.map(([id, m, file, jp, kana, cn, tag, mean, om, desc], i) => ({id, m, file, jp, kana, cn, tag, mean, om, desc, omc: OMC[i % OMC.length]}));
+// Omamori cloth colours (traditional names): 紅 朱 藍 紺 若竹 萌黄 紫 藤 桜 山吹 金茶 墨
+const OM_COLORS = ['#b8333c', '#d05a3a', '#2b4b65', '#233a5e', '#4f8f63', '#86a43a', '#6b4e8d', '#8f7fbd', '#d98fa0', '#d99a2b', '#a87a33', '#3b3a38'];
+const MOTIFS = RAW.map(([id, m, file, jp, kana, cn, tag, mean, om, desc], i) => ({id, m, file, jp, kana, cn, tag, mean, om, desc, omc: OM_COLORS[(i * 5 + m) % OM_COLORS.length]}));
 const BY_ID = Object.fromEntries(MOTIFS.map(x => [x.id, x]));
 const YAKU = [
   {name: '五光', note: '五张光札全部到齐', ids: ['matsu-tsuru', 'sakura-maku', 'susuki-tsuki', 'yanagi-ono', 'kiri-hoo']},
@@ -512,15 +720,17 @@ const SEALS = [
   {id: 'muku', k: '無垢', how: '一局里一次也没翻错'}, {id: 'ichimoku', k: '一目', how: '不回看就点亮灯笼'},
   {id: 'hakkei', k: '八景', how: '点亮全部八盏灯笼'}, {id: 'zensatsu', k: '全札', how: '集齐四十八张花札'}
 ];
-const SKINS = {classic: {name: '彩绘', note: '绿野红缘'}, sumi: {name: '墨染', note: '黑边浓墨'}, shu: {name: '朱缘', note: '朱红边框'}};
+const SKINS = {
+  classic: {name: '彩绘', note: 'Mantia · 绿野红缘'}, sumi: {name: '墨染', note: 'Mantia · 黑边浓墨'}, shu: {name: '朱缘', note: 'Mantia · 朱红边框'},
+  hwatu: {name: '花图', note: '韩式 Hwatu · 带「光」字'}, ink: {name: '墨绘', note: '原创 · 淡墨与朱印'}, kirie: {name: '剪纸', note: '原创 · 平面色块'}, tone: {name: '网点', note: '原创 · 黑白网点'}
+};
 
-/* ================= seasons, gardens, modes, looks ================= */
-// Hanafuda months follow the old lunar calendar, so 十月 already counts as early winter.
+/* ================= seasons, gardens, modes ================= */
 const SEASONS = [
   {key: 'spring', name: '春', range: '一〜三月 · 松 梅 桜', note: '新春到花見', accent: '#e98aa0', burst: ['#f6c1cc', '#efb3bf', '#fbe6ea', '#e2b65c']},
-  {key: 'summer', name: '夏', range: '四〜六月 · 藤 菖蒲 牡丹', note: '初夏到梅雨', accent: '#5fae95', burst: ['#bfe3d0', '#86cdb0', '#f3e9a8', '#a585d1']},
+  {key: 'summer', name: '夏', range: '四〜六月 · 藤 菖蒲 牡丹', note: '初夏到梅雨', accent: '#4fa58a', burst: ['#bfe3d0', '#86cdb0', '#f3e9a8', '#a585d1']},
   {key: 'autumn', name: '秋', range: '七〜九月 · 萩 芒 菊', note: '赏月到重阳', accent: '#e08a45', burst: ['#d65230', '#e88c3c', '#e2aa46', '#f3d27a']},
-  {key: 'winter', name: '冬', range: '十〜十二月 · 紅葉 柳 桐', note: '时雨到除夜', accent: '#8fa8d6', burst: ['#ffffff', '#dfe8f6', '#b8cbea', '#e2b65c']}
+  {key: 'winter', name: '冬', range: '十〜十二月 · 紅葉 柳 桐', note: '时雨到除夜', accent: '#7f9ccf', burst: ['#ffffff', '#dfe8f6', '#b8cbea', '#e2b65c']}
 ];
 SEASONS.forEach((x, i) => x.months = [i * 3 + 1, i * 3 + 2, i * 3 + 3]);
 const KANJI = ['一', '二', '三', '四', '五', '六', '七', '八'];
@@ -540,11 +750,16 @@ const MODES = {
   std: {name: '标准', note: '步数宽裕；第五庭起，可以多回看一次。', limit: true, preview: 1.4, peeks: l => l.n >= 5 ? 2 : 1},
   hard: {name: '挑战', note: '步数紧，看牌短，只能回看一次。', limit: true, preview: 1, peeks: () => 1}
 };
-const LOOKS = {
-  kare: {name: '月下枯山水', verse: '月照白砂上 · 耙纹一圈圈如水 · 灯守未翻牌', light: false},
-  emaki: {name: '四季绘卷 · 金云', verse: '金云过屏风 · 群青为水绿青山 · 四季折八扇', light: true},
-  washi: {name: '和纸晨光 · 淡墨', verse: '晨雾湿和纸 · 一笔淡墨还未干 · 朱印落边角', light: true},
-  cha: {name: '茶室侘寂', verse: '土壁一枝花 · 茶烟袅袅尚未散 · 门外是四季', light: false}
+// Eight looks. deck = the card skin that suits it; fx tunes the drifting particles; homeScene shows the garden backdrop behind the home page.
+const THEMES = {
+  dream: {name: '浮世绘梦境', line: '游行从梦里走出，纸灯笼与折扇浮在半空。', deck: 'hwatu', light: false, homeScene: true, fx: {k: 1, colors: ['#ff4fa3', '#2ee6d0', '#ffd23f', '#9b5cff'], mix: true}},
+  youth: {name: '手绘青春', line: '歪歪的线，饱满的色块，四叠半被透视拉长。', deck: 'kirie', light: true, homeScene: false, fx: {k: .8, colors: ['#e8553e', '#4aa3df', '#f2b134', '#3f9b6a']}},
+  manga: {name: '黑白漫画', line: '网点、细线和一点朱红，像旧杂志的连载。', deck: 'tone', light: true, homeScene: false, mono: true, fx: {k: .55, colors: ['#111', '#555', '#d7261e']}},
+  ukiyo: {name: '浮世绘四季', line: '靛蓝晕染的天，朱红落款，四季在版画里流转。', deck: 'classic', light: true, homeScene: false, fx: {k: .8}},
+  washi: {name: '京都和纸', line: '米白和纸，木格窗，一枚朱印，金只落一点。', deck: 'ink', light: true, homeScene: false, fx: {k: .55}},
+  kare: {name: '枯山水庭园', line: '砂纹如水，石上生苔，风从耙痕间走过。', deck: 'sumi', light: true, homeScene: false, fx: {k: .4}},
+  matsuri: {name: '夏日祭典', line: '夜色里一串灯笼亮起，风铃响在摊位之间。', deck: 'shu', light: false, homeScene: true, fx: {k: .7}},
+  techo: {name: '手账收藏', line: '纸页、邮戳、纸胶带，每张花札都是一枚贴纸。', deck: 'kirie', light: true, homeScene: false, fx: {k: .7, colors: ['#e8b4b8', '#a8c3a0', '#a9c6e0', '#f2d18b']}}
 };
 const calendarSeason = () => { const m = new Date().getMonth() + 1; return m >= 3 && m <= 5 ? 0 : m >= 6 && m <= 8 ? 1 : m >= 9 && m <= 11 ? 2 : 3; };
 const previewMs = (cards, k) => Math.round((2200 + cards * 130) * k);
@@ -552,36 +767,33 @@ const peekMs = cards => 1500 + cards * 50;
 
 /* ================= save ================= */
 const KEY = 'omamori-hanafuda-v1';
-const save = {unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, seals: {}, unseen: [], sound: true, ambience: false, bgm: true,
-  seenRules: false, mode: 'std', look: 'kare', skin: 'classic'};
-function mergeBest(src, into) {
-  for (const k in src) { const v = Number(src[k]); if (v > 0 && LEVELS[k - 1]) into[k] = Math.max(into[k] || 0, Math.min(3, v)); }
-}
+const save = {unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, collectedAt: {}, seals: {}, unseen: [], sound: true, ambience: false, bgm: true,
+  seenRules: false, mode: 'std', look: 'ukiyo', skin: 'classic', skinPinned: false};
+const OLD_LOOKS = {emaki: 'ukiyo', cha: 'washi'};
+function mergeBest(src, into) { for (const k in src) { const v = Number(src[k]); if (v > 0 && LEVELS[k - 1]) into[k] = Math.max(into[k] || 0, Math.min(3, v)); } }
 function mergeProgress(d, withPrefs) {
   const n = Number(d.unlocked);
   if (n >= 1) save.unlocked = Math.min(LEVELS.length, Math.max(save.unlocked, Math.floor(n)));
   if (d.best && typeof d.best === 'object') {
     if (d.best.relax || d.best.std || d.best.hard) { for (const m in MODES) if (d.best[m] && typeof d.best[m] === 'object') mergeBest(d.best[m], save.best[m]); }
-    else mergeBest(d.best, save.best.hard);   // saves from the first version used today's challenge numbers
+    else mergeBest(d.best, save.best.hard);
   }
   if (d.collected && typeof d.collected === 'object') for (const k in d.collected) { const v = Number(d.collected[k]); if (BY_ID[k] && v > 0) save.collected[k] = Math.max(save.collected[k] || 0, Math.floor(v)); }
+  if (d.collectedAt && typeof d.collectedAt === 'object') for (const k in d.collectedAt) { const v = Number(d.collectedAt[k]); if (BY_ID[k] && v > 0) save.collectedAt[k] = save.collectedAt[k] ? Math.min(save.collectedAt[k], v) : v; }
   if (d.seals && typeof d.seals === 'object') for (const k in d.seals) if (SEALS.some(x => x.id === k) && Number(d.seals[k]) > 0) save.seals[k] = save.seals[k] || Number(d.seals[k]);
   if (withPrefs) {
     if (Array.isArray(d.unseen)) save.unseen = d.unseen.filter(id => BY_ID[id]);
-    for (const k of ['sound', 'ambience', 'bgm', 'seenRules']) if (typeof d[k] === 'boolean') save[k] = d[k];
+    for (const k of ['sound', 'ambience', 'bgm', 'seenRules', 'skinPinned']) if (typeof d[k] === 'boolean') save[k] = d[k];
     if (MODES[d.mode]) save.mode = d.mode;
-    if (LOOKS[d.look]) save.look = d.look;
+    const look = OLD_LOOKS[d.look] || d.look;
+    if (THEMES[look]) save.look = look;
     if (SKINS[d.skin]) save.skin = d.skin;
   }
 }
 try { const d = JSON.parse(localStorage.getItem(KEY) || 'null'); if (d && typeof d === 'object') mergeProgress(d, true); } catch (e) {}
-function persist() {
-  try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) {}
-  cloudQueue();
-}
+function persist() { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) {} cloudQueue(); }
 const cleared = n => Object.values(save.best).some(b => b[n] > 0);
 
-/* Account sync: progress also lives in the viewer's private db subtree when the page can reach it. */
 let cloud = null, cloudTimer = 0, cloudBusy = false, cloudDirty = false;
 function cloudQueue() { if (!cloud) return; clearTimeout(cloudTimer); cloudTimer = setTimeout(cloudWrite, 700); }
 async function cloudWrite() {
@@ -589,10 +801,8 @@ async function cloudWrite() {
   if (cloudBusy) { cloudDirty = true; return; }
   cloudBusy = true; cloudDirty = false;
   try {
-    await cloud.set({unlocked: save.unlocked, best: JSON.parse(JSON.stringify(save.best)), collected: {...save.collected}, seals: {...save.seals}, updatedAt: Date.now()});
-  } catch (e) {
-    if (e && (e.code === 'invalid_argument' || e.code === 'revoked' || e.code === 'not_granted')) { cloud = null; setSaveNote(); }
-  }
+    await cloud.set({unlocked: save.unlocked, best: JSON.parse(JSON.stringify(save.best)), collected: {...save.collected}, collectedAt: {...save.collectedAt}, seals: {...save.seals}, updatedAt: Date.now()});
+  } catch (e) { if (e && (e.code === 'invalid_argument' || e.code === 'revoked' || e.code === 'not_granted')) { cloud = null; setSaveNote(); } }
   cloudBusy = false;
   if (cloudDirty) cloudQueue();
 }
@@ -605,99 +815,133 @@ async function initCloud() {
     if (!id) return;
     const ref = db.doc('data/users/' + id + '/save');
     const snap = await ref.get();
-    if (snap.exists) { mergeProgress(snap.data() || {}, false); try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) {} refreshMeta(); }
+    if (snap.exists) { mergeProgress(snap.data() || {}, false); try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) {} refreshMeta(); if (current === 'home') renderHome(); }
     cloud = ref; setSaveNote(); cloudQueue();
   } catch (e) {}
 }
-function setSaveNote() {
-  const t = cloud ? '收集进度已同步到你的账号，换台设备打开也能接着玩。' : '收集进度保存在这台设备的浏览器里，刷新页面不会丢失。';
-  $('#saveNote').textContent = t; $('#saveNote2').textContent = t;
-}
+function setSaveNote() { $('#saveNote2').textContent = cloud ? '收集进度已同步到你的账号，换台设备打开也能接着玩。' : '收集进度保存在这台设备的浏览器里，刷新页面不会丢失。'; }
 
 /* ================= art ================= */
 const cardSrc = (m, skin = save.skin) => `cards/${skin}/${m.file}.svg`;
 const art = (m, skin) => `<img src="${cardSrc(m, skin)}" alt="" draggable="false" decoding="async">`;
-function preloadArt(ids) {
-  return Promise.all(ids.map(id => new Promise(res => { const im = new Image(); im.onload = im.onerror = res; im.src = cardSrc(BY_ID[id]); })));
-}
+function preloadArt(ids) { return Promise.all(ids.map(id => new Promise(res => { const im = new Image(); im.onload = im.onerror = res; im.src = cardSrc(BY_ID[id]); }))); }
 const BACK = `<svg viewBox="0 0 50 80" aria-hidden="true" preserveAspectRatio="xMidYMid slice"><rect width="50" height="80" style="fill:var(--back)"/>`
   + `<rect x="4" y="4" width="42" height="72" rx="3" fill="none" style="stroke:var(--back-line)" stroke-width=".6"/>`
   + `<circle cx="25" cy="40" r="11" fill="none" style="stroke:var(--back-line)" stroke-width=".7"/>`
   + blossom(25, 40, 9, 'rgba(226,182,92,.32)', 'rgba(226,182,92,.75)') + `</svg>`;
-const omamoriSVG = c => `<svg viewBox="0 0 20 28" aria-hidden="true"><path d="M4 9 Q4 6 7 6 L13 6 Q16 6 16 9 L16 25 Q16 27 14 27 L6 27 Q4 27 4 25Z" fill="${c}"/>`
-  + `<rect x="6.6" y="11.5" width="6.8" height="11" rx="1" fill="#f5ecd6" opacity=".92"/><path d="M8 15h4M8 17.5h4M8 20h3" stroke="${c}" stroke-width=".8"/>`
-  + `<path d="M10 6 Q7 1.5 10 2.5 Q13 1.5 10 6" fill="none" stroke="#d9a23a" stroke-width="1"/></svg>`;
-const flowerIcon = on => `<svg viewBox="0 0 20 20" aria-hidden="true">${blossom(10, 10, 9, on ? 'var(--accent)' : 'var(--line-2)', on ? 'var(--shu)' : 'var(--line)')}</svg>`
-  .replace(/fill="(var\([^)]+\))"/g, 'style="fill:$1"');
+const flowerIcon = on => `<svg viewBox="0 0 20 20" aria-hidden="true">${blossom(10, 10, 9, on ? 'var(--accent)' : 'var(--line-2)', on ? 'var(--shu)' : 'var(--line)')}</svg>`.replace(/fill="(var\([^)]+\))"/g, 'style="fill:$1"');
+const LANTERN_SVG = `<svg viewBox="0 0 44 64" aria-hidden="true"><path fill="currentColor" d="M5 18 L22 7 L39 18Z"/><rect fill="currentColor" x="19" y="2" width="6" height="6" rx="2"/><rect x="11" y="19" width="22" height="17" rx="2" fill="currentColor" opacity=".6"/><rect x="16" y="22" width="12" height="11" rx="1" fill="#f2c46a"/><rect fill="currentColor" x="9" y="36" width="26" height="4" rx="1"/><rect fill="currentColor" x="18" y="40" width="8" height="15"/><rect fill="currentColor" x="10" y="55" width="24" height="6" rx="2"/></svg>`;
 const sealHTML = (k, on) => `<span class="seal${on ? '' : ' off'}" aria-hidden="true">${k}</span>`;
-const LANTERN = `<svg viewBox="0 0 44 64" aria-hidden="true"><path class="l-roof" d="M5 18 L22 7 L39 18Z"/><rect class="l-roof" x="19" y="2" width="6" height="6" rx="2"/>`
-  + `<rect class="l-box" x="11" y="19" width="22" height="17" rx="2"/><rect class="l-win" x="16" y="22" width="12" height="11" rx="1"/>`
-  + `<rect class="l-roof" x="9" y="36" width="26" height="4" rx="1"/><rect class="l-roof" x="18" y="40" width="8" height="15"/><rect class="l-roof" x="10" y="55" width="24" height="6" rx="2"/></svg>`;
+
+/* ================= omamori ================= */
+// One original set: a brocade pouch with a double-loop cord, a month crest, and the charm's name embroidered on a label.
+// The eight cloth patterns are traditional public-domain wagara: 亀甲 七宝 桜 矢絣 青海波 鹿の子 麻の葉 鱗.
+const OM_PATTERN_BY_MONTH = ['kikko', 'shippo', 'sakura', 'yagasuri', 'seigaiha', 'kanoko', 'asanoha', 'uroko', 'kikko', 'asanoha', 'seigaiha', 'sakura'];
+function omPattern(id, kind, base, ink) {
+  const box = (w, h, inner, t = '') => `<pattern id="${id}" width="${w}" height="${h}" patternUnits="userSpaceOnUse"${t}><rect width="${w}" height="${h}" fill="${base}"/>${inner}</pattern>`;
+  const st = `fill="none" stroke="${ink}" stroke-width=".6"`;
+  switch (kind) {
+    case 'seigaiha': return box(10, 5, `<g ${st}><path d="M0 5a5 5 0 0 1 10 0M2 5a3 3 0 0 1 6 0M4 5a1 1 0 0 1 2 0M-5 2.5a5 5 0 0 1 10 0M5 2.5a5 5 0 0 1 10 0"/></g>`);
+    case 'asanoha': return box(8, 13.86, `<g ${st}><path d="M0 0L8 13.86M8 0L0 13.86M4 0V13.86M0 6.93H8M0 0L4 6.93L8 0M0 13.86L4 6.93L8 13.86"/></g>`);
+    case 'kikko': return box(9, 15.6, `<path ${st} d="M3 0H6L9 2.6V5.2L6 7.8H3L0 5.2V2.6Z M3 7.8L0 10.4V13L3 15.6 M6 7.8L9 10.4V13L6 15.6"/>`);
+    case 'shippo': return box(8, 8, `<g ${st}><circle cx="0" cy="0" r="4"/><circle cx="8" cy="0" r="4"/><circle cx="0" cy="8" r="4"/><circle cx="8" cy="8" r="4"/><circle cx="4" cy="4" r="4"/></g>`);
+    case 'uroko': return box(8, 7, `<path fill="${ink}" opacity=".55" d="M0 7L4 0L8 7Z"/>`);
+    case 'yagasuri': return box(8, 10, `<path fill="${ink}" opacity=".6" d="M0 0L4 3L4 10L0 7Z M8 0L4 3L4 10L8 7Z" />`, '');
+    case 'kanoko': return box(6, 6, `<rect x="1" y="1" width="3" height="3" rx=".8" fill="none" stroke="${ink}" stroke-width=".6"/><circle cx="2.5" cy="2.5" r=".5" fill="${ink}"/>`, ' patternTransform="rotate(45)"');
+    default: return box(10, 10, `<g opacity=".7">${blossom(5, 5, 3.4, ink, base)}</g>`);   // sakura
+  }
+}
+let omSeq = 0;
+function omamoriSVG(m, locked) {
+  const pouch = 'M11 26 Q11 19 17 18 L43 18 Q49 19 49 26 L51 91 Q51 96 46 96 L14 96 Q9 96 9 91 Z';
+  if (locked) return `<svg viewBox="0 0 60 100" aria-hidden="true" style="color:var(--line-2)"><path d="M28 18 L23 30 M32 18 L37 30" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`
+    + `<path d="M30 18 C21 4 13 11 22 15 C26 17 30 18 30 18 C30 18 34 17 38 15 C47 11 39 4 30 18Z" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="${pouch}" fill="currentColor"/></svg>`;
+  const id = 'omp' + (++omSeq), hik = m.tag === '光札', ink = hik ? '#e9c46a' : 'rgba(255,255,255,.28)';
+  const label = m.om.length <= 3 ? m.om : m.om.replace(/守$/, '') + '守';
+  const fs = label.length <= 3 ? 10.5 : label.length === 4 ? 9 : label.length === 5 ? 7.6 : 6.6, gap = fs * 1.08, y0 = 52 - (label.length - 1) * gap / 2 + fs * .35;
+  return `<svg viewBox="0 0 60 100" aria-hidden="true"><defs>${omPattern(id, OM_PATTERN_BY_MONTH[m.m - 1], m.omc, ink)}</defs>`
+    + `<path d="M28 18 L23 30 M32 18 L37 30" stroke="${hik ? '#e9c46a' : '#c23b22'}" stroke-width="1.8" stroke-linecap="round"/>`
+    + `<path d="M30 18 C21 4 13 11 22 15 C26 17 30 18 30 18 C30 18 34 17 38 15 C47 11 39 4 30 18Z" fill="none" stroke="${hik ? '#e9c46a' : '#c23b22'}" stroke-width="2.2"/>`
+    + `<path d="${pouch}" fill="url(#${id})" stroke="rgba(0,0,0,.35)" stroke-width="1"/>`
+    + `<path d="M13 30 H47" stroke="rgba(0,0,0,.25)" stroke-width=".8"/><path d="M14 33 L15.6 89 Q15.8 92 18 92 L42 92 Q44.2 92 44.4 89 L46 33" fill="none" stroke="#e9c46a" stroke-width=".55" stroke-dasharray="1.6 1.2"/>`
+    + `<circle cx="30" cy="25" r="4.6" fill="${hik ? '#e9c46a' : '#f7f1e1'}" stroke="rgba(0,0,0,.3)" stroke-width=".5"/><text x="30" y="27.4" text-anchor="middle" font-size="5.6" font-family="Zen Old Mincho,Noto Serif SC,serif" font-weight="900" fill="${m.omc}">${PLANT_NAMES[m.m - 1].slice(0, 1)}</text>`
+    + `<rect x="21" y="36" width="18" height="52" rx="1.6" fill="${hik ? '#e9c46a' : '#f7f1e1'}" stroke="${hik ? '#a87a22' : '#e9c46a'}" stroke-width=".9"/>`
+    + [...label].map((c, i) => `<text x="30" y="${r2(y0 + i * gap)}" text-anchor="middle" font-size="${fs}" font-family="Zen Old Mincho,Noto Serif SC,serif" font-weight="900" fill="${hik ? '#3a2410' : m.omc}">${c}</text>`).join('')
+    + `</svg>`;
+}
 
 /* ================= garden scenes =================
-   One painted backdrop per garden. LEVELS[i].scene names the motifs; the look decides how they are painted.
+   One painted backdrop per garden per look. sceneMotifs() picks the garden's seasonal subject; each look paints its own world around it.
    viewBox 400×800, sliced to cover; the middle band sits behind the cards, so detail lives at the top and bottom. */
 function seeded(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-const SCENE_ACCENT = {plum: '#d24d63', cherry: '#f0a3b5', 'maple-green': '#6fae6a', hydrangea: '#7d8fd1', pampas: '#d8c8a0', chrysanthemum: '#e0a84a', willow: '#7fae8a', temple: '#e2b65c'};
-const LOOK_PAL = {
-  kare: {sky: ['#0b111c', '#1a2333'], ink: '#070b12', inkA: .95, flowerA: .55, moon: '#e8e4d8', ground: '#283041', line: '#3b4659', mist: '#9aa6bb', rain: '#8a98b0', snow: '#e8eef8'},
-  emaki: {sky: ['#f7f2e6', '#efe5cf'], ink: '#4a3d2c', inkA: .9, flowerA: 1, moon: '#fbf6e8', ground: '#e8dcc0', line: '#d6c49a', mist: '#ffffff', rain: '#2a3f8f', snow: '#ffffff', gold: '#d4ae5a', gold2: '#e8cd86', water: '#2a3f8f', hill: '#3f8f7a'},
-  washi: {sky: ['#f4efe4', '#ebe4d4'], ink: '#2b2a28', inkA: .55, flowerA: .85, moon: '#fbf8f0', ground: '#e6dfcf', line: '#cfc6b2', mist: '#ffffff', rain: '#6d6a64', snow: '#ffffff'},
-  cha: {sky: ['#cfd6d0', '#b9c4bb'], ink: '#2d281f', inkA: .85, flowerA: .9, moon: '#f6f1e2', ground: '#8a7d55', line: '#a39468', mist: '#ffffff', rain: '#6f7a78', snow: '#ffffff', wall: '#3a322a', wall2: '#463d33', shoji: '#e6dfcd', lattice: '#4a3f33', tatami: '#9b8d5f', heri: '#2b2a24'}
+const SCENE_ACCENT = {plum: '#d24d63', cherry: '#f0a3b5', maple: '#6fae6a', pampas: '#d8c8a0', willow: '#7fae8a'};
+const acc = (p, k) => p.mono ? '#1a1a1a' : (p.acc && p.acc[k]) || SCENE_ACCENT[k];
+const PAL = {
+  ukiyo: {sky: ['#f6efdf', '#efe6d1'], ink: '#1f2b44', inkA: .9, flowerA: 1, moon: '#fbf6e8', ground: '#e9dfc9', line: '#cdbf9f', mist: '#ffffff', rain: '#1f3a68', snow: '#ffffff', water: '#1f3a68'},
+  dream: {sky: ['#1b0f38', '#4a1a6e'], ink: '#0e0620', inkA: .9, flowerA: .95, moon: '#ffe9c4', ground: '#2a1450', line: '#5b2d8a', mist: '#ff9fd0', rain: '#2ee6d0', snow: '#fff4e6', water: '#2ee6d0',
+    acc: {plum: '#ff4fa3', cherry: '#ff9fd0', maple: '#2ee6d0', pampas: '#ffd23f', willow: '#2ee6d0'}},
+  youth: {sky: ['#f7e9c6', '#f3dfae'], ink: '#222', inkA: 1, flowerA: 1, moon: '#fffaf0', ground: '#e8553e', line: '#222', mist: '#ffffff', rain: '#4aa3df', snow: '#ffffff', water: '#4aa3df',
+    acc: {plum: '#e8553e', cherry: '#ff9fb4', maple: '#3f9b6a', pampas: '#f2b134', willow: '#3f9b6a'}},
+  manga: {sky: ['#f7f5f0', '#f7f5f0'], ink: '#111', inkA: 1, flowerA: 1, moon: '#ffffff', ground: '#ffffff', line: '#111', mist: '#ffffff', rain: '#111', snow: '#ffffff', mono: true},
+  washi: {sky: ['#f6f1e6', '#ede6d6'], ink: '#3a2f26', inkA: .5, flowerA: .85, moon: '#fbf8f0', ground: '#e6dfcf', line: '#cfc6b2', mist: '#ffffff', rain: '#6d6a64', snow: '#ffffff'},
+  kare: {sky: ['#efebe2', '#e7e2d6'], ink: '#3a3833', inkA: .72, flowerA: .7, moon: '#ffffff', ground: '#e4dfd2', line: '#cbc4b3', mist: '#ffffff', rain: '#8c8a84', snow: '#ffffff', stone: '#8d8a82', moss: '#6e7f4f'},
+  matsuri: {sky: ['#0b1328', '#1d2b52'], ink: '#070d1d', inkA: .95, flowerA: .7, moon: '#f4ead2', ground: '#141d38', line: '#2a3658', mist: '#7a8bb0', rain: '#7a8bb0', snow: '#f4ead2'},
+  techo: {sky: ['#fbf7ef', '#f7f1e4'], ink: '#5a4a3a', inkA: .55, flowerA: .8, moon: '#fffdf8', ground: '#efe6d6', line: '#e2d6c2', mist: '#ffffff', rain: '#a9c6e0', snow: '#ffffff', water: '#a9c6e0',
+    acc: {plum: '#e8a0a8', cherry: '#f2c4cc', maple: '#a8c3a0', pampas: '#e6cf9a', willow: '#a8c3a0'}}
 };
 const P = {
   moon(p, cx, cy, r, phase) {
-    if (phase === 'full') return `<circle cx="${cx}" cy="${cy}" r="${r * 1.9}" fill="${p.moon}" opacity=".08"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="${p.moon}"/>`;
-    return `<mask id="mk"><rect width="400" height="800" fill="#fff"/><circle cx="${cx + r * .42}" cy="${cy - r * .2}" r="${r * .92}" fill="#000"/></mask><circle cx="${cx}" cy="${cy}" r="${r}" fill="${p.moon}" mask="url(#mk)"/>`;
+    if (phase === 'full') return `<circle cx="${cx}" cy="${cy}" r="${r * 1.9}" fill="${p.moon}" opacity=".08"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="${p.moon}"${p.mono ? ' stroke="#111" stroke-width="3"' : ''}/>`;
+    return `<mask id="mk"><rect width="400" height="800" fill="#fff"/><circle cx="${cx + r * .42}" cy="${cy - r * .2}" r="${r * .92}" fill="#000"/></mask><circle cx="${cx}" cy="${cy}" r="${r}" fill="${p.mono ? '#111' : p.moon}" mask="url(#mk)"/>`;
   },
   plum(p, rnd) {
     let s = `<path d="M-10 70 L60 110 L48 160 L120 190 L112 240 L170 262" fill="none" stroke="${p.ink}" stroke-opacity="${p.inkA}" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>`
       + `<path d="M60 110 L130 96 L180 120 M120 190 L190 176" fill="none" stroke="${p.ink}" stroke-opacity="${p.inkA}" stroke-width="5" stroke-linecap="round"/>`;
     [[60, 110], [48, 160], [120, 190], [112, 240], [170, 262], [130, 96], [180, 120], [190, 176], [86, 104], [150, 254], [24, 92]].forEach(([x, y]) =>
-      s += `<g opacity="${p.flowerA}">${blossom(x, y, 11 + rnd() * 5, SCENE_ACCENT.plum, '#f4d27a')}</g>`);
+      s += `<g opacity="${p.flowerA}">${blossom(x, y, 11 + rnd() * 5, p.mono ? '#fff' : acc(p, 'plum'), p.mono ? '#111' : '#f4d27a')}</g>`);
     return s;
   },
   cherry(p, rnd) {
     let s = `<path d="M420 0 Q330 60 300 150 M360 40 Q260 70 200 60" fill="none" stroke="${p.ink}" stroke-opacity="${p.inkA}" stroke-width="10" stroke-linecap="round"/>`;
-    for (let i = 0; i < 70; i++) {
+    for (let i = 0; i < 60; i++) {
       const x = 120 + rnd() * 300, y = -10 + rnd() * 190 * (1 - (x - 120) / 600);
-      s += `<circle cx="${r2(x)}" cy="${r2(y)}" r="${r2(10 + rnd() * 16)}" fill="${SCENE_ACCENT.cherry}" opacity="${r2(p.flowerA * (.35 + rnd() * .45))}"/>`;
+      s += `<circle cx="${r2(x)}" cy="${r2(y)}" r="${r2(10 + rnd() * 16)}" fill="${p.mono ? '#fff' : acc(p, 'cherry')}"${p.mono ? ' stroke="#111" stroke-width="2"' : ''} opacity="${p.mono ? 1 : r2(p.flowerA * (.35 + rnd() * .45))}"/>`;
     }
     return s;
   },
-  maple(p, rnd, col) {
+  maple(p, rnd) {
     let s = `<path d="M420 30 Q320 70 250 140 M330 74 Q300 140 310 200" fill="none" stroke="${p.ink}" stroke-opacity="${p.inkA}" stroke-width="5" stroke-linecap="round"/>`;
     for (let i = 0; i < 26; i++) {
       const x = 220 + rnd() * 190, y = 10 + rnd() * 210, sz = 12 + rnd() * 12, rot = rnd() * 60 - 30;
       let d = '';
       for (let k = 0; k < 14; k++) { const rr = k % 2 ? sz * .42 : sz, a = rad(rot + k * 360 / 14 - 90); d += (k ? 'L' : 'M') + r2(x + Math.cos(a) * rr) + ' ' + r2(y + Math.sin(a) * rr); }
-      s += `<path d="${d}Z" fill="${col}" opacity="${r2(p.flowerA * (.55 + rnd() * .45))}"/>`;
+      s += `<path d="${d}Z" fill="${p.mono ? (i % 3 ? '#fff' : '#111') : acc(p, 'maple')}"${p.mono ? ' stroke="#111" stroke-width="1.5"' : ''} opacity="${p.mono ? 1 : r2(p.flowerA * (.55 + rnd() * .45))}"/>`;
     }
     return s;
   },
   hydrangea(p, rnd) {
     let s = '';
+    const cols = p.mono ? ['#111', '#fff'] : p.acc ? [p.acc.maple, p.acc.cherry, p.rain, p.acc.plum] : ['#7d8fd1', '#9b86cf', '#6aa2d8', '#b9a6e3'];
     [[60, 720, 70], [180, 760, 60], [330, 730, 75]].forEach(([cx, cy, R]) => {
       s += `<circle cx="${cx}" cy="${cy + R * .6}" r="${R * 1.1}" fill="${p.ink}" opacity="${p.inkA * .6}"/>`;
-      for (let i = 0; i < 40; i++) {
-        const a = rnd() * 6.28, d = Math.sqrt(rnd()) * R, x = cx + Math.cos(a) * d, y = cy + Math.sin(a) * d * .8;
-        const c = ['#7d8fd1', '#9b86cf', '#6aa2d8', '#b9a6e3'][Math.floor(rnd() * 4)];
+      for (let i = 0; i < 36; i++) {
+        const a = rnd() * 6.28, d = Math.sqrt(rnd()) * R, x = cx + Math.cos(a) * d, y = cy + Math.sin(a) * d * .8, c = cols[Math.floor(rnd() * cols.length)];
         for (let k = 0; k < 4; k++) s += `<circle cx="${r2(x + Math.cos(k * 1.57) * 4)}" cy="${r2(y + Math.sin(k * 1.57) * 4)}" r="3.6" fill="${c}" opacity="${p.flowerA}"/>`;
       }
     });
     return s;
   },
   rain(p, rnd, n = 120, len = 34) {
-    let s = `<g stroke="${p.rain}" stroke-width="1.1" opacity=".38" stroke-linecap="round">`;
+    let s = `<g stroke="${p.rain}" stroke-width="1.1" opacity="${p.mono ? .7 : .38}" stroke-linecap="round">`;
     for (let i = 0; i < n; i++) { const x = rnd() * 460 - 30, y = rnd() * 800; s += `<path d="M${r2(x)} ${r2(y)} l-${r2(len * .28)} ${len}"/>`; }
     return s + '</g>';
   },
   pampas(p, rnd) {
     let s = `<path d="M-20 690 Q120 610 240 650 Q330 680 420 620 L420 800 L-20 800Z" fill="${p.ink}" opacity="${p.inkA}"/>`;
-    for (let i = 0; i < 34; i++) {
+    for (let i = 0; i < 30; i++) {
       const x = rnd() * 420, top = 560 + rnd() * 90, lean = rnd() * 30 - 8;
       s += `<path d="M${r2(x)} 800 Q${r2(x + lean * .4)} ${r2(top + 80)} ${r2(x + lean)} ${r2(top)}" fill="none" stroke="${p.ink}" stroke-opacity="${p.inkA}" stroke-width="2"/>`
-        + `<path d="M${r2(x + lean)} ${r2(top)} q6 14 2 30" fill="none" stroke="${SCENE_ACCENT.pampas}" stroke-width="5" stroke-linecap="round" opacity="${r2(p.flowerA * .8)}"/>`;
+        + `<path d="M${r2(x + lean)} ${r2(top)} q6 14 2 30" fill="none" stroke="${p.mono ? '#111' : acc(p, 'pampas')}" stroke-width="5" stroke-linecap="round" opacity="${r2(p.flowerA * .8)}"/>`;
     }
     return s;
   },
@@ -708,45 +952,43 @@ const P = {
   },
   chrysanthemum(p, rnd) {
     let s = '';
-    [[70, 700, 44, '#e0a84a'], [190, 740, 36, '#f2f0e6'], [320, 700, 48, '#c9503a'], [120, 780, 30, '#e0a84a'], [380, 790, 34, '#f2f0e6']].forEach(([cx, cy, R, c]) => {
+    const cols = p.mono ? ['#fff', '#fff', '#fff'] : p.acc ? [p.acc.pampas, '#fffaf0', p.acc.plum] : ['#e0a84a', '#f2f0e6', '#c9503a'];
+    [[70, 700, 44, 0], [190, 740, 36, 1], [320, 700, 48, 2], [120, 780, 30, 0], [380, 790, 34, 1]].forEach(([cx, cy, R, ci]) => {
       s += `<circle cx="${cx}" cy="${cy + 26}" r="${R * 1.1}" fill="${p.ink}" opacity="${p.inkA * .55}"/>`;
-      for (let i = 0; i < 22; i++) { const a = i * 360 / 22; s += `<ellipse cx="${r2(cx + Math.cos(rad(a)) * R * .55)}" cy="${r2(cy + Math.sin(rad(a)) * R * .55)}" rx="${r2(R * .42)}" ry="${r2(R * .12)}" transform="rotate(${a} ${r2(cx + Math.cos(rad(a)) * R * .55)} ${r2(cy + Math.sin(rad(a)) * R * .55)})" fill="${c}" opacity="${p.flowerA}"/>`; }
-      s += `<circle cx="${cx}" cy="${cy}" r="${R * .22}" fill="#b07a1e" opacity="${p.flowerA}"/>`;
+      for (let i = 0; i < 20; i++) { const a = i * 18, x = cx + Math.cos(rad(a)) * R * .55, y = cy + Math.sin(rad(a)) * R * .55;
+        s += `<ellipse cx="${r2(x)}" cy="${r2(y)}" rx="${r2(R * .42)}" ry="${r2(R * .12)}" transform="rotate(${a} ${r2(x)} ${r2(y)})" fill="${cols[ci]}"${p.mono ? ' stroke="#111" stroke-width="1"' : ''} opacity="${p.flowerA}"/>`; }
+      s += `<circle cx="${cx}" cy="${cy}" r="${R * .22}" fill="${p.mono ? '#111' : '#b07a1e'}" opacity="${p.flowerA}"/>`;
     });
     return s;
   },
   willow(p, rnd) {
     let s = '';
-    for (let i = 0; i < 16; i++) {
-      const x = -10 + i * 28 + rnd() * 10, len = 160 + rnd() * 200, sway = 20 + rnd() * 30;
-      s += `<path d="M${r2(x)} -10 Q${r2(x + sway)} ${r2(len * .5)} ${r2(x - 6)} ${r2(len)}" fill="none" stroke="${SCENE_ACCENT.willow}" stroke-width="2.2" opacity="${r2(p.flowerA * (.5 + rnd() * .4))}"/>`;
-    }
+    for (let i = 0; i < 16; i++) { const x = -10 + i * 28 + rnd() * 10, len = 160 + rnd() * 200, sway = 20 + rnd() * 30;
+      s += `<path d="M${r2(x)} -10 Q${r2(x + sway)} ${r2(len * .5)} ${r2(x - 6)} ${r2(len)}" fill="none" stroke="${p.mono ? '#111' : acc(p, 'willow')}" stroke-width="2.2" opacity="${r2(p.flowerA * (.5 + rnd() * .4))}"/>`; }
     return s;
   },
   stream(p) {
     const c = p.water || p.rain;
-    return `<path d="M-20 720 Q100 690 200 720 T420 712 L420 800 L-20 800Z" fill="${c}" opacity=".5"/><path d="M20 748 q30 -10 60 0 M180 760 q30 -10 60 0 M300 744 q30 -10 60 0" fill="none" stroke="${p.mist}" stroke-width="2" opacity=".5"/>`;
+    return `<path d="M-20 720 Q100 690 200 720 T420 712 L420 800 L-20 800Z" fill="${c}" opacity="${p.mono ? .15 : .5}"/><path d="M20 748 q30 -10 60 0 M180 760 q30 -10 60 0 M300 744 q30 -10 60 0" fill="none" stroke="${p.mono ? '#111' : p.mist}" stroke-width="2" opacity=".6"/>`;
   },
   snow(p, rnd) {
     let s = '';
-    for (let i = 0; i < 140; i++) s += `<circle cx="${r2(rnd() * 400)}" cy="${r2(rnd() * 800)}" r="${r2(.8 + rnd() * 2.6)}" fill="${p.snow}" opacity="${r2(.3 + rnd() * .5)}"/>`;
+    for (let i = 0; i < 120; i++) s += `<circle cx="${r2(rnd() * 400)}" cy="${r2(rnd() * 800)}" r="${r2(.8 + rnd() * 2.6)}" fill="${p.snow}"${p.mono ? ' stroke="#111" stroke-width=".6"' : ''} opacity="${r2(.3 + rnd() * .5)}"/>`;
     return s;
   },
   temple(p) {
     return `<path d="M210 700 Q300 640 420 652 L420 664 Q320 664 236 712Z" fill="${p.ink}" opacity="${p.inkA}"/><rect x="250" y="690" width="170" height="110" fill="${p.ink}" opacity="${p.inkA}"/>`
       + `<path d="M214 700 Q300 650 420 660" fill="none" stroke="${p.snow}" stroke-width="5" opacity=".8"/>`
       + `<g transform="translate(80 640)"><rect x="-4" y="40" width="8" height="70" fill="${p.ink}" opacity="${p.inkA}"/><path d="M-26 22 L0 6 L26 22Z" fill="${p.ink}" opacity="${p.inkA}"/>`
-      + `<rect x="-15" y="22" width="30" height="20" rx="2" fill="${p.ink}" opacity="${p.inkA}"/><rect x="-8" y="26" width="16" height="12" fill="#f2c46a"/><circle cx="0" cy="32" r="30" fill="#f2c46a" opacity=".18"/></g>`;
+      + `<rect x="-15" y="22" width="30" height="20" rx="2" fill="${p.ink}" opacity="${p.inkA}"/><rect x="-8" y="26" width="16" height="12" fill="${p.mono ? '#d7261e' : '#f2c46a'}"/><circle cx="0" cy="32" r="30" fill="#f2c46a" opacity="${p.mono ? 0 : .18}"/></g>`;
   },
-  mist(p, y = 600) {
-    return `<g filter="url(#blur)"><ellipse cx="120" cy="${y}" rx="220" ry="34" fill="${p.mist}" opacity=".22"/><ellipse cx="320" cy="${y + 50}" rx="200" ry="30" fill="${p.mist}" opacity=".18"/></g>`;
-  }
+  mist(p, y = 600) { return p.mono ? '' : `<g filter="url(#blur)"><ellipse cx="120" cy="${y}" rx="220" ry="34" fill="${p.mist}" opacity=".22"/><ellipse cx="320" cy="${y + 50}" rx="200" ry="30" fill="${p.mist}" opacity=".18"/></g>`; }
 };
 function sceneMotifs(lv, p, rnd) {
   switch (lv.n) {
     case 1: return {top: P.moon(p, 320, 120, 30, 'crescent') + P.plum(p, rnd), bottom: P.mist(p, 650)};
     case 2: return {top: P.cherry(p, rnd), bottom: ''};
-    case 3: return {top: P.maple(p, rnd, SCENE_ACCENT['maple-green']), bottom: P.mist(p, 690)};
+    case 3: return {top: P.maple(p, rnd), bottom: P.mist(p, 690)};
     case 4: return {top: P.rain(p, rnd), bottom: P.hydrangea(p, rnd)};
     case 5: return {top: P.moon(p, 270, 150, 62, 'full') + P.geese(p, rnd, 260), bottom: P.pampas(p, rnd)};
     case 6: return {top: P.geese(p, rnd, 140), bottom: P.chrysanthemum(p, rnd)};
@@ -755,76 +997,150 @@ function sceneMotifs(lv, p, rnd) {
   }
 }
 const DEFS = `<defs><filter id="blur" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>`
-  + `<filter id="fiber"><feTurbulence type="fractalNoise" baseFrequency=".9 .04" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 .35  0 0 0 0 .32  0 0 0 0 .28  0 0 0 .22 0"/></filter>`
-  + `<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .14 0"/></filter></defs>`;
-function sky(p) { return `<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.sky[0]}"/><stop offset="1" stop-color="${p.sky[1]}"/></linearGradient><rect width="400" height="800" fill="url(#sky)"/>`; }
-const LOOK_PAINT = {
-  kare(lv, p, rnd) {   // night sky; raked white-sand floor with a stone and its concentric rings
+  + `<filter id="fiber"><feTurbulence type="fractalNoise" baseFrequency=".9 .04" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 .35  0 0 0 0 .32  0 0 0 0 .28  0 0 0 .2 0"/></filter>`
+  + `<pattern id="dots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="8" cy="8" r="1.2" fill="#d8ccb6"/></pattern>`
+  + `<pattern id="tone" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="3.5" cy="3.5" r="1.5" fill="#111"/></pattern>`
+  + `<pattern id="tone2" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r=".9" fill="#111"/></pattern>`
+  + `<radialGradient id="glow"><stop offset="0" stop-color="#ffcf7a" stop-opacity=".7"/><stop offset="1" stop-color="#ffcf7a" stop-opacity="0"/></radialGradient></defs>`;
+const sky = p => `<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.sky[0]}"/><stop offset="1" stop-color="${p.sky[1]}"/></linearGradient><rect width="400" height="800" fill="url(#sky)"/>`;
+function wobble(pts, rnd, j = 4) { return 'M' + pts.map(([x, y]) => `${r2(x + (rnd() - .5) * j)} ${r2(y + (rnd() - .5) * j)}`).join(' L') + 'Z'; }
+const PAINT = {
+  ukiyo(lv, p, rnd) {   // woodblock: indigo bokashi, a distant cone, flat mist bands, seigaiha waves, a title cartouche
+    const m = sceneMotifs(lv, p, rnd);
+    let waves = '';
+    for (let y = 712; y < 830; y += 18) for (let x = -20 + (y % 36 ? 18 : 0); x < 420; x += 36)
+      waves += `<g fill="#f6efdf" stroke="#1f3a68" stroke-width="2"><circle cx="${x}" cy="${y}" r="18"/><circle cx="${x}" cy="${y}" r="12"/><circle cx="${x}" cy="${y}" r="6"/></g>`;
+    return sky(p) + `<linearGradient id="bok" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f3a68" stop-opacity=".85"/><stop offset="1" stop-color="#1f3a68" stop-opacity="0"/></linearGradient><rect width="400" height="250" fill="url(#bok)"/>`
+      + `<path d="M120 600 L210 470 L300 600Z" fill="#8fa3c4" opacity=".55"/><path d="M188 502 L210 470 L232 502 L220 498 L210 508 L200 498Z" fill="#fbf6ea"/>`
+      + m.top + `<rect x="-20" y="236" width="300" height="26" rx="13" fill="#e7dcc3"/><rect x="180" y="600" width="260" height="24" rx="12" fill="#e7dcc3"/>` + m.bottom + waves
+      + `<g transform="translate(20 22)"><rect width="34" height="${22 + lv.name.length * 26}" fill="#fbf6ea" stroke="#1f3a68" stroke-width="2"/>`
+      + [...lv.name].map((c, i) => `<text x="17" y="${30 + i * 26}" text-anchor="middle" font-size="21" font-family="Shippori Mincho B1, serif" font-weight="800" fill="#1c2a44">${c}</text>`).join('')
+      + `<rect x="8" y="${30 + lv.name.length * 26}" width="18" height="18" fill="#c8402a"/></g>`;
+  },
+  dream(lv, p, rnd) {   // dream parade: checker floor in false perspective, a ringed moon, and floating festival things
+    const m = sceneMotifs(lv, p, rnd);
+    let floor = '';
+    for (let j = 0; j < 8; j++) {
+      const y0 = 600 + j * j * 3.4, y1 = 600 + (j + 1) * (j + 1) * 3.4, w0 = 1 + j * .55, w1 = 1 + (j + 1) * .55;
+      for (let i = -6; i < 6; i++) { const x = k => 200 + k * 34; floor += `<path d="M${r2(x(i * w0))} ${r2(y0)} L${r2(x((i + 1) * w0))} ${r2(y0)} L${r2(x((i + 1) * w1))} ${r2(y1)} L${r2(x(i * w1))} ${r2(y1)}Z" fill="${(i + j) % 2 ? '#ff4fa3' : '#2ee6d0'}" opacity=".32"/>`; }
+    }
+    let stars = ''; for (let i = 0; i < 40; i++) stars += `<circle cx="${r2(rnd() * 400)}" cy="${r2(rnd() * 560)}" r="${r2(.6 + rnd() * 1.4)}" fill="#fff4e6" opacity="${r2(.3 + rnd() * .6)}"/>`;
+    const things = [
+      (x, y) => `<rect x="${x - 12}" y="${y - 16}" width="24" height="32" rx="12" fill="#ff4fa3"/><rect x="${x - 8}" y="${y - 19}" width="16" height="4" fill="#1b1033"/><rect x="${x - 8}" y="${y + 15}" width="16" height="4" fill="#1b1033"/>`,
+      (x, y) => `<path d="M${x} ${y + 16} L${x - 24} ${y - 8} A34 34 0 0 1 ${x + 24} ${y - 8}Z" fill="#ffd23f"/><path d="M${x} ${y + 16} L${x - 12} ${y - 14} M${x} ${y + 16} L${x} ${y - 18} M${x} ${y + 16} L${x + 12} ${y - 14}" stroke="#1b1033" stroke-width="1.5"/>`,
+      (x, y) => `<path d="M${x - 28} ${y} A28 18 0 0 1 ${x + 28} ${y}Z" fill="#2ee6d0"/><path d="M${x} ${y} V${y + 26}" stroke="#fff4e6" stroke-width="2.5"/>`,
+      (x, y) => `<path d="M${x - 22} ${y} Q${x} ${y - 14} ${x + 18} ${y} Q${x} ${y + 14} ${x - 22} ${y}Z M${x + 18} ${y} L${x + 28} ${y - 8} L${x + 28} ${y + 8}Z" fill="#ff6b4a"/><circle cx="${x - 12}" cy="${y - 2}" r="2" fill="#1b1033"/>`,
+      (x, y) => `<rect x="${x - 26}" y="${y - 20}" width="52" height="7" fill="#ff4fa3"/><rect x="${x - 20}" y="${y - 10}" width="40" height="4" fill="#ff4fa3"/><rect x="${x - 17}" y="${y - 13}" width="5" height="34" fill="#ff4fa3"/><rect x="${x + 12}" y="${y - 13}" width="5" height="34" fill="#ff4fa3"/>`,
+      (x, y) => `<rect x="${x - 10}" y="${y - 16}" width="20" height="32" rx="2" fill="#5b1d8a" stroke="#ffd23f" stroke-width="1.5"/>`
+    ];
+    let floats = '';
+    [[50, 80], [350, 300], [70, 330], [330, 560], [180, 40], [40, 560], [300, 70], [380, 450]].forEach(([x, y], i) =>
+      floats += `<g transform="rotate(${r2(rnd() * 50 - 25)} ${x} ${y})" opacity=".9">${things[i % things.length](x, y)}</g>`);
+    return sky(p) + stars + `<circle cx="300" cy="170" r="70" fill="#ffd23f" opacity=".9"/><ellipse cx="300" cy="170" rx="118" ry="22" fill="none" stroke="#2ee6d0" stroke-width="6" transform="rotate(-18 300 170)"/>`
+      + `<g opacity=".75">${m.top}</g>` + floor + `<g opacity=".8">${m.bottom}</g>` + floats;
+  },
+  youth(lv, p, rnd) {   // a skewed four-and-a-half-mat room in flat colour, outlined by a wobbling pen
+    const m = sceneMotifs(lv, p, rnd), vp = [292, 420];
+    let lines = '';
+    for (let i = -3; i <= 6; i++) lines += `<path d="M${vp[0]} ${vp[1]} L${-80 + i * 90} 820" stroke="#222" stroke-width="2.5" opacity=".55"/>`;
+    return `<rect width="400" height="800" fill="#f7e9c6"/>`
+      + `<path d="${wobble([[-20, -20], [180, -20], [250, 330], [-20, 470]], rnd, 8)}" fill="#4aa3df" stroke="#222" stroke-width="4"/>`
+      + `<path d="${wobble([[330, -20], [420, -20], [420, 480], [340, 400]], rnd, 8)}" fill="#f2b134" stroke="#222" stroke-width="4"/>`
+      + `<path d="${wobble([[-20, 600], [250, 430], [420, 470], [420, 820], [-20, 820]], rnd, 8)}" fill="#e8553e" stroke="#222" stroke-width="4"/>` + lines
+      + `<g opacity=".95">${m.top}</g><g opacity=".9">${m.bottom}</g>`
+      + `<path d="${wobble([[34, 60], [150, 52], [168, 200], [44, 214]], rnd, 6)}" fill="none" stroke="#222" stroke-width="4"/>`;
+  },
+  manga(lv, p, rnd) {   // two koma panels: speed lines up top, a screentone strip below, and a small SFX
+    const m = sceneMotifs(lv, p, rnd);
+    let speed = '';
+    for (let i = 0; i < 70; i++) { const a = rad(i * 360 / 70 + rnd() * 3), r0 = 90 + rnd() * 60;
+      speed += `<path d="M${r2(320 + Math.cos(a) * r0)} ${r2(70 + Math.sin(a) * r0)} L${r2(320 + Math.cos(a - .01) * 700)} ${r2(70 + Math.sin(a - .01) * 700)} L${r2(320 + Math.cos(a + .01) * 700)} ${r2(70 + Math.sin(a + .01) * 700)}Z" fill="#111"/>`; }
+    return `<rect width="400" height="800" fill="#f7f5f0"/>`
+      + `<clipPath id="k1"><rect x="10" y="10" width="380" height="250"/></clipPath><g clip-path="url(#k1)"><rect x="10" y="10" width="380" height="250" fill="#fff"/>${speed}${m.top}</g>`
+      + `<rect x="10" y="10" width="380" height="250" fill="none" stroke="#111" stroke-width="5"/>`
+      + `<clipPath id="k2"><rect x="10" y="630" width="380" height="170"/></clipPath><g clip-path="url(#k2)"><rect x="10" y="630" width="380" height="170" fill="url(#tone2)"/>${m.bottom}</g>`
+      + `<rect x="10" y="630" width="380" height="180" fill="none" stroke="#111" stroke-width="5"/>`
+      + `<text x="360" y="300" writing-mode="tb" font-size="34" font-family="Zen Antique, serif" fill="#111" opacity=".85">シーン</text>`;
+  },
+  washi(lv, p, rnd) {   // paper fibre, a wooden lattice above, two ink-wash ranges, gold flecks, a red seal with the garden's name
+    const m = sceneMotifs(lv, p, rnd);
+    let lattice = `<rect y="740" width="400" height="60" fill="#5a4532"/>`;
+    for (let x = 6; x < 400; x += 22) lattice += `<rect x="${x}" y="746" width="12" height="54" fill="#f4efe3" opacity=".9"/>`;
+    let flecks = ''; for (let i = 0; i < 30; i++) flecks += `<rect x="${r2(rnd() * 400)}" y="${r2(80 + rnd() * 700)}" width="${r2(2 + rnd() * 4)}" height="${r2(2 + rnd() * 3)}" fill="#b8963e" opacity=".45" transform="rotate(${r2(rnd() * 90)})"/>`;
+    const name = [...lv.name];
+    return sky(p) + `<rect width="400" height="800" filter="url(#fiber)"/>`
+      + `<g filter="url(#blur)"><path d="M-20 640 L60 560 L120 610 L200 520 L290 600 L350 560 L420 620 L420 800 L-20 800Z" fill="${p.ink}" opacity=".1"/>`
+      + `<path d="M-20 700 L90 630 L170 690 L260 640 L420 700 L420 800 L-20 800Z" fill="${p.ink}" opacity=".15"/></g>`
+      + `<g opacity=".85">${m.top}${m.bottom}</g>` + flecks + lattice
+      + `<g transform="translate(352 84)"><rect width="34" height="${18 + name.length * 26}" rx="3" fill="#b8392a" opacity=".9"/>`
+      + name.map((c, i) => `<text x="17" y="${34 + i * 26}" text-anchor="middle" font-size="21" font-family="Zen Old Mincho, serif" fill="#fbf8f0">${c}</text>`).join('') + `</g>`;
+  },
+  kare(lv, p, rnd) {   // raked sand, two stones with moss, a breath of wind
     const m = sceneMotifs(lv, p, rnd);
     let rake = '';
-    for (let y = 600; y < 820; y += 9) rake += `<path d="M-10 ${y} Q100 ${y - 6} 200 ${y} T410 ${y}" fill="none" stroke="${p.line}" stroke-width="1.6"/>`;
-    let rings = '';
-    for (let k = 1; k <= 6; k++) rings += `<ellipse cx="300" cy="700" rx="${30 + k * 14}" ry="${14 + k * 7}" fill="${p.ground}" stroke="${p.line}" stroke-width="1.6"/>`;
-    return sky(p) + `<g opacity=".9">${m.top}</g><rect y="590" width="400" height="210" fill="${p.ground}"/>${rake}${rings}`
-      + `<path d="M268 706 Q276 664 302 660 Q330 664 334 706Z" fill="#11161f"/><g opacity=".75">${m.bottom}</g>`;
+    for (let y = 600; y < 820; y += 9) rake += `<path d="M-10 ${y} Q100 ${y - 5} 200 ${y} T410 ${y}" fill="none" stroke="${p.line}" stroke-width="1.6"/>`;
+    const rings = (cx, cy, k) => { let s = ''; for (let i = k; i >= 1; i--) s += `<ellipse cx="${cx}" cy="${cy}" rx="${24 + i * 13}" ry="${11 + i * 6}" fill="${p.ground}" stroke="${p.line}" stroke-width="1.6"/>`; return s; };
+    const stone = (cx, cy, w) => `<path d="M${cx - w} ${cy + 6} Q${cx - w * .8} ${cy - w * .8} ${cx} ${cy - w * .9} Q${cx + w * .9} ${cy - w * .7} ${cx + w} ${cy + 6}Z" fill="${p.stone}"/><path d="M${cx - w * .7} ${cy - w * .3} Q${cx} ${cy - w * 1.05} ${cx + w * .6} ${cy - w * .45} Q${cx} ${cy - w * .6} ${cx - w * .7} ${cy - w * .3}Z" fill="${p.moss}" opacity=".85"/>`;
+    return sky(p) + `<path d="M20 120 q60 -14 120 0 M220 70 q50 -10 110 0 M60 200 q40 -8 90 0" fill="none" stroke="${p.line}" stroke-width="2" opacity=".7"/>`
+      + `<g opacity=".7">${m.top}</g><rect y="590" width="400" height="210" fill="${p.ground}"/>${rake}${rings(300, 704, 6)}${rings(80, 650, 3)}`
+      + stone(300, 700, 34) + stone(80, 648, 18) + `<g opacity=".55">${m.bottom}</g>`;
   },
-  emaki(lv, p, rnd) {   // gold-leaf cloud bands framing a mineral-pigment scene
+  matsuri(lv, p, rnd) {   // a summer night: strings of chōchin, a glass wind chime, stalls with noren
     const m = sceneMotifs(lv, p, rnd);
-    const cloud = (y, w, x) => `<path d="M${x} ${y} h${w} a18 18 0 0 1 0 36 h-${w * .3} a14 14 0 0 1 0 28 h-${w * .7} a18 18 0 0 1 0 -64Z" fill="url(#gold)" opacity=".92"/>`;
-    return sky(p) + `<linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${p.gold2}"/><stop offset=".55" stop-color="${p.gold}"/><stop offset="1" stop-color="${p.gold2}"/></linearGradient>`
-      + `<path d="M-20 760 Q120 700 260 730 T420 700 L420 800 L-20 800Z" fill="${p.hill}" opacity=".55"/>`
-      + m.top + m.bottom + cloud(10, 200, -40) + cloud(60, 160, 250) + cloud(700, 220, -60) + cloud(740, 170, 260);
+    let stars = ''; for (let i = 0; i < 50; i++) stars += `<circle cx="${r2(rnd() * 400)}" cy="${r2(rnd() * 500)}" r="${r2(.5 + rnd())}" fill="#f4ead2" opacity="${r2(.2 + rnd() * .5)}"/>`;
+    const string = (y, sag, n, off) => {
+      let s = `<path d="M-10 ${y} Q200 ${y + sag} 410 ${y}" fill="none" stroke="#f4ead2" stroke-opacity=".4" stroke-width="1.5"/>`;
+      for (let i = 0; i < n; i++) { const t = (i + off) / n, x = -10 + t * 420, yy = (1 - t) * (1 - t) * y + 2 * (1 - t) * t * (y + sag) + t * t * y;
+        s += `<circle cx="${r2(x)}" cy="${r2(yy + 22)}" r="34" fill="url(#glow)"/><rect x="${r2(x - 12)}" y="${r2(yy + 6)}" width="24" height="32" rx="11" fill="${i % 3 ? '#f29a3a' : '#d8432c'}"/>`
+          + `<rect x="${r2(x - 8)}" y="${r2(yy + 3)}" width="16" height="4" fill="#2a1a12"/><rect x="${r2(x - 8)}" y="${r2(yy + 37)}" width="16" height="4" fill="#2a1a12"/>`; }
+      return s;
+    };
+    let stalls = '';
+    [[-10, 120], [120, 150], [280, 130]].forEach(([x, w], i) => {
+      stalls += `<path d="M${x} 700 L${x + w / 2} 670 L${x + w} 700Z" fill="#070d1d"/><rect x="${x + 6}" y="700" width="${w - 12}" height="100" fill="#0b1124"/>`;
+      for (let k = 0; k < 6; k++) stalls += `<rect x="${r2(x + 8 + k * (w - 16) / 6)}" y="702" width="${r2((w - 16) / 6 - 3)}" height="34" fill="${(k + i) % 2 ? '#d8432c' : '#f4ead2'}" opacity=".85"/>`;
+      stalls += `<rect x="${x + 10}" y="744" width="${w - 20}" height="40" fill="#f29a3a" opacity=".18"/>`;
+    });
+    return sky(p) + stars + `<g opacity=".5">${m.top}</g>` + string(40, 70, 7, .5) + string(150, 50, 6, 0)
+      + `<g transform="translate(340 200)"><path d="M0 -40 V0" stroke="#f4ead2" stroke-opacity=".5"/><path d="M-14 14 Q-14 -2 0 -2 Q14 -2 14 14Z" fill="#cfe6f2" opacity=".85"/><path d="M0 14 V40" stroke="#f4ead2" stroke-opacity=".6"/><rect x="-6" y="40" width="12" height="26" fill="#d8432c"/></g>`
+      + `<g opacity=".6">${m.bottom}</g>` + stalls;
   },
-  washi(lv, p, rnd) {   // paper fibre, two ink-wash mountain ranges, a red seal with the garden's name
+  techo(lv, p, rnd) {   // a journal page: dot grid, washi tape, a postmark, a pressed sprig
     const m = sceneMotifs(lv, p, rnd);
-    const name = lv.name.split('');
-    return sky(p) + `<rect width="400" height="800" filter="url(#fiber)"/>`
-      + `<g filter="url(#blur)"><path d="M-20 640 L60 560 L120 610 L200 520 L290 600 L350 560 L420 620 L420 800 L-20 800Z" fill="${p.ink}" opacity=".10"/>`
-      + `<path d="M-20 700 L90 630 L170 690 L260 640 L420 700 L420 800 L-20 800Z" fill="${p.ink}" opacity=".16"/></g>`
-      + `<g opacity=".85">${m.top}${m.bottom}</g>`
-      + `<g transform="translate(352 36)"><rect width="34" height="${18 + name.length * 26}" rx="3" fill="#c23b22" opacity=".88"/>`
-      + name.map((c, i) => `<text x="17" y="${34 + i * 26}" text-anchor="middle" font-size="22" font-family="Yuji Boku, serif" fill="#f6efe2">${c}</text>`).join('') + `</g>`;
-  },
-  cha(lv, p, rnd) {   // the garden seen through an opened shoji, above a tatami floor
-    const m = sceneMotifs(lv, p, rnd);
-    let lattice = '';
-    const panel = x => { let s = `<rect x="${x}" y="0" width="120" height="600" fill="${p.shoji}" opacity=".9"/>`; for (let i = 1; i < 4; i++) s += `<path d="M${x + i * 30} 0 V600" stroke="${p.lattice}" stroke-width="3"/>`; for (let j = 1; j < 10; j++) s += `<path d="M${x} ${j * 60} H${x + 120}" stroke="${p.lattice}" stroke-width="3"/>`; return s + `<rect x="${x}" y="0" width="120" height="600" fill="none" stroke="${p.lattice}" stroke-width="8"/>`; };
-    lattice = panel(-40) + panel(320);
-    let mat = `<rect y="600" width="400" height="200" fill="${p.tatami}"/>`;
-    for (let y = 604; y < 800; y += 5) mat += `<path d="M0 ${y} H400" stroke="${p.line}" stroke-width="1.4" opacity=".7"/>`;
-    mat += `<rect y="596" width="400" height="10" fill="${p.heri}"/><rect x="196" y="606" width="8" height="194" fill="${p.heri}" opacity=".85"/>`;
-    return `<rect width="400" height="800" fill="${p.wall}"/>` + `<svg x="80" y="0" width="240" height="600" viewBox="80 0 240 600" preserveAspectRatio="xMidYMid slice">${sky(p)}${m.top}${m.bottom.replace(/translate\((\d+) (\d+)\)/, (s, a, b) => `translate(${a} ${b - 120})`)}</svg>`
-      + lattice + `<rect x="0" y="0" width="400" height="16" fill="${p.lattice}"/>` + mat + `<rect width="400" height="800" filter="url(#grain)"/>`;
+    const tape = (x, y, w, rot, c) => `<g transform="rotate(${rot} ${x} ${y})"><rect x="${x}" y="${y}" width="${w}" height="26" fill="${c}" opacity=".78"/><path d="M${x} ${y + 8} H${x + w} M${x} ${y + 18} H${x + w}" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-dasharray="6 6"/></g>`;
+    return `<rect width="400" height="800" fill="${p.sky[0]}"/><rect width="400" height="800" fill="url(#dots)"/><path d="M40 0 V800" stroke="#e8b4b8" stroke-width="2" opacity=".6"/>`
+      + `<g stroke="${p.ink}" stroke-width="1.6" stroke-opacity=".5">${m.top}</g><g stroke="${p.ink}" stroke-width="1.4" stroke-opacity=".4">${m.bottom}</g>`
+      + tape(-20, 40, 140, -12, '#a8c3a0') + tape(290, 740, 150, 10, '#e8b4b8')
+      + `<g transform="translate(320 300) rotate(-14)" fill="none" stroke="#c0675a" stroke-width="2.4" opacity=".7"><circle r="42"/><circle r="34"/>`
+      + `<text y="-6" text-anchor="middle" font-size="16" font-family="Klee One, sans-serif" fill="#c0675a" stroke="none">${lv.name}</text><text y="14" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#c0675a" stroke="none">${new Date().getFullYear()}</text>`
+      + `<path d="M48 -16 h60 M48 -6 q15 -6 30 0 t30 0 M48 4 h60 M48 14 q15 -6 30 0 t30 0"/></g>`;
   }
 };
-// Several scenes can be on the page at once (backdrop + settings swatches), so every SVG gets its own id namespace.
-const scopeIds = (svg, ns) => svg.replace(/id="(sky|gold|blur|fiber|grain|mk)"/g, `id="$1-${ns}"`).replace(/url\(#(sky|gold|blur|fiber|grain|mk)\)/g, `url(#$1-${ns})`);
-function sceneSVG(lv, look) {
-  const p = LOOK_PAL[look], rnd = seeded(lv.n * 97 + look.length * 13);
-  return scopeIds(`<svg viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">${DEFS}${LOOK_PAINT[look](lv, p, rnd)}</svg>`, 'bg');
+const scopeIds = (svg, ns) => svg.replace(/id="([\w-]+)"/g, `id="$1-${ns}"`).replace(/url\(#([\w-]+)\)/g, `url(#$1-${ns})`);
+const sceneCache = {};
+function sceneSVG(lv, look, ns = 'bg', view = '0 0 400 800') {
+  const key = [lv.n, look, ns, view].join('|');
+  if (!sceneCache[key]) {
+    const rnd = seeded(lv.n * 97 + look.length * 13);
+    sceneCache[key] = scopeIds(`<svg viewBox="${view}" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">${DEFS}${PAINT[look](lv, PAL[look], rnd)}</svg>`, ns);
+  }
+  return sceneCache[key];
 }
 let sceneKey = '';
-function paintScene(lv, dim) {
-  const key = save.look + lv.n + (dim ? 'd' : '');
+function paintScene(lv, mode) {   // mode: 'game' | 'home' | 'none'
+  const key = save.look + lv.n + mode;
   if (key === sceneKey) return;
   sceneKey = key;
-  const veil = dim ? `<div style="position:absolute;inset:0;background:var(--bg);opacity:.35"></div>` : '';
-  $('#scene').innerHTML = sceneSVG(lv, save.look) + veil;
-}
-function lookSwatch(look) {   // a tiny crop of the moon garden, painted in that look, for the settings picker
-  const p = LOOK_PAL[look], rnd = seeded(5);
-  return scopeIds(`<svg viewBox="0 380 400 420" preserveAspectRatio="xMidYMid slice">${DEFS}${LOOK_PAINT[look](LEVELS[4], p, rnd)}</svg>`, 'sw-' + look);
+  $('#scene').innerHTML = mode === 'none' ? '' : sceneSVG(lv, save.look) + (mode === 'home' ? `<div style="position:absolute;inset:0;background:var(--bg);opacity:.42"></div>` : '');
 }
 
 /* ================= sound =================
-   Rich path: Tone.js voices (koto, wind chimes, shakuhachi-like flute, singing-bowl bells) + Kenney CC0 card foley.
-   Without Tone.js a small raw Web Audio synth stands in. */
+   Tone.js voices (koto, wind chimes, shakuhachi-like flute, singing-bowl bells) + Kenney CC0 card foley; raw Web Audio fallback. */
 const A = {tone: false, starting: null, done: false, samples: null, ambTimer: 0, bgmTimer: 0, combo: 0, last: {}};
 const SAMPLE_GROUPS = {
   place: ['card-place-1', 'card-place-2', 'card-place-3', 'card-place-4'], slide: ['card-slide-1', 'card-slide-2', 'card-slide-4', 'card-slide-5', 'card-slide-7'],
   shove: ['card-shove-1', 'card-shove-2', 'card-shove-3', 'card-shove-4'], fan: ['card-fan-1', 'card-fan-2'], shuffle: ['card-shuffle'], take: ['cards-pack-take-out-1']
 };
-// One pentatonic scale per season, low to high: 陽 (spring), 律 (summer), 都節 (autumn), 民謡 (winter).
 const SCALES = [
   ['D5', 'E5', 'G5', 'A5', 'B5', 'D6', 'E6', 'G6', 'A6'],
   ['D5', 'E5', 'G5', 'A5', 'C6', 'D6', 'E6', 'G6', 'A6'],
@@ -841,32 +1157,26 @@ function startAudio() {
       await T.start();
       const out = new T.Volume(-3).toDestination();
       const rev = new T.Reverb({decay: 3.8, preDelay: .02, wet: .4});
-      await rev.generate();
-      rev.connect(out);
+      await rev.generate(); rev.connect(out);
       const dry = new T.Gain(.75).connect(out);
       A.koto = Array.from({length: 5}, () => { const v = new T.PluckSynth({attackNoise: 1.3, dampening: 3600, resonance: .95, volume: -6}); v.connect(rev); v.connect(dry); return v; });
       A.kotoI = 0;
       A.chime = new T.PolySynth(T.FMSynth, {harmonicity: 5.07, modulationIndex: 1.4, oscillator: {type: 'sine'}, modulation: {type: 'sine'},
         envelope: {attack: .002, decay: 2.6, sustain: 0, release: 2.6}, modulationEnvelope: {attack: .002, decay: .5, sustain: 0, release: .5}, volume: -17}).connect(rev);
-      const vib = new T.Vibrato(5.2, .12).connect(rev);
-      A.flute = new T.Synth({oscillator: {type: 'triangle'}, envelope: {attack: .09, decay: .2, sustain: .55, release: .5}, volume: -13}).connect(vib);
+      A.flute = new T.Synth({oscillator: {type: 'triangle'}, envelope: {attack: .09, decay: .2, sustain: .55, release: .5}, volume: -13}).connect(new T.Vibrato(5.2, .12).connect(rev));
       A.breath = new T.NoiseSynth({noise: {type: 'pink'}, envelope: {attack: .04, decay: .25, sustain: 0, release: .1}, volume: -30}).connect(new T.Filter(1600, 'bandpass').connect(rev));
       A.bowl = new T.PolySynth(T.FMSynth, {harmonicity: 2.76, modulationIndex: 1.1, envelope: {attack: .003, decay: 2.2, sustain: 0, release: 2}, modulationEnvelope: {attack: .003, decay: .6, sustain: 0, release: .4}, volume: -14}).connect(rev);
       A.bird = new T.Synth({oscillator: {type: 'sine'}, portamento: .1, envelope: {attack: .03, decay: .1, sustain: .7, release: .18}, volume: -27}).connect(rev);
       A.cricket = new T.Synth({oscillator: {type: 'sine'}, envelope: {attack: .03, decay: .1, sustain: .8, release: .12}, volume: -34}).connect(new T.Tremolo(38, 1).connect(rev).start());
-      A.temple = new T.FMSynth({harmonicity: 1.41, modulationIndex: 2.4, envelope: {attack: .004, decay: 6, sustain: 0, release: 6},
-        modulationEnvelope: {attack: .004, decay: 4, sustain: 0, release: 4}, volume: -20}).connect(rev);
+      A.temple = new T.FMSynth({harmonicity: 1.41, modulationIndex: 2.4, envelope: {attack: .004, decay: 6, sustain: 0, release: 6}, modulationEnvelope: {attack: .004, decay: 4, sustain: 0, release: 4}, volume: -20}).connect(rev);
       A.wood = new T.MembraneSynth({pitchDecay: .012, octaves: 2.5, envelope: {attack: .001, decay: .28, sustain: 0, release: .2}, volume: -16}).connect(rev);
-      A.bus = new T.Gain(1).connect(out);
-      A.bus.connect(new T.Gain(.16).connect(rev));
-      const urls = {};
-      Object.values(SAMPLE_GROUPS).flat().forEach(n => urls[n] = n + '.mp3');
+      A.bus = new T.Gain(1).connect(out); A.bus.connect(new T.Gain(.16).connect(rev));
+      const urls = {}; Object.values(SAMPLE_GROUPS).flat().forEach(n => urls[n] = n + '.mp3');
       A.samples = new T.ToneAudioBuffers({baseUrl: 'sfx/', urls});
       A.amb = {vol: new T.Volume(-60).connect(out)};
       A.amb.filter = new T.AutoFilter({frequency: .06, baseFrequency: 320, octaves: 1.8, depth: .8}).connect(A.amb.vol).start();
       A.amb.noise = new T.Noise('pink').connect(A.amb.filter);
-      A.tone = true;
-      T.Destination.mute = !save.sound;
+      A.tone = true; T.Destination.mute = !save.sound;
       applyAmbience(); scheduleBgm();
     } catch (e) { A.tone = false; }
   })().then(() => { A.done = true; renderSoundUI(); });
@@ -886,7 +1196,6 @@ function sample(group, gain = 1, dur) {
     return true;
   } catch (e) { return false; }
 }
-// Play one note on the season's instrument, `delay` seconds from now.
 function play(si, note, delay = 0, vel = .7) {
   if (!save.sound) return;
   if (!A.tone) { fallbackNote(si, note, delay, vel); return; }
@@ -921,7 +1230,7 @@ const SFX = {
   tap() { if (A.tone && save.sound) A.wood.triggerAttackRelease('A4', .05, window.Tone.now(), .16); },
   stamp() {
     if (A.tone && save.sound) A.wood.triggerAttackRelease('E3', .2, window.Tone.now() + .3, .8);
-    const si = season(), sc = SCALES[si]; [0, 1, 2, 3, 4, 5, 6, 7, 8].forEach((k, j) => play(si === 2 ? 0 : si, sc[k], .35 + j * .045, .4));
+    const si = season(), sc = SCALES[si]; sc.forEach((n, j) => play(si === 2 ? 0 : si, n, .35 + j * .045, .4));
   }
 };
 function scheduleBgm() {
@@ -958,33 +1267,20 @@ function applyAmbience() {
     setTimeout(() => { if (!(save.ambience && save.sound) && A.amb.noise.state === 'started') A.amb.noise.stop(); }, 1300);
   }
 }
-function shishiOdoshi() {   // 鹿威し: the bamboo deer-scarer tips over and knocks the stone
-  const t = window.Tone.now();
-  A.wood.triggerAttackRelease('C3', .2, t, .9); A.wood.triggerAttackRelease('G2', .15, t + .11, .35);
-}
+function shishiOdoshi() { const t = window.Tone.now(); A.wood.triggerAttackRelease('C3', .2, t, .9); A.wood.triggerAttackRelease('G2', .15, t + .11, .35); }
 function seasonCall() {
   const t = window.Tone.now(), si = season();
-  if (si === 0) {          // 鶯: ホーー、ホケキョ
-    const b = A.bird;
-    b.triggerAttack('A5', t, .5); b.setNote('D6', t + .45); b.triggerRelease(t + .95);
-    b.triggerAttack('G6', t + 1.2, .6); b.setNote('E6', t + 1.3); b.setNote('B6', t + 1.4); b.triggerRelease(t + 1.85);
-  } else if (si === 1) {   // 風鈴
-    const notes = ['E7', 'B6', 'G#7', 'C#7', 'F#7'];
-    for (let i = 0, n = 2 + Math.floor(Math.random() * 3); i < n; i++) A.chime.triggerAttackRelease(notes[Math.floor(Math.random() * notes.length)], 2, t + i * rnd(.15, .35), rnd(.25, .4));
-  } else if (si === 2) {   // 鈴虫
-    for (let i = 0; i < 3; i++) A.cricket.triggerAttackRelease('C#8', .55, t + i * .85, .7);
-  } else {                 // 寺の鐘
-    A.temple.triggerAttackRelease('D2', 6, t, .8);
-  }
+  if (si === 0) { const b = A.bird; b.triggerAttack('A5', t, .5); b.setNote('D6', t + .45); b.triggerRelease(t + .95); b.triggerAttack('G6', t + 1.2, .6); b.setNote('E6', t + 1.3); b.setNote('B6', t + 1.4); b.triggerRelease(t + 1.85); }
+  else if (si === 1) { const notes = ['E7', 'B6', 'G#7', 'C#7', 'F#7']; for (let i = 0, n = 2 + Math.floor(Math.random() * 3); i < n; i++) A.chime.triggerAttackRelease(notes[Math.floor(Math.random() * notes.length)], 2, t + i * rnd(.15, .35), rnd(.25, .4)); }
+  else if (si === 2) { for (let i = 0; i < 3; i++) A.cricket.triggerAttackRelease('C#8', .55, t + i * .85, .7); }
+  else A.temple.triggerAttackRelease('D2', 6, t, .8);
 }
-/* ---- fallback: raw Web Audio ---- */
 let actx = null, master = null, noiseBuf = null;
 function audio() {
   if (!save.sound || window.Tone) return null;
   try {
     if (!actx) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return null;
+      const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
       actx = new AC(); master = actx.createGain(); master.gain.value = .6; master.connect(actx.destination);
       noiseBuf = actx.createBuffer(1, actx.sampleRate, actx.sampleRate);
       const ch = noiseBuf.getChannelData(0); for (let i = 0; i < ch.length; i++) ch[i] = Math.random() * 2 - 1;
@@ -1004,9 +1300,8 @@ const NOTE_I = {C: 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, F: 5, 'F#': 6,
 const freqOf = n => { const m = /^([A-G][#b]?)(\d)$/.exec(n); return 440 * Math.pow(2, (NOTE_I[m[1]] + (+m[2] + 1) * 12 - 69) / 12); };
 function fallbackNote(si, note, delay, vel) {
   const a = audio(); if (!a) return;
-  const t = a.currentTime + delay, o = a.createOscillator(), g = a.createGain(), f = freqOf(note);
-  o.type = si === 0 ? 'triangle' : 'sine'; o.frequency.value = f;
-  const dur = si === 1 || si === 3 ? 1.8 : 1.1;
+  const t = a.currentTime + delay, o = a.createOscillator(), g = a.createGain(), dur = si === 1 || si === 3 ? 1.8 : 1.1;
+  o.type = si === 0 ? 'triangle' : 'sine'; o.frequency.value = freqOf(note);
   g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.1 * vel, t + (si === 2 ? .08 : .004)); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
   o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + .05);
 }
@@ -1016,14 +1311,15 @@ function setSound(on) {
   if (on) SFX.tap();
 }
 
-/* ================= petals (canvas-confetti) ================= */
+/* ================= petals (canvas-confetti, drawn beneath the cards) ================= */
 let petalShape = null;
 function petals(opts) {
   const c = window.confetti;
   if (!c || reduceMotion()) return;
   try {
     if (!petalShape && c.shapeFromPath) petalShape = c.shapeFromPath({path: 'M0 -10 C6 -10 9 -3 6 5 C4 9 1 9 0 6 C-1 9 -4 9 -6 5 C-9 -3 -6 -10 0 -10Z'});
-    c(Object.assign({zIndex: 45, colors: SEASONS[season()].burst, shapes: petalShape ? [petalShape] : ['circle'],
+    const th = THEMES[save.look].fx;
+    c(Object.assign({zIndex: 1, colors: th.colors || SEASONS[season()].burst, shapes: petalShape ? [petalShape] : ['circle'],
       gravity: .55, drift: .4, ticks: 260, scalar: 1.25, disableForReducedMotion: true}, opts));
   } catch (e) {}
 }
@@ -1031,40 +1327,37 @@ function petals(opts) {
 /* ================= ui helpers ================= */
 const screens = {home: $('#home'), game: $('#game')};
 let current = 'home', seasonNow = -1;
+const seasonColor = i => THEMES[save.look].mono ? '#d7261e' : SEASONS[i].accent;
 function show(name) {
   current = name;
   for (const k in screens) screens[k].hidden = k !== name;
-  if (name === 'home') { applySeason(homeLevel().s); paintScene(homeLevel(), true); renderHome(); }
+  if (name === 'home') renderHome();
   if (name === 'game') requestAnimationFrame(layoutBoard);
 }
 function applySeason(i) {
-  if (i === seasonNow) return;
+  const changed = i !== seasonNow;
   seasonNow = i;
-  document.documentElement.style.setProperty('--season', SEASONS[i].accent);
-  FX.set(SEASONS[i].key);
+  document.documentElement.style.setProperty('--season', seasonColor(i));
+  if (changed) FX.set(SEASONS[i].key);
 }
 function applyLook() {
   document.documentElement.dataset.look = save.look;
   sceneKey = '';
-  FX.recolor();
-  if (current === 'game' && G) paintScene(G.L, false); else paintScene(homeLevel(), true);
+  if (seasonNow >= 0) applySeason(seasonNow);
+  FX.set(SEASONS[season()].key);
+  if (current === 'game' && G) paintScene(G.L, 'game'); else renderHome();
 }
 const collectedCount = () => MOTIFS.filter(m => save.collected[m.id]).length;
 const omamoriTotal = () => Object.values(save.collected).reduce((a, b) => a + b, 0);
-function targetLevel() {
-  for (const l of LEVELS) if (l.n <= save.unlocked && !cleared(l.n)) return l;
-  return LEVELS[Math.min(save.unlocked, LEVELS.length) - 1];
-}
-// Home shows the season you are heading into (or, once everything is cleared, today's season).
+function targetLevel() { for (const l of LEVELS) if (l.n <= save.unlocked && !cleared(l.n)) return l; return LEVELS[Math.min(save.unlocked, LEVELS.length) - 1]; }
 const homeLevel = () => { const t = targetLevel(); return cleared(t.n) ? LEVELS[calendarSeason() * 2] : t; };
-
 const SOUND_ON = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h3l4-3.5v11L6 12H3z"/><path d="M13.2 7.3a4 4 0 0 1 0 5.4M15.5 5a7 7 0 0 1 0 10"/></svg>';
 const SOUND_OFF = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h3l4-3.5v11L6 12H3z"/><path d="M13.5 8l4 4M17.5 8l-4 4"/></svg>';
 function renderSoundUI() {
   document.querySelectorAll('.sound-btn').forEach(b => {
     b.setAttribute('aria-pressed', String(save.sound));
     b.setAttribute('aria-label', save.sound ? '音效已开启，点按关闭' : '音效已关闭，点按开启');
-    b.innerHTML = (save.sound ? SOUND_ON : SOUND_OFF) + `<span>${save.sound ? '音效 开' : '音效 关'}</span>`;
+    b.innerHTML = save.sound ? SOUND_ON : SOUND_OFF;
   });
   const noTone = A.done && !A.tone;
   const set = (id, on, disabled, note) => { const b = $(id); b.setAttribute('aria-checked', String(on)); b.disabled = disabled; if (note) b.querySelector('small').textContent = note; };
@@ -1073,59 +1366,121 @@ function renderSoundUI() {
   set('#tgAmb', save.ambience && save.sound, !save.sound || noTone, noTone ? '这个设备上无法加载环境音' : '');
 }
 function refreshMeta() {
-  const c = collectedCount(), pct = (c / MOTIFS.length * 100).toFixed(1) + '%', t = `${c}/${MOTIFS.length}`;
-  $('#homeCount').textContent = `花札 ${c} / ${MOTIFS.length} · 御守 ${omamoriTotal()} 枚 · 朱印 ${Object.keys(save.seals).length} / ${SEALS.length}`;
-  $('#homeRail').style.width = pct; $('#dexRail').style.width = pct;
-  $('#dexMini').textContent = t; $('#dexMiniHome').textContent = t;
-  $('#dexCount').textContent = `${c} / ${MOTIFS.length} 张 · 御守 ${omamoriTotal()} 枚`;
+  const c = collectedCount(), pct = (c / MOTIFS.length * 100).toFixed(1) + '%';
+  $('#dexRail').style.width = pct;
+  $('#dexCount').textContent = `${c} / ${MOTIFS.length} 张`;
+  $('#omCount').textContent = `${c} / ${MOTIFS.length} 种 · 共 ${omamoriTotal()} 枚`;
   const unseen = save.unseen.length > 0;
   $('#dotHome').hidden = !unseen; $('#dotGame').hidden = !unseen;
 }
-function renderModes() {
-  const html = Object.entries(MODES).map(([k, m]) => `<button type="button" role="radio" data-mode="${k}" aria-checked="${save.mode === k}">${m.name}</button>`).join('');
-  $('#modeSeg').innerHTML = html; $('#modeSeg2').innerHTML = html;
-  $('#modeNote').textContent = MODES[save.mode].note; $('#modeNote2').textContent = MODES[save.mode].note;
-}
 const budgetOf = (l, mode = save.mode) => MODES[mode].limit ? l[mode] : Infinity;
 const levelMeta = l => MODES[save.mode].limit ? `${l.pairs} 组 · ${budgetOf(l)} 步` : `${l.pairs} 组 · 不限步数`;
-function renderHome() {
-  const tgt = targetLevel(), allDone = LEVELS.every(l => cleared(l.n));
-  const S = SEASONS[tgt.s];
-  const pick = MOTIFS.filter(m => S.months.includes(m.m) && (m.tag === '光札' || m.tag === '种札'));
-  $('#cArt').innerHTML = art(pick[tgt.n % pick.length]);
-  $('#cEyebrow').textContent = allDone ? '八处庭院已全部走完 · 再访' : `${cleared(tgt.n) ? '再访' : '继续'} · ${S.name} · 第${KANJI[tgt.n - 1]}庭`;
-  $('#cName').textContent = tgt.name;
-  $('#cMeta').textContent = `${tgt.sub} · ${levelMeta(tgt)} · ${MODES[save.mode].name}`;
-  $('#btnContinue').dataset.n = tgt.n;
-  const hk = tgt.haiku;
-  $('#haiku').innerHTML = `<span class="jp">${hk[0]}</span><span>${hk[1]}</span><small>— ${hk[2]}</small>`;
-  $('#haiku').style.setProperty('--season', S.accent);
-  $('#btnContinue').style.setProperty('--season', S.accent);
-  $('#path').innerHTML = `<svg class="trail" id="trail" aria-hidden="true"></svg>` + SEASONS.map((S, si) => `<section class="p-season" style="--season:${S.accent}" aria-label="${S.name}">
-    <div class="season-h"><span class="s-kanji">${S.name}</span><span><b>${S.note}</b><small>${S.range}</small></span></div>
-    ${LEVELS.filter(l => l.s === si).map(l => {
-      const locked = l.n > save.unlocked, b = save.best[save.mode][l.n] || 0, done = cleared(l.n), next = l.n === tgt.n && !done;
-      const status = locked ? '通关上一庭后点亮' : b ? `<span class="flowers" aria-label="${b} 朵花">${[1, 2, 3].map(i => flowerIcon(i <= b)).join('')}</span>` : done ? '已点亮（其他难度）' : next ? '下一处' : '未通关';
-      return `<button class="stop ${l.n % 2 ? 'left' : 'right'}${done ? ' lit' : ''}${next ? ' next' : ''}" type="button" data-n="${l.n}" ${locked ? 'disabled' : ''}
-        aria-label="第${KANJI[l.n - 1]}庭 ${l.name}${locked ? '，未解锁' : done ? '，已通关' : ''}">
-        <span class="lantern">${LANTERN}</span>
-        <span class="s-txt"><span class="s-name">${l.name}</span><span class="s-meta">第${KANJI[l.n - 1]}庭 · ${l.sub} · ${levelMeta(l)}</span><span class="s-meta">${status}</span></span></button>`;
-    }).join('')}</section>`).join('');
-  requestAnimationFrame(drawTrail);
+function modeSegHTML() {
+  return `<div class="seg" role="radiogroup" aria-label="难度">${Object.entries(MODES).map(([k, m]) => `<button type="button" role="radio" data-mode="${k}" aria-checked="${save.mode === k}">${m.name}</button>`).join('')}</div><p class="mode-note">${MODES[save.mode].note}</p>`;
 }
-function drawTrail() {
-  const path = $('#path'), svg = $('#trail');
-  if (!path || !svg || current !== 'home') return;
-  const box = path.getBoundingClientRect();
-  const pts = [...path.querySelectorAll('.stop .lantern')].map(el => { const r = el.getBoundingClientRect(); return [r.left + r.width / 2 - box.left, r.top + r.height * .85 - box.top]; });
-  if (pts.length < 2) return;
-  const curve = list => list.map((p, i) => i ? `C${r2(list[i - 1][0])} ${r2(list[i - 1][1] + 40)} ${r2(p[0])} ${r2(p[1] - 40)} ${r2(p[0])} ${r2(p[1])}` : `M${r2(p[0])} ${r2(p[1])}`).join(' ');
-  const upto = Math.max(1, Math.min(pts.length, targetLevel().n));
-  svg.setAttribute('viewBox', `0 0 ${r2(box.width)} ${r2(box.height)}`);
-  svg.innerHTML = `<path d="${curve(pts)}" fill="none" stroke="var(--line-2)" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 13"/>`
-    + `<path d="${curve(pts.slice(0, upto))}" fill="none" stroke="var(--accent)" stroke-opacity=".75" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 13"/>`;
+function renderModes() {
+  $('#modeSeg2').innerHTML = Object.entries(MODES).map(([k, m]) => `<button type="button" role="radio" data-mode="${k}" aria-checked="${save.mode === k}">${m.name}</button>`).join('');
+  $('#modeNote2').textContent = MODES[save.mode].note;
 }
 
+/* ================= theme home pages ================= */
+function homeCtx() {
+  const tgt = targetLevel(), allDone = LEVELS.every(l => cleared(l.n)), S = SEASONS[tgt.s];
+  const levels = LEVELS.map(l => {
+    const locked = l.n > save.unlocked, done = cleared(l.n), next = l.n === tgt.n && !done, best = save.best[save.mode][l.n] || 0;
+    const status = locked ? '未解锁' : best ? [1, 2, 3].map(i => i <= best ? '✿' : '·').join('') : done ? '已点亮' : next ? '下一处' : '未通关';
+    return {...l, locked, done, next, best, status, cls: `${locked ? 'st-lock' : ''}${done ? ' done' : ''}${next ? ' next' : ''}`, k: KANJI[l.n - 1], sc: seasonColor(l.s)};
+  });
+  const pick = MOTIFS.filter(m => S.months.includes(m.m) && (m.tag === '光札' || m.tag === '种札'));
+  return {tgt, S, allDone, levels, card: pick[tgt.n % pick.length], k: KANJI[tgt.n - 1], meta: levelMeta(tgt),
+    verb: allDone ? '再访' : cleared(tgt.n) ? '再访' : '继续', hk: tgt.haiku,
+    stats: `<div class="hv-stats"><button type="button" data-sheet="dex"><span>花札</span><b class="tnum">${collectedCount()} / 48</b></button><button type="button" data-sheet="omamori"><span>御守</span><b class="tnum">${omamoriTotal()} 枚</b></button><button type="button" data-sheet="dex"><span>朱印</span><b class="tnum">${Object.keys(save.seals).length} / ${SEALS.length}</b></button></div>`};
+}
+const go = (l, cls, inner, extra = '') => `<button type="button" class="go ${cls} ${l.cls}" data-go="${l.n}" ${l.locked ? 'disabled' : ''} aria-label="第${l.k}庭 ${l.name}${l.locked ? '，未解锁' : l.done ? '，已通关' : ''}" ${extra}>${inner}</button>`;
+const haikuHTML = (hk, cls = '') => `<p class="haiku ${cls}"><span class="jp">${hk[0]}</span><span class="cn">${hk[1]}</span><small>— ${hk[2]}</small></p>`;
+const HOME = {
+  dream: c => `<div class="hv hv-dream">
+      <header class="dr-title" aria-label="御守花札"><span>御</span><span>守</span><span>花</span><span>札</span><small>梦游行 · 四季八景</small></header>
+      <button type="button" class="go dr-portal" data-go="${c.tgt.n}"><span class="dr-ring"></span><span class="dr-in"><span class="dr-card">${art(c.card)}</span><em>入梦 · ${c.verb}</em><b>${c.tgt.name}</b><small>${c.S.name} · 第${c.k}庭 · ${c.meta}</small></span></button>
+      ${haikuHTML(c.hk)}${modeSegHTML()}
+      <div class="dr-parade" role="list">${c.levels.map((l, i) => go(l, 'dr-ticket', `<b>${l.k}</b><span class="jp">${l.name}</span><small>${l.sub} · ${l.status}</small>`, `role="listitem" style="--rot:${i % 2 ? 3 : -3}deg;--season:${l.sc}"`)).join('')}</div>
+      ${c.stats}</div>`,
+  youth: c => `<div class="hv hv-youth">
+      <header class="yo-head"><h1>御守花札</h1><span>四叠半花札部 · 招新中</span></header>
+      <button type="button" class="go yo-cta" data-go="${c.tgt.n}"><span class="yo-num">${c.tgt.n}</span><span><small>NEXT! ${c.S.name} · ${c.verb}</small><b>${c.tgt.name}</b><small>${c.meta}</small></span><span class="yo-arrow" aria-hidden="true">→</span></button>
+      <div class="yo-bubble">${haikuHTML(c.hk)}</div>${modeSegHTML()}
+      <div class="yo-grid">${c.levels.map(l => go(l, 'yo-tile', `<b class="yo-big" aria-hidden="true">${l.n}</b><span class="jp">${l.name}</span><small>${SEASONS[l.s].name} · ${l.status}</small>`)).join('')}</div>
+      ${c.stats}</div>`,
+  manga: c => `<div class="hv hv-manga">
+      <header class="mg-mast"><div class="mg-lines" aria-hidden="true">${mangaLines()}</div><h1>御守花札</h1><div class="mg-issue"><span>四季八景 · 好评连载中</span><span>第${c.k}話</span></div></header>
+      <button type="button" class="go mg-koma" data-go="${c.tgt.n}"><span class="mg-art">${art(c.card)}</span><span class="mg-v"><small>${c.allDone ? '完結 · 再読' : '最新話'}</small><b>第${c.k}話「${c.tgt.name}」</b><span>${c.S.name} · ${c.meta}</span></span><span class="mg-read">読む</span></button>
+      <div class="mg-balloon">${haikuHTML(c.hk)}</div>${modeSegHTML()}
+      <section class="mg-toc"><h2>目次</h2>${c.levels.map(l => go(l, '', `<span class="no">第${l.k}話</span><span class="jp">${l.name}</span><i></i><span class="mk">${l.locked ? '次号' : l.done ? '済' : l.next ? '▶' : ''}</span>`)).join('')}</section>
+      ${c.stats}</div>`,
+  ukiyo: c => `<div class="hv hv-ukiyo">
+      <header class="uk-head"><div class="uk-cart"><b>御守花札</b><small>四季八景</small></div><div class="uk-side"><span class="uk-seal">${c.S.name}</span>${haikuHTML(c.hk)}</div></header>
+      <button type="button" class="go uk-print" data-go="${c.tgt.n}"><span class="uk-scene">${sceneSVG(c.tgt, 'ukiyo', 'hp', '0 120 400 300')}</span><span class="uk-label">四季八景之${c.k} · ${c.tgt.name}</span><span class="uk-go"><span>${c.S.name} · ${c.meta}</span><b>${c.verb} ▶</b></span></button>
+      ${modeSegHTML()}
+      <div class="uk-grid">${c.levels.map(l => go(l, 'uk-thumb', `<span class="uk-mini">${sceneSVG(l, 'ukiyo', 'ht' + l.n, '40 80 320 427')}</span><span class="uk-lab">${l.k} ${l.name}</span>${l.done ? '<span class="uk-done">済</span>' : ''}`)).join('')}</div>
+      ${c.stats}</div>`,
+  washi: c => `<div class="hv hv-washi">
+      <div class="wa-lattice" aria-hidden="true"></div>
+      <button type="button" class="go wa-cover" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}">
+        <span class="wa-mark">${c.S.name}</span><span class="wa-title">御守花札</span><span class="wa-author">花札 · 四季八景</span><span class="wa-pub">庭院文库</span>
+        <span class="wa-obi"><em>${c.hk[0]}</em><small>${c.hk[1]}　— ${c.hk[2]}</small><b>第${c.k}庭「${c.tgt.name}」へ</b></span></button>
+      <button type="button" class="go btn primary" data-go="${c.tgt.n}">翻开 · ${c.tgt.name}　${c.meta}</button>
+      ${modeSegHTML()}
+      <section class="wa-toc"><h2>目次</h2>${c.levels.map(l => go(l, '', `<span class="no">第${l.k}庭</span><span class="jp">${l.name}</span><i></i><span class="pg">${l.done ? '印' : l.locked ? '' : l.sub}</span>`)).join('')}</section>
+      ${c.stats}</div>`,
+  kare: c => `<div class="hv hv-kare">
+      <header class="ka-head"><h1>御守花札</h1><small>${c.S.name} · ${c.hk[0]}</small></header>
+      <button type="button" class="go ka-stone" data-go="${c.tgt.n}">${karePlate()}<span><b>${c.tgt.name}</b><small>第${c.k}庭 · ${c.meta} · ${c.verb}</small></span></button>
+      ${modeSegHTML()}
+      <div class="ka-row">${c.levels.map(l => go(l, 'ka-pebble', `${pebble(l)}<span>${l.name}</span>`)).join('')}</div>
+      <p class="ka-hk">${c.hk[1]}　— ${c.hk[2]}</p>${c.stats}</div>`,
+  matsuri: c => `<div class="hv hv-matsuri">
+      <header class="mt-lanterns" aria-label="御守花札">${['御', '守', '花', '札'].map(ch => `<span class="mt-l">${ch}</span>`).join('')}</header>
+      <p class="mt-sub">夏日祭典 · 四季八景</p>
+      <button type="button" class="go mt-noren" data-go="${c.tgt.n}"><span class="mt-stripes"></span><b>${c.tgt.name}</b><small>${c.S.name} · 第${c.k}庭 · ${c.meta}</small><span class="mt-go">${c.allDone ? '再逛一次' : '参加'} ▶</span></button>
+      <div class="mt-fan">${haikuHTML(c.hk)}</div>${modeSegHTML()}
+      <div class="mt-stalls">${c.levels.map(l => go(l, 'mt-stall', `<span class="mt-roof" style="--season:${l.sc}"></span><span class="jp">${l.name}</span><small>第${l.k}庭 · ${l.status}</small>`)).join('')}</div>
+      ${c.stats}</div>`,
+  techo: c => `<div class="hv hv-techo">
+      <header class="tc-head"><h1>御守花札</h1><span>${new Date().getMonth() + 1}月${new Date().getDate()}日 · 旅行记</span></header>
+      <div class="tc-spread">
+        <button type="button" class="go tc-polaroid" data-go="${c.tgt.n}"><span class="tc-tape"></span><span class="tc-photo">${sceneSVG(c.tgt, 'techo', 'hp', '20 40 360 360')}</span><span class="tc-cap">第${c.k}庭 · ${c.tgt.name}</span></button>
+        <div class="tc-note">${haikuHTML(c.hk)}</div></div>
+      <button type="button" class="go tc-ticket" data-go="${c.tgt.n}"><b>${c.verb} ▶</b><small>${c.S.name} · ${c.meta}</small></button>
+      ${modeSegHTML()}
+      <section class="tc-rally"><h2>四季印章集</h2><div class="tc-stamps">${c.levels.map(l => go(l, 'tc-stamp', `<span class="ring">${l.done ? `${l.name}<br>${l.sub}` : l.next ? '下一站' : l.k}</span><small>${l.name}</small>`)).join('')}</div></section>
+      ${c.stats}</div>`
+};
+function mangaLines() {
+  let s = '';
+  for (let i = 0; i < 48; i++) { const a = rad(i * 7.5), r0 = 40; s += `<path d="M${r2(330 + Math.cos(a) * r0)} ${r2(30 + Math.sin(a) * r0)} L${r2(330 + Math.cos(a - .012) * 600)} ${r2(30 + Math.sin(a - .012) * 600)} L${r2(330 + Math.cos(a + .012) * 600)} ${r2(30 + Math.sin(a + .012) * 600)}Z" fill="#111" opacity=".9"/>`; }
+  return `<svg viewBox="0 0 400 160" preserveAspectRatio="xMidYMid slice">${s}</svg>`;
+}
+function karePlate() {
+  let rings = '';
+  for (let i = 9; i >= 1; i--) rings += `<circle cx="150" cy="140" r="${18 + i * 12}" fill="none" stroke="#cbc4b3" stroke-width="2.2"/>`;
+  return `<svg viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="140" r="140" fill="#e4dfd2"/>${rings}`
+    + `<path d="M108 156 Q112 104 152 98 Q196 102 196 156Z" fill="#8d8a82"/><path d="M118 130 Q150 88 186 122 Q152 112 118 130Z" fill="#6e7f4f" opacity=".9"/></svg>`;
+}
+function pebble(l) {
+  const fill = l.locked ? 'none' : '#8d8a82', st = l.locked ? 'stroke="#b4b0a6" stroke-dasharray="3 3"' : '';
+  return `<svg viewBox="0 0 52 34" aria-hidden="true"><ellipse cx="26" cy="22" rx="24" ry="9" fill="none" stroke="#cbc4b3" stroke-width="1.2"/><path d="M10 24 Q12 8 27 7 Q42 8 43 24Z" fill="${fill}" ${st}/>${l.done ? '<path d="M14 16 Q26 4 40 14 Q27 11 14 16Z" fill="#6e7f4f"/>' : ''}${l.next ? '<circle cx="27" cy="16" r="3" fill="#55704a"/>' : ''}</svg>`;
+}
+function renderHome() {
+  const c = homeCtx(), th = THEMES[save.look];
+  applySeason(homeLevel().s);
+  paintScene(homeLevel(), th.homeScene ? 'home' : 'none');
+  const view = $('#homeView'), y = view.scrollTop;
+  view.innerHTML = HOME[save.look](c);
+  view.scrollTop = y;
+  refreshMeta();
+}
+
+/* ================= sheets ================= */
 function renderDex() {
   const got = id => !!save.collected[id];
   $('#dexIntro').innerHTML = `<h3>四十八张，十二个月</h3>
@@ -1146,29 +1501,56 @@ function renderDex() {
     const n = save.collected[x.id] || 0, tagCls = {'光札': ' hikari', '种札': ' tane', '短册': ' tan'}[x.tag] || '';
     if (!n) return `<article class="entry locked"><div class="e-art">${BACK}</div><div class="e-text">
       <div class="e-name"><b>未解锁</b><span class="tag${tagCls}">${x.tag}</span></div><div class="e-sub">${cn} · ${jp}</div>
-      <p>在庭院里翻出这张花札，就会记入图鉴。</p><div class="e-om">${omamoriSVG('rgba(140,140,140,.35)')}<span class="cnt">御守未获得</span></div></div></article>`;
+      <p>在庭院里翻出这张花札，就会记入图鉴。</p></div></article>`;
+    const at = save.collectedAt[x.id] ? new Date(save.collectedAt[x.id]) : null;
     return `<article class="entry">${save.unseen.includes(x.id) ? '<span class="new-badge">新</span>' : ''}<div class="e-art">${art(x)}</div><div class="e-text">
       <div class="e-name"><b>${x.jp}</b><span class="tag${tagCls}">${x.tag}</span></div><div class="e-sub">${x.cn} · ${x.kana}</div>
       <div class="e-mean"><span>寓意</span>${x.mean}</div><p>${x.desc}</p>
-      <div class="e-om">${omamoriSVG(x.omc)}<span>${x.om}</span><span class="cnt tnum">× ${n}</span></div></div></article>`;
+      <div class="e-foot"><span class="e-om">${omamoriSVG(x)}${x.om} × ${n}</span>${at ? `<span class="e-date">收于 ${at.getMonth() + 1}月${at.getDate()}日</span>` : ''}</div></div></article>`;
   }).join('')}</div></section>`;
-  $('#months').innerHTML = SEASONS.map(S => {
+  $('#months').innerHTML = SEASONS.map((S, i) => {
     const n = MOTIFS.filter(x => S.months.includes(x.m) && got(x.id)).length;
-    return `<section style="--season:${S.accent}"><div class="season-h"><span class="s-kanji">${S.name}</span><span><b>${S.range}</b><small>本季已收集 ${n} / 12 张</small></span></div>
+    return `<section style="--season:${seasonColor(i)}"><div class="season-h"><span class="s-kanji">${S.name}</span><span><b>${S.range}</b><small>本季已收集 ${n} / 12 张</small></span></div>
       <div class="months">${MONTHS.filter(([m]) => S.months.includes(m)).map(month).join('')}</div></section>`;
   }).join('');
 }
+function renderOmamori() {
+  $('#omSeasons').innerHTML = SEASONS.map((S, i) => {
+    const list = MOTIFS.filter(x => S.months.includes(x.m)), got = list.filter(x => save.collected[x.id]).length;
+    return `<section style="--season:${seasonColor(i)}"><div class="season-h"><span class="s-kanji">${S.name}</span><span><b>${S.note}</b><small>已收 ${got} / 12 种</small></span></div>
+      <div class="om-grid">${list.map(x => { const n = save.collected[x.id] || 0;
+        return n ? `<button type="button" class="om-cell" data-om="${x.id}" aria-label="${x.om}，已收 ${n} 枚"><span class="om-badge">${omamoriSVG(x)}</span><b>${x.om}</b><span class="cnt tnum">× ${n}</span></button>`
+          : `<div class="om-cell locked" aria-label="未求得的御守"><span class="om-badge">${omamoriSVG(x, true)}</span><span>？？？</span></div>`; }).join('')}</div></section>`;
+  }).join('');
+}
+function omamoriDetail(id) {
+  const x = BY_ID[id], n = save.collected[id] || 0, at = save.collectedAt[id] ? new Date(save.collectedAt[id]) : null;
+  openModal(`<div class="om-big">${omamoriSVG(x)}<div class="eyebrow">御守 · ${MONTHS[x.m - 1][2]}</div><h2 style="margin:0">${x.om}</h2>
+    <p style="margin:0">保佑「${x.mean}」。得自花札「<span class="jp">${x.jp}</span>」。</p>
+    <p style="margin:0">已收下 ${n} 枚${at ? ` · 初次求得于 ${at.getMonth() + 1}月${at.getDate()}日` : ''}</p></div>
+    <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>收好</button></div>`);
+}
+function themePreview(key) {
+  const deck = THEMES[key].deck, ids = ['susuki-tsuki', 'kiku-sakazuki'];
+  const cells = [0, 1, 2, 3, 4, 5, 6, 7].map(i => i === 1 || i === 6 ? `<i>${art(BY_ID[ids[i === 1 ? 0 : 1]], deck)}</i>` : `<i>${BACK}</i>`).join('');
+  return `<span class="pv"><span class="pv-bg">${sceneSVG(LEVELS[4], key, 'pv-' + key)}</span><span class="pv-ui"><span class="pv-top">月見</span>
+    <span class="pv-hud"><span>步数 <b>13</b>/17</span><span>配对 <b>2</b>/8</span></span><span class="pv-deck">${cells}</span><span class="pv-btn">重新看牌</span></span></span>`;
+}
+function renderThemes() {
+  $('#thCount').textContent = '当前：' + THEMES[save.look].name;
+  $('#themeList').innerHTML = Object.entries(THEMES).map(([k, t], i) => `<button type="button" class="theme-card" role="radio" data-look="${k}" data-pick-look="${k}" aria-checked="${save.look === k}">
+    ${themePreview(k)}<span class="tc-txt"><b>${i + 1} · ${t.name}</b><small>${t.line}</small><em>推荐卡面：${SKINS[t.deck].name}</em></span></button>`).join('');
+}
 function renderSettings() {
-  $('#looks').innerHTML = Object.entries(LOOKS).map(([k, l]) => `<button class="look" type="button" role="radio" data-look="${k}" aria-checked="${save.look === k}">
-    <span class="sw">${lookSwatch(k)}</span><span class="lt"><b>${l.name}</b><small>${l.verse}</small></span></button>`).join('');
   $('#skins').innerHTML = Object.entries(SKINS).map(([k, s]) => `<button class="skin" type="button" role="radio" data-skin="${k}" aria-checked="${save.skin === k}">
     <span class="mini">${['matsu-tsuru', 'susuki-tsuki'].map(id => art(BY_ID[id], k)).join('')}</span><b>${s.name}</b><small>${s.note}</small></button>`).join('');
-  renderModes(); renderSoundUI();
+  renderModes(); renderSoundUI(); setSaveNote();
 }
+const SHEETS = {dex: renderDex, omamori: renderOmamori, themes: renderThemes, settings: renderSettings};
 const sheetReturn = {};
-function openSheet(id, render) {
+function openSheet(id) {
   sheetReturn[id] = document.activeElement;
-  render(); $('#' + id).hidden = false; $('#' + id + ' .sheet-body').scrollTop = 0;
+  SHEETS[id](); $('#' + id).hidden = false; $('#' + id + ' .sheet-body').scrollTop = 0;
   $('#' + id + ' .sheet-head .btn').focus();
 }
 function closeSheet(id) {
@@ -1176,21 +1558,18 @@ function closeSheet(id) {
   if (id === 'dex' && save.unseen.length) { save.unseen = []; persist(); }
   refreshMeta();
   if (current === 'home') renderHome();
-  const f = sheetReturn[id]; if (f && f.focus) f.focus();
+  const f = sheetReturn[id]; if (f && f.focus && document.contains(f)) f.focus();
 }
 
 let modalOnClose = null;
-function openModal(html, onClose) {
-  $('#modalCard').innerHTML = html; $('#modal').hidden = false; modalOnClose = onClose || null;
-  const f = $('#modalCard [data-focus]') || $('#modalCard button'); if (f) f.focus();
-}
+function openModal(html, onClose) { $('#modalCard').innerHTML = html; $('#modal').hidden = false; modalOnClose = onClose || null; const f = $('#modalCard [data-focus]') || $('#modalCard button'); if (f) f.focus(); }
 function closeModal(run = true) { $('#modal').hidden = true; const cb = modalOnClose; modalOnClose = null; if (run && cb) cb(); }
 function rulesHTML(cta) {
   return `<div class="eyebrow">游玩说明</div><h2>记住，再翻开</h2>
     <ol class="rules">
       <li><span class="n">一</span><span>牌会<b>亮几秒</b>，记住它们的位置。</span></li>
       <li><span class="n">二</span><span>一次翻两张，<b>算一步</b>。相同便留下，不同就合上。</span></li>
-      <li><span class="n">三</span><span>在<b>步数用尽前</b>配完，点亮下一盏灯笼。</span></li>
+      <li><span class="n">三</span><span>在<b>步数用尽前</b>配完，点亮下一处庭院。</span></li>
       <li><span class="n">四</span><span><b>重新看牌</b>让未配的牌再亮一瞬，不耗步数。</span></li>
     </ol>
     <p>连续配对会盖下朱印，还会多给一步或一次回看。嫌步数紧，就在主页换成「悠闲」。</p>
@@ -1199,25 +1578,24 @@ function rulesHTML(cta) {
 function creditsHTML() {
   return `<div class="eyebrow">素材致谢</div><h2>开源素材</h2>
     <ul class="credits">
-      <li><b>花札图像（三套卡面）</b>：Louie Mantia 绘制，「墨染」「朱缘」两套另有すけじょ参与，均来自 <a href="https://commons.wikimedia.org/wiki/Category:SVG_Hanafuda" target="_blank" rel="noopener">Wikimedia Commons</a>，<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>。图像未作修改。</li>
+      <li><b>花札「彩绘」「墨染」「朱缘」</b>：Louie Mantia 绘制，后两套另有すけじょ参与；来自 <a href="https://commons.wikimedia.org/wiki/Category:SVG_Hanafuda" target="_blank" rel="noopener">Wikimedia Commons</a>，<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>，未作修改。</li>
+      <li><b>花札「花图」</b>：韩式 Hwatu，Marcus Richert 以 Louie Mantia 的花札为基础制作，Spenĉjo 整理上传；<a href="https://commons.wikimedia.org/wiki/Category:SVG_Hwatu" target="_blank" rel="noopener">Wikimedia Commons</a>，CC BY-SA 4.0，未作修改。</li>
+      <li><b>花札「墨绘」「剪纸」「网点」与御守</b>：本作原创，由程序绘制；御守花纹取自传统和柄。</li>
       <li><b>纸牌音效</b>：Kenney「<a href="https://kenney.nl/assets/casino-audio" target="_blank" rel="noopener">Casino Audio</a>」，CC0。</li>
-      <li><b>琴声、风铃、尺八与环境音</b>：用 <a href="https://github.com/Tonejs/Tone.js" target="_blank" rel="noopener">Tone.js</a>（MIT）实时合成。</li>
+      <li><b>琴声、风铃、尺八与环境音</b>：<a href="https://github.com/Tonejs/Tone.js" target="_blank" rel="noopener">Tone.js</a>（MIT）实时合成。</li>
       <li><b>落花特效</b>：<a href="https://github.com/catdad/canvas-confetti" target="_blank" rel="noopener">canvas-confetti</a>（ISC）。</li>
-      <li><b>字体</b>：Zen Old Mincho、Shippori Mincho B1、Yuji Boku、Kaisei Decol、ZCOOL XiaoWei、Noto Serif SC、Noto Sans SC，均为 SIL OFL 1.1，经 Google Fonts 提供。</li>
+      <li><b>字体</b>：Shippori Mincho B1、Zen Old Mincho、Zen Antique、Dela Gothic One、Yusei Magic、Klee One、Kaisei Decol、Yuji Syuku、ZCOOL XiaoWei、ZCOOL KuaiLe、ZCOOL QingKe HuangYou、Long Cang、Noto Serif SC、Noto Sans SC，均为 SIL OFL 1.1，经 Google Fonts 提供。</li>
     </ul>
     <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>关闭</button></div>`;
 }
 let toastTimer = 0;
-function toast(html, long) {
-  const el = $('#toast'); el.innerHTML = html; el.classList.add('show');
-  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), long ? 3000 : 1800);
-}
-const cardToast = (m, fresh) => toast(`<div class="t-art">${art(m)}</div><div><div class="t1">${fresh ? '初见 · 记入图鉴' : '再会 · 御守 +1'}</div>
+function toast(html, long) { const el = $('#toast'); el.innerHTML = html; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), long ? 3000 : 1800); }
+const cardToast = (m, fresh) => toast(`<div class="t-art">${omamoriSVG(m)}</div><div><div class="t1">${fresh ? '初见 · 记入图鉴' : '再会 · 御守 +1'}</div>
   <div class="t2"><span class="jp">${m.jp}</span> · ${m.cn}</div><div class="t3">${m.mean} · 收下一枚${m.om}</div></div>`, fresh);
 function floatOmamori(cardEl, m) {
   if (reduceMotion() || !cardEl) return;
   const r = cardEl.getBoundingClientRect(), f = document.createElement('div');
-  f.className = 'float'; f.innerHTML = omamoriSVG(m.omc);
+  f.className = 'float'; f.innerHTML = omamoriSVG(m);
   f.style.left = (r.left + r.width / 2) + 'px'; f.style.top = (r.top + r.height / 2) + 'px';
   document.body.appendChild(f); setTimeout(() => f.remove(), 1300);
 }
@@ -1240,27 +1618,6 @@ function pickMotifs(lv) {
   for (const id of shuffle(MOTIFS.map(m => m.id))) { if (out.length >= lv.pairs) break; if (!out.includes(id)) out.push(id); }
   return shuffle(out);
 }
-function awardSeal(id) {
-  if (save.seals[id]) return false;
-  save.seals[id] = Date.now(); persist();
-  if (G) G.seals.push(id);
-  return true;
-}
-function stampFX(k, line) {
-  const el = document.createElement('div');
-  el.className = 'stamp-fx'; el.innerHTML = `${sealHTML(k, true)}${line ? `<small>${line}</small>` : ''}`;
-  document.body.appendChild(el); setTimeout(() => el.remove(), 2000);
-  SFX.stamp();
-}
-// Streaks: 3 in a row gives a step, 5 gives a look-back, 7 brings a petal storm. Each first time also earns a seal.
-function comboFX() {
-  const c = A.combo, board = $('#board');
-  board.classList.remove('aura'); void board.offsetWidth; board.classList.add('aura');
-  if (c === 3) { if (isFinite(G.budget)) G.budget++; awardSeal('san'); stampFX('三連', isFinite(G.budget) ? '花信 · 多给一步' : '花信'); }
-  else if (c === 5) { G.peeks++; awardSeal('go'); stampFX('五連', '风来 · 多一次回看'); }
-  else if (c === 7) { awardSeal('nana'); stampFX('七連', '花吹雪'); petals({particleCount: 120, spread: 160, startVelocity: 30, origin: {x: .5, y: .35}}); }
-  renderHud();
-}
 function later(fn, ms) { const t = setTimeout(fn, ms); if (G) G.timers.push(t); return t; }
 function stopTimers() { if (G) G.timers.forEach(clearTimeout); }
 function requestLevel(n, sameSet) {
@@ -1276,7 +1633,7 @@ function startLevel(n, sameSet) {
   A.combo = 0;
   $('#gNum').textContent = `${SEASONS[L.s].name} · 第${KANJI[n - 1]}庭 · ${M.name}`;
   $('#gName').textContent = L.name;
-  applySeason(L.s); paintScene(L, false);
+  applySeason(L.s); paintScene(L, 'game');
   buildBoard(); show('game'); renderHud(); setHint('发牌中…');
   SFX.deal();
   const cards = G.deck.length, token = G;
@@ -1288,19 +1645,18 @@ function startLevel(n, sameSet) {
     G.deck.forEach(c => c.peek = true); paintAll(); SFX.peek();
     const ms = previewMs(cards, M.preview);
     setHint('看一眼，记在心里', ms);
-    later(() => {
-      G.deck.forEach(c => c.peek = false); paintAll(); SFX.unflip();
-      G.phase = 'play'; renderHud(); setHint('翻开两张，找出成对的花札');
-    }, ms);
+    later(() => { G.deck.forEach(c => c.peek = false); paintAll(); SFX.unflip(); G.phase = 'play'; renderHud(); setHint('翻开两张，找出成对的花札'); }, ms);
   });
 }
 function buildBoard() {
   const deck = $('#deck');
   deck.innerHTML = G.deck.map((c, i) => `<button class="card" type="button" data-i="${i}" style="--d:${i}" aria-label="第 ${i + 1} 张，背面朝上">
-    <span class="inner"><span class="face back">${BACK}</span><span class="face front">${art(BY_ID[c.id])}<span class="stamp">揃</span></span></span></button>`).join('');
+    <span class="inner"><span class="face back">${BACK}</span><span class="face front">${art(BY_ID[c.id])}</span></span></button>`).join('');
   deck.classList.remove('dealing'); void deck.offsetWidth; deck.classList.add('dealing');
   layoutBoard();
 }
+// Swap card art in place (a deck change mid-game) without touching the game state.
+function refreshBoardArt() { if (!G) return; [...$('#deck').children].forEach((el, i) => { const img = el.querySelector('.front img'); if (img) img.src = cardSrc(BY_ID[G.deck[i].id]); }); }
 function paint(i) {
   const c = G.deck[i], el = $('#deck').children[i];
   if (!el) return;
@@ -1360,11 +1716,27 @@ function tap(i) {
     }, 950);
   }
 }
+function awardSeal(id) { if (save.seals[id]) return false; save.seals[id] = Date.now(); persist(); if (G) G.seals.push(id); return true; }
+function stampFX(k, line) {
+  const el = document.createElement('div');
+  el.className = 'stamp-fx'; el.innerHTML = `${sealHTML(k, true)}${line ? `<small>${line}</small>` : ''}`;
+  document.body.appendChild(el); setTimeout(() => el.remove(), 2000);
+  SFX.stamp();
+}
+// Streaks: 3 in a row gives a step, 5 gives a look-back, 7 brings a petal storm. Each first time also earns a seal.
+function comboFX() {
+  const c = A.combo, board = $('#board');
+  board.classList.remove('aura'); void board.offsetWidth; board.classList.add('aura');
+  if (c === 3) { if (isFinite(G.budget)) G.budget++; awardSeal('san'); stampFX('三連', isFinite(G.budget) ? '花信 · 多给一步' : '花信'); }
+  else if (c === 5) { G.peeks++; awardSeal('go'); stampFX('五連', '风来 · 多一次回看'); }
+  else if (c === 7) { awardSeal('nana'); stampFX('七連', '花吹雪'); petals({particleCount: 120, spread: 160, startVelocity: 30, origin: {x: .5, y: .35}}); }
+  renderHud();
+}
 function collect(id, el) {
   const m = BY_ID[id], fresh = !save.collected[id];
   const before = YAKU.filter(y => y.ids.every(k => save.collected[k])).map(y => y.name);
   save.collected[id] = (save.collected[id] || 0) + 1;
-  if (fresh) { save.unseen.push(id); G.fresh.push(id); }
+  if (fresh) { save.unseen.push(id); save.collectedAt[id] = Date.now(); G.fresh.push(id); }
   const made = YAKU.filter(y => y.ids.every(k => save.collected[k]) && !before.includes(y.name));
   persist();
   SFX.match(m, fresh);
@@ -1385,10 +1757,7 @@ function peek() {
   renderHud(); SFX.peek();
   const ms = peekMs(G.deck.length);
   setHint('再看一眼，步数不变', ms);
-  later(() => {
-    G.deck.forEach(c => c.peek = false); paintAll(); SFX.unflip();
-    G.phase = 'play'; renderHud(); setHint(G.first !== null ? '再翻一张' : playHint());
-  }, ms);
+  later(() => { G.deck.forEach(c => c.peek = false); paintAll(); SFX.unflip(); G.phase = 'play'; renderHud(); setHint(G.first !== null ? '再翻一张' : playHint()); }, ms);
 }
 function freshRow() {
   if (!G.fresh.length) return '';
@@ -1412,8 +1781,8 @@ function win() {
   petals({particleCount: 70, angle: 120, spread: 70, startVelocity: 42, origin: {x: 1, y: .95}});
   const nextL = LEVELS[n];
   const movesTxt = isFinite(G.budget) ? `用了 ${G.used} 步，还剩 ${movesLeft()} 步。` : `用了 ${G.used} 步（参考 ${L.std} 步）。`;
-  openModal(`<div class="eyebrow">${SEASONS[L.s].name} · 第${KANJI[n - 1]}庭 · ${L.name}</div><h2>${n === LEVELS.length ? '八盏灯笼，全部点亮' : '灯笼点亮了'}</h2>
-    <p class="haiku" style="--season:${SEASONS[L.s].accent};margin:4px 0 10px"><span class="jp">${L.haiku[0]}</span><span>${L.haiku[1]}</span><small>— ${L.haiku[2]}</small></p>
+  openModal(`<div class="eyebrow">${SEASONS[L.s].name} · 第${KANJI[n - 1]}庭 · ${L.name}</div><h2>${n === LEVELS.length ? '八处庭院，全部点亮' : '庭院点亮了'}</h2>
+    ${haikuHTML(L.haiku)}
     <div class="big-flowers" aria-label="获得 ${fl} 朵花">${[1, 2, 3].map(i => flowerIcon(i <= fl)).join('')}</div>
     <p>${movesTxt}收下御守 ${G.ids.length} 枚。${G.yaku.length ? `<br>凑成役：${G.yaku.join('、')}。` : ''}${unlockedNew ? `<br>下一处庭院「${nextL.name}」的灯，也亮了。` : ''}</p>
     ${G.seals.length ? `<div class="seals" style="margin:4px 0 8px">${G.seals.map(id => { const x = SEALS.find(z => z.id === id); return `<div class="seal-cell">${sealHTML(x.k, true)}<span>${x.how}</span></div>`; }).join('')}</div>` : ''}
@@ -1441,13 +1810,14 @@ function goHome() { stopTimers(); if (G) G.phase = 'idle'; $('#toast').classList
 function layoutBoard() {
   if (!G || current !== 'game') return;
   const board = $('#board'), deck = $('#deck');
-  const W = board.clientWidth, H = board.clientHeight - 8, N = G.deck.length;
-  if (!W || !H) return;
-  const gap = W < 480 ? 6 : 10, MAX = W < 480 ? 92 : 118, MIN = 44;
+  const pad = parseFloat(getComputedStyle(deck).paddingLeft) || 0;
+  const W = board.clientWidth - pad * 2, H = board.clientHeight - 8 - pad * 2, N = G.deck.length;
+  if (W <= 0 || H <= 0) return;
+  const ratio = 100 / 61, gap = W < 480 ? 6 : 10, MAX = W < 480 ? 92 : 118, MIN = 44;
   let best = null;
   for (let cols = 2; cols <= N; cols++) {
     const rows = Math.ceil(N / cols);
-    const w = Math.min((W - gap * (cols - 1)) / cols, ((H - gap * (rows - 1)) / rows) / 1.6, MAX);
+    const w = Math.min((W - gap * (cols - 1)) / cols, ((H - gap * (rows - 1)) / rows) / ratio, MAX);
     const score = w - (cols * rows - N) * .6;
     if (!best || score > best.score) best = {cols, w, score};
   }
@@ -1458,27 +1828,27 @@ function layoutBoard() {
   for (const el of deck.children) el.style.setProperty('--cw', w + 'px');
 }
 
-/* ================= seasonal particles ================= */
+/* ================= seasonal particles (behind the cards) ================= */
 const FX = (() => {
   const cv = $('#petals'), cx = cv.getContext && cv.getContext('2d');
-  if (!cx) return {set() {}, recolor() {}};
+  if (!cx) return {set() {}};
   let W = 0, H = 0, raf = 0, kind = 'spring', P2 = [];
   const still = reduceMotion(), pick = a => a[Math.floor(Math.random() * a.length)];
   const COUNT = {spring: 16, summer: 16, autumn: 12, winter: 46};
-  const light = () => LOOKS[save.look].light;
   function spawn(k, top) {
-    const p = {x: Math.random(), y: top ? -.05 : Math.random(), ph: Math.random() * 6.3, r: Math.random() * 6.3, vr: 0};
+    const th = THEMES[save.look].fx, tc = th.colors;
+    const p = {x: Math.random(), y: top ? -.05 : Math.random(), ph: Math.random() * 6.3, r: Math.random() * 6.3, vr: 0, shape: th.mix ? pick(['petal', 'leaf', 'dot']) : null};
     if (k === 'spring') return Object.assign(p, {s: 3 + Math.random() * 3.5, vy: .0003 + Math.random() * .0003, vx: .00012 + Math.random() * .0002, vr: (Math.random() - .5) * .03,
-      c: pick(['rgba(240,170,188,.75)', 'rgba(232,150,172,.62)', 'rgba(250,214,222,.6)'])});
-    if (k === 'summer') return Object.assign(p, {y: .3 + Math.random() * .7, s: 1.6 + Math.random() * 1.3, vx: (Math.random() - .5) * .0004, vy: (Math.random() - .5) * .0003});
+      c: tc ? pick(tc) : pick(['rgba(240,170,188,.75)', 'rgba(232,150,172,.62)', 'rgba(250,214,222,.6)'])});
+    if (k === 'summer') return Object.assign(p, {y: .3 + Math.random() * .7, s: 1.6 + Math.random() * 1.3, vx: (Math.random() - .5) * .0004, vy: (Math.random() - .5) * .0003, c: tc ? pick(tc) : null});
     if (k === 'autumn') return Object.assign(p, {s: 5 + Math.random() * 4, vy: .0004 + Math.random() * .0004, vx: (Math.random() - .4) * .0003, vr: (Math.random() - .5) * .04,
-      c: pick(['rgba(214,82,48,.78)', 'rgba(232,140,60,.72)', 'rgba(190,60,40,.72)', 'rgba(226,170,70,.66)'])});
-    return Object.assign(p, {s: 1.1 + Math.random() * 2.2, vy: .00025 + Math.random() * .0004, vx: (Math.random() - .5) * .0001, a: .4 + Math.random() * .45});
+      c: tc ? pick(tc) : pick(['rgba(214,82,48,.78)', 'rgba(232,140,60,.72)', 'rgba(190,60,40,.72)', 'rgba(226,170,70,.66)'])});
+    return Object.assign(p, {s: 1.1 + Math.random() * 2.2, vy: .00025 + Math.random() * .0004, vx: (Math.random() - .5) * .0001, a: .4 + Math.random() * .45, c: tc ? pick(tc) : null});
   }
   function leaf(s) { cx.beginPath(); for (let i = 0; i < 10; i++) { const rr = i % 2 ? s * .45 : s, a = -Math.PI / 2 + i * Math.PI / 5; cx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr); } cx.closePath(); }
   function draw(step) {
     cx.clearRect(0, 0, W, H);
-    const lt = light();
+    const lt = THEMES[save.look].light;
     for (let i = 0; i < P2.length; i++) {
       let p = P2[i];
       if (step) {
@@ -1487,15 +1857,19 @@ const FX = (() => {
         else { p.y += p.vy; p.x += p.vx + Math.sin(p.ph) * (kind === 'winter' ? .0004 : .0003); p.r += p.vr; if (p.y > 1.05 || p.x > 1.08 || p.x < -.08) P2[i] = p = spawn(kind, true); }
       }
       cx.save(); cx.translate(p.x * W, p.y * H);
-      if (kind === 'summer') {
+      const shape = p.shape || (kind === 'autumn' ? 'leaf' : kind === 'spring' ? 'petal' : 'dot');
+      if (kind === 'summer' && !p.shape) {
         cx.globalAlpha = .15 + .85 * Math.max(0, Math.sin(p.ph * 2.2 + p.r));
-        cx.fillStyle = lt ? 'rgba(170,150,40,.18)' : 'rgba(205,235,120,.16)'; cx.beginPath(); cx.arc(0, 0, p.s * 4.5, 0, 6.3); cx.fill();
-        cx.fillStyle = lt ? 'rgba(160,130,20,.9)' : 'rgba(228,248,150,.95)'; cx.beginPath(); cx.arc(0, 0, p.s, 0, 6.3); cx.fill();
-      } else if (kind === 'winter') {
-        cx.fillStyle = lt ? `rgba(120,140,170,${p.a})` : `rgba(240,245,255,${p.a})`; cx.beginPath(); cx.arc(0, 0, p.s, 0, 6.3); cx.fill();
+        const c = p.c || (lt ? 'rgba(160,130,20,.9)' : 'rgba(228,248,150,.95)');
+        cx.fillStyle = c; cx.globalAlpha *= .18; cx.beginPath(); cx.arc(0, 0, p.s * 4.5, 0, 6.3); cx.fill();
+        cx.globalAlpha /= .18; cx.beginPath(); cx.arc(0, 0, p.s, 0, 6.3); cx.fill();
       } else {
-        cx.rotate(p.r); cx.fillStyle = p.c;
-        if (kind === 'autumn') { leaf(p.s); cx.fill(); } else { cx.beginPath(); cx.ellipse(0, 0, p.s, p.s * .55, 0, 0, 6.3); cx.fill(); }
+        cx.rotate(p.r);
+        cx.fillStyle = p.c || (lt ? `rgba(120,140,170,${p.a || .6})` : `rgba(240,245,255,${p.a || .6})`);
+        if (p.c && kind === 'winter') cx.globalAlpha = p.a || .6;
+        if (shape === 'leaf') { leaf(Math.max(p.s, 4)); cx.fill(); }
+        else if (shape === 'petal') { cx.beginPath(); cx.ellipse(0, 0, Math.max(p.s, 3), Math.max(p.s, 3) * .55, 0, 0, 6.3); cx.fill(); }
+        else { cx.beginPath(); cx.arc(0, 0, p.s, 0, 6.3); cx.fill(); }
       }
       cx.restore();
     }
@@ -1504,32 +1878,50 @@ const FX = (() => {
   function loop() { draw(true); raf = requestAnimationFrame(loop); }
   size(); window.addEventListener('resize', size);
   if (!still) { loop(); document.addEventListener('visibilitychange', () => { cancelAnimationFrame(raf); if (!document.hidden) loop(); }); }
-  return {set(k) { kind = k; P2 = Array.from({length: COUNT[k]}, () => spawn(k, false)); if (still) draw(false); }, recolor() { if (still) draw(false); }};
+  return {set(k) { kind = k; P2 = Array.from({length: Math.round(COUNT[k] * THEMES[save.look].fx.k)}, () => spawn(k, false)); if (still) draw(false); }};
 })();
 
 /* ================= events ================= */
 $('#deck').addEventListener('click', e => { const b = e.target.closest('.card'); if (b) tap(+b.dataset.i); });
-$('#path').addEventListener('click', e => { const b = e.target.closest('.stop'); if (b && !b.disabled) { SFX.tap(); requestLevel(+b.dataset.n); } });
-$('#btnContinue').addEventListener('click', e => { SFX.tap(); requestLevel(+e.currentTarget.dataset.n); });
 $('#btnPeek').addEventListener('click', peek);
 $('#btnRestart').addEventListener('click', () => { if (G) { SFX.tap(); startLevel(G.n, true); } });
 $('#btnHome').addEventListener('click', () => { SFX.tap(); goHome(); });
-['#btnDexHome', '#btnDexGame', '#btnDexStrip'].forEach(id => $(id).addEventListener('click', () => { SFX.tap(); openSheet('dex', renderDex); }));
-$('#dexClose').addEventListener('click', () => closeSheet('dex'));
-$('#btnSettings').addEventListener('click', () => { SFX.tap(); openSheet('settings', renderSettings); });
-$('#setClose').addEventListener('click', () => closeSheet('settings'));
 $('#btnRules').addEventListener('click', () => openModal(rulesHTML('知道了')));
 $('#btnCredits').addEventListener('click', () => openModal(creditsHTML()));
-document.querySelectorAll('.sound-btn').forEach(b => b.addEventListener('click', () => setSound(!save.sound)));
-const onMode = e => { const b = e.target.closest('[data-mode]'); if (!b) return; save.mode = b.dataset.mode; persist(); SFX.tap(); renderModes(); if (current === 'home') renderHome(); };
-$('#modeSeg').addEventListener('click', onMode); $('#modeSeg2').addEventListener('click', onMode);
-$('#looks').addEventListener('click', e => { const b = e.target.closest('[data-look]'); if (!b) return; save.look = b.dataset.look; persist(); SFX.tap(); applyLook(); renderSettings(); });
-$('#skins').addEventListener('click', e => { const b = e.target.closest('[data-skin]'); if (!b) return; save.skin = b.dataset.skin; persist(); SFX.tap(); renderSettings(); renderHome(); });
+$('#btnReset').addEventListener('click', () => openModal(`<div class="eyebrow">从头再来</div><h2>清除全部进度？</h2>
+  <p>已收集的 ${collectedCount()} 张花札、${omamoriTotal()} 枚御守、${Object.keys(save.seals).length} 枚朱印，以及所有庭院的通关记录都会清空，无法恢复。</p>
+  <p>主题、卡面、难度和声音设置会保留。</p>
+  <div class="modal-actions"><button class="btn primary danger-fill" type="button" data-act="reset">清除，从初音重新开始</button><button class="btn" type="button" data-act="close" data-focus>先不了</button></div>`));
+function resetProgress() {
+  stopTimers(); G = null; A.combo = 0;
+  Object.assign(save, {unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, collectedAt: {}, seals: {}, unseen: [], seenRules: false});
+  persist();
+  for (const id of Object.keys(SHEETS)) $('#' + id).hidden = true;
+  show('home'); refreshMeta();
+  toast('<div><div class="t1">已清空</div><div class="t2">庭院回到了早春</div><div class="t3">从第一庭「初音」重新开始</div></div>');
+}
 $('#tgSound').addEventListener('click', () => setSound(!save.sound));
 $('#tgBgm').addEventListener('click', () => { save.bgm = !save.bgm; persist(); renderSoundUI(); startAudio(); });
 $('#tgAmb').addEventListener('click', () => { save.ambience = !save.ambience; persist(); startAudio().then(() => { applyAmbience(); renderSoundUI(); }); });
+document.addEventListener('click', e => {
+  const t = e.target;
+  const goBtn = t.closest('[data-go]'); if (goBtn && !goBtn.disabled) { SFX.tap(); requestLevel(+goBtn.dataset.go); return; }
+  const sh = t.closest('[data-sheet]'); if (sh) { SFX.tap(); openSheet(sh.dataset.sheet); return; }
+  const cl = t.closest('[data-close]'); if (cl) { closeSheet(cl.dataset.close); return; }
+  const md = t.closest('[data-mode]'); if (md) { save.mode = md.dataset.mode; persist(); SFX.tap(); renderModes(); if (current === 'home') renderHome(); return; }
+  const lk = t.closest('[data-pick-look]');
+  if (lk) {
+    save.look = lk.dataset.pickLook;
+    if (!save.skinPinned) { save.skin = THEMES[save.look].deck; refreshBoardArt(); }
+    persist(); SFX.tap(); applyLook(); renderThemes(); return;
+  }
+  const sk = t.closest('[data-skin]'); if (sk) { save.skin = sk.dataset.skin; save.skinPinned = true; persist(); SFX.tap(); refreshBoardArt(); renderSettings(); return; }
+  const om = t.closest('[data-om]'); if (om) { SFX.tap(); omamoriDetail(om.dataset.om); return; }
+  if (t.closest('.sound-btn')) setSound(!save.sound);
+});
 $('#modalCard').addEventListener('click', e => {
   const b = e.target.closest('[data-act]'); if (!b) return;
+  e.stopPropagation();
   const act = b.dataset.act, n = G ? G.n : 1;
   SFX.tap();
   if (act === 'close') return closeModal(true);
@@ -1538,22 +1930,23 @@ $('#modalCard').addEventListener('click', e => {
   else if (act === 'replay') startLevel(n, false);
   else if (act === 'retry') startLevel(n, true);
   else if (act === 'home') goHome();
-  else if (act === 'dex') { goHome(); openSheet('dex', renderDex); }
+  else if (act === 'dex') { goHome(); openSheet('dex'); }
+  else if (act === 'reset') resetProgress();
 });
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
-  if (!$('#modal').hidden && $('#modalCard [data-act="close"]')) closeModal(true);
-  else if (!$('#dex').hidden) closeSheet('dex');
-  else if (!$('#settings').hidden) closeSheet('settings');
+  if (!$('#modal').hidden && $('#modalCard [data-act="close"]')) { closeModal(true); return; }
+  for (const id of ['settings', 'themes', 'omamori', 'dex']) if (!$('#' + id).hidden) { closeSheet(id); return; }
 });
 const unlockAudio = () => { startAudio(); audio(); };
 document.addEventListener('pointerdown', unlockAudio, {once: true});
 document.addEventListener('keydown', unlockAudio, {once: true});
-if ('ResizeObserver' in window) { new ResizeObserver(() => layoutBoard()).observe($('#board')); new ResizeObserver(() => drawTrail()).observe($('#path')); }
-else window.addEventListener('resize', () => { layoutBoard(); drawTrail(); });
+if ('ResizeObserver' in window) new ResizeObserver(() => layoutBoard()).observe($('#board'));
+else window.addEventListener('resize', layoutBoard);
 
 /* ================= boot ================= */
 document.documentElement.dataset.look = save.look;
+if (!save.skinPinned) save.skin = THEMES[save.look].deck;
 renderModes(); renderSoundUI(); setSaveNote(); refreshMeta();
 initCloud();
 function start(data) {
