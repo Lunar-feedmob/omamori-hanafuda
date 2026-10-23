@@ -308,7 +308,11 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .th-group h3{margin:0 0 10px;font-family:var(--f-head);font-weight:var(--w-head);font-size:17px;color:var(--text);letter-spacing:.2em}
 .art-credit{margin:0;font-size:11px;color:var(--faint);text-align:center}
 .scene-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 28%}
-.scene-veil{position:absolute;inset:0;background:linear-gradient(rgba(18,28,54,.3),rgba(18,28,54,.6) 30%,rgba(18,28,54,.86) 60%)}
+.scene-veil{position:absolute;inset:0}
+.sv-matsuri{background:linear-gradient(rgba(18,28,54,.3),rgba(18,28,54,.6) 30%,rgba(18,28,54,.86) 60%)}
+.sa-ukiyo{object-position:50% 18%;filter:blur(1.5px)} .sv-ukiyo{background:linear-gradient(rgba(243,236,221,.62),rgba(243,236,221,.86) 40%,rgba(243,236,221,.95))}
+.sa-dream{filter:saturate(1.35) hue-rotate(-28deg)} .sv-dream{background:linear-gradient(160deg,rgba(27,16,51,.7),rgba(91,29,138,.58) 50%,rgba(27,16,51,.9))}
+:root[data-look="techo"] #homeView{background:linear-gradient(rgba(250,246,238,.86),rgba(250,246,238,.86)),url(art/techo-paper.jpg) 0 0/320px,var(--bg)}
 /* mini game mock used as the theme preview */
 .pv{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--bg)}
 .pv-bg{position:absolute;inset:0}
@@ -434,8 +438,8 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .hv-ukiyo .uk-side{display:grid;gap:8px;padding-top:4px}
 .hv-ukiyo .uk-seal{width:44px;height:44px;display:grid;place-items:center;background:#c8402a;color:#fbf6ea;font-family:var(--f-jp);font-size:22px;border-radius:4px}
 .hv-ukiyo .uk-print{position:relative;padding:0;border:2px solid #1f3a68;background:#fbf6ea;box-shadow:0 0 0 5px #fbf6ea,0 0 0 6px rgba(31,58,104,.4);text-align:left;display:block;width:100%}
-.hv-ukiyo .uk-print .uk-scene{display:block;aspect-ratio:4/3;overflow:hidden}
-.hv-ukiyo .uk-print .uk-scene svg{display:block;width:100%;height:100%}
+.hv-ukiyo .uk-print .uk-scene{display:block;aspect-ratio:4/5;overflow:hidden;background:#1f3a68}
+.hv-ukiyo .uk-print .uk-scene img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
 .hv-ukiyo .uk-print .uk-label{position:absolute;top:10px;right:10px;writing-mode:vertical-rl;padding:8px 5px;background:#fbf6ea;border:1.5px solid #1f3a68;font-family:var(--f-jp);font-size:16px;letter-spacing:.1em}
 .hv-ukiyo .uk-print .uk-go{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-top:2px solid #1f3a68;font-size:13px}
 .hv-ukiyo .uk-print .uk-go b{padding:6px 14px;background:#1f3a68;color:#fbf6ea;border-radius:2px}
@@ -512,7 +516,6 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .hv-matsuri .mt-stall.next{outline:2px solid #f29a3a;outline-offset:2px}
 /* 8 · 手账收藏 — a travel-journal spread with a stamp-rally card */
 .hv-techo{position:relative}
-:root[data-look="techo"] #homeView{background:linear-gradient(rgba(250,246,238,.86),rgba(250,246,238,.86)),url(art/techo-paper.jpg) 0 0/320px,var(--bg)}
 .hv-techo .tc-press{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:6px 4px 0}
 .hv-techo .tc-press figure{position:relative;margin:0;padding:4px 4px 6px;background:#fffdf8;box-shadow:0 4px 10px -5px rgba(74,61,50,.5);transform:rotate(var(--r))}
 .hv-techo .tc-press img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
@@ -774,10 +777,10 @@ const MODES = {
 };
 // Eight looks. deck = the card skin that suits it; fx tunes the drifting particles; homeScene shows the garden backdrop behind the home page.
 const THEMES = {
-  dream: {name: '梦之游行', jp: '夢の行列', line: '游行从梦里走出，纸灯笼与折扇浮在半空。', deck: 'hwatu', light: false, homeScene: true, fx: {k: 1, colors: ['#ff4fa3', '#2ee6d0', '#ffd23f', '#9b5cff'], mix: true}},
+  dream: {name: '梦之游行', jp: '夢の行列', line: '游行从梦里走出，纸灯笼与折扇浮在半空。', deck: 'hwatu', light: false, homeScene: false, fx: {k: 1, colors: ['#ff4fa3', '#2ee6d0', '#ffd23f', '#9b5cff'], mix: true}},
   youth: {name: '四叠青春', jp: '四畳半', line: '歪歪的线，饱满的色块，四叠半被透视拉长。', deck: 'kirie', light: true, homeScene: false, fx: {k: .8, colors: ['#e8553e', '#4aa3df', '#f2b134', '#3f9b6a']}},
   manga: {name: '昭和漫画', jp: '漫画', line: '网点、细线和一点朱红，像旧杂志的连载。', deck: 'tone', light: true, homeScene: false, mono: true, fx: {k: .55, colors: ['#111', '#555', '#d7261e']}},
-  ukiyo: {name: '浮世锦绘', jp: '錦絵', line: '靛蓝晕染的天，朱红落款，四季在版画里流转。', deck: 'classic', light: true, homeScene: false, fx: {k: .8}},
+  ukiyo: {name: '浮世锦绘', jp: '錦絵', line: '主页是当季的广重《名所江户百景》，庭院里是靛蓝与朱红的原创版画。', deck: 'classic', light: true, homeScene: false, fx: {k: .8}},
   washi: {name: '京都和纸', jp: '和紙', line: '一册文库本，封面是雪佳的四季，朱印只落一枚。', deck: 'ink', light: true, homeScene: false, fx: {k: .55}},
   kare: {name: '砂纹石庭', jp: '枯山水', line: '砂纹如水，石上生苔，风从耙痕间走过。', deck: 'sumi', light: true, homeScene: false, fx: {k: .4}},
   matsuri: {name: '灯火夜祭', jp: '夜祭り', line: '广重的烟花照着夜色，灯笼一串串亮起。', deck: 'shu', light: false, homeScene: false, homeArt: 'art/matsuri-fireworks.jpg', fx: {k: .7}},
@@ -786,6 +789,12 @@ const THEMES = {
 const THEME_GROUPS = [['传统和风', ['ukiyo', 'washi', 'kare']], ['节令生活', ['matsuri', 'techo']], ['动画漫画', ['dream', 'youth', 'manga']]];
 // Public-domain art used on the home pages (Art Institute of Chicago open access, CC0) plus a CC0 paper texture from ambientCG.
 const WASHI_COVERS = [['spring', '梅与诗笺'], ['summer', '紫阳花'], ['autumn', '武藏野之月'], ['winter', '冬之川']];
+// 歌川广重《名所江户百景》, one per season, chosen to echo that season's gardens (梅 → 初音, 夕立, 月見, 除夜の雪).
+const UKIYO_PRINTS = [['spring', '龟户梅屋敷', 1857], ['summer', '大桥阿宅骤雨', 1857], ['autumn', '月之岬', 1857], ['winter', '浅草金龙山', 1856]];
+// Full-page home backdrops: an artwork under a veil tuned per look so text stays readable.
+const HOME_BG = {
+  ukiyo: c => `art/ukiyo-${UKIYO_PRINTS[c.tgt.s][0]}.jpg`, dream: () => 'art/dream-bg.jpg', matsuri: () => 'art/matsuri-fireworks.jpg'
+};
 const calendarSeason = () => { const m = new Date().getMonth() + 1; return m >= 3 && m <= 5 ? 0 : m >= 6 && m <= 8 ? 1 : m >= 9 && m <= 11 ? 2 : 3; };
 const previewMs = (cards, k) => Math.round((2200 + cards * 130) * k);
 const peekMs = cards => 1500 + cards * 50;
@@ -1431,7 +1440,7 @@ const HOME = {
       <button type="button" class="go dr-portal" data-go="${c.tgt.n}"><span class="dr-ring"></span><span class="dr-in"><span class="dr-card">${art(c.card)}</span><em>入梦 · ${c.verb}</em><b>${c.tgt.name}</b><small>${c.S.name} · 第${c.k}庭 · ${c.meta}</small></span></button>
       ${haikuHTML(c.hk)}${modeSegHTML()}
       <div class="dr-parade" role="list">${c.levels.map((l, i) => go(l, 'dr-ticket', `<b>${l.k}</b><span class="jp">${l.name}</span><small>${l.sub} · ${l.status}</small>`, `role="listitem" style="--rot:${i % 2 ? 3 : -3}deg;--season:${l.sc}"`)).join('')}</div>
-      ${c.stats}<p class="art-credit">拼贴：神坂雪佳《百々世草》（1909–10），芝加哥艺术博物馆开放馆藏</p></div>`,
+      ${c.stats}<p class="art-credit">背景与拼贴：神坂雪佳《百々世草》（1909–10）「六歌仙」等，芝加哥艺术博物馆开放馆藏</p></div>`,
   youth: c => `<div class="hv hv-youth">
       <header class="yo-head"><h1>御守花札</h1><span>四叠半花札部 · 招新中</span></header>
       <button type="button" class="go yo-cta" data-go="${c.tgt.n}"><span class="yo-num">${c.tgt.n}</span><span><small>NEXT! ${c.S.name} · ${c.verb}</small><b>${c.tgt.name}</b><small>${c.meta}</small></span><span class="yo-arrow" aria-hidden="true">→</span></button>
@@ -1446,7 +1455,8 @@ const HOME = {
       ${c.stats}<p class="art-credit">刊头底图：葛饰北斋《北斋漫画》，芝加哥艺术博物馆开放馆藏</p></div>`,
   ukiyo: c => `<div class="hv hv-ukiyo">
       <header class="uk-head"><div class="uk-cart"><b>御守花札</b><small>四季八景</small></div><div class="uk-side"><span class="uk-seal">${c.S.name}</span>${haikuHTML(c.hk)}</div></header>
-      <button type="button" class="go uk-print" data-go="${c.tgt.n}"><span class="uk-scene">${sceneSVG(c.tgt, 'ukiyo', 'hp', '0 120 400 300')}</span><span class="uk-label">四季八景之${c.k} · ${c.tgt.name}</span><span class="uk-go"><span>${c.S.name} · ${c.meta}</span><b>${c.verb} ▶</b></span></button>
+      <button type="button" class="go uk-print" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><span class="uk-scene"><img src="art/ukiyo-${UKIYO_PRINTS[c.tgt.s][0]}.jpg" alt="歌川广重《名所江户百景 · ${UKIYO_PRINTS[c.tgt.s][1]}》"></span><span class="uk-label">名所江户百景 · ${UKIYO_PRINTS[c.tgt.s][1]}</span><span class="uk-go"><span>第${c.k}庭「${c.tgt.name}」 · ${c.meta}</span><b>${c.verb} ▶</b></span></button>
+      <p class="art-credit">歌川广重《名所江户百景 · ${UKIYO_PRINTS[c.tgt.s][1]}》（${UKIYO_PRINTS[c.tgt.s][2]}），芝加哥艺术博物馆开放馆藏</p>
       ${modeSegHTML()}
       <div class="uk-grid">${c.levels.map(l => go(l, 'uk-thumb', `<span class="uk-mini">${sceneSVG(l, 'ukiyo', 'ht' + l.n, '40 80 320 427')}</span><span class="uk-lab">${l.k} ${l.name}</span>${l.done ? '<span class="uk-done">済</span>' : ''}`)).join('')}</div>
       ${c.stats}</div>`,
@@ -1503,7 +1513,8 @@ function pebble(l) {
 function renderHome() {
   const c = homeCtx(), th = THEMES[save.look];
   applySeason(homeLevel().s);
-  if (th.homeArt) { if (sceneKey !== th.homeArt) { sceneKey = th.homeArt; $('#scene').innerHTML = `<img class="scene-art" src="${th.homeArt}" alt=""><div class="scene-veil"></div>`; } }
+  const bg = HOME_BG[save.look] && HOME_BG[save.look](c);
+  if (bg) { const key = save.look + bg; if (sceneKey !== key) { sceneKey = key; $('#scene').innerHTML = `<img class="scene-art sa-${save.look}" src="${bg}" alt=""><div class="scene-veil sv-${save.look}"></div>`; } }
   else paintScene(homeLevel(), th.homeScene ? 'home' : 'none');
   const view = $('#homeView'), y = view.scrollTop;
   view.innerHTML = HOME[save.look](c);
@@ -1613,7 +1624,7 @@ function creditsHTML() {
       <li><b>花札「彩绘」「墨染」「朱缘」</b>：Louie Mantia 绘制，后两套另有すけじょ参与；来自 <a href="https://commons.wikimedia.org/wiki/Category:SVG_Hanafuda" target="_blank" rel="noopener">Wikimedia Commons</a>，<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>，未作修改。</li>
       <li><b>花札「花图」</b>：韩式 Hwatu，Marcus Richert 以 Louie Mantia 的花札为基础制作，Spenĉjo 整理上传；<a href="https://commons.wikimedia.org/wiki/Category:SVG_Hwatu" target="_blank" rel="noopener">Wikimedia Commons</a>，CC BY-SA 4.0，未作修改。</li>
       <li><b>花札「墨绘」「剪纸」「网点」与御守</b>：本作原创，由程序绘制；御守花纹取自传统和柄。</li>
-      <li><b>主页插图</b>：神坂雪佳《百々世草》（1909–10）、葛饰北斋《北斋漫画》、歌川广重《名所江户百景 · 两国花火》（1858），均为公有领域作品，图像来自<a href="https://www.artic.edu/open-access" target="_blank" rel="noopener">芝加哥艺术博物馆开放馆藏</a>（CC0），仅缩放、裁切取景。纸纹：<a href="https://ambientcg.com/view?id=Paper006" target="_blank" rel="noopener">ambientCG Paper006</a>（CC0）。</li>
+      <li><b>主页插图</b>：神坂雪佳《百々世草》（1909–10）、葛饰北斋《北斋漫画》、歌川广重《名所江户百景》中的「两国花火」「龟户梅屋敷」「大桥阿宅骤雨」「月之岬」「浅草金龙山」（1856–58），均为公有领域作品，图像来自<a href="https://www.artic.edu/open-access" target="_blank" rel="noopener">芝加哥艺术博物馆开放馆藏</a>（CC0），仅缩放、裁切取景。纸纹：<a href="https://ambientcg.com/view?id=Paper006" target="_blank" rel="noopener">ambientCG Paper006</a>（CC0）。</li>
       <li><b>纸牌音效</b>：Kenney「<a href="https://kenney.nl/assets/casino-audio" target="_blank" rel="noopener">Casino Audio</a>」，CC0。</li>
       <li><b>琴声、风铃、尺八与环境音</b>：<a href="https://github.com/Tonejs/Tone.js" target="_blank" rel="noopener">Tone.js</a>（MIT）实时合成。</li>
       <li><b>落花特效</b>：<a href="https://github.com/catdad/canvas-confetti" target="_blank" rel="noopener">canvas-confetti</a>（ISC）。</li>
