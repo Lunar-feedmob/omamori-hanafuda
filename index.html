@@ -1,0 +1,1188 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="日本庭院主题的花札记忆配对小游戏：四季八处庭院、36 组花札图鉴与御守收集。">
+<meta name="theme-color" content="#1b231e">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>御守花札</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&family=Shippori+Mincho:wght@600;800&family=Yuji+Syuku&display=swap">
+<style>
+/* Layout: 夜の庭 — one-screen garden table; HUD on top, card field fills the middle, thumb actions at the bottom. Deliberately single (dark, lantern-lit) theme. */
+:root{
+  --ground:#1b231e; --ground-2:#232e27; --panel:rgba(42,54,46,.78); --panel-solid:#2a362e;
+  --line:rgba(236,222,186,.13); --line-2:rgba(236,222,186,.26);
+  --text:#efe6cf; --muted:#b4ae96; --faint:#858673;
+  --lantern:#e9b45a; --lantern-ink:#2a1d0c; --shu:#cf4a35; --moss:#8fae74;
+  --glow:rgba(233,180,90,.20); --season:#e9b45a;
+  --paper:#f5ecd6; --card-edge:#2b2420; --back:#7b2319;
+  --f-display:"Noto Serif SC","Songti SC","STSong","Source Han Serif SC",serif;
+  --f-body:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --f-jp:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif;
+  --f-brush:"Yuji Syuku","Shippori Mincho","Hiragino Mincho ProN","Noto Serif SC",serif;
+  color-scheme:dark;
+}
+[hidden]{display:none!important}
+html{height:100%;box-sizing:border-box}
+*,*::before,*::after{box-sizing:inherit}
+body{
+  height:100%;margin:0;overflow:hidden;color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
+  background-color:var(--ground);
+  background-image:
+    radial-gradient(110% 55% at 88% -8%,var(--glow),transparent 62%),
+    radial-gradient(90% 45% at -5% 108%,rgba(143,174,116,.14),transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24'%3E%3Cg fill='none' stroke='%23e9dcb6' stroke-opacity='.045'%3E%3Cpath d='M0 24a24 24 0 0 1 48 0M8 24a16 16 0 0 1 32 0M16 24a8 8 0 0 1 16 0M-24 12a24 24 0 0 1 48 0M24 12a24 24 0 0 1 48 0M-16 12a16 16 0 0 1 32 0M32 12a16 16 0 0 1 32 0M-8 12a8 8 0 0 1 16 0M40 12a8 8 0 0 1 16 0'/%3E%3C/g%3E%3C/svg%3E");
+  -webkit-tap-highlight-color:transparent;
+}
+button{font:inherit;color:inherit}
+button:focus-visible,.card:focus-visible{outline:3px solid var(--lantern);outline-offset:2px}
+#petals{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+#app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.screen{flex:1;min-height:0;width:100%;max-width:1000px;margin:0 auto;display:flex;flex-direction:column}
+
+/* ---------- shared controls ---------- */
+.btn{min-height:48px;padding:0 18px;border-radius:14px;border:1px solid var(--line-2);background:rgba(255,255,255,.04);
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:500;cursor:pointer;touch-action:manipulation;
+  transition:background .2s,transform .12s,opacity .2s}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--lantern);border-color:var(--lantern);color:var(--lantern-ink);font-weight:700}
+.btn:disabled{opacity:.42;cursor:default;transform:none}
+.icon-btn{min-height:44px;min-width:44px;padding:0 10px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.03);
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;touch-action:manipulation;font-size:14px;position:relative;white-space:nowrap}
+.icon-btn svg{width:20px;height:20px;flex:none}
+.icon-btn[aria-pressed="false"]{color:var(--faint)}
+.dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--shu);box-shadow:0 0 0 2px var(--ground)}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--muted)}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ---------- home ---------- */
+#home{overflow-y:auto;overscroll-behavior:contain;padding-block:22px 28px;gap:22px}
+.hero{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px 20px}
+.hero h1{margin:0;font-family:var(--f-brush);font-weight:400;font-size:clamp(40px,12vw,76px);line-height:1.05;letter-spacing:.06em;text-wrap:balance}
+.hero .kana{font-family:var(--f-jp);color:var(--lantern);letter-spacing:.3em;font-size:14px;margin-top:6px}
+.hero p{margin:10px 0 0;color:var(--muted);max-width:30em}
+.fan{position:relative;width:132px;height:150px;flex:none}
+.fan .mini{position:absolute;top:10px;left:38px;width:56px;aspect-ratio:5/8;border-radius:6px;overflow:hidden;border:2.5px solid var(--card-edge);
+  box-shadow:0 8px 18px rgba(0,0,0,.4);transform-origin:50% 120%}
+.fan .mini svg,.fan .mini img{display:block;width:100%;height:100%;object-fit:cover}
+.fan .mini:nth-child(1){transform:rotate(-16deg) translateX(-12px)}
+.fan .mini:nth-child(3){transform:rotate(16deg) translateX(12px)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px}
+.collect{padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:10px 14px;align-items:center}
+.collect h2{margin:0;font-family:var(--f-display);font-size:17px;font-weight:600}
+.collect .sub{color:var(--muted);font-size:13px}
+.rail{grid-column:1/-1;height:6px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.rail i{display:block;height:100%;background:linear-gradient(90deg,var(--moss),var(--lantern));border-radius:inherit;transition:width .6s}
+.section-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.section-h h2{margin:0;font-family:var(--f-display);font-size:19px;font-weight:600}
+.now-season{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:4px 12px 4px 4px;border-radius:99px;border:1px solid var(--line-2);font-size:13px;color:var(--muted)}
+.now-season b{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--season);color:var(--ground);font-family:var(--f-brush);font-weight:400;font-size:16px}
+.seasons{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:18px 16px}
+.season-g{display:grid;gap:10px;align-content:start}
+.season-h{display:flex;align-items:center;gap:12px}
+.s-kanji{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--season);color:var(--season);font-family:var(--f-brush);font-size:24px;line-height:1}
+.season-h b{display:block;font-size:14px;font-weight:500}
+.season-h small{display:block;font-size:12px;color:var(--muted)}
+.season-g .levels{grid-template-columns:1fr 1fr}
+.dex-seasons{display:grid;gap:30px}
+.dex-seasons .season-h{margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
+.lvl{position:relative;text-align:left;padding:12px 14px 12px;border-radius:14px;border:1px solid var(--line);background:var(--panel);cursor:pointer;
+  display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto auto;column-gap:10px;min-height:96px;touch-action:manipulation}
+.lvl .num{grid-row:1/3;font-family:var(--f-display);font-weight:900;font-size:30px;line-height:1;color:var(--season)}
+.lvl .name{font-family:var(--f-brush);font-weight:400;font-size:19px;line-height:1.2}
+.lvl .meta{font-size:12px;color:var(--muted)}
+.lvl .foot{grid-column:1/-1;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:12px;color:var(--muted)}
+.lvl.next{border-color:var(--season);box-shadow:0 0 18px -6px var(--season)}
+.lvl:disabled{cursor:default;opacity:.5}
+.lvl:disabled .num{color:var(--faint)}
+.flowers{display:inline-flex;gap:2px}
+.flowers svg{width:16px;height:16px}
+.home-foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.save-note{font-size:12px;color:var(--faint);flex-basis:100%}
+
+/* ---------- game ---------- */
+#game{padding-block:8px 10px;gap:8px}
+.g-top{display:flex;align-items:center;gap:8px}
+.g-title{flex:1;min-width:0;text-align:center;line-height:1.2}
+.g-title .eyebrow{display:block;font-size:11px;color:var(--season)}
+.g-title b{font-family:var(--f-brush);font-weight:400;font-size:21px;letter-spacing:.06em}
+.hud{display:grid;grid-template-columns:1.35fr 1fr;gap:8px}
+.stat{padding:7px 12px 8px;border-radius:14px;background:var(--panel);border:1px solid var(--line);min-width:0}
+.stat .lab{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.stat .val{display:flex;align-items:baseline;gap:4px;font-family:var(--f-display);font-weight:900;line-height:1.1}
+.stat .val b{font-size:28px}
+.stat .val small{font-size:14px;color:var(--muted);font-weight:600}
+.stat .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.mbar{height:4px;border-radius:99px;background:rgba(255,255,255,.08);margin-top:5px;overflow:hidden}
+.mbar i{display:block;height:100%;background:var(--lantern);border-radius:inherit;transition:width .35s,background .3s}
+.stat.low .val b{color:var(--shu)}
+.stat.low .mbar i{background:var(--shu)}
+.hint{min-height:22px;text-align:center;font-size:13px;color:var(--muted);position:relative}
+.hint .tbar{position:absolute;left:20%;right:20%;bottom:0;height:2px;border-radius:2px;background:var(--season);transform-origin:left;opacity:0}
+.hint .tbar.run{opacity:.8;animation:tbar var(--dur,3s) linear forwards}
+@keyframes tbar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+#board{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow-y:auto;overflow-x:hidden;padding:4px 0}
+.deck{display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:var(--gap,8px);margin:auto}
+.card{--cw:70px;width:var(--cw);aspect-ratio:5/8;padding:0;border:0;background:none;cursor:pointer;perspective:800px;touch-action:manipulation;border-radius:calc(var(--cw)*.09)}
+.card .inner{position:relative;display:block;width:100%;height:100%;transition:transform .45s cubic-bezier(.3,.7,.25,1);transform-style:preserve-3d}
+.card.up .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;display:block;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:calc(var(--cw)*.09);overflow:hidden;
+  border:max(2px,calc(var(--cw)*.045)) solid var(--card-edge);box-shadow:0 2px 0 rgba(0,0,0,.35),0 6px 14px rgba(0,0,0,.28)}
+.face svg{display:block;width:100%;height:100%;object-fit:cover}
+.face img{display:block;width:100%;height:100%;object-fit:contain}
+.front{transform:rotateY(180deg);background:#fff}
+.face img,.mini img,.e-art img,.t-art img,.g-art img{pointer-events:none;-webkit-user-drag:none;user-select:none;background:#fff}
+.back{background:var(--back);border-color:#3a120d}
+.stamp{position:absolute;right:5%;bottom:3%;width:38%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--f-jp);font-weight:800;font-size:calc(var(--cw)*.19);line-height:1;color:var(--shu);border:1.5px solid var(--shu);
+  background:rgba(245,236,214,.9);opacity:0;transform:scale(1.5) rotate(-14deg);transition:opacity .3s,transform .35s}
+.card.done{cursor:default}
+.card.done .front svg{filter:saturate(.7) brightness(.86)}
+.card.done .stamp{opacity:1;transform:scale(1) rotate(-14deg)}
+.card.pop .inner{animation:pop .5s ease-out}
+@keyframes pop{0%{transform:rotateY(180deg) scale(1)}40%{transform:rotateY(180deg) scale(1.08)}100%{transform:rotateY(180deg) scale(1)}}
+.card.pop .face.front{box-shadow:0 0 0 3px rgba(233,180,90,.75),0 0 22px rgba(233,180,90,.5)}
+.deck.dealing .card{animation:deal .42s cubic-bezier(.2,.8,.3,1) both;animation-delay:calc(var(--d,0)*22ms)}
+@keyframes deal{from{opacity:0;transform:translateY(14px) scale(.92)}to{opacity:1;transform:none}}
+.g-actions{display:flex;gap:10px}
+.g-actions .peek{flex:1}
+.pill{min-width:22px;height:22px;padding:0 7px;border-radius:99px;background:rgba(42,29,12,.18);font-size:13px;display:inline-grid;place-items:center}
+
+/* ---------- toast / float ---------- */
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 84px);z-index:35;transform:translate(-50%,16px);opacity:0;pointer-events:none;
+  width:max-content;max-width:calc(100% - 32px);display:flex;align-items:center;gap:12px;padding:8px 16px 8px 8px;border-radius:14px;
+  background:rgba(35,46,39,.97);border:1px solid rgba(233,180,90,.45);box-shadow:0 10px 30px rgba(0,0,0,.45);transition:opacity .35s,transform .35s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast .t-art{width:30px;aspect-ratio:5/8;border-radius:4px;overflow:hidden;border:2px solid var(--card-edge);flex:none}
+.toast .t-art svg,.toast .t-art img{display:block;width:100%;height:100%;object-fit:cover}
+.toast .t1{font-size:12px;color:var(--lantern);letter-spacing:.08em}
+.toast .t2{font-weight:700;line-height:1.3}
+.toast .t2 .jp{font-family:var(--f-jp)}
+.toast .t3{font-size:12px;color:var(--muted)}
+.float{position:fixed;z-index:36;width:24px;pointer-events:none;animation:floatUp 1.2s ease-out forwards}
+.float svg{display:block;width:100%}
+@keyframes floatUp{0%{opacity:0;transform:translate(-50%,-30%) scale(.6)}25%{opacity:1;transform:translate(-50%,-90%) scale(1)}100%{opacity:0;transform:translate(-50%,-260%) scale(.9)}}
+
+/* ---------- modal ---------- */
+.modal{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:rgba(10,14,11,.66);
+  padding:calc(env(safe-area-inset-top,0px) + 16px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 16px) max(16px,env(safe-area-inset-left,0px))}
+.modal-card{width:min(430px,100%);max-height:100%;overflow-y:auto;background:var(--ground-2);border:1px solid var(--line-2);border-radius:20px;padding:22px 20px 20px;
+  box-shadow:0 24px 60px rgba(0,0,0,.5);animation:rise .35s ease-out}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.modal-card h2{margin:4px 0 8px;font-family:var(--f-display);font-weight:900;font-size:26px;letter-spacing:.04em;text-wrap:balance}
+.modal-card p{margin:0 0 12px;color:var(--muted)}
+.modal-actions{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.rules{list-style:none;margin:6px 0 12px;padding:0;display:grid;gap:10px}
+.rules li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.rules .n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(233,180,90,.15);color:var(--lantern);font-family:var(--f-display);font-weight:900;font-size:14px}
+.rules b{color:var(--text);font-weight:500}
+.big-flowers{display:flex;gap:6px;margin:6px 0 12px}
+.big-flowers svg{width:34px;height:34px}
+.got-row{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 4px}
+.got{display:flex;flex-direction:column;align-items:center;gap:4px;width:64px;text-align:center;font-size:12px;line-height:1.25}
+.got .g-art{width:44px;aspect-ratio:5/8;border-radius:5px;overflow:hidden;border:2px solid var(--card-edge)}
+.got .g-art svg,.got .g-art img{display:block;width:100%;height:100%;object-fit:cover}
+.got span{font-family:var(--f-jp)}
+
+/* ---------- dex ---------- */
+.sheet{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;background:var(--ground);
+  background-image:radial-gradient(110% 50% at 90% -10%,rgba(233,180,90,.14),transparent 60%);
+  padding-top:env(safe-area-inset-top,0px)}
+.sheet-head{display:flex;align-items:center;gap:12px;padding:12px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line)}
+.sheet-head h2{margin:0;font-family:var(--f-display);font-weight:900;font-size:22px;letter-spacing:.06em}
+.sheet-head .count{color:var(--muted);font-size:13px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sheet-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+  padding:16px max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 28px) max(16px,env(safe-area-inset-left,0px))}
+.sheet-inner{max-width:1000px;margin:0 auto;display:grid;gap:18px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px;color:var(--muted);align-items:center}
+.months{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,430px),1fr));gap:20px 18px}
+.month h3{margin:0 0 8px;font-family:var(--f-display);font-weight:600;font-size:15px;display:flex;align-items:baseline;gap:8px}
+.month h3 .jp{font-family:var(--f-jp);color:var(--lantern);font-weight:800}
+.month h3 small{color:var(--faint);font-weight:400;font-family:var(--f-body);font-size:12px}
+.entries{display:grid;gap:8px}
+.entry{display:grid;grid-template-columns:60px 1fr;gap:12px;padding:10px 12px 10px 10px;border-radius:14px;background:var(--panel);border:1px solid var(--line);position:relative}
+.e-art{width:60px;aspect-ratio:5/8;border-radius:6px;overflow:hidden;border:2.5px solid var(--card-edge);position:relative;align-self:start}
+.e-art svg,.e-art img{display:block;width:100%;height:100%;object-fit:cover}
+.e-art .q{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-display);font-weight:900;font-size:22px;color:rgba(245,236,214,.55)}
+.e-text{min-width:0}
+.e-name{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.e-name b{font-family:var(--f-jp);font-weight:800;font-size:17px;line-height:1.25}
+.e-sub{font-size:12px;color:var(--faint)}
+.e-text p{margin:4px 0 6px;font-size:13px;line-height:1.65;color:var(--muted)}
+.tag{font-size:11px;padding:1px 7px;border-radius:99px;border:1px solid var(--line-2);color:var(--muted);white-space:nowrap}
+.tag.hikari{border-color:rgba(233,180,90,.6);color:var(--lantern)}
+.tag.tane{border-color:rgba(143,174,116,.6);color:var(--moss)}
+.tag.tan{border-color:rgba(207,74,53,.6);color:#e98a78}
+.credits{margin:6px 0 4px;padding:0;list-style:none;display:grid;gap:10px;font-size:13px;color:var(--muted)}
+.credits b{color:var(--text);font-weight:500}
+.credits a{color:var(--lantern)}
+.e-om{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text)}
+.e-om svg{width:14px;height:20px;flex:none}
+.e-om .cnt{color:var(--muted)}
+.entry.locked .e-text{color:var(--faint)}
+.entry.locked .e-name b{color:var(--faint)}
+.new-badge{position:absolute;top:8px;right:10px;font-size:11px;color:var(--ground);background:var(--lantern);border-radius:99px;padding:0 7px;font-weight:700}
+
+@media (min-width:720px){
+  .fan{width:170px;height:190px}
+  .fan .mini{width:72px;left:49px}
+  .stat .val b{font-size:32px}
+}
+@media (max-height:640px){
+  .stat{padding:5px 10px 6px}
+  .stat .val b{font-size:24px}
+  .btn{min-height:46px}
+}
+@media (prefers-reduced-motion:reduce){
+  .card .inner{transition:none}
+  .deck.dealing .card,.card.pop .inner,.modal-card,.float{animation:none}
+  .toast,.rail i,.mbar i{transition:none}
+}
+</style>
+</head>
+<body>
+<canvas id="petals" aria-hidden="true"></canvas>
+<div id="app">
+  <section id="home" class="screen" aria-label="庭院">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">花札记忆小游戏</div>
+        <h1>御守花札</h1>
+        <div class="kana">おまもり　はなふだ</div>
+        <div class="now-season" id="nowSeason"></div>
+        <p>记住花札的位置，在步数用完前翻出相同的两张。每配对一组，就收下一枚御守。</p>
+      </div>
+      <div class="fan" id="fan" aria-hidden="true"></div>
+    </div>
+
+    <div class="panel collect">
+      <div>
+        <h2>花札图鉴</h2>
+        <div class="sub" id="homeCount">已收集 0 / 36 组 · 御守 0 枚</div>
+      </div>
+      <button class="btn" id="btnDexHome" type="button">打开图鉴<span class="dot" id="dotHome" hidden></span></button>
+      <div class="rail"><i id="homeRail" style="width:0%"></i></div>
+    </div>
+
+    <div class="section-h">
+      <h2>四季庭院</h2>
+      <span class="eyebrow">每季两处 · 共八处</span>
+    </div>
+    <div class="seasons" id="levels"></div>
+
+    <div class="home-foot">
+      <button class="icon-btn sound-btn" type="button" aria-pressed="true"></button>
+      <button class="icon-btn" id="btnAmb" type="button" aria-pressed="false">庭院环境音 关</button>
+      <button class="icon-btn" id="btnRules" type="button">游玩说明</button>
+      <button class="icon-btn" id="btnCredits" type="button">素材致谢</button>
+      <div class="save-note" id="saveNote">收集进度保存在这台设备的浏览器里，刷新页面不会丢失。</div>
+    </div>
+  </section>
+
+  <section id="game" class="screen" aria-label="对局" hidden>
+    <div class="g-top">
+      <button class="icon-btn" id="btnHome" type="button" aria-label="返回庭院">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4 6.5 10l6 6"/></svg>庭院
+      </button>
+      <div class="g-title"><span class="eyebrow" id="gNum">第一庭 · 早春</span><b id="gName">初音</b></div>
+      <button class="icon-btn" id="btnDexGame" type="button" aria-label="打开图鉴">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 4.5h5.5a1.5 1.5 0 0 1 1.5 1.5v10a1.5 1.5 0 0 0-1.5-1.5H3zM17 4.5h-5.5A1.5 1.5 0 0 0 10 6v10a1.5 1.5 0 0 1 1.5-1.5H17z"/></svg>
+        <span class="tnum" id="dexMini">0/36</span><span class="dot" id="dotGame" hidden></span>
+      </button>
+      <button class="icon-btn sound-btn" type="button" aria-pressed="true"></button>
+    </div>
+
+    <div class="hud">
+      <div class="stat" id="statMoves">
+        <div class="top"><span class="lab">剩余步数</span><span class="lab tnum" id="usedMoves">已用 0</span></div>
+        <div class="val tnum"><b id="movesLeft">9</b><small id="movesTotal">/ 9</small></div>
+        <div class="mbar"><i id="movesBar" style="width:100%"></i></div>
+      </div>
+      <div class="stat">
+        <div class="lab">已配对</div>
+        <div class="val tnum"><b id="pairsDone">0</b><small id="pairsTotal">/ 4 组</small></div>
+      </div>
+    </div>
+    <div class="hint" id="hint" aria-live="polite"><span id="hintText">记住花札的位置</span><span class="tbar" id="tbar"></span></div>
+
+    <div id="board"><div class="deck" id="deck"></div></div>
+
+    <div class="g-actions">
+      <button class="btn primary peek" id="btnPeek" type="button">
+        <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1.8 10S5 4.5 10 4.5 18.2 10 18.2 10 15 15.5 10 15.5 1.8 10 1.8 10z"/><circle cx="10" cy="10" r="2.6"/></svg>
+        重新看牌 <span class="pill tnum" id="peekLeft">1</span>
+      </button>
+      <button class="btn" id="btnRestart" type="button">重来</button>
+    </div>
+  </section>
+</div>
+
+<div class="sheet" id="dex" role="dialog" aria-modal="true" aria-labelledby="dexTitle" hidden>
+  <div class="sheet-head">
+    <h2 id="dexTitle">花札图鉴</h2>
+    <span class="count tnum" id="dexCount">0 / 36 组</span>
+    <button class="btn" id="dexClose" type="button">关闭</button>
+  </div>
+  <div class="sheet-body">
+    <div class="sheet-inner">
+      <div>
+        <div class="rail" style="margin-bottom:10px"><i id="dexRail" style="width:0%"></i></div>
+        <div class="legend">
+          <span>每月三组花札：</span>
+          <span class="tag">素札</span><span>月令花木</span>
+          <span class="tag tan">短册</span><span>系着诗笺</span>
+          <span class="tag tane">种札</span><span>花木与鸟兽、器物</span>
+          <span class="tag hikari">光札</span><span>最珍贵的五景之一</span>
+        </div>
+      </div>
+      <div class="dex-seasons" id="months"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal" hidden><div class="modal-card" role="dialog" aria-modal="true" id="modalCard"></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+
+/* ================= card art ================= */
+const K = {gold: '#d9a23a'};
+const r2 = n => Math.round(n * 100) / 100;
+const rad = d => d * Math.PI / 180;
+function blossom(x, y, r, fill, center = K.gold) {
+  let s = '';
+  for (let k = 0; k < 5; k++) {
+    const a = rad(k * 72 - 90);
+    s += `<circle cx="${r2(x + Math.cos(a) * r * .55)}" cy="${r2(y + Math.sin(a) * r * .55)}" r="${r2(r * .5)}" fill="${fill}"/>`;
+  }
+  return s + `<circle cx="${x}" cy="${y}" r="${r2(r * .26)}" fill="${center}"/>`;
+}
+const BACK = (() => {
+  const g = 'rgba(233,180,90,.55)';
+  return `<svg viewBox="0 0 50 80" aria-hidden="true" preserveAspectRatio="xMidYMid slice"><rect width="50" height="80" fill="#7b2319"/>`
+    + `<rect x="4" y="4" width="42" height="72" rx="3" fill="none" stroke="${g}" stroke-width=".6"/>`
+    + `<circle cx="25" cy="40" r="11" fill="none" stroke="${g}" stroke-width=".7"/>` + blossom(25, 40, 9, 'rgba(233,180,90,.35)', 'rgba(233,180,90,.8)') + `</svg>`;
+})();
+
+/* ================= data ================= */
+const PLANT_NAMES = ['松', '梅', '桜', '藤', '菖蒲', '牡丹', '萩', '芒', '菊', '紅葉', '柳', '桐'];
+const MONTHS = [
+  [1, '一月', '睦月'], [2, '二月', '如月'], [3, '三月', '弥生'], [4, '四月', '卯月'], [5, '五月', '皐月'], [6, '六月', '水無月'],
+  [7, '七月', '文月'], [8, '八月', '葉月'], [9, '九月', '長月'], [10, '十月', '神無月'], [11, '十一月', '霜月'], [12, '十二月', '師走']
+];
+const OMC = ['#c8432f', '#d9a23a', '#3f5f9a', '#4f7a45', '#d97a92', '#7a55a8', '#9a4a2a', '#2f6f6a'];
+// [id, month, art file, 日本名, 读音, 中文名, 札种, 御守, 介绍]
+const RAW = [
+  ['matsu', 1, '01-kasu1', '松', 'まつ', '松', '素札', '长寿守', '松四季常青，寒冬也不落叶，象征坚忍与长寿。新年门前的「门松」便是用来迎接年神的。'],
+  ['matsu-tan', 1, '01-tanzaku', '松に赤短', 'まつにあかたん', '松与红短册', '短册', '初诣守', '系在松枝上的红色诗笺，写着「あかよろし」。它与二月梅、三月樱的诗笺合称「赤短」。'],
+  ['matsu-tsuru', 1, '01-hikari', '松に鶴', 'まつにつる', '松与鹤', '光札', '延寿守', '初升的红日下，白鹤立于松间。鹤寓意千年之寿，这是花札中最珍贵的「光札」之一。'],
+  ['ume', 2, '02-kasu1', '梅', 'うめ', '梅', '素札', '学业守', '梅在早春寒风里最先开花，香气清冽。学问之神菅原道真爱梅，各地天满宫多植梅树。'],
+  ['ume-tan', 2, '02-tanzaku', '梅に赤短', 'うめにあかたん', '梅与红短册', '短册', '合格守', '梅枝上同样系着写有「あかよろし」的红色诗笺，是「赤短」三张之一。'],
+  ['ume-uguisu', 2, '02-tane', '梅に鶯', 'うめにうぐいす', '梅与黄莺', '种札', '开运守', '黄莺落在梅枝上啼鸣，宣告春天来临，日语里也叫它「春告鸟」。'],
+  ['sakura', 3, '03-kasu1', '桜', 'さくら', '樱', '素札', '良缘守', '樱花盛开不过几日，人们在树下铺席赏花，日语称「花見」。'],
+  ['sakura-tan', 3, '03-tanzaku', '桜に赤短', 'さくらにあかたん', '樱与红短册', '短册', '恋爱成就守', '樱花上的诗笺写着「みよしの」，指吉野山，日本最有名的赏樱胜地。'],
+  ['sakura-maku', 3, '03-hikari', '桜に幕', 'さくらにまく', '樱与幔幕', '光札', '招福守', '樱树下围起幔幕，正是赏花宴的场景。「光札」之一，热闹又喜庆。'],
+  ['fuji', 4, '04-kasu1', '藤', 'ふじ', '紫藤', '素札', '美守', '紫藤的花穗成串垂落，在初夏的风里轻轻摇曳，常见于寺社的藤棚下。'],
+  ['fuji-tan', 4, '04-tanzaku', '藤に短冊', 'ふじにたんざく', '紫藤与短册', '短册', '安产守', '没有字的红色短册。四、五、七月的短册都挂在草花上，合称「草短」。'],
+  ['fuji-hototogisu', 4, '04-tane', '藤に不如帰', 'ふじにほととぎす', '紫藤与杜鹃', '种札', '旅行安全守', '杜鹃鸟掠过藤花与弯月。日本和歌常以它的第一声啼鸣报告初夏。'],
+  ['ayame', 5, '05-kasu1', '菖蒲', 'あやめ', '菖蒲', '素札', '必胜守', '端午以菖蒲驱邪。日语「菖蒲」与「尚武」同音，人们用它为孩子祈愿健壮。'],
+  ['ayame-tan', 5, '05-tanzaku', '菖蒲に短冊', 'あやめにたんざく', '菖蒲与短册', '短册', '身体健全守', '水边的菖蒲叶上系着素红诗笺，也是「草短」之一。'],
+  ['ayame-yatsuhashi', 5, '05-tane', '菖蒲に八橋', 'あやめにやつはし', '菖蒲与八桥', '种札', '交通安全守', '典出《伊势物语》：八座木板桥曲折穿过开满杜若的水泽。'],
+  ['botan', 6, '06-kasu1', '牡丹', 'ぼたん', '牡丹', '素札', '生意兴隆守', '牡丹花大色艳，被称为「百花之王」，象征富贵与繁荣。'],
+  ['botan-tan', 6, '06-tanzaku', '牡丹に青短', 'ぼたんにあおたん', '牡丹与青短册', '短册', '智慧守', '深蓝色的诗笺。它与九月菊、十月红叶的诗笺合称「青短」。'],
+  ['botan-cho', 6, '06-tane', '牡丹に蝶', 'ぼたんにちょう', '牡丹与蝴蝶', '种札', '心愿成就守', '蝴蝶在牡丹花间翻飞。梅雨时节的庭院里，这是最明亮的一幕。'],
+  ['hagi', 7, '07-kasu1', '萩', 'はぎ', '胡枝子', '素札', '家庭和睦守', '胡枝子细枝低垂，开满细小的红紫色花，是「秋之七草」之一。'],
+  ['hagi-tan', 7, '07-tanzaku', '萩に短冊', 'はぎにたんざく', '胡枝子与短册', '短册', '友情守', '胡枝子枝头挂着红色短册，是「草短」的最后一张。'],
+  ['hagi-inoshishi', 7, '07-tane', '萩に猪', 'はぎにいのしし', '胡枝子与野猪', '种札', '厄除守', '野猪从胡枝子丛中穿过。野猪只向前冲，寓意勇往直前、驱除厄运。'],
+  ['susuki', 8, '08-kasu1', '芒', 'すすき', '芒草', '素札', '平安守', '芒草在秋风里起伏如浪。中秋赏月时，人们会供上芒草和月见团子。'],
+  ['susuki-kari', 8, '08-tane', '芒に雁', 'すすきにかり', '芒草与雁', '种札', '归乡守', '三只大雁排成一列飞过秋夜的山丘，正是候鸟南归的季节。'],
+  ['susuki-tsuki', 8, '08-hikari', '芒に月', 'すすきにつき', '芒草与月', '光札', '圆满守', '满月升上芒草覆盖的山丘，天空被映成红色。这是中秋「月見」的景象，也是「光札」之一。'],
+  ['kiku', 9, '09-kasu1', '菊', 'きく', '菊', '素札', '无病息灾守', '九月九日重阳节，人们饮菊花酒祈求长寿。菊也是日本皇室的纹章。'],
+  ['kiku-tan', 9, '09-tanzaku', '菊に青短', 'きくにあおたん', '菊与青短册', '短册', '静心守', '菊花旁的蓝色诗笺，是「青短」三张之一。'],
+  ['kiku-sakazuki', 9, '09-tane', '菊に盃', 'きくにさかずき', '菊与酒盃', '种札', '福寿守', '写着「寿」字的酒盃，取重阳赏菊饮酒之意。'],
+  ['momiji', 10, '10-kasu1', '紅葉', 'もみじ', '红叶', '素札', '事业守', '深秋枫叶由绿转红，人们进山赏枫，称为「紅葉狩」。'],
+  ['momiji-tan', 10, '10-tanzaku', '紅葉に青短', 'もみじにあおたん', '红叶与青短册', '短册', '艺能守', '枫叶间的蓝色诗笺。凑齐牡丹、菊、红叶三张，就是「青短」。'],
+  ['momiji-shika', 10, '10-tane', '紅葉に鹿', 'もみじにしか', '红叶与鹿', '种札', '神鹿守', '鹿在枫林中回望。奈良的鹿被视为神的使者，与红叶同是秋日风物。'],
+  ['yanagi', 11, '11-kasu', '柳のカス', 'やなぎのかす', '柳（雷）', '素札', '雷除守', '十一月的素札只有一张，画着雷电，常被叫作「鬼札」，在一些地方玩法里可以当作万能牌。'],
+  ['yanagi-tsubame', 11, '11-tane', '柳に燕', 'やなぎにつばめ', '柳与燕', '种札', '家内安全守', '燕子掠过雨中的柳枝。燕子来檐下筑巢，被看作家宅兴旺的吉兆。'],
+  ['yanagi-ono', 11, '11-hikari', '柳に小野道風', 'やなぎにおののとうふう', '柳与小野道风', '光札', '书道守', '平安时代的书法家小野道风，在雨中看见青蛙一次次跳向柳枝终于成功，由此重拾苦练书法的决心。'],
+  ['kiri', 12, '12-kasu1', '桐', 'きり', '桐', '素札', '立身守', '桐叶宽大，花穗按「五七五」排列，正是桐纹的样子。桐纹至今仍是日本政府的徽记。'],
+  ['kiri-iro', 12, '12-kasu3', '桐の色札', 'きりのいろふだ', '桐（色札）', '素札', '金运守', '十二月的素札有三张，其中一张底色不同，旧时常在这里印上制牌商的名号。'],
+  ['kiri-hoo', 12, '12-hikari', '桐に鳳凰', 'きりにほうおう', '桐与凤凰', '光札', '大愿守', '传说凤凰只栖于桐树，它的降临象征太平之世。「光札」之一，也是十二月的压轴。']
+];
+const MOTIFS = RAW.map(([id, m, file, jp, kana, cn, tag, om, desc], i) => ({id, m, file, jp, kana, cn, tag, om, desc, omc: OMC[i % OMC.length]}));
+const BY_ID = Object.fromEntries(MOTIFS.map(x => [x.id, x]));
+const cardSrc = m => `cards/${m.file}.svg`;
+const art = m => `<img src="${cardSrc(m)}" alt="" draggable="false" decoding="async">`;
+function preloadArt(ids) {
+  return Promise.all(ids.map(id => new Promise(res => {
+    const im = new Image(); im.onload = im.onerror = res; im.src = cardSrc(BY_ID[id]);
+    if (im.decode) im.decode().then(res, res);
+  })));
+}
+const omamoriSVG = c => `<svg viewBox="0 0 20 28" aria-hidden="true"><path d="M4 9 Q4 6 7 6 L13 6 Q16 6 16 9 L16 25 Q16 27 14 27 L6 27 Q4 27 4 25Z" fill="${c}"/>`
+  + `<rect x="6.6" y="11.5" width="6.8" height="11" rx="1" fill="#f5ecd6" opacity=".92"/><path d="M8 15h4M8 17.5h4M8 20h3" stroke="${c}" stroke-width=".8"/>`
+  + `<path d="M10 6 Q7 1.5 10 2.5 Q13 1.5 10 6" fill="none" stroke="#d9a23a" stroke-width="1"/></svg>`;
+const flowerIcon = on => `<svg viewBox="0 0 20 20" aria-hidden="true">${blossom(10, 10, 9, on ? '#e9b45a' : 'rgba(236,222,186,.16)', on ? '#c8432f' : 'rgba(236,222,186,.22)')}</svg>`;
+
+// Hanafuda months follow the old lunar calendar, so 十月 already counts as early winter.
+const SEASONS = [
+  {key: 'spring', name: '春', range: '一〜三月 · 松 梅 桜', note: '新春到花见', glow: 'rgba(239,160,180,.22)', accent: '#f2a9b9',
+    scene: '庭院里樱瓣飘落', burst: ['#f6c1cc', '#efb3bf', '#fbe6ea', '#e9b45a'], fan: ['ume-uguisu', 'matsu-tsuru', 'sakura-maku']},
+  {key: 'summer', name: '夏', range: '四〜六月 · 藤 菖蒲 牡丹', note: '初夏到梅雨', glow: 'rgba(120,200,170,.17)', accent: '#86cdb0',
+    scene: '萤火在池边明灭', burst: ['#bfe3d0', '#86cdb0', '#f3e9a8', '#a585d1'], fan: ['fuji-hototogisu', 'ayame-yatsuhashi', 'botan-cho']},
+  {key: 'autumn', name: '秋', range: '七〜九月 · 萩 芒 菊', note: '赏月到重阳', glow: 'rgba(236,140,70,.22)', accent: '#ec9a5a',
+    scene: '红叶一片片落下', burst: ['#d65230', '#e88c3c', '#e2aa46', '#f3d27a'], fan: ['hagi-inoshishi', 'susuki-tsuki', 'kiku-sakazuki']},
+  {key: 'winter', name: '冬', range: '十〜十二月 · 紅葉 柳 桐', note: '时雨到除夜', glow: 'rgba(170,195,235,.17)', accent: '#b8cbea',
+    scene: '细雪落在石灯笼上', burst: ['#ffffff', '#dfe8f6', '#b8cbea', '#e9b45a'], fan: ['momiji-shika', 'yanagi-ono', 'kiri-hoo']}
+];
+SEASONS.forEach((x, i) => x.months = [i * 3 + 1, i * 3 + 2, i * 3 + 3]);
+const KANJI = ['一', '二', '三', '四', '五', '六', '七', '八'];
+const LEVELS = [
+  {name: '初音', s: 0, sub: '早春', pairs: 4, moves: 9},
+  {name: '花見', s: 0, sub: '晚春', pairs: 5, moves: 10},
+  {name: '青葉', s: 1, sub: '初夏', pairs: 6, moves: 11},
+  {name: '夕立', s: 1, sub: '梅雨', pairs: 7, moves: 12},
+  {name: '月見', s: 2, sub: '中秋', pairs: 8, moves: 13},
+  {name: '重陽', s: 2, sub: '晚秋', pairs: 9, moves: 15},
+  {name: '時雨', s: 3, sub: '初冬', pairs: 10, moves: 16},
+  {name: '除夜', s: 3, sub: '岁末', pairs: 12, moves: 19}
+].map((l, i) => ({...l, n: i + 1}));
+const calendarSeason = () => { const m = new Date().getMonth() + 1; return m >= 3 && m <= 5 ? 0 : m <= 8 && m >= 6 ? 1 : m >= 9 && m <= 11 ? 2 : 3; };
+const previewMs = cards => 2200 + cards * 130;
+const peekMs = cards => 1300 + cards * 45;
+const flowersFor = (left, total) => left / total >= .3 ? 3 : left / total >= .12 ? 2 : 1;
+
+/* ================= save ================= */
+const KEY = 'omamori-hanafuda-v1';
+const save = {unlocked: 1, best: {}, collected: {}, unseen: [], sound: true, ambience: false, seenRules: false};
+try {
+  const d = JSON.parse(localStorage.getItem(KEY) || 'null');
+  if (d && typeof d === 'object') mergeProgress(d, true);
+} catch (e) {}
+
+function mergeProgress(d, withPrefs) {
+  const n = Number(d.unlocked);
+  if (n >= 1) save.unlocked = Math.min(LEVELS.length, Math.max(save.unlocked, Math.floor(n)));
+  if (d.best && typeof d.best === 'object') for (const k in d.best) { const v = Number(d.best[k]); if (v > 0 && LEVELS[k - 1]) save.best[k] = Math.max(save.best[k] || 0, Math.min(3, v)); }
+  if (d.collected && typeof d.collected === 'object') for (const k in d.collected) { const v = Number(d.collected[k]); if (BY_ID[k] && v > 0) save.collected[k] = Math.max(save.collected[k] || 0, Math.floor(v)); }
+  if (withPrefs) {
+    if (Array.isArray(d.unseen)) save.unseen = d.unseen.filter(id => BY_ID[id]);
+    if (typeof d.sound === 'boolean') save.sound = d.sound;
+    if (typeof d.ambience === 'boolean') save.ambience = d.ambience;
+    if (typeof d.seenRules === 'boolean') save.seenRules = d.seenRules;
+  }
+}
+function persist() {
+  try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) {}
+  cloudQueue();
+}
+
+/* Account sync: progress also lives in the viewer's private db subtree when the page can reach it. */
+let cloud = null, cloudTimer = 0, cloudBusy = false, cloudDirty = false;
+function cloudQueue() {
+  if (!cloud) return;
+  clearTimeout(cloudTimer);
+  cloudTimer = setTimeout(cloudWrite, 700);
+}
+async function cloudWrite() {
+  if (!cloud) return;
+  if (cloudBusy) { cloudDirty = true; return; }
+  cloudBusy = true; cloudDirty = false;
+  try {
+    await cloud.set({unlocked: save.unlocked, best: {...save.best}, collected: {...save.collected}, updatedAt: Date.now()});
+  } catch (e) {
+    if (e && (e.code === 'invalid_argument' || e.code === 'revoked' || e.code === 'not_granted')) { cloud = null; setSaveNote(); }
+  }
+  cloudBusy = false;
+  if (cloudDirty) cloudQueue();
+}
+async function initCloud() {
+  try {
+    if (!window.claude || typeof window.claude.use !== 'function') return;
+    const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+    if (!db || !user) return;
+    const id = await user.id();
+    if (!id) return;
+    const ref = db.doc('data/users/' + id + '/save');
+    const snap = await ref.get();
+    if (snap.exists) {
+      mergeProgress(snap.data() || {}, false);
+      try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) {}
+      refreshMeta();
+    }
+    cloud = ref;
+    setSaveNote();
+    cloudQueue();
+  } catch (e) {}
+}
+function setSaveNote() {
+  $('#saveNote').textContent = cloud ? '收集进度已同步到你的账号，换台设备打开也能接着玩。' : '收集进度保存在这台设备的浏览器里，刷新页面不会丢失。';
+}
+
+/* ================= sound ================= */
+/* Rich path: Tone.js (koto-like Karplus–Strong plucks, FM wind chimes, convolution reverb) plus Kenney's CC0 card foley.
+   If Tone.js cannot load, a small raw Web Audio synth stands in. */
+const A = {tone: false, starting: null, samples: null, ambOn: false, ambTimer: 0};
+const rnd = (a, b) => a + Math.random() * (b - a);
+function startAudio() {
+  if (A.starting) return A.starting;
+  A.starting = (async () => {
+    const T = window.Tone;
+    if (!T) return;
+    try {
+      await T.start();
+      const out = new T.Volume(-3).toDestination();
+      const rev = new T.Reverb({decay: 3.8, preDelay: .02, wet: .4});
+      await rev.generate();
+      rev.connect(out);
+      const dry = new T.Gain(.75).connect(out);
+      A.koto = Array.from({length: 4}, () => { const p = new T.PluckSynth({attackNoise: 1.3, dampening: 3600, resonance: .95, volume: -6}); p.connect(rev); p.connect(dry); return p; });
+      A.kotoI = 0;
+      A.chime = new T.PolySynth(T.FMSynth, {harmonicity: 5.07, modulationIndex: 1.4, oscillator: {type: 'sine'}, modulation: {type: 'sine'},
+        envelope: {attack: .002, decay: 2.6, sustain: 0, release: 2.6}, modulationEnvelope: {attack: .002, decay: .5, sustain: 0, release: .5}, volume: -19}).connect(rev);
+      A.bird = new T.Synth({oscillator: {type: 'sine'}, portamento: .1, envelope: {attack: .03, decay: .1, sustain: .7, release: .18}, volume: -27}).connect(rev);
+      A.cricket = new T.Synth({oscillator: {type: 'sine'}, envelope: {attack: .03, decay: .1, sustain: .8, release: .12}, volume: -34}).connect(new T.Tremolo(38, 1).connect(rev).start());
+      A.temple = new T.FMSynth({harmonicity: 1.41, modulationIndex: 2.4, envelope: {attack: .004, decay: 6, sustain: 0, release: 6},
+        modulationEnvelope: {attack: .004, decay: 4, sustain: 0, release: 4}, volume: -20}).connect(rev);
+      A.wood = new T.MembraneSynth({pitchDecay: .012, octaves: 2.5, envelope: {attack: .001, decay: .28, sustain: 0, release: .2}, volume: -16}).connect(rev);
+      A.bus = new T.Gain(1).connect(out);
+      A.bus.connect(new T.Gain(.18).connect(rev));
+      A.samples = new T.ToneAudioBuffers({baseUrl: 'sfx/', urls: {
+        place1: 'card-place-1.mp3', place2: 'card-place-2.mp3', place3: 'card-place-3.mp3', slide1: 'card-slide-1.mp3', slide3: 'card-slide-3.mp3',
+        shuffle: 'card-shuffle.mp3', fan1: 'card-fan-1.mp3', fan2: 'card-fan-2.mp3'}});
+      A.amb = {vol: new T.Volume(-60).connect(out)};
+      A.amb.filter = new T.AutoFilter({frequency: .06, baseFrequency: 320, octaves: 1.8, depth: .8}).connect(A.amb.vol).start();
+      A.amb.noise = new T.Noise('pink').connect(A.amb.filter);
+      A.tone = true;
+      T.Destination.mute = !save.sound;
+      applyAmbience();
+    } catch (e) { A.tone = false; }
+  })().then(() => { A.done = true; });
+  return A.starting;
+}
+function sample(name, {rate = 1, gain = 1, dur} = {}) {
+  const T = window.Tone;
+  if (!A.tone || !save.sound || !A.samples || !A.samples.loaded || !A.samples.has(name)) return false;
+  try {
+    const g = new T.Gain(gain).connect(A.bus);
+    const src = new T.ToneBufferSource({url: A.samples.get(name), playbackRate: rate, fadeOut: dur ? .35 : .01}).connect(g);
+    src.onended = () => { src.dispose(); g.dispose(); };
+    src.start(T.now(), 0, dur);
+    return true;
+  } catch (e) { return false; }
+}
+function koto(notes, step = .14, vel = 1) {
+  const T = window.Tone, now = T.now();
+  notes.forEach((n, i) => { const p = A.koto[A.kotoI++ % A.koto.length]; p.volume.value = -6 + 20 * Math.log10(vel); p.triggerAttackRelease(n, 1.6, now + i * step); });
+}
+function chime(notes, step = .12, delay = 0) {
+  const T = window.Tone, now = T.now() + delay;
+  notes.forEach((n, i) => A.chime.triggerAttackRelease(n, 2.2, now + i * step, rnd(.55, .8)));
+}
+function ambience(on) { save.ambience = on; applyAmbience(); }
+function applyAmbience() {
+  if (!A.tone) return;
+  const on = save.ambience && save.sound;
+  clearTimeout(A.ambTimer);
+  if (on) {
+    if (A.amb.noise.state !== 'started') A.amb.noise.start();
+    A.amb.vol.volume.rampTo(-33, 2.5);
+    const scene = () => {
+      if (!save.ambience || !save.sound || document.hidden) { A.ambTimer = setTimeout(scene, 6000); return; }
+      Math.random() < .3 ? shishiOdoshi() : seasonCall();
+      A.ambTimer = setTimeout(scene, rnd(8000, 14000));
+    };
+    A.ambTimer = setTimeout(scene, rnd(2500, 5000));
+  } else if (A.amb.noise.state === 'started') {
+    A.amb.vol.volume.rampTo(-60, 1.2);
+    setTimeout(() => { if (!(save.ambience && save.sound) && A.amb.noise.state === 'started') A.amb.noise.stop(); }, 1300);
+  }
+}
+
+function shishiOdoshi() {   // 鹿威し: the bamboo deer-scarer tips over and knocks the stone
+  const t = window.Tone.now();
+  A.wood.triggerAttackRelease('C3', .2, t, .9); A.wood.triggerAttackRelease('G2', .15, t + .11, .35);
+}
+function seasonCall() {
+  const T = window.Tone, t = T.now();
+  if (seasonNow === 0) {          // 鶯: ホーー、ホケキョ
+    const b = A.bird;
+    b.triggerAttack('A5', t, .5); b.setNote('D6', t + .45); b.triggerRelease(t + .95);
+    b.triggerAttack('G6', t + 1.2, .6); b.setNote('E6', t + 1.3); b.setNote('B6', t + 1.4); b.triggerRelease(t + 1.85);
+  } else if (seasonNow === 1) {   // 風鈴
+    const notes = ['E7', 'B6', 'G#7', 'C#7', 'F#7'];
+    for (let i = 0, n = 2 + Math.floor(Math.random() * 3); i < n; i++) A.chime.triggerAttackRelease(notes[Math.floor(Math.random() * notes.length)], 2, t + i * rnd(.15, .35), rnd(.25, .4));
+  } else if (seasonNow === 2) {   // 鈴虫
+    for (let i = 0; i < 3; i++) A.cricket.triggerAttackRelease('C#8', .55, t + i * .85, .7);
+  } else {                        // 寺の鐘
+    A.temple.triggerAttackRelease('D2', 6, t, .8);
+  }
+}
+
+/* ---- fallback: raw Web Audio ---- */
+let actx = null, master = null, noiseBuf = null;
+function audio() {
+  if (!save.sound || window.Tone) return null;
+  try {
+    if (!actx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      actx = new AC();
+      master = actx.createGain(); master.gain.value = .6;
+      const comp = actx.createDynamicsCompressor();
+      master.connect(comp); comp.connect(actx.destination);
+      noiseBuf = actx.createBuffer(1, actx.sampleRate, actx.sampleRate);
+      const ch = noiseBuf.getChannelData(0);
+      for (let i = 0; i < ch.length; i++) ch[i] = Math.random() * 2 - 1;
+    }
+    if (actx.state === 'suspended') actx.resume();
+    return actx;
+  } catch (e) { return null; }
+}
+function noise({freq = 2400, q = .8, dur = .07, gain = .2, delay = 0, type = 'bandpass', sweep = 0}) {
+  const a = audio(); if (!a) return;
+  const t = a.currentTime + delay, src = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+  src.buffer = noiseBuf; f.type = type; f.frequency.setValueAtTime(freq, t); f.Q.value = q;
+  if (sweep) { f.frequency.exponentialRampToValueAtTime(sweep, t + dur * .5); f.frequency.exponentialRampToValueAtTime(freq, t + dur); }
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(gain, t + Math.min(.012, dur * .3)); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  src.connect(f); f.connect(g); g.connect(master);
+  src.start(t, Math.random() * .5); src.stop(t + dur + .05);
+}
+function tone({f, dur = .8, gain = .1, type = 'sine', delay = 0, attack = .004, lp = 0}) {
+  const a = audio(); if (!a) return;
+  const t = a.currentTime + delay, o = a.createOscillator(), g = a.createGain();
+  o.type = type; o.frequency.value = f;
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(gain, t + attack); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  let node = o;
+  if (lp) { const fl = a.createBiquadFilter(); fl.type = 'lowpass'; fl.frequency.value = lp; o.connect(fl); node = fl; }
+  node.connect(g); g.connect(master); o.start(t); o.stop(t + dur + .05);
+}
+const bell = (f, delay = 0, gain = .09) => { tone({f, dur: 1.8, gain, delay}); tone({f: f * 2.01, dur: .9, gain: gain * .3, delay}); tone({f: f * 3.03, dur: .45, gain: gain * .12, delay}); };
+const pluck = (f, delay = 0, gain = .13) => { tone({f, dur: 1.4, gain, type: 'triangle', delay, lp: 2400}); tone({f: f * 2, dur: .5, gain: gain * .25, delay}); };
+
+const SFX = {
+  flip() { if (sample('place' + (1 + Math.floor(Math.random() * 3)), {rate: rnd(.94, 1.08), gain: .85})) return;
+    noise({freq: 3400, q: .7, dur: .05, gain: .16}); noise({freq: 900, q: 1, dur: .08, gain: .1, delay: .012}); tone({f: 190, dur: .07, gain: .05, type: 'triangle'}); },
+  unflip() { if (sample(Math.random() < .5 ? 'slide1' : 'slide3', {rate: rnd(.95, 1.05), gain: .55})) return;
+    noise({freq: 1900, q: .8, dur: .06, gain: .09}); noise({freq: 2100, q: .8, dur: .06, gain: .08, delay: .07}); },
+  deal() { if (sample('shuffle', {gain: .5, dur: 1.5})) return; noise({freq: 2600, q: .6, dur: .5, gain: .06}); },
+  match() { if (A.tone && save.sound) { koto(['D5'], 0, .8); chime(['A6', 'D7'], .1, .05); return; } bell(1046.5); bell(1568, .1, .07); },
+  fresh() { if (A.tone && save.sound) { koto(['D5', 'G5'], .09, .85); chime(['D6', 'A6', 'D7', 'E7'], .11, .08); return; }
+    bell(1046.5); bell(1318.5, .1, .07); bell(2093, .24, .05); bell(2637, .36, .035); },
+  peek() { if (sample(Math.random() < .5 ? 'fan1' : 'fan2', {gain: .65})) return; noise({freq: 500, q: .5, dur: .9, gain: .07, type: 'lowpass', sweep: 2600}); },
+  win() { if (A.tone && save.sound) { koto(['D4', 'Eb4', 'G4', 'A4', 'Bb4', 'D5', 'Eb5', 'G5'], .13, .9); chime(['D6', 'A6'], .2, 1.15); return; }
+    [293.66, 392, 440, 587.33, 698.46, 880].forEach((f, i) => pluck(f, i * .14)); bell(1174.7, .95, .06); },
+  lose() { if (A.tone && save.sound) { koto(['A3', 'F3'], .34, .7); return; } pluck(220, 0, .1); pluck(174.6, .32, .09); },
+  tap() { if (A.tone && save.sound) { A.wood.triggerAttackRelease('A4', .05, window.Tone.now(), .18); return; } noise({freq: 2600, q: 1.2, dur: .03, gain: .06}); }
+};
+function setSound(on) {
+  save.sound = on; persist(); renderSound();
+  if (window.Tone && A.tone) { window.Tone.Destination.mute = !on; applyAmbience(); }
+  if (on) SFX.tap();
+}
+
+/* ================= petals (canvas-confetti) ================= */
+let petalShape = null;
+function petals(opts) {
+  const c = window.confetti;
+  if (!c || reduceMotion()) return;
+  try {
+    if (!petalShape && c.shapeFromPath) petalShape = c.shapeFromPath({path: 'M0 -10 C6 -10 9 -3 6 5 C4 9 1 9 0 6 C-1 9 -4 9 -6 5 C-9 -3 -6 -10 0 -10Z'});
+    c(Object.assign({zIndex: 45, colors: SEASONS[Math.max(0, seasonNow)].burst, shapes: petalShape ? [petalShape] : ['circle'],
+      gravity: .55, drift: .4, ticks: 260, scalar: 1.25, disableForReducedMotion: true}, opts));
+  } catch (e) {}
+}
+/* ================= ui helpers ================= */
+const screens = {home: $('#home'), game: $('#game')};
+let current = 'home';
+function show(name) {
+  current = name;
+  for (const k in screens) screens[k].hidden = k !== name;
+  if (name === 'home') { applySeason(calendarSeason()); renderHome(); }
+  if (name === 'game') requestAnimationFrame(layoutBoard);
+}
+let seasonNow = -1;
+function applySeason(i) {
+  if (i === seasonNow) return;
+  seasonNow = i;
+  const S = SEASONS[i], root = document.documentElement.style;
+  root.setProperty('--glow', S.glow); root.setProperty('--season', S.accent);
+  FX.set(S.key);
+}
+function collectedCount() { return MOTIFS.filter(m => save.collected[m.id]).length; }
+function omamoriTotal() { return Object.values(save.collected).reduce((a, b) => a + b, 0); }
+
+const SOUND_ON = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h3l4-3.5v11L6 12H3z"/><path d="M13.2 7.3a4 4 0 0 1 0 5.4M15.5 5a7 7 0 0 1 0 10"/></svg>';
+const SOUND_OFF = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h3l4-3.5v11L6 12H3z"/><path d="M13.5 8l4 4M17.5 8l-4 4"/></svg>';
+function renderSound() {
+  document.querySelectorAll('.sound-btn').forEach(b => {
+    b.setAttribute('aria-pressed', String(save.sound));
+    b.setAttribute('aria-label', save.sound ? '音效已开启，点按关闭' : '音效已关闭，点按开启');
+    b.innerHTML = (save.sound ? SOUND_ON : SOUND_OFF) + `<span>${save.sound ? '音效 开' : '音效 关'}</span>`;
+  });
+  const ab = $('#btnAmb');
+  if (A.starting && !A.tone && A.done) { ab.textContent = '环境音不可用'; ab.disabled = true; return; }
+  ab.disabled = !save.sound;
+  ab.setAttribute('aria-pressed', String(save.ambience && save.sound));
+  ab.textContent = `庭院环境音 ${save.ambience && save.sound ? '开' : '关'}`;
+}
+function refreshMeta() {
+  const c = collectedCount(), pct = (c / MOTIFS.length * 100).toFixed(1) + '%';
+  $('#homeCount').textContent = `已收集 ${c} / ${MOTIFS.length} 组 · 御守 ${omamoriTotal()} 枚`;
+  $('#homeRail').style.width = pct;
+  $('#dexMini').textContent = `${c}/${MOTIFS.length}`;
+  $('#dexCount').textContent = `${c} / ${MOTIFS.length} 组 · 御守 ${omamoriTotal()} 枚`;
+  $('#dexRail').style.width = pct;
+  const unseen = save.unseen.length > 0;
+  $('#dotHome').hidden = !unseen; $('#dotGame').hidden = !unseen;
+  if (current === 'home') renderHome();
+}
+
+function renderHome() {
+  const next = Math.min(save.unlocked, LEVELS.length);
+  const tile = l => {
+    const locked = l.n > save.unlocked, best = save.best[l.n] || 0;
+    const foot = locked ? '<span>通关上一庭后解锁</span><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/></svg>'
+      : best ? `<span>${l.sub} · 最佳</span><span class="flowers" aria-label="${best} 朵花">${[1, 2, 3].map(i => flowerIcon(i <= best)).join('')}</span>`
+      : `<span>${l.sub} · ${l.n === next ? '下一处' : '未通关'}</span>`;
+    return `<button class="lvl${!locked && l.n === next && !best ? ' next' : ''}" type="button" data-n="${l.n}" ${locked ? 'disabled' : ''} aria-label="第${KANJI[l.n - 1]}庭 ${l.name}${locked ? '，未解锁' : ''}">
+      <span class="num">${KANJI[l.n - 1]}</span><span class="name">${l.name}</span>
+      <span class="meta tnum">${l.pairs} 组 · ${l.moves} 步</span>
+      <span class="foot">${foot}</span></button>`;
+  };
+  $('#levels').innerHTML = SEASONS.map((S, i) => `<section class="season-g" style="--season:${S.accent}" aria-label="${S.name}">
+    <div class="season-h"><span class="s-kanji">${S.name}</span><span><b>${S.note}</b><small>${S.range}</small></span></div>
+    <div class="levels">${LEVELS.filter(l => l.s === i).map(tile).join('')}</div></section>`).join('');
+  const c = collectedCount(), pct = (c / MOTIFS.length * 100).toFixed(1) + '%';
+  $('#homeCount').textContent = `已收集 ${c} / ${MOTIFS.length} 组 · 御守 ${omamoriTotal()} 枚`;
+  $('#homeRail').style.width = pct;
+}
+
+function renderDex() {
+  const month = ([m, cn, jp]) => {
+    const list = MOTIFS.filter(x => x.m === m);
+    return `<section class="month"><h3>${cn}<span class="jp">${jp}</span><small>${PLANT_NAMES[m - 1]}之月</small></h3><div class="entries">${list.map(x => {
+      const n = save.collected[x.id] || 0;
+      const tagCls = {'光札': ' hikari', '种札': ' tane', '短册': ' tan'}[x.tag] || '';
+      if (!n) return `<article class="entry locked"><div class="e-art">${BACK}</div><div class="e-text">
+        <div class="e-name"><b>未解锁</b><span class="tag${tagCls}">${x.tag}</span></div>
+        <div class="e-sub">${cn} · ${jp}</div><p>在任意庭院里翻出这组花札，就会记入图鉴。</p>
+        <div class="e-om">${omamoriSVG('rgba(236,222,186,.25)')}<span class="cnt">御守未获得</span></div></div></article>`;
+      return `<article class="entry">${save.unseen.includes(x.id) ? '<span class="new-badge">新</span>' : ''}<div class="e-art">${art(x)}</div><div class="e-text">
+        <div class="e-name"><b>${x.jp}</b><span class="tag${tagCls}">${x.tag}</span></div>
+        <div class="e-sub">${x.cn} · ${x.kana}</div><p>${x.desc}</p>
+        <div class="e-om">${omamoriSVG(x.omc)}<span>${x.om}</span><span class="cnt tnum">× ${n}</span></div></div></article>`;
+    }).join('')}</div></section>`;
+  };
+  $('#months').innerHTML = SEASONS.map(S => {
+    const got = MOTIFS.filter(x => S.months.includes(x.m) && save.collected[x.id]).length;
+    return `<section style="--season:${S.accent}"><div class="season-h"><span class="s-kanji">${S.name}</span><span><b>${S.range}</b><small>本季已收集 ${got} / 9 组</small></span></div>
+      <div class="months">${MONTHS.filter(([m]) => S.months.includes(m)).map(month).join('')}</div></section>`;
+  }).join('');
+}
+let dexReturnFocus = null;
+function openDex() {
+  dexReturnFocus = document.activeElement;
+  renderDex(); refreshMeta();
+  $('#dex').hidden = false;
+  $('#dex .sheet-body').scrollTop = 0;
+  $('#dexClose').focus();
+}
+function closeDex() {
+  $('#dex').hidden = true;
+  if (save.unseen.length) { save.unseen = []; persist(); }
+  refreshMeta();
+  if (dexReturnFocus && dexReturnFocus.focus) dexReturnFocus.focus();
+}
+
+let modalOnClose = null;
+function openModal(html, onClose) {
+  $('#modalCard').innerHTML = html;
+  $('#modal').hidden = false;
+  modalOnClose = onClose || null;
+  const f = $('#modalCard [data-focus]') || $('#modalCard button');
+  if (f) f.focus();
+}
+function closeModal(run = true) {
+  $('#modal').hidden = true;
+  const cb = modalOnClose; modalOnClose = null;
+  if (run && cb) cb();
+}
+
+function rulesHTML(cta) {
+  return `<div class="eyebrow">游玩说明</div><h2>记住位置，翻出成对的花札</h2>
+    <ol class="rules">
+      <li><span class="n">1</span><span>开局所有牌会<b>亮出几秒</b>，趁这时记住位置。</span></li>
+      <li><span class="n">2</span><span>每次翻开<b>两张算一步</b>。图案相同就配对成功，不同会盖回去。</span></li>
+      <li><span class="n">3</span><span>在<b>步数用完前</b>配完全部牌即可通关，并解锁下一处庭院。</span></li>
+      <li><span class="n">4</span><span>每关有一次<b>重新看牌</b>：未配对的牌再亮一下，不消耗步数。</span></li>
+    </ol>
+    <p>每处庭院对应一个季节，牌组大多来自当季的月份。第一次翻出某组花札，会解锁它的图鉴并收下对应的御守。</p>
+    <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>${cta}</button></div>`;
+}
+
+function creditsHTML() {
+  return `<div class="eyebrow">素材致谢</div><h2>开源素材</h2>
+    <ul class="credits">
+      <li><b>花札图像</b>：Louie Mantia 绘制，<a href="https://commons.wikimedia.org/wiki/User:Louiemantia" target="_blank" rel="noopener">Wikimedia Commons</a>，<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>。图像未作修改。</li>
+      <li><b>纸牌音效</b>：Kenney「<a href="https://kenney.nl/assets/casino-audio" target="_blank" rel="noopener">Casino Audio</a>」，CC0。</li>
+      <li><b>琴声、风铃与环境音</b>：用 <a href="https://github.com/Tonejs/Tone.js" target="_blank" rel="noopener">Tone.js</a>（MIT）实时合成。</li>
+      <li><b>落花特效</b>：<a href="https://github.com/catdad/canvas-confetti" target="_blank" rel="noopener">canvas-confetti</a>（ISC）。</li>
+      <li><b>字体</b>：Yuji Syuku、Shippori Mincho、Noto Serif SC、Noto Sans SC，均为 SIL OFL 1.1，经 Google Fonts 提供。</li>
+    </ul>
+    <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>关闭</button></div>`;
+}
+
+let toastTimer = 0;
+function toast(m, fresh) {
+  const el = $('#toast');
+  el.innerHTML = `<div class="t-art">${art(m)}</div><div><div class="t1">${fresh ? '新图鉴解锁' : '御守 +1'}</div>
+    <div class="t2"><span class="jp">${m.jp}</span> · ${m.cn}</div><div class="t3">收下「${m.om}」${fresh ? ' · 已记入图鉴' : ' · 图鉴已收录'}</div></div>`;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), fresh ? 2800 : 1700);
+}
+const reduceMotion = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+function floatOmamori(cardEl, m) {
+  if (reduceMotion() || !cardEl) return;
+  const r = cardEl.getBoundingClientRect(), f = document.createElement('div');
+  f.className = 'float'; f.innerHTML = omamoriSVG(m.omc);
+  f.style.left = (r.left + r.width / 2) + 'px'; f.style.top = (r.top + r.height / 2) + 'px';
+  document.body.appendChild(f);
+  setTimeout(() => f.remove(), 1300);
+}
+
+/* ================= game ================= */
+let G = null;
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+function pickMotifs(k, s) {
+  // In-season sets first, uncollected before collected, so each garden feels like its season and can still add to the dex.
+  // Gardens with more pairs than the season's nine sets borrow from other months.
+  const inS = m => SEASONS[s].months.includes(m.m), got = m => !!save.collected[m.id];
+  const tiers = [m => inS(m) && !got(m), m => inS(m) && got(m), m => !inS(m) && !got(m), m => !inS(m) && got(m)];
+  return shuffle(tiers.flatMap(f => shuffle(MOTIFS.filter(f).map(m => m.id))).slice(0, k));
+}
+function later(fn, ms) { const t = setTimeout(fn, ms); if (G) G.timers.push(t); return t; }
+function stopTimers() { if (G) G.timers.forEach(clearTimeout); }
+
+function requestLevel(n, sameSet) {
+  if (!save.seenRules) {
+    openModal(rulesHTML('明白了，开始'), () => { save.seenRules = true; persist(); startLevel(n, sameSet); });
+    return;
+  }
+  startLevel(n, sameSet);
+}
+function startLevel(n, sameSet) {
+  stopTimers();
+  const L = LEVELS[n - 1];
+  const ids = sameSet && G && G.n === n ? G.ids : pickMotifs(L.pairs, L.s);
+  G = {n, L, ids, deck: shuffle(ids.concat(ids)).map(id => ({id, up: false, done: false, peek: false})),
+    movesLeft: L.moves, peeks: 1, phase: 'deal', first: null, pairs: 0, fresh: [], timers: []};
+  $('#gNum').textContent = `${SEASONS[L.s].name} · 第${KANJI[n - 1]}庭`;
+  $('#gName').textContent = L.name;
+  buildBoard();
+  show('game');
+  renderHud();
+  setHint('发牌中…');
+  applySeason(L.s);
+  SFX.deal();
+  const cards = G.deck.length, token = G;
+  const dealt = new Promise(res => setTimeout(res, reduceMotion() ? 150 : 450 + cards * 22));
+  const loaded = Promise.race([preloadArt(ids), new Promise(res => setTimeout(res, 4000))]);
+  Promise.all([dealt, loaded]).then(() => {
+    if (G !== token || G.phase !== 'deal') return;
+    G.phase = 'preview';
+    G.deck.forEach(c => c.peek = true); paintAll();
+    SFX.peek();
+    setHint('记住花札的位置', previewMs(cards));
+    later(() => {
+      G.deck.forEach(c => c.peek = false); paintAll();
+      SFX.unflip();
+      G.phase = 'play'; renderHud();
+      setHint('翻开两张牌，找出相同的花札');
+    }, previewMs(cards));
+  });
+}
+function buildBoard() {
+  const deck = $('#deck');
+  deck.innerHTML = G.deck.map((c, i) => `<button class="card" type="button" data-i="${i}" style="--d:${i}" aria-label="第 ${i + 1} 张，背面朝上">
+    <span class="inner"><span class="face back">${BACK}</span><span class="face front">${art(BY_ID[c.id])}<span class="stamp">揃</span></span></span></button>`).join('');
+  deck.classList.remove('dealing'); void deck.offsetWidth; deck.classList.add('dealing');
+  layoutBoard();
+}
+function paint(i) {
+  const c = G.deck[i], el = $('#deck').children[i];
+  if (!el) return;
+  const up = c.up || c.done || c.peek;
+  el.classList.toggle('up', up);
+  el.classList.toggle('done', c.done);
+  el.setAttribute('aria-label', `第 ${i + 1} 张，${c.done ? '已配对：' + BY_ID[c.id].jp : up ? BY_ID[c.id].jp : '背面朝上'}`);
+}
+function paintAll() { G.deck.forEach((_, i) => paint(i)); }
+function renderHud() {
+  if (!G) return;
+  const {L} = G;
+  $('#movesLeft').textContent = G.movesLeft;
+  $('#movesTotal').textContent = `/ ${L.moves}`;
+  $('#usedMoves').textContent = `已用 ${L.moves - G.movesLeft}`;
+  $('#movesBar').style.width = (G.movesLeft / L.moves * 100) + '%';
+  $('#statMoves').classList.toggle('low', G.movesLeft <= 3);
+  $('#pairsDone').textContent = G.pairs;
+  $('#pairsTotal').textContent = `/ ${G.ids.length} 组`;
+  $('#peekLeft').textContent = G.peeks;
+  $('#btnPeek').disabled = G.peeks < 1 || G.phase !== 'play';
+  $('#btnPeek').setAttribute('aria-label', G.peeks ? '重新看牌，本关还剩 1 次，不消耗步数' : '本关的重新看牌已用完');
+}
+function setHint(text, dur) {
+  $('#hintText').textContent = text;
+  const b = $('#tbar');
+  b.classList.remove('run');
+  if (dur) { b.style.setProperty('--dur', dur + 'ms'); void b.offsetWidth; b.classList.add('run'); }
+}
+
+function tap(i) {
+  if (!G || G.phase !== 'play') return;
+  const c = G.deck[i];
+  if (!c || c.done || c.up) return;
+  SFX.flip();
+  c.up = true; paint(i);
+  if (G.first === null) { G.first = i; setHint('再翻一张'); return; }
+  const a = G.first, b = i, A = G.deck[a];
+  G.first = null; G.movesLeft--; G.phase = 'resolve'; renderHud();
+  if (A.id === c.id) {
+    later(() => {
+      A.done = c.done = true; paint(a); paint(b);
+      const els = $('#deck').children;
+      [a, b].forEach(k => { els[k].classList.add('pop'); later(() => els[k] && els[k].classList.remove('pop'), 600); });
+      G.pairs++;
+      collect(c.id, els[b]);
+      renderHud();
+      if (G.pairs === G.ids.length) { G.phase = 'end'; later(win, 900); }
+      else if (G.movesLeft <= 0) { G.phase = 'end'; later(lose, 900); }
+      else { G.phase = 'play'; renderHud(); setHint(G.movesLeft <= 3 ? `只剩 ${G.movesLeft} 步了，慢慢来` : '配对成功'); }
+    }, 300);
+  } else {
+    setHint('图案不同，记住它们');
+    later(() => {
+      A.up = c.up = false; paint(a); paint(b);
+      SFX.unflip();
+      if (G.movesLeft <= 0) { G.phase = 'end'; later(lose, 500); }
+      else { G.phase = 'play'; renderHud(); setHint(G.movesLeft <= 3 ? `只剩 ${G.movesLeft} 步了` : '翻开两张牌，找出相同的花札'); }
+    }, 950);
+  }
+}
+function collect(id, el) {
+  const m = BY_ID[id], fresh = !save.collected[id];
+  save.collected[id] = (save.collected[id] || 0) + 1;
+  if (fresh) { save.unseen.push(id); G.fresh.push(id); }
+  persist();
+  fresh ? SFX.fresh() : SFX.match();
+  floatOmamori(el, m);
+  if (fresh && el) {
+    const rc = el.getBoundingClientRect();
+    petals({particleCount: 22, spread: 60, startVelocity: 17, origin: {x: (rc.left + rc.width / 2) / innerWidth, y: (rc.top + rc.height / 2) / innerHeight}});
+  }
+  toast(m, fresh);
+  refreshMeta();
+}
+function peek() {
+  if (!G || G.phase !== 'play' || G.peeks < 1) return;
+  G.peeks--; G.phase = 'peek';
+  G.deck.forEach(c => { if (!c.done) c.peek = true; }); paintAll();
+  renderHud(); SFX.peek();
+  const ms = peekMs(G.deck.length);
+  setHint('再看一眼，步数不变', ms);
+  later(() => {
+    G.deck.forEach(c => c.peek = false); paintAll();
+    SFX.unflip();
+    G.phase = 'play'; renderHud();
+    setHint(G.first !== null ? '再翻一张' : '翻开两张牌，找出相同的花札');
+  }, ms);
+}
+function freshRow() {
+  if (!G.fresh.length) return '';
+  return `<p style="margin:10px 0 0;color:var(--text)">本局新收进图鉴（${G.fresh.length}）</p><div class="got-row">${G.fresh.map(id => {
+    const m = BY_ID[id]; return `<div class="got"><div class="g-art">${art(m)}</div><span>${m.jp}</span></div>`; }).join('')}</div>`;
+}
+function win() {
+  const {n, L} = G, used = L.moves - G.movesLeft, fl = flowersFor(G.movesLeft, L.moves);
+  save.best[n] = Math.max(save.best[n] || 0, fl);
+  const unlockedNew = n < LEVELS.length && save.unlocked < n + 1;
+  if (n < LEVELS.length) save.unlocked = Math.max(save.unlocked, n + 1);
+  persist(); SFX.win(); setHint('庭院已整理完毕');
+  petals({particleCount: 70, angle: 60, spread: 70, startVelocity: 42, origin: {x: 0, y: .95}});
+  petals({particleCount: 70, angle: 120, spread: 70, startVelocity: 42, origin: {x: 1, y: .95}});
+  const nextL = LEVELS[n];
+  openModal(`<div class="eyebrow">第${KANJI[n - 1]}庭 · ${L.name}</div><h2>${n === LEVELS.length ? '八处庭院，全部走完' : '通关'}</h2>
+    <div class="big-flowers" aria-label="获得 ${fl} 朵花">${[1, 2, 3].map(i => flowerIcon(i <= fl)).join('')}</div>
+    <p>用了 ${used} 步，还剩 ${G.movesLeft} 步。收下御守 ${G.ids.length} 枚。${unlockedNew ? `<br>已解锁第${KANJI[n]}庭「${nextL.name}」。` : ''}</p>
+    ${freshRow()}
+    <div class="modal-actions">
+      ${nextL ? `<button class="btn primary" type="button" data-act="next" data-focus>下一庭 · ${nextL.name}</button>` : `<button class="btn primary" type="button" data-act="dex" data-focus>打开图鉴</button>`}
+      <button class="btn" type="button" data-act="replay">再玩一次</button>
+      <button class="btn" type="button" data-act="home">返回庭院</button>
+    </div>`);
+}
+function lose() {
+  SFX.lose(); setHint('步数用完了');
+  openModal(`<div class="eyebrow">第${KANJI[G.n - 1]}庭 · ${G.L.name}</div><h2>步数用完了</h2>
+    <p>已配对 ${G.pairs} / ${G.ids.length} 组。重试时步数和「重新看牌」都会恢复，牌的位置会重新洗过。</p>
+    ${G.fresh.length ? '<p>这一局收集到的图鉴和御守已经保存。</p>' : ''}${freshRow()}
+    <div class="modal-actions">
+      <button class="btn primary" type="button" data-act="retry" data-focus>重试本关</button>
+      <button class="btn" type="button" data-act="home">返回庭院</button>
+    </div>`);
+}
+function goHome() { stopTimers(); if (G) G.phase = 'idle'; $('#toast').classList.remove('show'); show('home'); }
+
+/* Fit the whole deck into the board area: try every column count, keep the one with the largest card. */
+function layoutBoard() {
+  if (!G || current !== 'game') return;
+  const board = $('#board'), deck = $('#deck');
+  const W = board.clientWidth, H = board.clientHeight - 8, N = G.deck.length;
+  if (!W || !H) return;
+  const gap = W < 480 ? 6 : 10, MAX = W < 480 ? 92 : 118, MIN = 44;
+  let best = null;
+  for (let cols = 2; cols <= N; cols++) {
+    const rows = Math.ceil(N / cols);
+    const w = Math.min((W - gap * (cols - 1)) / cols, ((H - gap * (rows - 1)) / rows) / 1.6, MAX);
+    const score = w - (cols * rows - N) * .6;
+    if (!best || score > best.score) best = {cols, w, score};
+  }
+  const w = Math.max(MIN, Math.min(Math.floor(best.w), Math.floor((W - gap * (best.cols - 1)) / best.cols)));
+  const cols = Math.max(1, Math.min(best.cols, Math.floor((W + gap) / (w + gap))));
+  deck.style.setProperty('--gap', gap + 'px');
+  deck.style.width = (cols * w + (cols - 1) * gap) + 'px';
+  for (const el of deck.children) el.style.setProperty('--cw', w + 'px');
+}
+
+/* ================= events ================= */
+$('#deck').addEventListener('click', e => { const b = e.target.closest('.card'); if (b) tap(+b.dataset.i); });
+$('#levels').addEventListener('click', e => { const b = e.target.closest('.lvl'); if (b && !b.disabled) { SFX.tap(); requestLevel(+b.dataset.n); } });
+$('#btnPeek').addEventListener('click', peek);
+$('#btnRestart').addEventListener('click', () => { if (G) { SFX.tap(); startLevel(G.n, true); } });
+$('#btnHome').addEventListener('click', () => { SFX.tap(); goHome(); });
+$('#btnDexHome').addEventListener('click', () => { SFX.tap(); openDex(); });
+$('#btnDexGame').addEventListener('click', () => { SFX.tap(); openDex(); });
+$('#dexClose').addEventListener('click', closeDex);
+$('#btnRules').addEventListener('click', () => openModal(rulesHTML('知道了')));
+document.querySelectorAll('.sound-btn').forEach(b => b.addEventListener('click', () => setSound(!save.sound)));
+$('#btnAmb').addEventListener('click', () => { startAudio().then(() => { ambience(!save.ambience); persist(); renderSound(); }); });
+$('#btnCredits').addEventListener('click', () => openModal(creditsHTML()));
+$('#modalCard').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const act = b.dataset.act, n = G ? G.n : 1;
+  SFX.tap();
+  if (act === 'close') return closeModal(true);
+  closeModal(false);
+  if (act === 'next') requestLevel(n + 1);
+  else if (act === 'replay') startLevel(n, false);
+  else if (act === 'retry') startLevel(n, true);
+  else if (act === 'home') goHome();
+  else if (act === 'dex') { goHome(); openDex(); }
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (!$('#modal').hidden && $('#modalCard [data-act="close"]')) closeModal(true);
+  else if (!$('#dex').hidden) closeDex();
+});
+const unlockAudio = () => { startAudio(); audio(); };
+document.addEventListener('pointerdown', unlockAudio, {once: true});
+document.addEventListener('keydown', unlockAudio, {once: true});
+if ('ResizeObserver' in window) new ResizeObserver(() => layoutBoard()).observe($('#board'));
+else window.addEventListener('resize', layoutBoard);
+
+/* ================= seasonal particles ================= */
+const FX = (() => {
+  const cv = $('#petals'), cx = cv.getContext && cv.getContext('2d');
+  if (!cx) return {set() {}};
+  let W = 0, H = 0, raf = 0, kind = 'spring', P = [];
+  const still = reduceMotion(), pick = a => a[Math.floor(Math.random() * a.length)];
+  const COUNT = {spring: 16, summer: 16, autumn: 12, winter: 46};
+  function spawn(k, top) {
+    const p = {x: Math.random(), y: top ? -.05 : Math.random(), ph: Math.random() * 6.3, r: Math.random() * 6.3, vr: 0};
+    if (k === 'spring') return Object.assign(p, {s: 3 + Math.random() * 3.5, vy: .0003 + Math.random() * .0003, vx: .00012 + Math.random() * .0002, vr: (Math.random() - .5) * .03,
+      c: pick(['rgba(246,193,204,.72)', 'rgba(239,170,186,.62)', 'rgba(255,232,236,.55)'])});
+    if (k === 'summer') return Object.assign(p, {y: .3 + Math.random() * .7, s: 1.6 + Math.random() * 1.3, vx: (Math.random() - .5) * .0004, vy: (Math.random() - .5) * .0003});
+    if (k === 'autumn') return Object.assign(p, {s: 5 + Math.random() * 4, vy: .0004 + Math.random() * .0004, vx: (Math.random() - .4) * .0003, vr: (Math.random() - .5) * .04,
+      c: pick(['rgba(214,82,48,.78)', 'rgba(232,140,60,.72)', 'rgba(190,60,40,.72)', 'rgba(226,170,70,.66)'])});
+    return Object.assign(p, {s: 1.1 + Math.random() * 2.2, vy: .00025 + Math.random() * .0004, vx: (Math.random() - .5) * .0001, c: `rgba(240,245,255,${(.4 + Math.random() * .45).toFixed(2)})`});
+  }
+  function leaf(s) {
+    cx.beginPath();
+    for (let i = 0; i < 10; i++) { const rr = i % 2 ? s * .45 : s, a = -Math.PI / 2 + i * Math.PI / 5; cx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr); }
+    cx.closePath();
+  }
+  function draw(step) {
+    cx.clearRect(0, 0, W, H);
+    for (let i = 0; i < P.length; i++) {
+      let p = P[i];
+      if (step) {
+        p.ph += .012;
+        if (kind === 'summer') {
+          p.x += p.vx + Math.sin(p.ph) * .0003; p.y += p.vy + Math.cos(p.ph * .8) * .0003;
+          if (p.x < -.05 || p.x > 1.05 || p.y < .2 || p.y > 1.05) P[i] = p = spawn(kind, false);
+        } else {
+          p.y += p.vy; p.x += p.vx + Math.sin(p.ph) * (kind === 'winter' ? .0004 : .0003); p.r += p.vr;
+          if (p.y > 1.05 || p.x > 1.08 || p.x < -.08) P[i] = p = spawn(kind, true);
+        }
+      }
+      cx.save(); cx.translate(p.x * W, p.y * H);
+      if (kind === 'summer') {
+        cx.globalAlpha = .15 + .85 * Math.max(0, Math.sin(p.ph * 2.2 + p.r));
+        cx.fillStyle = 'rgba(205,235,120,.16)'; cx.beginPath(); cx.arc(0, 0, p.s * 4.5, 0, 6.3); cx.fill();
+        cx.fillStyle = 'rgba(228,248,150,.95)'; cx.beginPath(); cx.arc(0, 0, p.s, 0, 6.3); cx.fill();
+      } else {
+        cx.rotate(p.r); cx.fillStyle = p.c;
+        if (kind === 'autumn') { leaf(p.s); cx.fill(); }
+        else if (kind === 'spring') { cx.beginPath(); cx.ellipse(0, 0, p.s, p.s * .55, 0, 0, 6.3); cx.fill(); }
+        else { cx.beginPath(); cx.arc(0, 0, p.s, 0, 6.3); cx.fill(); }
+      }
+      cx.restore();
+    }
+  }
+  function size() { const dpr = Math.min(2, window.devicePixelRatio || 1); W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); if (still) draw(false); }
+  function loop() { draw(true); raf = requestAnimationFrame(loop); }
+  size(); window.addEventListener('resize', size);
+  if (!still) {
+    loop();
+    document.addEventListener('visibilitychange', () => { cancelAnimationFrame(raf); if (!document.hidden) loop(); });
+  }
+  return {set(k) { kind = k; P = Array.from({length: COUNT[k]}, () => spawn(k, false)); if (still) draw(false); }};
+})();
+
+/* ================= boot ================= */
+const nowS = SEASONS[calendarSeason()];
+$('#fan').innerHTML = nowS.fan.map(id => `<div class="mini">${art(BY_ID[id])}</div>`).join('');
+$('#nowSeason').innerHTML = `<b>${nowS.name}</b>当季 · ${nowS.scene}`;
+applySeason(calendarSeason());
+renderSound();
+setSaveNote();
+refreshMeta();
+renderHome();
+initCloud();
+
+function start(data) {
+  const n = data && Number(data.level);
+  if (data && data.screen === 'game' && n >= 1 && n <= save.unlocked) startLevel(n, false);
+  else show('home');
+}
+const hot = window.claude && window.claude.hot;
+if (hot && typeof hot.snapshot === 'function') hot.snapshot(() => ({screen: current, level: G ? G.n : null}));
+if (hot && typeof hot.ready === 'function') hot.ready(start); else start((hot && hot.data) || {});
+})();
+</script>
+
+</body>
+</html>
