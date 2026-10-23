@@ -129,6 +129,8 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .hv-stats button{flex:1 1 30%;min-height:44px;padding:6px 10px;border-radius:var(--btn-radius);border:var(--panel-bw) solid var(--line);background:var(--panel);cursor:pointer;
   display:grid;gap:0;text-align:left;font-size:12px;color:var(--muted)}
 .hv-stats b{font-size:15px;color:var(--text)}
+.hv-wipe{display:flex;justify-content:center}
+.hv-wipe .btn{min-height:44px;font-size:14px;background:var(--panel)}
 .mode-note{margin:-8px 0 0;font-size:12px;color:var(--faint);text-align:center}
 .tabs{flex:none;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:var(--panel-solid);border-top:var(--panel-bw) solid var(--line);
   padding:4px max(8px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 4px) max(8px,env(safe-area-inset-left,0px))}
@@ -791,6 +793,7 @@ const peekMs = cards => 1500 + cards * 50;
 const KEY = 'omamori-hanafuda-v1';
 const save = {unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, collectedAt: {}, seals: {}, unseen: [], sound: true, ambience: false, bgm: true,
   seenRules: false, mode: 'std', look: 'ukiyo', skin: 'classic', skinPinned: false, coached: false, peekTip: false, stats: {levels: {}, themes: {}}};
+const DEFAULT_SAVE = JSON.stringify(save);
 const OLD_LOOKS = {emaki: 'ukiyo', cha: 'washi', dream: 'ukiyo'};
 function mergeBest(src, into) { for (const k in src) { const v = Number(src[k]); if (v > 0 && LEVELS[k - 1]) into[k] = Math.max(into[k] || 0, Math.min(3, v)); } }
 function mergeProgress(d, withPrefs) {
@@ -1421,7 +1424,8 @@ function homeCtx() {
   const pick = MOTIFS.filter(m => S.months.includes(m.m) && (m.tag === '光札' || m.tag === '种札'));
   return {tgt, S, allDone, levels, card: pick[tgt.n % pick.length], k: KANJI[tgt.n - 1], meta: levelMeta(tgt),
     verb: allDone ? '再访' : cleared(tgt.n) ? '再访' : '继续', hk: tgt.haiku,
-    stats: `<div class="hv-stats"><button type="button" data-sheet="dex"><span>花札</span><b class="tnum">${collectedCount()} / 48</b></button><button type="button" data-sheet="omamori"><span>御守</span><b class="tnum">${omamoriTotal()} 枚</b></button><button type="button" data-sheet="dex"><span>朱印</span><b class="tnum">${Object.keys(save.seals).length} / ${SEALS.length}</b></button></div>`};
+    stats: `<div class="hv-stats"><button type="button" data-sheet="dex"><span>花札</span><b class="tnum">${collectedCount()} / 48</b></button><button type="button" data-sheet="omamori"><span>御守</span><b class="tnum">${omamoriTotal()} 枚</b></button><button type="button" data-sheet="dex"><span>朱印</span><b class="tnum">${Object.keys(save.seals).length} / ${SEALS.length}</b></button></div>
+      <div class="hv-wipe"><button type="button" class="btn danger" data-wipe>清空记录，重新开始</button></div>`};
 }
 const go = (l, cls, inner, extra = '') => `<button type="button" class="go ${cls} ${l.cls}" data-go="${l.n}" ${l.locked ? 'disabled' : ''} aria-label="第${l.k}庭 ${l.name}${l.locked ? '，未解锁' : l.done ? '，已通关' : ''}" ${extra}>${inner}</button>`;
 const haikuHTML = (hk, cls = '') => `<p class="haiku ${cls}"><span class="jp">${hk[0]}</span><span class="cn">${hk[1]}</span><small>— ${hk[2]}</small></p>`;
@@ -1993,6 +1997,25 @@ $('#btnReset').addEventListener('click', () => openModal(`<div class="eyebrow">�
   <p>已收集的 ${collectedCount()} 张花札、${omamoriTotal()} 枚御守、${Object.keys(save.seals).length} 枚朱印、所有庭院的通关记录和游玩统计都会清空，无法恢复。</p>
   <p>主题、卡面、难度和声音设置会保留。</p>
   <div class="modal-actions"><button class="btn primary danger-fill" type="button" data-act="reset">清除，从初音重新开始</button><button class="btn" type="button" data-act="close" data-focus>先不了</button></div>`));
+function wipeHTML() {
+  return `<div class="eyebrow">清空记录</div><h2>清空这台浏览器里的全部游戏记录？</h2>
+    <p>包括图鉴、御守、朱印、所有庭院的通关记录和游玩统计，以及主题、卡面、难度和声音设置。${cloud ? '账号里同步的进度也会一起清空。' : ''}</p>
+    <p>清空后页面会刷新，回到第一次打开时的样子，无法恢复。</p>
+    <div class="modal-actions"><button class="btn primary danger-fill" type="button" data-act="wipe">清空并刷新</button><button class="btn" type="button" data-act="close" data-focus>先不了</button></div>`;
+}
+async function wipeAll() {
+  stopTimers(); G = null;
+  const fresh = JSON.parse(DEFAULT_SAVE);
+  for (const k of Object.keys(save)) delete save[k];
+  Object.assign(save, fresh);
+  try { localStorage.removeItem(KEY); } catch (e) {}
+  if (cloud) { try { clearTimeout(cloudTimer); await cloud.set({unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, collectedAt: {}, seals: {}, updatedAt: Date.now()}); } catch (e) {} }
+  try { location.reload(); return; } catch (e) {}
+  // If the frame refuses to reload, rebuild the page from the defaults instead.
+  document.documentElement.dataset.look = save.look; save.skin = THEMES[save.look].deck;
+  for (const id of Object.keys(SHEETS)) $('#' + id).hidden = true;
+  applyLook(); renderModes(); renderSoundUI(); show('home'); refreshMeta();
+}
 function resetProgress() {
   stopTimers(); G = null; A.combo = 0;
   Object.assign(save, {unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, collectedAt: {}, seals: {}, unseen: [], seenRules: false, coached: false, peekTip: false, stats: {levels: {}, themes: {}}});
@@ -2006,6 +2029,7 @@ $('#tgBgm').addEventListener('click', () => { save.bgm = !save.bgm; persist(); r
 $('#tgAmb').addEventListener('click', () => { save.ambience = !save.ambience; persist(); startAudio().then(() => { applyAmbience(); renderSoundUI(); }); });
 document.addEventListener('click', e => {
   const t = e.target;
+  if (t.closest('[data-wipe]')) { SFX.tap(); openModal(wipeHTML()); return; }
   const goBtn = t.closest('[data-go]'); if (goBtn && !goBtn.disabled) { SFX.tap(); requestLevel(+goBtn.dataset.go); return; }
   const sh = t.closest('[data-sheet]'); if (sh) { SFX.tap(); openSheet(sh.dataset.sheet); return; }
   const cl = t.closest('[data-close]'); if (cl) { closeSheet(cl.dataset.close); return; }
@@ -2042,6 +2066,7 @@ $('#modalCard').addEventListener('click', e => {
   else if (act === 'home') goHome();
   else if (act === 'dex') { goHome(); openSheet('dex'); }
   else if (act === 'reset') resetProgress();
+  else if (act === 'wipe') wipeAll();
 });
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
