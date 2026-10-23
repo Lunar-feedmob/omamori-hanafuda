@@ -24,16 +24,16 @@
 
 八种主题共用同一套玩法和布局，切换时不会打断正在进行的一局：
 
-| 主题 | 主页 | 推荐卡面 |
-|---|---|---|
-| 浮世绘梦境 | 梦游行海报 | 花图 |
-| 手绘青春 | 四叠半杂志页 | 剪纸 |
-| 黑白漫画 | 连载杂志目次 | 网点 |
-| 浮世绘四季 | 版画系列海报 | 彩绘 |
-| 京都和纸 | 文库本封面 | 墨绘 |
-| 枯山水庭园 | 一圈砂纹，一块石 | 墨染 |
-| 夏日祭典 | 灯笼与摊位 | 朱缘 |
-| 手账收藏 | 旅行手账与印章集 | 剪纸 |
+| 分组 | 主题 | 主页 | 推荐卡面 |
+|---|---|---|---|
+| 传统和风 | 浮世锦绘 | 版画系列海报（原创场景） | 彩绘 |
+| 传统和风 | 京都和纸 | 文库本封面，按季节换神坂雪佳的画 | 墨绘 |
+| 传统和风 | 砂纹石庭 | 一圈砂纹，一块石 | 墨染 |
+| 节令生活 | 灯火夜祭 | 广重「两国花火」上的灯笼与摊位 | 朱缘 |
+| 节令生活 | 旅行手账 | 纸页、印章集、北斋草花小稿 | 剪纸 |
+| 动画漫画 | 梦之游行 | 雪佳图案拼贴的梦游行海报 | 花图 |
+| 动画漫画 | 四叠青春 | 四叠半杂志页 | 剪纸 |
+| 动画漫画 | 昭和漫画 | 以《北斋漫画》为刊头的连载目次 | 网点 |
 
 ## 本地运行
 
@@ -49,6 +49,7 @@ python3 -m http.server 8000
 - 花札「彩绘」(`cards/classic`)、「墨染」(`cards/sumi`)、「朱缘」(`cards/shu`)：Louie Mantia 绘制，后两套另有すけじょ参与；来自 [Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:SVG_Hanafuda)，[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)，未作修改。
 - 花札「花图」(`cards/hwatu`)：韩式 Hwatu，Marcus Richert 以 Louie Mantia 的花札为基础制作，Spenĉjo 整理上传；[Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:SVG_Hwatu)，CC BY-SA 4.0，未作修改。文件按日式月份重命名（韩式的十一月桐、十二月柳已对调）。
 - 花札「墨绘」「剪纸」「网点」(`cards/ink`、`cards/kirie`、`cards/tone`) 与御守徽章：本项目原创，由程序绘制；御守花纹取自传统和柄。
+- 主页插图（`art/`）：神坂雪佳《百々世草》（1909–10）、葛饰北斋《北斋漫画》、歌川广重《名所江户百景 · 两国花火》（1858），均为公有领域作品，图像来自[芝加哥艺术博物馆开放馆藏](https://www.artic.edu/open-access)（CC0），仅缩放与裁切取景；纸纹为 [ambientCG Paper006](https://ambientcg.com/view?id=Paper006)（CC0）。
 - 纸牌音效（`sfx/`）：Kenney「[Casino Audio](https://kenney.nl/assets/casino-audio)」，CC0，已转码为 MP3。
 - 琴声、风铃、尺八与环境音：[Tone.js](https://github.com/Tonejs/Tone.js)（MIT）实时合成。
 - 落花特效：[canvas-confetti](https://github.com/catdad/canvas-confetti)（ISC）。
