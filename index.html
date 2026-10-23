@@ -1154,7 +1154,7 @@ function startAudio() {
     const T = window.Tone;
     if (!T) return;
     try {
-      await T.start();
+      T.start().catch(() => {});   // never block on resume: iOS only allows it on a later tap, and the graph can be built while suspended
       const out = new T.Volume(-3).toDestination();
       const rev = new T.Reverb({decay: 3.8, preDelay: .02, wet: .4});
       await rev.generate(); rev.connect(out);
@@ -1938,9 +1938,19 @@ document.addEventListener('keydown', e => {
   if (!$('#modal').hidden && $('#modalCard [data-act="close"]')) { closeModal(true); return; }
   for (const id of ['settings', 'themes', 'omamori', 'dex']) if (!$('#' + id).hidden) { closeSheet(id); return; }
 });
-const unlockAudio = () => { startAudio(); audio(); };
-document.addEventListener('pointerdown', unlockAudio, {once: true});
-document.addEventListener('keydown', unlockAudio, {once: true});
+// Mobile audio unlock. iOS Safari only lets audio start inside touchend/click (not pointerdown/touchstart), and a context can be
+// suspended again later (calls, backgrounding), so every tap re-checks. 'playback' keeps sound on when the ring/silent switch is set.
+let silentEl = null;
+function unlockAudio() {
+  try { if (navigator.audioSession && navigator.audioSession.type !== 'playback') navigator.audioSession.type = 'playback'; } catch (e) {}
+  if (!navigator.audioSession && !silentEl) {
+    try { silentEl = new Audio('sfx/silence.mp3'); silentEl.loop = true; silentEl.setAttribute('playsinline', ''); silentEl.play().catch(() => { silentEl = null; }); } catch (e) {}
+  }
+  const T = window.Tone;
+  if (T) { try { if (T.context.state !== 'running') T.context.resume(); } catch (e) {} startAudio(); }
+  else audio();
+}
+['touchend', 'click', 'keydown'].forEach(ev => document.addEventListener(ev, unlockAudio, {passive: true}));
 if ('ResizeObserver' in window) new ResizeObserver(() => layoutBoard()).observe($('#board'));
 else window.addEventListener('resize', layoutBoard);
 
