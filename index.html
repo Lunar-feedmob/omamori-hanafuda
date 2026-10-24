@@ -782,6 +782,65 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .hv-pixel .px-coin{margin:0;text-align:center;font-family:"Fusion Pixel",monospace;font-size:12px;color:#a59dd0;letter-spacing:.2em}
 .hv-pixel .px-hk{text-align:center}
 :root[data-look="pixel"] .sheet-head h2,:root[data-look="pixel"] .set-group h3{font-weight:400}
+/* ---------- per-look chrome: the popups, sheet headers, toasts, hint strip and tab marker each wear their look ----------
+   --orn is a decorative strip (top of popups, under sheet headers); --tm-* shape the active tab marker. Nothing here touches card faces. */
+.modal-card{position:relative;padding-top:calc(22px + var(--orn-h,0px))}
+.modal-card::before{content:"";position:absolute;left:0;right:0;top:0;height:var(--orn-h,0px);background:var(--orn,none);pointer-events:none}
+.modal-card::after{content:none;position:absolute;pointer-events:none}
+.sheet-head{position:relative}
+.sheet-head::after{content:"";position:absolute;left:0;right:0;bottom:calc(-1 * var(--orn-h,0px));height:var(--orn-h,0px);background:var(--orn,none);pointer-events:none;z-index:1}
+.modal-actions{flex-direction:row;flex-wrap:wrap}
+.modal-actions .btn{flex:1 1 0;min-width:0;padding:0 10px}
+.modal-actions .btn.primary{flex-basis:100%}
+.tabs button[aria-current="page"]::before{content:"";position:absolute;top:0;left:50%;width:var(--tm-w,26px);height:var(--tm-h,3px);transform:translateX(-50%);border-radius:var(--tm-r,0 0 3px 3px);background:var(--tm-bg,var(--accent));box-shadow:var(--tm-sh,none)}
+[data-look="ukiyo"]{--orn-h:12px;--orn:radial-gradient(circle at 50% 100%,transparent 4px,#1f3a68 4.5px 5.5px,transparent 6px 8px,#1f3a68 8.5px 9.5px,transparent 10px) 0 0/20px 12px,#f3ecdd;--tm-w:8px;--tm-h:8px;--tm-r:0;--tm-bg:#c8402a}
+[data-look="washi"]{--orn-h:12px;--orn:repeating-linear-gradient(90deg,#5a4532 0 3px,transparent 3px 16px),linear-gradient(#5a4532,#5a4532) 0 100%/100% 3px no-repeat;--tm-w:2px;--tm-h:14px;--tm-r:1px;--tm-bg:#b8392a}
+[data-look="kare"]{--orn-h:12px;--orn:repeating-linear-gradient(transparent 0 3px,rgba(43,43,40,.2) 3px 4px);--tm-w:8px;--tm-h:8px;--tm-r:50%;--tm-bg:#55704a}
+[data-look="tsuki"]{--orn-h:10px;--orn:radial-gradient(circle,#ece6cf 0 1px,transparent 1.6px) 0 1px/26px 10px,radial-gradient(circle,rgba(217,199,143,.85) 0 .9px,transparent 1.4px) 13px 6px/26px 10px;--tm-w:10px;--tm-h:10px;--tm-r:50%;--tm-bg:#ece6cf;--tm-sh:0 0 10px rgba(236,230,207,.8)}
+[data-look="rinpa"]{--orn-h:14px;--orn:linear-gradient(#1b120a,#1b120a) 0 100%/100% 3px no-repeat,linear-gradient(90deg,rgba(150,110,30,.28) 1px,transparent 1px) 0 0/18px 100%,linear-gradient(135deg,#efd795,#d9b45a 50%,#e9cd86);--tm-w:30px;--tm-h:4px;--tm-bg:#b8913e}
+[data-look="giga"]{--orn-h:8px;--orn:linear-gradient(#7a6650,#4a3c2c);--tm-w:22px;--tm-h:3px;--tm-r:2px;--tm-bg:#26211c}
+[data-look="matsuri"]{--orn-h:14px;--orn:repeating-linear-gradient(90deg,#d8432c 0 22px,#f4ead2 22px 30px);--tm-w:10px;--tm-h:14px;--tm-r:45%;--tm-bg:#f29a3a;--tm-sh:0 0 12px #f29a3a}
+[data-look="techo"]{--orn-h:10px;--orn:repeating-linear-gradient(135deg,rgba(232,180,184,.9) 0 8px,rgba(255,255,255,.7) 8px 16px);--tm-w:26px;--tm-h:8px;--tm-r:0;--tm-bg:rgba(168,195,160,.85)}
+[data-look="taisho"]{--orn-h:12px;--orn:linear-gradient(#e2b453,#e2b453) 0 3px/100% 1px no-repeat,linear-gradient(#e2b453,#e2b453) 0 7px/100% 1px no-repeat,#7a2236;--tm-w:20px;--tm-h:3px;--tm-bg:#e2b453}
+[data-look="manga"]{--orn-h:12px;--orn:linear-gradient(#111,#111) 0 100%/100% 2px no-repeat,radial-gradient(circle,#111 0 1.2px,transparent 1.6px) 0 0/6px 6px,#fff;--tm-w:36px;--tm-h:4px;--tm-r:0;--tm-bg:#111}
+[data-look="youth"]{--orn-h:8px;--orn:repeating-linear-gradient(90deg,#4aa3df 0 30px,#f2b134 30px 60px,#e8553e 60px 90px,#3f9b6a 90px 120px);--tm-w:28px;--tm-h:6px;--tm-r:99px;--tm-bg:#f2b134}
+[data-look="pixel"]{--orn-h:8px;--orn:linear-gradient(90deg,#3ee6ff 50%,#ff4f9a 50%) 0 0/16px 4px,linear-gradient(90deg,#ff4f9a 50%,#3ee6ff 50%) 0 4px/16px 4px;--tm-w:8px;--tm-h:8px;--tm-r:0;--tm-bg:#ff4f9a}
+/* popup emblems */
+:root[data-look="kare"] .modal-card::after{content:"";right:-34px;top:-34px;width:150px;height:150px;border-radius:50%;border:12px solid rgba(43,43,40,.06)}
+:root[data-look="tsuki"] .modal-card::after{content:"";right:18px;top:24px;width:34px;height:34px;border-radius:50%;background:#ece6cf;box-shadow:0 0 26px rgba(236,230,207,.55)}
+:root[data-look="giga"] .modal-card::after{content:"戯";right:16px;top:20px;width:34px;height:34px;display:grid;place-items:center;border:2px solid #b23a2a;border-radius:3px;color:#b23a2a;font-family:var(--f-jp);font-size:19px;transform:rotate(-5deg)}
+:root[data-look="washi"] .modal-card::after{content:"";right:18px;top:26px;width:14px;height:56px;border-radius:2px;background:#b8392a;opacity:.85}
+:root[data-look="techo"] .modal-card{background:radial-gradient(circle,rgba(110,90,70,.12) 0 1px,transparent 1.5px) 0 0/14px 14px,#fffdf8}
+:root[data-look="techo"] .modal-card::after{content:"";left:-10px;top:18px;width:70px;height:20px;background:rgba(168,195,160,.85);transform:rotate(-24deg)}
+:root[data-look="rinpa"] .modal-card{border:3px solid #1b120a}
+:root[data-look="matsuri"] .modal-card{box-shadow:0 0 40px -10px rgba(242,154,58,.55),0 24px 60px rgba(0,0,0,.45)}
+:root[data-look="youth"] .modal-card{transform:rotate(-.6deg)}
+:root[data-look="taisho"] .modal-card{box-shadow:inset 0 0 0 4px #fbf4e4,inset 0 0 0 5px rgba(122,34,54,.5),inset 0 0 0 8px #fbf4e4,inset 0 0 0 9px rgba(122,34,54,.5),0 24px 60px rgba(0,0,0,.35)}
+:root[data-look="pixel"] .modal-card{border:3px solid #3ee6ff;box-shadow:6px 6px 0 #000,0 0 30px rgba(62,230,255,.3)}
+:root[data-look="pixel"] .modal-card h2{font-weight:400;letter-spacing:.08em;color:#ffd23f}
+:root[data-look="pixel"] .modal-actions .btn.primary::before{content:"▶";margin-right:6px;animation:px-blink 1s steps(1) infinite}
+:root[data-look="manga"] .modal-card h2{font-family:var(--f-jp);font-weight:400;font-size:28px}
+/* toasts */
+:root[data-look="techo"] .toast{background:#fdf3b0;border:0;border-radius:2px;box-shadow:0 8px 18px -8px rgba(74,61,50,.5);transform:translate(-50%,16px) rotate(-1.5deg)}
+:root[data-look="techo"] .toast.show{transform:translate(-50%,0) rotate(-1.5deg)}
+:root[data-look="manga"] .toast{border:2.5px solid #111;border-radius:26px;box-shadow:4px 4px 0 #111}
+:root[data-look="youth"] .toast{border:2.5px solid #222;box-shadow:4px 4px 0 #222;transform:translate(-50%,16px) rotate(1deg)}
+:root[data-look="youth"] .toast.show{transform:translate(-50%,0) rotate(1deg)}
+:root[data-look="pixel"] .toast{border:3px solid #3ee6ff;border-radius:0;box-shadow:4px 4px 0 #000}
+:root[data-look="taisho"] .toast{border:1px dashed rgba(122,34,54,.6);box-shadow:inset 6px 0 0 #7a2236,0 10px 30px rgba(0,0,0,.25);padding-left:14px}
+:root[data-look="matsuri"] .toast{box-shadow:0 0 26px rgba(242,154,58,.45)}
+:root[data-look="rinpa"] .toast{border:2px solid #b8913e;background:linear-gradient(135deg,#fbf3dc,#f3e3b0)}
+:root[data-look="tsuki"] .toast{border-color:rgba(217,199,143,.6);box-shadow:0 0 30px rgba(236,230,207,.18),0 10px 30px rgba(0,0,0,.4)}
+:root[data-look="giga"] .toast{border:1.5px solid #26211c;border-radius:4px 10px 6px 12px}
+/* the hint strip */
+:root[data-look="manga"] #game .hint{border:2px solid #111;border-radius:999px;background:#fff}
+:root[data-look="pixel"] #game .hint{border:3px solid #f4f1ff;border-radius:0;background:#0d0922;color:#f4f1ff;font-family:var(--f-head)}
+:root[data-look="pixel"] #game #hintText::after{content:" ▼";color:#ffd23f;animation:px-blink 1s steps(1) infinite}
+:root[data-look="techo"] #game .hint{border:0;border-radius:0;background:repeating-linear-gradient(135deg,rgba(232,180,184,.55) 0 8px,rgba(255,255,255,.55) 8px 16px);color:#4a3d32;transform:rotate(-.8deg)}
+:root[data-look="taisho"] #game .hint{border-radius:999px;border:1px solid rgba(122,34,54,.5);background:#fbf4e4}
+:root[data-look="giga"] #game .hint{border:0;border-bottom:2px solid rgba(38,33,28,.55);border-radius:0;background:transparent}
+:root[data-look="youth"] #game .hint{border:2px solid #222;background:#fff;transform:rotate(-1deg)}
+:root[data-look="rinpa"] #game .hint{border:1px solid #b8913e;background:linear-gradient(135deg,#fbf3dc,#f3e3b0)}
 /* ---------- screen transitions: each look enters its own way (backwards fill, so nothing lingers afterwards) ---------- */
 .screen.enter{animation:enter-rise .42s cubic-bezier(.2,.7,.25,1) backwards}
 :root[data-look="washi"] .screen.enter,:root[data-look="techo"] .screen.enter{animation:enter-page .62s cubic-bezier(.2,.7,.2,1) backwards;transform-origin:0 50%}
@@ -854,7 +913,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 @media (max-height:640px){ .stat{padding:5px 10px 6px} .stat .val b{font-size:24px} .btn{min-height:46px} }
 @media (prefers-reduced-motion:reduce){
   .card .inner{transition:none}
-  .deck.dealing .card,.card.pop .inner,.modal-card,.float,#board.aura,.hv-matsuri .mt-l,.btn.coach-btn,.hv-pixel .px-start .blink,.hv-pixel .px-stage.next{animation:none}
+  .deck.dealing .card,.card.pop .inner,.modal-card,.float,#board.aura,.hv-matsuri .mt-l,.btn.coach-btn,.hv-pixel .px-start .blink,.hv-pixel .px-stage.next,.modal-actions .btn.primary::before,#hintText::after{animation:none}
   .stamp-fx .seal,.stamp-fx small{animation-duration:.01s;animation-delay:1.6s}
   .toast,.rail i,.mbar i{transition:none}
   .hint.marquee #hintText{animation:none}
@@ -1481,7 +1540,7 @@ const PAINT = {
       + `<g filter="url(#blur)"><path d="M-20 640 L60 560 L120 610 L200 520 L290 600 L350 560 L420 620 L420 800 L-20 800Z" fill="${p.ink}" opacity=".1"/>`
       + `<path d="M-20 700 L90 630 L170 690 L260 640 L420 700 L420 800 L-20 800Z" fill="${p.ink}" opacity=".15"/></g>`
       + `<g opacity=".85">${m.top}${m.bottom}</g>` + flecks + lattice
-      + `<g transform="translate(352 84)"><rect width="34" height="${18 + name.length * 26}" rx="3" fill="#b8392a" opacity=".9"/>`
+      + `<g transform="translate(352 330)"><rect width="34" height="${18 + name.length * 26}" rx="3" fill="#b8392a" opacity=".9"/>`
       + name.map((c, i) => `<text x="17" y="${34 + i * 26}" text-anchor="middle" font-size="21" font-family="Zen Old Mincho, serif" fill="#fbf8f0">${c}</text>`).join('') + `</g>`;
   },
   kare(lv, p, rnd) {   // raked sand, two stones with moss, a breath of wind
@@ -2599,6 +2658,11 @@ function variantLevel(v) {
   const open = YAKU.filter(y => !y.ids.every(k => save.collected[k]));
   return {...base, pairs: 8, std: 16, hard: 13, target: shuffle(open.length ? open : YAKU)[0]};
 }
+// What a cleared or a lost garden is called, in each look's own words.
+const WIN_TITLE = {ukiyo: '一枚摺成', washi: '一卷读毕', kare: '砂纹耙定', tsuki: '月已满', rinpa: '金屏成', giga: '一段画成', matsuri: '灯火通明',
+  techo: '盖上了这一站的印', taisho: '一曲终了', manga: '本话完', youth: '完美收工！', pixel: 'STAGE CLEAR!'};
+const LOSE_TITLE = {ukiyo: '墨色未足', washi: '书页还没读完', kare: '风乱了砂纹', tsuki: '云遮了月', rinpa: '金箔还没贴满', giga: '画卷还没画完', matsuri: '灯火将熄',
+  techo: '这一页还空着', taisho: '今日打烊', manga: '下回待续', youth: '再来一次！', pixel: 'GAME OVER'};
 const levelFor = n => n > 100 ? variantLevel(VARIANTS.find(v => v.n === n)) : LEVELS[n - 1];
 const levelTag = L => L.variant ? `庭外 · ${SEASONS[L.s].name}` : `${SEASONS[L.s].name} · 第${KANJI[L.n - 1]}庭`;
 function idsFor(L) {
@@ -2817,7 +2881,7 @@ function win() {
   petals({particleCount: 70, angle: 60, spread: 70, startVelocity: 42, origin: {x: 0, y: .95}});
   petals({particleCount: 70, angle: 120, spread: 70, startVelocity: 42, origin: {x: 1, y: .95}});
   const nextL = v ? null : LEVELS[n], opened = !v && n === LEVELS.length;
-  const head = v ? (L.target ? `凑成了「${L.target.name}」` : L.variant === 'yoru' ? '夜庭里，灯笼亮了' : '花合，圆满') : n === LEVELS.length ? '八处庭院，全部点亮' : '庭院点亮了';
+  const head = v ? (L.target ? `凑成了「${L.target.name}」` : L.variant === 'yoru' ? '夜庭里，灯笼亮了' : '花合，圆满') : n === LEVELS.length ? '八处庭院，全部点亮' : WIN_TITLE[save.look] || '庭院点亮了';
   const movesTxt = isFinite(G.budget) ? `用了 ${G.used} 步，还剩 ${movesLeft()} 步。` : `用了 ${G.used} 步（参考 ${L.std} 步）。`;
   openModal(`<div class="eyebrow">${levelTag(L)} · ${L.name}</div><h2>${head}</h2>
     ${haikuHTML(L.haiku)}
@@ -2836,8 +2900,8 @@ function lose() {
   statEnd(false); persist();
   SFX.lose(); buzz('lose'); setHint('步数用完了');
   const easier = G.mode === 'hard' ? '<p>也可以回主页，换成「标准」或「悠闲」。</p>' : G.mode === 'std' ? '<p>想慢慢记，回主页换成「悠闲」，不计步数。</p>' : '';
-  openModal(`<div class="eyebrow">${levelTag(G.L)} · ${G.L.name}</div><h2>步数用尽了</h2>
-    <p>${G.goal ? `役札配成 ${G.goalDone} / ${G.goal} 组` : `配成 ${G.pairs} / ${G.total} 组`}。庭院还在，再来一次时，步数和回看都会恢复，牌也会重新洗过。</p>
+  openModal(`<div class="eyebrow">${levelTag(G.L)} · ${G.L.name}</div><h2>${LOSE_TITLE[save.look] || '步数用尽了'}</h2>
+    <p>步数用尽了。${G.goal ? `役札配成 ${G.goalDone} / ${G.goal} 组` : `配成 ${G.pairs} / ${G.total} 组`}。庭院还在，再来一次时，步数和回看都会恢复，牌也会重新洗过。</p>
     ${G.fresh.length ? '<p>这一局收下的花札与御守，已经记在图鉴里。</p>' : ''}${easier}${freshRow()}
     <div class="modal-actions">
       <button class="btn primary" type="button" data-act="retry" data-focus>重试本关</button>
