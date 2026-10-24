@@ -268,7 +268,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .seals{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:12px 8px}
 .seal-cell{display:grid;justify-items:center;gap:6px;text-align:center;font-size:12px;color:var(--muted);line-height:1.4}
 .om-big{display:grid;justify-items:center;gap:8px;text-align:center}
-.om-big svg{width:120px;height:auto}
+.om-big > svg{width:120px;height:auto}
 
 /* ---------- sheets ---------- */
 .sheet{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;background:var(--bg);padding-top:env(safe-area-inset-top,0px)}
@@ -332,6 +332,17 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .om-cell b{color:var(--text);font-weight:600;font-size:12px}
 .om-cell.locked{cursor:default;color:var(--faint)}
 .om-cell .cnt{color:var(--accent)}
+.om-cell .cnt small{color:var(--faint)}
+.om-badge{position:relative}
+.om-cell.t1 .om-badge{border-color:#c9a13b;box-shadow:inset 0 0 0 4px var(--panel-solid),inset 0 0 0 5px #e9c46a,0 0 18px -6px #c9a13b}
+.om-cell.t2 .om-badge{border:3px double #c9a13b;background:radial-gradient(circle at 50% 38%,#fff8e3,#f1dca2 72%);box-shadow:inset 0 0 0 3px #fff8e3,0 0 22px -4px #e0b64f}
+.om-tier{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);padding:0 6px;border-radius:3px;background:#b8892a;color:#fff8e3;font-style:normal;font-size:10px;font-family:var(--f-jp);font-weight:700;line-height:16px;letter-spacing:.08em;white-space:nowrap}
+.om-cell.t2 .om-tier{background:#c23b22}
+.om-path{list-style:none;margin:4px 0 0;padding:0;display:flex;gap:6px;justify-content:center}
+.om-path li{display:grid;justify-items:center;gap:2px;padding:6px 10px;border-radius:var(--panel-radius);border:1px dashed var(--line-2);font-size:12px;color:var(--faint);opacity:.6}
+.om-path li.on{opacity:1;color:var(--muted)} .om-path li.now{border-style:solid;border-color:#c9a13b;color:var(--text)}
+.om-path .om-mini svg{width:24px;height:auto}
+.om-path small{font-size:11px}
 .danger{color:var(--shu);border-color:var(--shu)}
 .btn.primary.danger-fill{background:var(--shu);border-color:var(--shu);color:#fff}
 .themes{--sel:var(--accent);display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
@@ -378,6 +389,11 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .toggle .sw2{flex:none;width:44px;height:26px;border-radius:99px;background:var(--line-2);position:relative;transition:background .2s}
 .toggle .sw2::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--panel-solid);transition:transform .2s}
 .toggle[aria-checked="true"] .sw2{background:var(--accent)}
+.slider{display:grid;grid-template-columns:minmax(0,1fr) minmax(96px,42%) 3ch;align-items:center;gap:12px;min-height:52px;padding:8px 14px;border-radius:var(--panel-radius);border:var(--panel-bw) solid var(--line);background:var(--panel-solid)}
+.slider small{display:block;font-size:12px;color:var(--muted)}
+.slider input{width:100%;margin:0;height:28px;accent-color:var(--accent);cursor:pointer}
+.slider output{font-size:13px;color:var(--muted);text-align:right}
+.slider.off{opacity:.5}
 .toggle[aria-checked="true"] .sw2::after{transform:translateX(18px)}
 .toggle:disabled{opacity:.45;cursor:default}
 .links{display:flex;flex-wrap:wrap;gap:8px}
@@ -561,6 +577,54 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 :root[data-look="ukiyo"] .s-kanji{border-radius:3px}
 :root[data-look="manga"] .s-kanji{border-radius:0;border:2px solid #111;color:#111}
 
+/* ---------- screen transitions: each look enters its own way (backwards fill, so nothing lingers afterwards) ---------- */
+.screen.enter{animation:enter-rise .42s cubic-bezier(.2,.7,.25,1) backwards}
+:root[data-look="washi"] .screen.enter,:root[data-look="techo"] .screen.enter{animation:enter-page .62s cubic-bezier(.2,.7,.2,1) backwards;transform-origin:0 50%}
+:root[data-look="manga"] .screen.enter{animation:enter-koma .38s cubic-bezier(.6,0,.3,1) backwards}
+:root[data-look="kare"] .screen.enter{animation:enter-fade 1s ease backwards}
+:root[data-look="matsuri"] .screen.enter{animation:enter-lantern .6s ease-out backwards}
+:root[data-look="youth"] .screen.enter{animation:enter-bounce .5s cubic-bezier(.3,1.4,.5,1) backwards}
+@keyframes enter-rise{from{opacity:0;transform:translateY(16px)}}
+@keyframes enter-fade{from{opacity:0}}
+@keyframes enter-page{from{opacity:0;transform:perspective(1600px) rotateY(-12deg)}}
+@keyframes enter-koma{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes enter-lantern{from{opacity:0;transform:scale(1.03)}}
+@keyframes enter-bounce{0%{opacity:0;transform:translateY(12px) scale(.96)}100%{opacity:1;transform:none}}
+.sheet.enter{animation:sheet-in .32s cubic-bezier(.2,.7,.25,1) backwards}
+@keyframes sheet-in{from{opacity:0;transform:translateY(24px)}}
+.kbd-hint{display:none;margin:0;font-size:12px;color:var(--faint);line-height:2}
+.kbd-hint kbd{display:inline-block;min-width:22px;padding:0 5px;border:1px solid var(--line-2);border-bottom-width:2px;border-radius:4px;font:inherit;font-size:11px;text-align:center;color:var(--muted);background:var(--panel)}
+/* mobile keeps one column: the two home groups simply flow inside it */
+.hv-a,.hv-b{display:contents}
+
+/* ---------- desktop: rail navigation, two-column home, side panel in the garden ---------- */
+@media (hover:hover) and (pointer:fine){
+  .card:not(.done):not(.up) .inner{transition:transform .45s cubic-bezier(.3,.7,.25,1),translate .18s}
+  .card:not(.done):not(.up):hover .inner{translate:0 -4px}
+}
+@media (min-width:960px) and (min-height:560px){
+  #home{flex-direction:row}
+  .tabs{order:-1;width:92px;grid-template-columns:none;grid-auto-rows:min-content;align-content:center;gap:6px;border-top:0;border-right:var(--panel-bw) solid var(--line);padding:16px 8px}
+  .tabs button{min-height:68px;font-size:12px}
+  .tabs button svg{width:24px;height:24px}
+  .hv{max-width:1120px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:40px;align-items:start;padding-block:36px 40px}
+  .hv > :not(.hv-a):not(.hv-b){grid-column:1/-1}
+  .hv-a,.hv-b{display:flex;flex-direction:column;gap:16px;min-width:0}
+  .hv-a{position:sticky;top:20px}
+  .hv-kare .hv-a,.hv-kare .hv-b{gap:22px}
+  #game{display:grid;grid-template-columns:300px minmax(0,1fr);grid-template-rows:auto auto auto auto 1fr;column-gap:32px;row-gap:14px;max-width:1360px;width:100%;padding-block:24px}
+  #game > *{grid-column:1}
+  #game #board{grid-column:2;grid-row:1/-1}
+  #game .hud{grid-template-columns:1fr}
+  #game .g-top{flex-wrap:wrap;row-gap:10px}
+  #game .g-title{order:-1;flex:1 0 100%;text-align:left}
+  #game .g-title b{font-size:28px}
+  #game .g-top #btnHome{margin-right:auto}
+  #game .hint{align-self:stretch;white-space:normal;text-align:left;padding:8px 14px;line-height:1.6}
+  #game .g-actions{flex-direction:column}
+  #game .g-actions .btn{width:100%}
+  #game .kbd-hint{display:block;align-self:end}
+}
 @media (min-width:720px){ .stat .val b{font-size:32px} }
 @media (max-height:640px){ .stat{padding:5px 10px 6px} .stat .val b{font-size:24px} .btn{min-height:46px} }
 @media (prefers-reduced-motion:reduce){
@@ -570,8 +634,10 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
   .toast,.rail i,.mbar i{transition:none}
   .hint.marquee #hintText{animation:none}
   .hint{text-overflow:ellipsis}
+  .screen.enter,.sheet.enter{animation:none}
 }
 </style>
+
 </head>
 <body>
 <div id="scene" aria-hidden="true"></div>
@@ -616,6 +682,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
       </button>
       <button class="btn" id="btnRestart" type="button">重来</button>
     </div>
+    <p class="kbd-hint" aria-hidden="true"><kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd> 选牌 · <kbd>空格</kbd> 翻开 · <kbd>R</kbd> 再看一眼</p>
   </section>
 </div>
 
@@ -630,7 +697,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 <div class="sheet" id="omamori" role="dialog" aria-modal="true" aria-labelledby="omTitle" hidden>
   <div class="sheet-head"><h2 id="omTitle">御守帖</h2><span class="count tnum" id="omCount"></span><button class="btn" data-close="omamori" type="button">关闭</button></div>
   <div class="sheet-body"><div class="sheet-inner">
-    <p class="sheet-note">四十八枚御守徽章。配对一组花札，对应的徽章就会点亮；还没求得的只留一道剪影。点开亮着的徽章，看看它保佑什么。</p>
+    <p class="sheet-note">四十八枚御守徽章。配对一组花札，对应的徽章就会点亮；还没求得的只留一道剪影。同一枚收得越多，布面会绣上金线（3 枚），再织成「満願」（6 枚）。点开亮着的徽章，看看它保佑什么。</p>
     <div id="omSeasons" class="dex-seasons"></div>
   </div></div>
 </div>
@@ -648,8 +715,11 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
     <section class="set-group"><h3>难度</h3><div class="seg" id="modeSeg2" role="radiogroup" aria-label="难度"></div><p id="modeNote2"></p></section>
     <section class="set-group"><h3>声音</h3><div class="toggles">
       <button class="toggle" id="tgSound" type="button" role="switch"><span><b>音效</b><small>翻牌、配对与通关的声音</small></span><span class="sw2"></span></button>
-      <button class="toggle" id="tgBgm" type="button" role="switch"><span><b>背景琴声</b><small>按季节换乐器：春琴、夏风铃、秋尺八、冬钵铃</small></span><span class="sw2"></span></button>
+      <button class="toggle" id="tgBgm" type="button" role="switch"><span><b>背景乐</b><small id="bgmNote">每个主题一组乐器，季节决定音阶</small></span><span class="sw2"></span></button>
       <button class="toggle" id="tgAmb" type="button" role="switch"><span><b>庭院环境音</b><small>流水、鹿威し，以及黄莺、风铃、铃虫或寺钟</small></span><span class="sw2"></span></button>
+      <label class="slider"><span><b>音乐音量</b><small>背景乐与环境音</small></span><input type="range" id="volMusic" min="0" max="100" step="5" aria-label="音乐音量"><output class="tnum" for="volMusic"></output></label>
+      <label class="slider"><span><b>音效音量</b><small>翻牌、配对与通关</small></span><input type="range" id="volSfx" min="0" max="100" step="5" aria-label="音效音量"><output class="tnum" for="volSfx"></output></label>
+      <button class="toggle" id="tgHaptic" type="button" role="switch" hidden><span><b>触感震动</b><small>配对、失手与通关时轻轻一震</small></span><span class="sw2"></span></button>
     </div><div class="links"><button class="btn" id="btnTestSound" type="button">声音检测</button></div><p class="save-note" id="audioDiag">听不到声音时点一下，会播放一段测试音并显示音频状态。</p></section>
     <section class="set-group"><h3>其他</h3><div class="links">
       <button class="btn" id="btnRules" type="button">再看一遍新手演示</button>
@@ -831,7 +901,7 @@ const peekMs = cards => 1500 + cards * 50;
 /* ================= save ================= */
 const KEY = 'omamori-hanafuda-v1';
 const save = {unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, collectedAt: {}, seals: {}, unseen: [], sound: true, ambience: false, bgm: true,
-  seenRules: false, mode: 'std', look: 'ukiyo', skin: 'classic', skinPinned: false, demoDone: false, stats: {levels: {}, themes: {}, demo: {shown: 0, done: 0, skipped: 0}}};
+  seenRules: false, mode: 'std', look: 'ukiyo', skin: 'classic', skinPinned: false, demoDone: false, musicVol: .7, sfxVol: .9, haptics: true, stats: {levels: {}, themes: {}, demo: {shown: 0, done: 0, skipped: 0}}};
 const DEFAULT_SAVE = JSON.stringify(save);
 const OLD_LOOKS = {emaki: 'ukiyo', cha: 'washi', dream: 'ukiyo'};
 function mergeBest(src, into) { for (const k in src) { const v = Number(src[k]); if (v > 0 && LEVELS[k - 1]) into[k] = Math.max(into[k] || 0, Math.min(3, v)); } }
@@ -847,7 +917,8 @@ function mergeProgress(d, withPrefs) {
   if (d.seals && typeof d.seals === 'object') for (const k in d.seals) if (SEALS.some(x => x.id === k) && Number(d.seals[k]) > 0) save.seals[k] = save.seals[k] || Number(d.seals[k]);
   if (withPrefs) {
     if (Array.isArray(d.unseen)) save.unseen = d.unseen.filter(id => BY_ID[id]);
-    for (const k of ['sound', 'ambience', 'bgm', 'seenRules', 'skinPinned', 'demoDone']) if (typeof d[k] === 'boolean') save[k] = d[k];
+    for (const k of ['sound', 'ambience', 'bgm', 'seenRules', 'skinPinned', 'demoDone', 'haptics']) if (typeof d[k] === 'boolean') save[k] = d[k];
+    for (const k of ['musicVol', 'sfxVol']) if (typeof d[k] === 'number' && d[k] >= 0 && d[k] <= 1) save[k] = d[k];
     if (typeof d.demoDone !== 'boolean' && (d.seenRules || d.coached)) save.demoDone = true;   // players from before the demo existed skip it
     if (d.stats && typeof d.stats === 'object') save.stats = {levels: d.stats.levels || {}, themes: d.stats.themes || {}, demo: d.stats.demo || {shown: 0, done: 0, skipped: 0}};
     if (MODES[d.mode]) save.mode = d.mode;
@@ -890,6 +961,12 @@ function setSaveNote() { $('#saveNote2').textContent = cloud ? '收集进度已�
 /* ================= art ================= */
 const cardSrc = (m, skin = save.skin) => `cards/${skin}/${m.file}.svg`;
 const art = (m, skin) => `<img src="${cardSrc(m, skin)}" alt="" draggable="false" decoding="async">`;
+const warmed = {};
+function warmDeck() {
+  const k = save.skin; if (warmed[k]) return; warmed[k] = true;
+  const run = () => preloadArt(MOTIFS.map(m => m.id));
+  if ('requestIdleCallback' in window) requestIdleCallback(run, {timeout: 4000}); else setTimeout(run, 1500);
+}
 function preloadArt(ids) { return Promise.all(ids.map(id => new Promise(res => { const im = new Image(); im.onload = im.onerror = res; im.src = cardSrc(BY_ID[id]); }))); }
 // One card back per look. Pattern ids are namespaced per look so several backs can share a page (the theme picker).
 const BACKS = {
@@ -937,18 +1014,26 @@ function omPattern(id, kind, base, ink) {
   }
 }
 let omSeq = 0;
-function omamoriSVG(m, locked) {
+/* Omamori grow with repeat matches: plain cloth, then gold-thread embroidery, then 満願 brocade with a tassel. */
+const OM_TIERS = [{min: 1, name: '布面'}, {min: 3, name: '金线'}, {min: 6, name: '満願'}];
+const omTier = n => n >= OM_TIERS[2].min ? 2 : n >= OM_TIERS[1].min ? 1 : 0;
+const omTierOf = m => omTier(save.collected[m.id] || 0);
+function omamoriSVG(m, locked, tier = 0) {
   const pouch = 'M11 26 Q11 19 17 18 L43 18 Q49 19 49 26 L51 91 Q51 96 46 96 L14 96 Q9 96 9 91 Z';
   if (locked) return `<svg viewBox="0 0 60 100" aria-hidden="true" style="color:var(--line-2)"><path d="M28 18 L23 30 M32 18 L37 30" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`
     + `<path d="M30 18 C21 4 13 11 22 15 C26 17 30 18 30 18 C30 18 34 17 38 15 C47 11 39 4 30 18Z" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="${pouch}" fill="currentColor"/></svg>`;
-  const id = 'omp' + (++omSeq), hik = m.tag === '光札', ink = hik ? '#e9c46a' : 'rgba(255,255,255,.28)';
+  const id = 'omp' + (++omSeq), hik = m.tag === '光札', ink = hik ? '#e9c46a' : 'rgba(255,255,255,.28)', gold = tier > 0, cord = gold || hik ? '#e9c46a' : '#c23b22';
   const label = m.om.length <= 3 ? m.om : m.om.replace(/守$/, '') + '守';
   const fs = label.length <= 3 ? 10.5 : label.length === 4 ? 9 : label.length === 5 ? 7.6 : 6.6, gap = fs * 1.08, y0 = 52 - (label.length - 1) * gap / 2 + fs * .35;
-  return `<svg viewBox="0 0 60 100" aria-hidden="true"><defs>${omPattern(id, OM_PATTERN_BY_MONTH[m.m - 1], m.omc, ink)}</defs>`
-    + `<path d="M28 18 L23 30 M32 18 L37 30" stroke="${hik ? '#e9c46a' : '#c23b22'}" stroke-width="1.8" stroke-linecap="round"/>`
-    + `<path d="M30 18 C21 4 13 11 22 15 C26 17 30 18 30 18 C30 18 34 17 38 15 C47 11 39 4 30 18Z" fill="none" stroke="${hik ? '#e9c46a' : '#c23b22'}" stroke-width="2.2"/>`
-    + `<path d="${pouch}" fill="url(#${id})" stroke="rgba(0,0,0,.35)" stroke-width="1"/>`
-    + `<path d="M13 30 H47" stroke="rgba(0,0,0,.25)" stroke-width=".8"/><path d="M14 33 L15.6 89 Q15.8 92 18 92 L42 92 Q44.2 92 44.4 89 L46 33" fill="none" stroke="#e9c46a" stroke-width=".55" stroke-dasharray="1.6 1.2"/>`
+  return `<svg viewBox="0 0 60 100" aria-hidden="true"><defs>${omPattern(id, OM_PATTERN_BY_MONTH[m.m - 1], m.omc, ink)}`
+    + (tier > 1 ? `<pattern id="${id}b" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M4 0 L8 4 L4 8 L0 4Z" fill="none" stroke="#f3d27a" stroke-width=".7"/><circle cx="4" cy="4" r=".9" fill="#f3d27a"/></pattern>` : '') + `</defs>`
+    + `<path d="M28 18 L23 30 M32 18 L37 30" stroke="${cord}" stroke-width="1.8" stroke-linecap="round"/>`
+    + `<path d="M30 18 C21 4 13 11 22 15 C26 17 30 18 30 18 C30 18 34 17 38 15 C47 11 39 4 30 18Z" fill="none" stroke="${cord}" stroke-width="${gold ? 2.6 : 2.2}"/>`
+    + `<path d="${pouch}" fill="url(#${id})" stroke="${gold ? '#b8892a' : 'rgba(0,0,0,.35)'}" stroke-width="${gold ? 1.6 : 1}"/>`
+    + (tier > 1 ? `<path d="${pouch}" fill="url(#${id}b)" opacity=".55"/>` : '')
+    + `<path d="M13 30 H47" stroke="${gold ? '#e9c46a' : 'rgba(0,0,0,.25)'}" stroke-width="${gold ? 1.2 : .8}"/><path d="M14 33 L15.6 89 Q15.8 92 18 92 L42 92 Q44.2 92 44.4 89 L46 33" fill="none" stroke="#e9c46a" stroke-width="${gold ? 1.1 : .55}" stroke-dasharray="${gold ? '2.6 .9' : '1.6 1.2'}"/>`
+    + (gold ? `<path d="M14 36 q3 -3 6 0 q-3 3 -6 0M46 36 q-3 -3 -6 0 q3 3 6 0M14 86 q3 -3 6 0 q-3 3 -6 0M46 86 q-3 -3 -6 0 q3 3 6 0" fill="#e9c46a"/>` : '')
+    + (tier > 1 ? `<path d="M30 96 V99.4 M27.6 96 L26.4 99.4 M32.4 96 L33.6 99.4" stroke="#e9c46a" stroke-width="1.4" stroke-linecap="round"/>` : '')
     + `<circle cx="30" cy="25" r="4.6" fill="${hik ? '#e9c46a' : '#f7f1e1'}" stroke="rgba(0,0,0,.3)" stroke-width=".5"/><text x="30" y="27.4" text-anchor="middle" font-size="5.6" style="font-family:var(--f-jp)" font-weight="900" fill="${m.omc}">${PLANT_NAMES[m.m - 1].slice(0, 1)}</text>`
     + `<rect x="21" y="36" width="18" height="52" rx="1.6" fill="${hik ? '#e9c46a' : '#f7f1e1'}" stroke="${hik ? '#a87a22' : '#e9c46a'}" stroke-width=".9"/>`
     + [...label].map((c, i) => `<text x="30" y="${r2(y0 + i * gap)}" text-anchor="middle" font-size="${fs}" style="font-family:var(--f-body)" font-weight="900" fill="${hik ? '#3a2410' : m.omc}">${c}</text>`).join('')
@@ -1196,8 +1281,10 @@ function paintScene(lv, mode) {   // mode: 'game' | 'home' | 'none'
 }
 
 /* ================= sound =================
-   Tone.js voices (koto, wind chimes, shakuhachi-like flute, singing-bowl bells) + Kenney CC0 card foley; raw Web Audio fallback. */
-const A = {tone: false, starting: null, done: false, samples: null, ambTimer: 0, bgmTimer: 0, combo: 0, last: {}};
+   Each look has its own band (SOUNDSCAPE): lead instrument, extra colour, win flourish and combo hit; the season still picks
+   the scale. Tone.js synthesises everything; Kenney CC0 card foley covers flips and paper. Raw Web Audio is the fallback.
+   Music (BGM, ambience) and effects have separate volume settings. */
+const A = {tone: false, starting: null, done: false, samples: null, ambTimer: 0, bgmTimer: 0, combo: 0, last: {}, lastT: {}};
 const SAMPLE_GROUPS = {
   place: ['card-place-1', 'card-place-2', 'card-place-3', 'card-place-4'], slide: ['card-slide-1', 'card-slide-2', 'card-slide-4', 'card-slide-5', 'card-slide-7'],
   shove: ['card-shove-1', 'card-shove-2', 'card-shove-3', 'card-shove-4'], fan: ['card-fan-1', 'card-fan-2'], shuffle: ['card-shuffle'], take: ['cards-pack-take-out-1']
@@ -1209,6 +1296,23 @@ const SCALES = [
   ['D5', 'F5', 'G5', 'A5', 'C6', 'D6', 'F6', 'G6', 'A6']
 ];
 const PHRASES = [[0, 2, 3, 4, 5, 7], [4, 3, 2, 4, 5, 7], [0, 1, 2, 4, 2, 5], [2, 4, 5, 7, 5, 8]];
+const SOUNDSCAPE = {
+  ukiyo: {lead: 'shamisen', name: '三味线', win: 'hyoshigi', step: [.26, .46], gap: [6, 10], notes: [3, 5]},
+  washi: {lead: 'koto', name: '琴与笙', pad: true, page: true, step: [.36, .7], gap: [7, 12], notes: [3, 5]},
+  kare: {lead: 'bowl', name: '钵铃与尺八', breath: true, win: 'bowl', step: [.9, 1.5], gap: [10, 16], notes: [2, 3], amb: 'wind'},
+  matsuri: {lead: 'shinobue', name: '篠笛与太鼓', drum: true, win: 'fireworks', combo: 'taiko', step: [.22, .36], gap: [6, 9], notes: [4, 6]},
+  techo: {lead: 'musicbox', name: '八音盒', page: true, combo: 'stamp', step: [.2, .32], gap: [6, 10], notes: [4, 7]},
+  youth: {lead: 'pop', name: '轻快拨弦与拍手', clap: true, win: 'claps', step: [.16, .26], gap: [5, 8], notes: [4, 7]},
+  manga: {lead: 'toy', name: '玩具钢琴', combo: 'don', amb: 'crackle', step: [.24, .4], gap: [6, 10], notes: [3, 5]}
+};
+const scape = () => SOUNDSCAPE[save.look] || SOUNDSCAPE.ukiyo;
+const PLUCK = {koto: {attackNoise: 1.3, dampening: 3600, resonance: .95}, shamisen: {attackNoise: 3.2, dampening: 5800, resonance: .86}};
+function applySoundscape() {
+  if (!A.tone) return;
+  const p = PLUCK[scape().lead === 'shamisen' ? 'shamisen' : 'koto'];
+  try { A.koto.forEach(v => v.set(p)); } catch (e) {}
+  applyAmbience();
+}
 function startAudio() {
   if (A.starting) return A.starting;
   A.starting = (async () => {
@@ -1221,13 +1325,24 @@ function startAudio() {
       try { rev = new T.Reverb({decay: 3.8, preDelay: .02, wet: .4}); await rev.generate(); rev.connect(out); }
       catch (e) { rev = new T.Gain(.9).connect(out); }   // some phones can't render the reverb impulse; play dry instead
       const dry = new T.Gain(.75).connect(out);
-      A.koto = Array.from({length: 5}, () => { const v = new T.PluckSynth({attackNoise: 1.3, dampening: 3600, resonance: .95, volume: -6}); v.connect(rev); v.connect(dry); return v; });
-      A.kotoT = A.koto.map(() => 0); A.fluteT = 0;
+      A.koto = Array.from({length: 5}, () => { const v = new T.PluckSynth({...PLUCK.koto, volume: -6}); v.connect(rev); v.connect(dry); return v; });
+      A.kotoT = A.koto.map(() => 0);
       A.chime = new T.PolySynth(T.FMSynth, {harmonicity: 5.07, modulationIndex: 1.4, oscillator: {type: 'sine'}, modulation: {type: 'sine'},
         envelope: {attack: .002, decay: 2.6, sustain: 0, release: 2.6}, modulationEnvelope: {attack: .002, decay: .5, sustain: 0, release: .5}, volume: -17}).connect(rev);
       A.flute = new T.Synth({oscillator: {type: 'triangle'}, envelope: {attack: .09, decay: .2, sustain: .55, release: .5}, volume: -13}).connect(new T.Vibrato(5.2, .12).connect(rev));
       A.breath = new T.NoiseSynth({noise: {type: 'pink'}, envelope: {attack: .04, decay: .25, sustain: 0, release: .1}, volume: -30}).connect(new T.Filter(1600, 'bandpass').connect(rev));
       A.bowl = new T.PolySynth(T.FMSynth, {harmonicity: 2.76, modulationIndex: 1.1, envelope: {attack: .003, decay: 2.2, sustain: 0, release: 2}, modulationEnvelope: {attack: .003, decay: .6, sustain: 0, release: .4}, volume: -14}).connect(rev);
+      A.mbox = new T.PolySynth(T.FMSynth, {harmonicity: 4.01, modulationIndex: 2.2, oscillator: {type: 'sine'}, modulation: {type: 'sine'},
+        envelope: {attack: .001, decay: 1.1, sustain: 0, release: 1}, modulationEnvelope: {attack: .001, decay: .25, sustain: 0, release: .2}, volume: -13}).connect(rev);
+      A.toy = new T.PolySynth(T.FMSynth, {harmonicity: 1.5, modulationIndex: 7, oscillator: {type: 'sine'}, envelope: {attack: .001, decay: .45, sustain: 0, release: .3},
+        modulationEnvelope: {attack: .001, decay: .07, sustain: 0, release: .05}, volume: -15});
+      A.toy.connect(dry); A.toy.connect(rev);
+      A.pop = new T.PolySynth(T.Synth, {oscillator: {type: 'triangle'}, envelope: {attack: .002, decay: .22, sustain: 0, release: .15}, volume: -9});
+      A.pop.connect(dry); A.pop.connect(rev);
+      A.sho = new T.PolySynth(T.Synth, {oscillator: {type: 'fatsine', count: 3, spread: 14}, envelope: {attack: 1.4, decay: .4, sustain: .7, release: 2.6}, volume: -28}).connect(rev);
+      A.taiko = new T.MembraneSynth({pitchDecay: .06, octaves: 3, envelope: {attack: .001, decay: .6, sustain: 0, release: .3}, volume: -11}).connect(rev);
+      A.clap = new T.NoiseSynth({noise: {type: 'white'}, envelope: {attack: .001, decay: .09, sustain: 0, release: .02}, volume: -20}).connect(new T.Filter(1400, 'bandpass').connect(rev));
+      A.boom = new T.NoiseSynth({noise: {type: 'brown'}, envelope: {attack: .005, decay: 1.3, sustain: 0, release: .4}, volume: -14}).connect(new T.Filter(420, 'lowpass').connect(rev));
       A.bird = new T.Synth({oscillator: {type: 'sine'}, portamento: .1, envelope: {attack: .03, decay: .1, sustain: .7, release: .18}, volume: -27}).connect(rev);
       A.cricket = new T.Synth({oscillator: {type: 'sine'}, envelope: {attack: .03, decay: .1, sustain: .8, release: .12}, volume: -34}).connect(new T.Tremolo(38, 1).connect(rev).start());
       A.temple = new T.FMSynth({harmonicity: 1.41, modulationIndex: 2.4, envelope: {attack: .004, decay: 6, sustain: 0, release: 6}, modulationEnvelope: {attack: .004, decay: 4, sustain: 0, release: 4}, volume: -20}).connect(rev);
@@ -1238,68 +1353,113 @@ function startAudio() {
       A.amb = {vol: new T.Volume(-60).connect(out)};
       A.amb.filter = new T.AutoFilter({frequency: .06, baseFrequency: 320, octaves: 1.8, depth: .8}).connect(A.amb.vol).start();
       A.amb.noise = new T.Noise('pink').connect(A.amb.filter);
+      A.amb.crackleVol = new T.Volume(-60).connect(out);
+      A.amb.crackle = new T.Noise('white').connect(new T.Filter(2600, 'highpass').connect(A.amb.crackleVol));
       A.tone = true; T.Destination.mute = !save.sound;
-      applyAmbience(); scheduleBgm();
+      applySoundscape(); scheduleBgm();
     } catch (e) { A.tone = false; A.failed = String((e && e.message) || e); }
   })().then(() => { A.done = true; renderSoundUI(); });
   return A.starting;
 }
+const volOf = kind => kind === 'music' ? save.musicVol : save.sfxVol;
 function sample(group, gain = 1, dur) {
   const T = window.Tone, list = SAMPLE_GROUPS[group];
-  if (!A.tone || !save.sound || !A.samples || !A.samples.loaded) return false;
+  if (!A.tone || !save.sound || !A.samples || !A.samples.loaded || save.sfxVol <= 0) return false;
   let name = list[Math.floor(Math.random() * list.length)];
   if (list.length > 1 && name === A.last[group]) name = list[(list.indexOf(name) + 1) % list.length];
   A.last[group] = name;
   try {
-    const g = new T.Gain(gain).connect(A.bus);
+    const g = new T.Gain(gain * save.sfxVol).connect(A.bus);
     const src = new T.ToneBufferSource({url: A.samples.get(name), playbackRate: rnd(.93, 1.08), fadeOut: dur ? .35 : .01}).connect(g);
     src.onended = () => { src.dispose(); g.dispose(); };
     src.start(T.now(), 0, dur);
     return true;
   } catch (e) { return false; }
 }
-// Single-voice instruments can't be scheduled earlier than their last note (Tone.js throws), so each voice remembers its
-// latest start and new notes queue after it; the koto takes whichever of its voices frees up first.
-function play(si, note, delay = 0, vel = .7) {
+// Single-voice instruments can't be scheduled earlier than their last note (Tone.js throws), so each remembers its latest
+// start and new notes queue after it; the plucked strings take whichever of their voices frees up first.
+function play(voice, note, delay = 0, vel = .7, kind = 'sfx') {
   if (!save.sound) return;
-  if (!A.tone) { fallbackNote(si, note, delay, vel); return; }
+  const k = volOf(kind); if (k <= 0) return;
+  vel *= k;
+  if (voice === 'lead') voice = scape().lead;
+  if (!A.tone) { fallbackNote(voice, note, delay, vel); return; }
   try {
-    let t = window.Tone.now() + delay;
-    if (si === 0) {
-      let k = 0; for (let j = 1; j < A.koto.length; j++) if (A.kotoT[j] < A.kotoT[k]) k = j;
-      t = Math.max(t, A.kotoT[k] + .02); A.kotoT[k] = t;
-      const v = A.koto[k]; v.volume.value = -8 + 20 * Math.log10(Math.max(.05, vel)); v.triggerAttackRelease(note, 1.6, t);
-    } else if (si === 1) A.chime.triggerAttackRelease(note, 2.2, t, vel * .9);
-    else if (si === 2) { t = Math.max(t, A.fluteT + .02); A.fluteT = t; A.flute.triggerAttackRelease(note, .4, t, vel); A.breath.triggerAttackRelease(.16, t, vel * .6); }
-    else A.bowl.triggerAttackRelease(note, 1.8, t, vel);
+    const T = window.Tone; let t = T.now() + delay;
+    const queue = key => { t = Math.max(t, (A.lastT[key] || 0) + .02); A.lastT[key] = t; };
+    const up = (n, s) => T.Frequency(n).transpose(s).toNote();
+    switch (voice) {
+      case 'koto': case 'shamisen': {
+        let j = 0; for (let i = 1; i < A.koto.length; i++) if (A.kotoT[i] < A.kotoT[j]) j = i;
+        t = Math.max(t, A.kotoT[j] + .02); A.kotoT[j] = t;
+        const v = A.koto[j]; v.volume.value = -8 + 20 * Math.log10(Math.max(.05, vel)); v.triggerAttackRelease(note, voice === 'shamisen' ? .9 : 1.6, t); break;
+      }
+      case 'chime': A.chime.triggerAttackRelease(note, 2.2, t, vel * .9); break;
+      case 'flute': case 'shinobue': {
+        queue('flute'); const n = voice === 'shinobue' ? up(note, 12) : note;
+        A.flute.triggerAttackRelease(n, voice === 'shinobue' ? .3 : .4, t, vel); A.breath.triggerAttackRelease(.14, t, vel * .55); break;
+      }
+      case 'musicbox': A.mbox.triggerAttackRelease(up(note, 12), 1, t, vel); break;
+      case 'toy': A.toy.triggerAttackRelease(note, .5, t, vel); break;
+      case 'pop': A.pop.triggerAttackRelease(note, .25, t, vel); break;
+      default: A.bowl.triggerAttackRelease(note, 2, t, vel);
+    }
+  } catch (e) {}
+}
+// Percussion and effects: wooden clappers, taiko, hand claps, distant fireworks.
+function hit(what, delay = 0, vel = .7, kind = 'sfx') {
+  if (!save.sound || !A.tone) return;
+  const k = volOf(kind); if (k <= 0) return;
+  vel *= k;
+  try {
+    const T = window.Tone; let t = T.now() + delay;
+    const queue = key => { t = Math.max(t, (A.lastT[key] || 0) + .02); A.lastT[key] = t; };
+    if (what === 'hyoshigi') { queue('wood'); A.wood.triggerAttackRelease('G5', .05, t, vel); A.lastT.wood = t + .16; A.wood.triggerAttackRelease('A5', .05, t + .16, vel * .9); }
+    else if (what === 'taiko') { queue('taiko'); A.taiko.triggerAttackRelease('C2', .4, t, vel); }
+    else if (what === 'clap') { queue('clap'); A.clap.triggerAttackRelease(.08, t, vel); }
+    else if (what === 'boom') { queue('boom'); A.boom.triggerAttackRelease(1.2, t, vel); }
+    else if (what === 'stamp') { queue('wood'); A.wood.triggerAttackRelease('C3', .12, t, vel); }
+    else { queue('wood'); A.wood.triggerAttackRelease('A4', .05, t, vel * .3); }
   } catch (e) {}
 }
 const season = () => Math.max(0, seasonNow);
-const stepFor = si => si === 2 ? .24 : .15;
+const stepFor = () => ({shinobue: .2, flute: .24, bowl: .32, musicbox: .13, pop: .12, toy: .14}[scape().lead] || .15);
 const SFX = {
   flip() { if (!sample('place', .85)) fbNoise(3400, .05, .16); },
   unflip() { if (!sample(Math.random() < .5 ? 'shove' : 'slide', .5)) fbNoise(1900, .06, .09); },
   miss() { A.combo = 0; },
   deal() { if (sample('shuffle', .5, 1.5)) sample('take', .4); else fbNoise(2600, .4, .06); },
   peek() { if (!sample('fan', .65)) fbNoise(700, .6, .06); },
+  page() { if (scape().page) sample('fan', .4); else SFX.tap(); },
   match(m, fresh) {
     A.combo++;
-    const si = season(), sc = SCALES[si], i = Math.min(A.combo - 1, 6);
-    play(si, sc[i], 0, .75); play(si, sc[i + 2], stepFor(si) * .7, .55);
-    if (m.tag === '光札' && A.tone && save.sound) A.chime.triggerAttackRelease(['A6', 'D7', 'E7'], 2.6, window.Tone.now() + .3, .4);
-    if (fresh) [5, 6, 8].forEach((k, j) => play(1, SCALES[1][k], .32 + j * .09, .3));
+    const sc = SCALES[season()], i = Math.min(A.combo - 1, 6), sp = scape();
+    play('lead', sc[i], 0, .75); play('lead', sc[i + 2], stepFor() * .7, .55);
+    if (sp.clap) hit('clap', .05, .6);
+    if (sp.drum) hit('taiko', 0, .35);
+    if (m.tag === '光札') play('chime', 'A6', .3, .4), play('chime', 'D7', .36, .35);
+    if (fresh) [5, 6, 8].forEach((k, j) => play('chime', SCALES[1][k], .32 + j * .09, .3));
   },
-  yaku() { const si = season(); [0, 2, 4, 5, 7, 8].forEach((k, j) => play(si, SCALES[si][k], .6 + j * stepFor(si), .6)); },
+  yaku() { const sc = SCALES[season()], st = stepFor(); [0, 2, 4, 5, 7, 8].forEach((k, j) => play('lead', sc[k], .6 + j * st, .6)); },
   win() {
-    const si = season(), sc = SCALES[si], ph = PHRASES[Math.floor(Math.random() * PHRASES.length)], st = stepFor(si);
-    ph.forEach((k, j) => play(si, sc[k], j * st, j === ph.length - 1 ? .85 : .65));
-    play(1, 'D7', ph.length * st + .1, .45); play(1, 'A6', ph.length * st + .22, .35);
+    const sc = SCALES[season()], ph = PHRASES[Math.floor(Math.random() * PHRASES.length)], st = stepFor(), end = ph.length * st, sp = scape();
+    ph.forEach((k, j) => play('lead', sc[k], j * st, j === ph.length - 1 ? .85 : .65));
+    if (sp.pad && A.tone) play('chime', sc[5], end, .3), A.sho.triggerAttackRelease([sc[0], sc[2], sc[4]], 3, window.Tone.now() + .1, .4 * save.sfxVol);
+    if (sp.win === 'hyoshigi') hit('hyoshigi', end + .15, .9);
+    else if (sp.win === 'fireworks') { hit('boom', end + .1, .8); [0, .12, .2, .34].forEach(d => hit('clap', end + .7 + d, .35)); }
+    else if (sp.win === 'claps') [0, .2, .4].forEach(d => hit('clap', end + .1 + d, .8));
+    else if (sp.win === 'bowl') play('bowl', 'D4', end + .1, .8);
+    else { play('chime', 'D7', end + .1, .45); play('chime', 'A6', end + .22, .35); }
   },
-  lose() { const si = season(); play(si, SCALES[si][2], 0, .45); play(si, SCALES[si][0], .38, .4); },
-  tap() { if (A.tone && save.sound) A.wood.triggerAttackRelease('A4', .05, window.Tone.now(), .16); },
+  upgrade(tier) { const sc = SCALES[season()]; [4, 5, 7, 8].slice(0, tier + 2).forEach((k, j) => play('chime', sc[k], .35 + j * .12, .4)); },
+  lose() { const sc = SCALES[season()]; play('lead', sc[2], 0, .45); play('lead', sc[0], .38, .4); },
+  tap() { const l = scape().lead; if (l === 'pop') play('pop', 'A6', 0, .25); else if (l === 'toy') play('toy', 'E6', 0, .2); else hit('tap'); },
   stamp() {
-    if (A.tone && save.sound) A.wood.triggerAttackRelease('E3', .2, window.Tone.now() + .3, .8);
-    const si = season(), sc = SCALES[si]; sc.forEach((n, j) => play(si === 2 ? 0 : si, n, .35 + j * .045, .4));
+    const sp = scape(), sc = SCALES[season()];
+    if (sp.combo === 'taiko' || sp.combo === 'don') { hit('taiko', .25, .95); hit('taiko', .5, .6); }
+    else if (sp.combo === 'stamp') { hit('stamp', .28, .95); sample('shove', .5); }
+    else hit('stamp', .3, .8);
+    sc.forEach((n, j) => play('lead', n, .35 + j * Math.min(.06, stepFor() * .4), .4));
   }
 };
 // Sound must never break the game: any audio error is swallowed so the play logic around it always runs.
@@ -1307,26 +1467,40 @@ for (const k of Object.keys(SFX)) { const f = SFX[k]; SFX[k] = (...args) => { tr
 function scheduleBgm() {
   clearTimeout(A.bgmTimer);
   const tick = () => {
-    if (save.bgm && save.sound && A.tone && !document.hidden) {
-      const si = season(), sc = SCALES[si];
-      let k = Math.floor(rnd(0, 5)), t = 0;
-      for (let j = 0, n = 3 + Math.floor(rnd(0, 3)); j < n; j++) {
-        play(si, sc[k], t, rnd(.22, .34));
-        k = Math.max(0, Math.min(sc.length - 1, k + [-2, -1, 1, 1, 2][Math.floor(rnd(0, 5))]));
-        t += si === 2 ? rnd(.55, .9) : rnd(.35, .7);
-      }
+    const sp = scape();
+    if (save.bgm && save.sound && A.tone && !document.hidden && save.musicVol > 0) {
+      try {
+        const sc = SCALES[season()], n = sp.notes[0] + Math.floor(rnd(0, sp.notes[1] - sp.notes[0] + 1));
+        let k = Math.floor(rnd(0, 5)), t = 0;
+        if (sp.pad) A.sho.triggerAttackRelease([sc[0], sc[2], sc[4]], 3.5, window.Tone.now(), .35 * save.musicVol);
+        for (let j = 0; j < n; j++) {
+          const st = rnd(sp.step[0], sp.step[1]);
+          play('lead', sc[k], t, rnd(.22, .34), 'music');
+          if (sp.drum && j % 2 === 0) hit('taiko', t, .28, 'music');
+          if (sp.clap && j % 2 === 1) hit('clap', t, .35, 'music');
+          k = Math.max(0, Math.min(sc.length - 1, k + [-2, -1, 1, 1, 2][Math.floor(rnd(0, 5))]));
+          t += st;
+        }
+        if (sp.breath && Math.random() < .5) play('flute', SCALES[2][Math.floor(rnd(0, 3))], t + .4, .3, 'music');
+      } catch (e) {}
     }
-    A.bgmTimer = setTimeout(tick, rnd(6000, 11000));
+    A.bgmTimer = setTimeout(tick, rnd(sp.gap[0], sp.gap[1]) * 1000);
   };
   A.bgmTimer = setTimeout(tick, 1800);
 }
 function applyAmbience() {
   if (!A.tone) return;
-  const on = save.ambience && save.sound;
+  const on = save.ambience && save.sound && save.musicVol > 0, sp = scape();
+  const db = v => Math.max(-60, 20 * Math.log10(Math.max(.001, v)));
   clearTimeout(A.ambTimer);
+  try {
+    A.amb.filter.baseFrequency = sp.amb === 'wind' ? 180 : 320;
+    if (on && sp.amb === 'crackle') { if (A.amb.crackle.state !== 'started') A.amb.crackle.start(); A.amb.crackleVol.volume.rampTo(-46 + db(save.musicVol), 1.5); }
+    else { A.amb.crackleVol.volume.rampTo(-60, .8); setTimeout(() => { if (A.amb.crackle.state === 'started' && !(save.ambience && scape().amb === 'crackle')) A.amb.crackle.stop(); }, 900); }
+  } catch (e) {}
   if (on) {
     if (A.amb.noise.state !== 'started') A.amb.noise.start();
-    A.amb.vol.volume.rampTo(-33, 2.5);
+    A.amb.vol.volume.rampTo((sp.amb === 'wind' ? -30 : -33) + db(save.musicVol), 2.5);
     const scene = () => {
       if (!(save.ambience && save.sound) || document.hidden) { A.ambTimer = setTimeout(scene, 6000); return; }
       try { Math.random() < .3 ? shishiOdoshi() : seasonCall(); } catch (e) {}
@@ -1338,13 +1512,13 @@ function applyAmbience() {
     setTimeout(() => { if (!(save.ambience && save.sound) && A.amb.noise.state === 'started') A.amb.noise.stop(); }, 1300);
   }
 }
-function shishiOdoshi() { const t = window.Tone.now(); A.wood.triggerAttackRelease('C3', .2, t, .9); A.wood.triggerAttackRelease('G2', .15, t + .11, .35); }
+function shishiOdoshi() { const t = window.Tone.now(); A.wood.triggerAttackRelease('C3', .2, t, .9 * save.musicVol); A.wood.triggerAttackRelease('G2', .15, t + .11, .35 * save.musicVol); }
 function seasonCall() {
-  const t = window.Tone.now(), si = season();
-  if (si === 0) { const b = A.bird; b.triggerAttack('A5', t, .5); b.setNote('D6', t + .45); b.triggerRelease(t + .95); b.triggerAttack('G6', t + 1.2, .6); b.setNote('E6', t + 1.3); b.setNote('B6', t + 1.4); b.triggerRelease(t + 1.85); }
-  else if (si === 1) { const notes = ['E7', 'B6', 'G#7', 'C#7', 'F#7']; for (let i = 0, n = 2 + Math.floor(Math.random() * 3); i < n; i++) A.chime.triggerAttackRelease(notes[Math.floor(Math.random() * notes.length)], 2, t + i * rnd(.15, .35), rnd(.25, .4)); }
-  else if (si === 2) { for (let i = 0; i < 3; i++) A.cricket.triggerAttackRelease('C#8', .55, t + i * .85, .7); }
-  else A.temple.triggerAttackRelease('D2', 6, t, .8);
+  const t = window.Tone.now(), si = season(), v = save.musicVol;
+  if (si === 0) { const b = A.bird; b.triggerAttack('A5', t, .5 * v); b.setNote('D6', t + .45); b.triggerRelease(t + .95); b.triggerAttack('G6', t + 1.2, .6 * v); b.setNote('E6', t + 1.3); b.setNote('B6', t + 1.4); b.triggerRelease(t + 1.85); }
+  else if (si === 1) { const notes = ['E7', 'B6', 'G#7', 'C#7', 'F#7']; for (let i = 0, n = 2 + Math.floor(Math.random() * 3); i < n; i++) A.chime.triggerAttackRelease(notes[Math.floor(Math.random() * notes.length)], 2, t + i * rnd(.15, .35), rnd(.25, .4) * v); }
+  else if (si === 2) { for (let i = 0; i < 3; i++) A.cricket.triggerAttackRelease('C#8', .55, t + i * .85, .7 * v); }
+  else A.temple.triggerAttackRelease('D2', 6, t, .8 * v);
 }
 let actx = null, master = null, noiseBuf = null;
 function audio() {
@@ -1362,18 +1536,20 @@ function audio() {
 }
 function fbNoise(freq, dur, gain) {
   const a = audio(); if (!a) return;
+  gain *= save.sfxVol;
   const t = a.currentTime, src = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
   src.buffer = noiseBuf; f.type = 'bandpass'; f.frequency.value = freq; f.Q.value = .8;
-  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(gain, t + .01); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(Math.max(gain, .0002), t + .01); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
   src.connect(f); f.connect(g); g.connect(master); src.start(t, Math.random() * .5); src.stop(t + dur + .05);
 }
 const NOTE_I = {C: 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11};
 const freqOf = n => { const m = /^([A-G][#b]?)(\d)$/.exec(n); return 440 * Math.pow(2, (NOTE_I[m[1]] + (+m[2] + 1) * 12 - 69) / 12); };
-function fallbackNote(si, note, delay, vel) {
+function fallbackNote(voice, note, delay, vel) {
   const a = audio(); if (!a) return;
-  const t = a.currentTime + delay, o = a.createOscillator(), g = a.createGain(), dur = si === 1 || si === 3 ? 1.8 : 1.1;
-  o.type = si === 0 ? 'triangle' : 'sine'; o.frequency.value = freqOf(note);
-  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.1 * vel, t + (si === 2 ? .08 : .004)); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  const ring = ['chime', 'bowl', 'musicbox'].includes(voice), soft = ['flute', 'shinobue'].includes(voice);
+  const t = a.currentTime + delay, o = a.createOscillator(), g = a.createGain(), dur = ring ? 1.8 : 1.1;
+  o.type = ring || soft ? 'sine' : 'triangle'; o.frequency.value = freqOf(note) * (voice === 'musicbox' || voice === 'shinobue' ? 2 : 1);
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.1 * vel, t + (soft ? .08 : .004)); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
   o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + .05);
 }
 function setSound(on) {
@@ -1400,11 +1576,17 @@ const screens = {home: $('#home'), game: $('#game')};
 let current = 'home', seasonNow = -1;
 const seasonColor = i => THEMES[save.look].mono ? '#d7261e' : SEASONS[i].accent;
 function show(name) {
-  current = name;
+  const prev = current; current = name;
   for (const k in screens) screens[k].hidden = k !== name;
   if (name === 'home') renderHome();
   if (name === 'game') requestAnimationFrame(layoutBoard);
+  if (prev !== name) enter(screens[name]);
 }
+function enter(el) { el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter'); el.addEventListener('animationend', () => el.classList.remove('enter'), {once: true}); }
+// Light haptics on phones that support it (Android Chrome; iOS Safari has no vibration API, so the toggle stays hidden there).
+const CAN_BUZZ = typeof navigator.vibrate === 'function' && !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
+const BUZZ = {match: 14, miss: [8, 50, 8], combo: [12, 40, 24], win: [16, 70, 16, 70, 40], lose: 40};
+function buzz(kind) { if (CAN_BUZZ && save.haptics) try { navigator.vibrate(BUZZ[kind] || 10); } catch (e) {} }
 function applySeason(i) {
   const changed = i !== seasonNow;
   seasonNow = i;
@@ -1413,6 +1595,7 @@ function applySeason(i) {
 }
 function applyLook() {
   document.documentElement.dataset.look = save.look;
+  applySoundscape(); renderSoundUI(); warmDeck();
   sceneKey = '';
   if (seasonNow >= 0) applySeason(seasonNow);
   FX.set(SEASONS[season()].key);
@@ -1435,12 +1618,19 @@ function renderSoundUI() {
   set('#tgSound', save.sound, false);
   set('#tgBgm', save.bgm && save.sound, !save.sound || noTone, noTone ? '这个设备上无法加载琴声音色' : '');
   set('#tgAmb', save.ambience && save.sound, !save.sound || noTone, noTone ? '这个设备上无法加载环境音' : '');
+  if (!noTone) $('#bgmNote').textContent = `${THEMES[save.look].name}：${scape().name}，季节决定音阶`;
+  for (const [id, k] of [['#volMusic', 'musicVol'], ['#volSfx', 'sfxVol']]) {
+    const el = $(id); el.value = Math.round(save[k] * 100); el.disabled = !save.sound;
+    el.nextElementSibling.textContent = el.value; el.closest('.slider').classList.toggle('off', !save.sound);
+  }
+  const h = $('#tgHaptic'); h.hidden = !CAN_BUZZ; h.setAttribute('aria-checked', String(save.haptics));
 }
 function refreshMeta() {
   const c = collectedCount(), pct = (c / MOTIFS.length * 100).toFixed(1) + '%';
   $('#dexRail').style.width = pct;
   $('#dexCount').textContent = `${c} / ${MOTIFS.length} 张`;
-  $('#omCount').textContent = `${c} / ${MOTIFS.length} 种 · 共 ${omamoriTotal()} 枚`;
+  const tiers = [1, 2].map(t => MOTIFS.filter(m => omTierOf(m) >= t).length);
+  $('#omCount').textContent = `${c}/${MOTIFS.length} 种 · ${omamoriTotal()} 枚 · 金线 ${tiers[0]} · 満願 ${tiers[1]}`;
   const unseen = save.unseen.length > 0;
   $('#dotHome').hidden = !unseen; $('#dotGame').hidden = !unseen;
 }
@@ -1471,59 +1661,60 @@ function homeCtx() {
 const go = (l, cls, inner, extra = '') => `<button type="button" class="go ${cls} ${l.cls}" data-go="${l.n}" ${l.locked ? 'disabled' : ''} aria-label="第${l.k}庭 ${l.name}${l.locked ? '，未解锁' : l.done ? '，已通关' : ''}" ${extra}>${inner}</button>`;
 const haikuHTML = (hk, cls = '') => `<p class="haiku ${cls}"><span class="jp">${hk[0]}</span><span class="cn">${hk[1]}</span><small>— ${hk[2]}</small></p>`;
 const HOME = {
-  youth: c => `<div class="hv hv-youth">
+  youth: c => `<div class="hv hv-youth"><div class="hv-a">
       <header class="yo-head"><h1>御守花札</h1><span>四叠半花札部 · 招新中</span></header>
       <button type="button" class="go yo-cta" data-go="${c.tgt.n}"><span class="yo-num">${c.tgt.n}</span><span><small>NEXT! ${c.S.name} · ${c.verb}</small><b>${c.tgt.name}</b><small>${c.meta}</small></span><span class="yo-arrow" aria-hidden="true">→</span></button>
-      <div class="yo-bubble">${haikuHTML(c.hk)}</div>${modeSegHTML()}
+      <div class="yo-bubble">${haikuHTML(c.hk)}</div></div><div class="hv-b">${modeSegHTML()}
       <div class="yo-grid">${c.levels.map(l => go(l, 'yo-tile', `<b class="yo-big" aria-hidden="true">${l.n}</b><span class="jp">${l.name}</span><small>${SEASONS[l.s].name} · ${l.status}</small>`)).join('')}</div>
-      ${c.stats}</div>`,
-  manga: c => `<div class="hv hv-manga">
+      ${c.stats}</div></div>`,
+  manga: c => `<div class="hv hv-manga"><div class="hv-a">
       <header class="mg-mast"><img class="mg-hok" src="art/manga-hokusai.jpg" alt=""><div class="mg-lines" aria-hidden="true">${mangaLines()}</div><h1>御守花札</h1><div class="mg-issue"><span>四季八景 · 好评连载中</span><span>第${c.k}話</span></div></header>
       <button type="button" class="go mg-koma" data-go="${c.tgt.n}"><span class="mg-art">${art(c.card)}</span><span class="mg-v"><small>${c.allDone ? '完結 · 再読' : '最新話'}</small><b>第${c.k}話「${c.tgt.name}」</b><span>${c.S.name} · ${c.meta}</span></span><span class="mg-read">読む</span></button>
-      <div class="mg-balloon">${haikuHTML(c.hk)}</div>${modeSegHTML()}
+      <div class="mg-balloon">${haikuHTML(c.hk)}</div></div><div class="hv-b">${modeSegHTML()}
       <section class="mg-toc"><h2>目次</h2>${c.levels.map(l => go(l, '', `<span class="no">第${l.k}話</span><span class="jp">${l.name}</span><i></i><span class="mk">${l.locked ? '次号' : l.done ? '済' : l.next ? '▶' : ''}</span>`)).join('')}</section>
-      ${c.stats}<p class="art-credit">刊头底图：葛饰北斋《北斋漫画》，芝加哥艺术博物馆开放馆藏</p></div>`,
-  ukiyo: c => `<div class="hv hv-ukiyo">
+      ${c.stats}<p class="art-credit">刊头底图：葛饰北斋《北斋漫画》，芝加哥艺术博物馆开放馆藏</p></div></div>`,
+  ukiyo: c => `<div class="hv hv-ukiyo"><div class="hv-a">
       <header class="uk-head"><div class="uk-cart"><b>御守花札</b><small>四季八景</small></div><div class="uk-side"><span class="uk-seal">${c.S.name}</span>${haikuHTML(c.hk)}</div></header>
       <button type="button" class="go uk-print" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><span class="uk-scene"><img src="art/ukiyo-${UKIYO_PRINTS[c.tgt.s][0]}.jpg" alt="歌川广重《名所江户百景 · ${UKIYO_PRINTS[c.tgt.s][1]}》"></span><span class="uk-label">名所江戸百景 · ${UKIYO_PRINTS[c.tgt.s][3]}</span><span class="uk-go"><span>第${c.k}庭「${c.tgt.name}」 · ${c.meta}</span><b>${c.verb} ▶</b></span></button>
-      <p class="art-credit">歌川广重《名所江户百景 · ${UKIYO_PRINTS[c.tgt.s][1]}》（${UKIYO_PRINTS[c.tgt.s][2]}），芝加哥艺术博物馆开放馆藏</p>
+      <p class="art-credit">歌川广重《名所江户百景 · ${UKIYO_PRINTS[c.tgt.s][1]}》（${UKIYO_PRINTS[c.tgt.s][2]}），芝加哥艺术博物馆开放馆藏</p></div><div class="hv-b">
       ${modeSegHTML()}
       <div class="uk-grid">${c.levels.map(l => go(l, 'uk-thumb', `<span class="uk-mini">${sceneSVG(l, 'ukiyo', 'ht' + l.n, '40 80 320 427')}</span><span class="uk-lab">${l.k} ${l.name}</span>${l.done ? '<span class="uk-done">済</span>' : ''}`)).join('')}</div>
-      ${c.stats}</div>`,
+      ${c.stats}</div></div>`,
   washi: c => `<div class="hv hv-washi">
-      <div class="wa-lattice" aria-hidden="true"></div>
+      <div class="wa-lattice" aria-hidden="true"></div><div class="hv-a">
       <button type="button" class="go wa-cover" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}">
         <img class="wa-art" src="art/washi-${WASHI_COVERS[c.tgt.s][0]}.jpg" alt=""><span class="wa-band"></span>
         <span class="wa-mark">${c.S.name}</span><span class="wa-title">御守花札</span><span class="wa-author">花札 · 四季八景</span><span class="wa-pub">庭院文库</span>
         <span class="wa-obi"><em>${c.hk[0]}</em><small>${c.hk[1]}　— ${c.hk[2]}</small><b>第${c.k}庭「${c.tgt.name}」へ</b></span></button>
       <button type="button" class="go btn primary" data-go="${c.tgt.n}">翻开 · ${c.tgt.name}　${c.meta}</button>
+      <p class="art-credit">封面：神坂雪佳《百々世草》「${WASHI_COVERS[c.tgt.s][1]}」（1909–10），芝加哥艺术博物馆开放馆藏</p></div><div class="hv-b">
       ${modeSegHTML()}
-      <p class="art-credit">封面：神坂雪佳《百々世草》「${WASHI_COVERS[c.tgt.s][1]}」（1909–10），芝加哥艺术博物馆开放馆藏</p>
       <section class="wa-toc"><h2>目次</h2>${c.levels.map(l => go(l, '', `<span class="no">第${l.k}庭</span><span class="jp">${l.name}</span><i></i><span class="pg">${l.done ? '印' : l.locked ? '' : l.sub}</span>`)).join('')}</section>
-      ${c.stats}</div>`,
-  kare: c => `<div class="hv hv-kare">
+      ${c.stats}</div></div>`,
+  kare: c => `<div class="hv hv-kare"><div class="hv-a">
       <header class="ka-head"><h1>御守花札</h1><small>${c.S.name} · ${c.hk[0]}</small></header>
       <button type="button" class="go ka-stone" data-go="${c.tgt.n}">${karePlate()}<span><b>${c.tgt.name}</b><small>第${c.k}庭 · ${c.meta} · ${c.verb}</small></span></button>
+      <p class="ka-hk">${c.hk[1]}　— ${c.hk[2]}</p></div><div class="hv-b">
       ${modeSegHTML()}
       <div class="ka-row">${c.levels.map(l => go(l, 'ka-pebble', `${pebble(l)}<span>${l.name}</span>`)).join('')}</div>
-      <p class="ka-hk">${c.hk[1]}　— ${c.hk[2]}</p>${c.stats}</div>`,
-  matsuri: c => `<div class="hv hv-matsuri">
+      ${c.stats}</div></div>`,
+  matsuri: c => `<div class="hv hv-matsuri"><div class="hv-a">
       <header class="mt-lanterns" aria-label="御守花札">${['御', '守', '花', '札'].map(ch => `<span class="mt-l">${ch}</span>`).join('')}</header>
       <p class="mt-sub">灯火夜祭 · 四季八景</p>
       <button type="button" class="go mt-noren" data-go="${c.tgt.n}"><span class="mt-stripes"></span><b>${c.tgt.name}</b><small>${c.S.name} · 第${c.k}庭 · ${c.meta}</small><span class="mt-go">${c.allDone ? '再逛一次' : '参加'} ▶</span></button>
-      <div class="mt-fan">${haikuHTML(c.hk)}</div>${modeSegHTML()}
+      <div class="mt-fan">${haikuHTML(c.hk)}</div></div><div class="hv-b">${modeSegHTML()}
       <div class="mt-stalls">${c.levels.map(l => go(l, 'mt-stall', `<span class="mt-roof" style="--season:${l.sc}"></span><span class="jp">${l.name}</span><small>第${l.k}庭 · ${l.status}</small>`)).join('')}</div>
-      ${c.stats}<p class="art-credit">背景：歌川广重《名所江户百景 · 两国花火》（1858），芝加哥艺术博物馆开放馆藏</p></div>`,
-  techo: c => `<div class="hv hv-techo">
+      ${c.stats}<p class="art-credit">背景：歌川广重《名所江户百景 · 两国花火》（1858），芝加哥艺术博物馆开放馆藏</p></div></div>`,
+  techo: c => `<div class="hv hv-techo"><div class="hv-a">
       <header class="tc-head"><h1>御守花札</h1><span>${new Date().getMonth() + 1}月${new Date().getDate()}日 · 旅行记</span></header>
       <div class="tc-spread">
         <button type="button" class="go tc-polaroid" data-go="${c.tgt.n}"><span class="tc-tape"></span><span class="tc-photo">${sceneSVG(c.tgt, 'techo', 'hp', '20 40 360 360')}</span><span class="tc-cap">第${c.k}庭 · ${c.tgt.name}</span></button>
         <div class="tc-note">${haikuHTML(c.hk)}</div></div>
-      <button type="button" class="go tc-ticket" data-go="${c.tgt.n}"><b>${c.verb} ▶</b><small>${c.S.name} · ${c.meta}</small></button>
+      <button type="button" class="go tc-ticket" data-go="${c.tgt.n}"><b>${c.verb} ▶</b><small>${c.S.name} · ${c.meta}</small></button></div><div class="hv-b">
       ${modeSegHTML()}
       <div class="tc-press" aria-label="北斋的草花小稿">${[['peony', '牡丹', -4], ['iris', '杜若', 3], ['orchid', '蘭', -2], ['morning', '朝顔', 4]].map(([f, n, r]) => `<figure style="--r:${r}deg"><img src="art/techo-${f}.jpg" alt="${n}"><figcaption>${n}</figcaption></figure>`).join('')}</div>
       <section class="tc-rally"><h2>四季印章集</h2><div class="tc-stamps">${c.levels.map(l => go(l, 'tc-stamp', `<span class="ring">${l.done ? `${l.name}<br>${SEASONS[l.s].name}` : l.next ? '次の駅' : l.k}</span><small>${l.name}</small>`)).join('')}</div></section>
-      ${c.stats}<p class="art-credit">草花：葛饰北斋《北斋漫画》 · 纸纹：ambientCG（CC0）</p></div>`
+      ${c.stats}<p class="art-credit">草花：葛饰北斋《北斋漫画》 · 纸纹：ambientCG（CC0）</p></div></div>`
 };
 function mangaLines() {
   let s = '';
@@ -1578,7 +1769,7 @@ function renderDex() {
     return `<article class="entry">${save.unseen.includes(x.id) ? '<span class="new-badge">新</span>' : ''}<div class="e-art">${art(x)}</div><div class="e-text">
       <div class="e-name"><b>${x.jp}</b><span class="tag${tagCls}">${x.tag}</span></div><div class="e-sub">${x.cn} · ${x.kana}</div>
       <div class="e-mean"><span>寓意</span>${x.mean}</div><p>${x.desc}</p>
-      <div class="e-foot"><span class="e-om">${omamoriSVG(x)}${x.om} × ${n}</span>${at ? `<span class="e-date">收于 ${at.getMonth() + 1}月${at.getDate()}日</span>` : ''}</div></div></article>`;
+      <div class="e-foot"><span class="e-om">${omamoriSVG(x, false, omTier(n))}${x.om} × ${n}</span>${at ? `<span class="e-date">收于 ${at.getMonth() + 1}月${at.getDate()}日</span>` : ''}</div></div></article>`;
   }).join('')}</div></section>`;
   $('#months').innerHTML = SEASONS.map((S, i) => {
     const n = MOTIFS.filter(x => S.months.includes(x.m) && got(x.id)).length;
@@ -1591,15 +1782,19 @@ function renderOmamori() {
     const list = MOTIFS.filter(x => S.months.includes(x.m)), got = list.filter(x => save.collected[x.id]).length;
     return `<section style="--season:${seasonColor(i)}"><div class="season-h"><span class="s-kanji">${S.name}</span><span><b>${S.note}</b><small>已收 ${got} / 12 种</small></span></div>
       <div class="om-grid">${list.map(x => { const n = save.collected[x.id] || 0;
-        return n ? `<button type="button" class="om-cell" data-om="${x.id}" aria-label="${x.om}，已收 ${n} 枚"><span class="om-badge">${omamoriSVG(x)}</span><b>${x.om}</b><span class="cnt tnum">× ${n}</span></button>`
+        const t = omTier(n), nx = OM_TIERS[t + 1];
+        return n ? `<button type="button" class="om-cell t${t}" data-om="${x.id}" aria-label="${x.om}，${OM_TIERS[t].name}，已收 ${n} 枚"><span class="om-badge">${omamoriSVG(x, false, t)}${t ? `<i class="om-tier">${OM_TIERS[t].name}</i>` : ''}</span><b>${x.om}</b><span class="cnt tnum" title="${nx ? `再收 ${nx.min - n} 枚升为${nx.name}` : '已满願'}">× ${n}${nx ? `<small> / ${nx.min}</small>` : ''}</span></button>`
           : `<div class="om-cell locked" aria-label="未求得的御守"><span class="om-badge">${omamoriSVG(x, true)}</span><span>？？？</span></div>`; }).join('')}</div></section>`;
   }).join('');
 }
 function omamoriDetail(id) {
   const x = BY_ID[id], n = save.collected[id] || 0, at = save.collectedAt[id] ? new Date(save.collectedAt[id]) : null;
-  openModal(`<div class="om-big">${omamoriSVG(x)}<div class="eyebrow">御守 · ${MONTHS[x.m - 1][2]}</div><h2 style="margin:0">${x.om}</h2>
+  const t = omTier(n), nx = OM_TIERS[t + 1];
+  openModal(`<div class="om-big t${t}">${omamoriSVG(x, false, t)}<div class="eyebrow">御守 · ${MONTHS[x.m - 1][2]} · ${OM_TIERS[t].name}</div><h2 style="margin:0">${x.om}</h2>
     <p style="margin:0">保佑「${x.mean}」。得自花札「<span class="jp">${x.jp}</span>」。</p>
-    <p style="margin:0">已收下 ${n} 枚${at ? ` · 初次求得于 ${at.getMonth() + 1}月${at.getDate()}日` : ''}</p></div>
+    <p style="margin:0">已收下 ${n} 枚${at ? ` · 初次求得于 ${at.getMonth() + 1}月${at.getDate()}日` : ''}</p>
+    <ol class="om-path" aria-label="御守的成长">${OM_TIERS.map((T, i) => `<li class="${i <= t ? 'on' : ''}${i === t ? ' now' : ''}"><span class="om-mini">${omamoriSVG(x, false, i)}</span><b>${T.name}</b><small>${T.min} 枚</small></li>`).join('')}</ol>
+    <p style="margin:0;font-size:13px;color:var(--muted)">${nx ? `再配对 ${nx.min - n} 次「<span class="jp">${x.jp}</span>」，就能升为${nx.name}。` : '已经満願：愿望圆满，金线织满了整只御守。'}</p></div>
     <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>收好</button></div>`);
 }
 function themePreview(key) {
@@ -1623,7 +1818,7 @@ const SHEETS = {dex: renderDex, omamori: renderOmamori, themes: renderThemes, se
 const sheetReturn = {};
 function openSheet(id) {
   sheetReturn[id] = document.activeElement;
-  SHEETS[id](); $('#' + id).hidden = false; $('#' + id + ' .sheet-body').scrollTop = 0;
+  SHEETS[id](); $('#' + id).hidden = false; $('#' + id + ' .sheet-body').scrollTop = 0; enter($('#' + id));
   $('#' + id + ' .sheet-head .btn').focus();
 }
 function closeSheet(id) {
@@ -1653,12 +1848,12 @@ function creditsHTML() {
 }
 let toastTimer = 0;
 function toast(html, long) { const el = $('#toast'); el.innerHTML = html; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), long ? 3000 : 1800); }
-const cardToast = (m, fresh) => toast(`<div class="t-art">${omamoriSVG(m)}</div><div><div class="t1">${fresh ? '初见 · 记入图鉴' : '再会 · 御守 +1'}</div>
+const cardToast = (m, fresh) => toast(`<div class="t-art">${omamoriSVG(m, false, omTierOf(m))}</div><div><div class="t1">${fresh ? '初见 · 记入图鉴' : '再会 · 御守 +1'}</div>
   <div class="t2"><span class="jp">${m.jp}</span> · ${m.cn}</div><div class="t3">${m.mean} · 收下一枚${m.om}</div></div>`, fresh);
 function floatOmamori(cardEl, m) {
   if (reduceMotion() || !cardEl) return;
   const r = cardEl.getBoundingClientRect(), f = document.createElement('div');
-  f.className = 'float'; f.innerHTML = omamoriSVG(m);
+  f.className = 'float'; f.innerHTML = omamoriSVG(m, false, omTierOf(m));
   f.style.left = (r.left + r.width / 2) + 'px'; f.style.top = (r.top + r.height / 2) + 'px';
   document.body.appendChild(f); setTimeout(() => f.remove(), 1300);
 }
@@ -1814,14 +2009,14 @@ function tap(i) {
       Acard.done = c.done = true; paint(a); paint(b);
       const els = $('#deck').children;
       [a, b].forEach(k => { els[k].classList.add('pop'); later(() => els[k] && els[k].classList.remove('pop'), 600); });
-      G.pairs++; collect(c.id, els[b]); renderHud();
+      G.pairs++; collect(c.id, els[b]); renderHud(); buzz('match');
       if (A.combo === 3 || A.combo === 5 || A.combo === 7) later(comboFX, 450);
       if (G.pairs === G.ids.length) { G.phase = 'end'; later(win, 900); }
       else if (movesLeft() <= 0) { G.phase = 'end'; later(lose, 900); }
       else { G.phase = 'play'; renderHud(); setHint(A.combo >= 2 ? `连续配对 ${A.combo} 组` : playHint()); }
     }, 300);
   } else {
-    SFX.miss(); G.misses++; setHint('不是一对，记下它们 · 点任意处继续');
+    SFX.miss(); buzz('miss'); G.misses++; setHint('不是一对，记下它们 · 点任意处继续');
     const run = () => {
       G.missPending = null;
       Acard.up = c.up = false; paint(a); paint(b); SFX.unflip();
@@ -1841,6 +2036,7 @@ function stampFX(k, line) {
 // Streaks: 3 in a row gives a step, 5 gives a look-back, 7 brings a petal storm. Each first time also earns a seal.
 function comboFX() {
   const c = A.combo, board = $('#board');
+  buzz('combo');
   board.classList.remove('aura'); void board.offsetWidth; board.classList.add('aura');
   if (c === 3) { if (isFinite(G.budget)) G.budget++; awardSeal('san'); stampFX('三連', isFinite(G.budget) ? '花信 · 多给一步' : '花信'); }
   else if (c === 5) { G.peeks++; awardSeal('go'); stampFX('五連', '风来 · 多一次回看'); }
@@ -1861,7 +2057,12 @@ function collect(id, el) {
     G.yaku.push(...made.map(y => y.name)); SFX.yaku();
     later(() => toast(`<div><div class="t1">凑成役</div><div class="t2"><span class="jp">${made.map(y => y.name).join('、')}</span></div><div class="t3">${made[0].note}</div></div>`, true), 1300);
   }
-  cardToast(m, fresh);
+  const tier = omTier(save.collected[id]);
+  if (!fresh && tier > omTier(save.collected[id] - 1)) {
+    const T = OM_TIERS[tier];
+    toast(`<div class="t-art">${omamoriSVG(m, false, tier)}</div><div><div class="t1">御守升级 · ${T.name}</div><div class="t2">${m.om}</div><div class="t3">${tier > 1 ? '金线织满，愿望圆满' : '布面绣上了金线'} · 第 ${save.collected[id]} 枚</div></div>`, true);
+    SFX.upgrade(tier);
+  } else cardToast(m, fresh);
   if (collectedCount() === MOTIFS.length && awardSeal('zensatsu')) later(() => stampFX('全札', '四十八张，都在这里了'), 2200);
   refreshMeta();
 }
@@ -1892,7 +2093,7 @@ function win() {
   if (!G.misses) awardSeal('muku');
   if (!G.peeksUsed) awardSeal('ichimoku');
   if (LEVELS.every(l => cleared(l.n))) awardSeal('hakkei');
-  persist(); SFX.win(); setHint('庭院已整理完毕');
+  persist(); SFX.win(); buzz('win'); setHint('庭院已整理完毕'); warmDeck();
   petals({particleCount: 70, angle: 60, spread: 70, startVelocity: 42, origin: {x: 0, y: .95}});
   petals({particleCount: 70, angle: 120, spread: 70, startVelocity: 42, origin: {x: 1, y: .95}});
   const nextL = LEVELS[n];
@@ -1911,7 +2112,7 @@ function win() {
 }
 function lose() {
   statEnd(false); persist();
-  SFX.lose(); setHint('步数用完了');
+  SFX.lose(); buzz('lose'); setHint('步数用完了');
   const easier = G.mode === 'hard' ? '<p>也可以回主页，换成「标准」或「悠闲」。</p>' : G.mode === 'std' ? '<p>想慢慢记，回主页换成「悠闲」，不计步数。</p>' : '';
   openModal(`<div class="eyebrow">${SEASONS[G.L.s].name} · 第${KANJI[G.n - 1]}庭 · ${G.L.name}</div><h2>步数用尽了</h2>
     <p>配成 ${G.pairs} / ${G.ids.length} 组。庭院还在，再来一次时，步数和回看都会恢复，牌也会重新洗过。</p>
@@ -2015,7 +2216,7 @@ function layoutBoard() {
   const bs = getComputedStyle(board);
   const W = board.clientWidth - pad * 2, H = board.clientHeight - parseFloat(bs.paddingTop) - parseFloat(bs.paddingBottom) - 2 - pad * 2, N = G.deck.length;
   if (W <= 0 || H <= 0) return;
-  const ratio = 100 / 61, gap = G.compact ? (W < 480 ? 4 : 8) : (W < 480 ? 6 : 10), MAX = W < 480 ? 92 : 118;
+  const ratio = 100 / 61, gap = G.compact ? (W < 480 ? 4 : 8) : (W < 480 ? 6 : W < 720 ? 10 : 14), MAX = W < 480 ? 92 : W < 720 ? 118 : 156;
   const fitFor = cols => { const rows = Math.ceil(N / cols); return Math.min((W - gap * (cols - 1)) / cols, ((H - gap * (rows - 1)) / rows) / ratio, MAX); };
   let best = null;
   for (let cols = 2; cols <= N; cols++) {
@@ -2134,6 +2335,12 @@ function resetProgress() {
 $('#tgSound').addEventListener('click', () => setSound(!save.sound));
 $('#tgBgm').addEventListener('click', () => { save.bgm = !save.bgm; persist(); renderSoundUI(); startAudio(); });
 $('#tgAmb').addEventListener('click', () => { save.ambience = !save.ambience; persist(); startAudio().then(() => { applyAmbience(); renderSoundUI(); }); });
+$('#tgHaptic').addEventListener('click', () => { save.haptics = !save.haptics; persist(); renderSoundUI(); buzz('match'); });
+for (const [id, k] of [['#volMusic', 'musicVol'], ['#volSfx', 'sfxVol']]) {
+  const el = $(id);
+  el.addEventListener('input', () => { save[k] = el.value / 100; el.nextElementSibling.textContent = el.value; if (k === 'musicVol') applyAmbience(); });
+  el.addEventListener('change', () => { persist(); if (k === 'sfxVol') SFX.match({tag: ''}, false); else play('lead', SCALES[season()][4], 0, .6, 'music'); A.combo = 0; });
+}
 document.addEventListener('click', e => {
   const t = e.target;
   if (t.closest('[data-wipe]')) { SFX.tap(); openModal(wipeHTML()); return; }
@@ -2149,7 +2356,7 @@ document.addEventListener('click', e => {
     save.stats.themes[save.look] = (save.stats.themes[save.look] || 0) + 1;
     persist(); SFX.tap(); applyLook(); renderThemes(); return;
   }
-  const sk = t.closest('[data-skin]'); if (sk) { save.skin = sk.dataset.skin; save.skinPinned = true; persist(); SFX.tap(); refreshBoardArt(); renderSettings(); return; }
+  const sk = t.closest('[data-skin]'); if (sk) { save.skin = sk.dataset.skin; save.skinPinned = true; persist(); SFX.tap(); refreshBoardArt(); renderSettings(); warmDeck(); return; }
   const om = t.closest('[data-om]'); if (om) { SFX.tap(); omamoriDetail(om.dataset.om); return; }
   if (t.closest('.sound-btn')) setSound(!save.sound);
 });
@@ -2174,6 +2381,20 @@ $('#modalCard').addEventListener('click', e => {
   else if (act === 'dex') { goHome(); openSheet('dex'); }
   else if (act === 'reset') resetProgress();
   else if (act === 'wipe') wipeAll();
+});
+const ARROWS = {ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1]};
+document.addEventListener('keydown', e => {
+  if (current !== 'game' || !G || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (!$('#modal').hidden || !$('#demo').hidden || Object.keys(SHEETS).some(id => !$('#' + id).hidden)) return;
+  const els = $('#deck').children, at = [...els].indexOf(document.activeElement);
+  if (ARROWS[e.key]) {
+    e.preventDefault();
+    const [dx, dy] = ARROWS[e.key], cols = G.cols || 4, n = els.length;
+    let i = at < 0 ? 0 : at + dx + dy * cols;
+    if (at >= 0 && dy && (i < 0 || i >= n)) i = at;
+    els[Math.max(0, Math.min(n - 1, i))].focus();
+  } else if ((e.key === 'r' || e.key === 'R') && !e.repeat) { e.preventDefault(); peek(); }
+  else if ((e.key === ' ' || e.key === 'Enter') && at < 0 && G.missPending) { e.preventDefault(); skipWait(); }
 });
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
@@ -2205,7 +2426,7 @@ function audioReport() {
 function testSound() {
   if (!save.sound) setSound(true);
   unlockAudio();
-  const go = () => { const si = season(); [0, 2, 4, 5].forEach((k, j) => play(si, SCALES[si][k], j * .16, .7)); SFX.flip(); };
+  const go = () => { const sc = SCALES[season()]; [0, 2, 4, 5].forEach((k, j) => play('lead', sc[k], j * stepFor(), .7)); SFX.flip(); };
   (A.starting || Promise.resolve()).then(() => { go(); setTimeout(() => { $('#audioDiag').textContent = audioReport() + '。如果显示「运行中」却仍听不到，请调高手机的媒体音量（不是铃声音量）。'; }, 400); });
   $('#audioDiag').textContent = '正在播放测试音…';
 }
@@ -2216,7 +2437,7 @@ else window.addEventListener('resize', layoutBoard);
 /* ================= boot ================= */
 document.documentElement.dataset.look = save.look;
 if (!save.skinPinned) save.skin = THEMES[save.look].deck;
-renderModes(); renderSoundUI(); setSaveNote(); refreshMeta();
+renderModes(); renderSoundUI(); setSaveNote(); refreshMeta(); warmDeck();
 initCloud();
 function start(data) {
   const n = data && Number(data.level);
