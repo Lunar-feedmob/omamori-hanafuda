@@ -193,8 +193,6 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .front{transform:rotateY(180deg);background:transparent}
 .front img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;user-select:none}
 .card.done{cursor:default}
-.card.coach{animation:coach 1.3s ease-in-out infinite;z-index:1}
-.card.coach .face{box-shadow:0 0 0 3px var(--accent),0 0 22px var(--accent)}
 @keyframes coach{50%{transform:scale(1.06)}}
 .btn.coach-btn{animation:coach 1.1s ease-in-out 4}
 .card.done .front{box-shadow:0 0 0 3px var(--accent),0 6px 14px rgba(0,0,0,.18)}
@@ -250,6 +248,20 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .stats th,.stats td{padding:5px 6px;text-align:right;border-bottom:1px solid var(--line)}
 .stats th:first-child,.stats td:first-child{text-align:left}
 .stats th{color:var(--muted);font-weight:600}
+/* 练习庭: a four-card walkthrough that uses the current look's cards, backs and mat */
+.demo{z-index:34}
+.demo-body{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  padding:16px max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 20px) max(16px,env(safe-area-inset-left,0px))}
+.demo-steps{display:flex;gap:6px}
+.demo-steps i{width:28px;height:4px;border-radius:2px;background:var(--line-2)}
+.demo-steps i.on{background:var(--accent)}
+.demo-cap{margin:0;min-height:2.8em;max-width:22em;text-align:center;font-family:var(--f-head);font-weight:var(--w-head);font-size:18px;line-height:1.4}
+.demo-deck{display:grid;grid-template-columns:repeat(2,auto);gap:14px;margin:0}
+.demo-deck .card{--cw:min(32vw,calc((100vh - 340px) / 3.5),124px)}
+.demo-done{width:min(420px,100%);padding:18px;display:grid;gap:10px}
+.demo-done h3{margin:0;font-family:var(--f-head);font-weight:var(--w-head);font-size:22px}
+.demo-done ul{margin:0;padding-left:1.2em;display:grid;gap:6px;color:var(--muted);font-size:14px;line-height:1.7}
+.demo-done b{color:var(--text)}
 .credits{margin:6px 0 4px;padding:0;list-style:none;display:grid;gap:10px;font-size:13px;color:var(--muted)}
 .credits b{color:var(--text);font-weight:600}
 .credits a{color:var(--accent)}
@@ -553,7 +565,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 @media (max-height:640px){ .stat{padding:5px 10px 6px} .stat .val b{font-size:24px} .btn{min-height:46px} }
 @media (prefers-reduced-motion:reduce){
   .card .inner{transition:none}
-  .deck.dealing .card,.card.pop .inner,.modal-card,.float,#board.aura,.hv-matsuri .mt-l,.card.coach,.btn.coach-btn{animation:none}
+  .deck.dealing .card,.card.pop .inner,.modal-card,.float,#board.aura,.hv-matsuri .mt-l,.btn.coach-btn{animation:none}
   .stamp-fx .seal,.stamp-fx small{animation-duration:.01s;animation-delay:1.6s}
   .toast,.rail i,.mbar i{transition:none}
   .hint.marquee #hintText{animation:none}
@@ -640,14 +652,34 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
       <button class="toggle" id="tgAmb" type="button" role="switch"><span><b>庭院环境音</b><small>流水、鹿威し，以及黄莺、风铃、铃虫或寺钟</small></span><span class="sw2"></span></button>
     </div><div class="links"><button class="btn" id="btnTestSound" type="button">声音检测</button></div><p class="save-note" id="audioDiag">听不到声音时点一下，会播放一段测试音并显示音频状态。</p></section>
     <section class="set-group"><h3>其他</h3><div class="links">
-      <button class="btn" id="btnRules" type="button">游玩说明</button>
+      <button class="btn" id="btnRules" type="button">再看一遍新手演示</button>
       <button class="btn" id="btnCredits" type="button">素材致谢</button>
     </div><p class="save-note" id="saveNote2"></p></section>
     <section class="set-group"><h3>游玩统计</h3><p>记录每处庭院的开局、通关、步数、回看和用时，只存在这台设备上。做试玩时可以一键复制发给开发者。</p>
       <div class="links"><button class="btn" id="btnStats" type="button">查看统计</button></div></section>
-    <section class="set-group"><h3>从头再来</h3><p>清除花札图鉴、御守、朱印、通关记录和游玩统计，新手引导也会重新出现。主题、卡面、难度和声音设置会保留。</p>
+    <section class="set-group"><h3>从头再来</h3><p>清除花札图鉴、御守、朱印、通关记录和游玩统计，新手演示也会重新出现。主题、卡面、难度和声音设置会保留。</p>
       <div class="links"><button class="btn danger" id="btnReset" type="button">清除全部进度</button></div></section>
   </div></div>
+</div>
+
+<div class="sheet demo" id="demo" role="dialog" aria-modal="true" aria-labelledby="demoTitle" hidden>
+  <div class="sheet-head"><h2 id="demoTitle">练习庭</h2><span class="count" id="demoStep">1 / 4 · 看牌</span><button class="btn" id="demoSkip" type="button">跳过</button></div>
+  <div class="demo-body">
+    <div class="demo-steps" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <p class="demo-cap" id="demoCap" aria-live="polite"></p>
+    <div class="deck demo-deck" id="demoDeck"></div>
+    <button class="btn primary" id="demoPeek" type="button" disabled>
+      <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1.8 10S5 4.5 10 4.5 18.2 10 18.2 10 15 15.5 10 15.5 1.8 10 1.8 10z"/><circle cx="10" cy="10" r="2.6"/></svg>重新看牌</button>
+    <section class="demo-done panel" id="demoDone" hidden>
+      <h3>就这么简单</h3>
+      <ul>
+        <li>在<b>步数用尽前</b>配完全部牌，就点亮这处庭院。</li>
+        <li>第一次翻出的花札，会收进<b>图鉴</b>，并得到一枚<b>御守</b>。</li>
+        <li><b>连续配对</b>会盖下朱印，还会多给一步或一次回看。</li>
+      </ul>
+      <button class="btn primary" id="demoGo" type="button">开始</button>
+    </section>
+  </div>
 </div>
 
 <div class="modal" id="modal" hidden><div class="modal-card" role="dialog" aria-modal="true" id="modalCard"></div></div>
@@ -799,7 +831,7 @@ const peekMs = cards => 1500 + cards * 50;
 /* ================= save ================= */
 const KEY = 'omamori-hanafuda-v1';
 const save = {unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, collectedAt: {}, seals: {}, unseen: [], sound: true, ambience: false, bgm: true,
-  seenRules: false, mode: 'std', look: 'ukiyo', skin: 'classic', skinPinned: false, coached: false, peekTip: false, stats: {levels: {}, themes: {}}};
+  seenRules: false, mode: 'std', look: 'ukiyo', skin: 'classic', skinPinned: false, demoDone: false, stats: {levels: {}, themes: {}, demo: {shown: 0, done: 0, skipped: 0}}};
 const DEFAULT_SAVE = JSON.stringify(save);
 const OLD_LOOKS = {emaki: 'ukiyo', cha: 'washi', dream: 'ukiyo'};
 function mergeBest(src, into) { for (const k in src) { const v = Number(src[k]); if (v > 0 && LEVELS[k - 1]) into[k] = Math.max(into[k] || 0, Math.min(3, v)); } }
@@ -815,8 +847,9 @@ function mergeProgress(d, withPrefs) {
   if (d.seals && typeof d.seals === 'object') for (const k in d.seals) if (SEALS.some(x => x.id === k) && Number(d.seals[k]) > 0) save.seals[k] = save.seals[k] || Number(d.seals[k]);
   if (withPrefs) {
     if (Array.isArray(d.unseen)) save.unseen = d.unseen.filter(id => BY_ID[id]);
-    for (const k of ['sound', 'ambience', 'bgm', 'seenRules', 'skinPinned', 'coached', 'peekTip']) if (typeof d[k] === 'boolean') save[k] = d[k];
-    if (d.stats && typeof d.stats === 'object') save.stats = {levels: d.stats.levels || {}, themes: d.stats.themes || {}};
+    for (const k of ['sound', 'ambience', 'bgm', 'seenRules', 'skinPinned', 'demoDone']) if (typeof d[k] === 'boolean') save[k] = d[k];
+    if (typeof d.demoDone !== 'boolean' && (d.seenRules || d.coached)) save.demoDone = true;   // players from before the demo existed skip it
+    if (d.stats && typeof d.stats === 'object') save.stats = {levels: d.stats.levels || {}, themes: d.stats.themes || {}, demo: d.stats.demo || {shown: 0, done: 0, skipped: 0}};
     if (MODES[d.mode]) save.mode = d.mode;
     const look = OLD_LOOKS[d.look] || d.look;
     if (THEMES[look]) save.look = look;
@@ -1604,17 +1637,6 @@ function closeSheet(id) {
 let modalOnClose = null;
 function openModal(html, onClose) { $('#modalCard').innerHTML = html; $('#modal').hidden = false; modalOnClose = onClose || null; const f = $('#modalCard [data-focus]') || $('#modalCard button'); if (f) f.focus(); }
 function closeModal(run = true) { $('#modal').hidden = true; const cb = modalOnClose; modalOnClose = null; if (run && cb) cb(); }
-function rulesHTML(cta) {
-  return `<div class="eyebrow">游玩说明</div><h2>记住，再翻开</h2>
-    <ol class="rules">
-      <li><span class="n">一</span><span>牌会<b>亮几秒</b>，记住它们的位置。</span></li>
-      <li><span class="n">二</span><span>一次翻两张，<b>算一步</b>。相同便留下，不同就合上。</span></li>
-      <li><span class="n">三</span><span>在<b>步数用尽前</b>配完，点亮下一处庭院。</span></li>
-      <li><span class="n">四</span><span><b>重新看牌</b>让未配的牌再亮一瞬，不耗步数。</span></li>
-    </ol>
-    <p>连续配对会盖下朱印，还会多给一步或一次回看。嫌步数紧，就在主页换成「悠闲」。</p>
-    <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>${cta}</button></div>`;
-}
 function creditsHTML() {
   return `<div class="eyebrow">素材致谢</div><h2>开源素材</h2>
     <ul class="credits">
@@ -1681,19 +1703,20 @@ function statsHTML() {
     <p>共开局 ${total} 次。「平均」都按打完的局计算，步数只算通关局。</p>
     <div class="stats-wrap"><table class="stats"><thead><tr><th>庭院</th><th>开局</th><th>通关</th><th>失败</th><th>通关率</th><th>均步数</th><th>均回看</th><th>均翻错</th><th>均用时</th></tr></thead>
     <tbody>${rows.map(x => `<tr><td><span class="jp">${x.l.name}</span></td><td>${x.plays}</td><td>${x.wins}</td><td>${x.losses}</td><td>${x.rate}</td><td>${x.moves}</td><td>${x.peeks}</td><td>${x.misses}</td><td>${x.time}</td></tr>`).join('')}</tbody></table></div>
-    <p style="margin-top:10px">切换主题：${th.length ? th.map(([k, n]) => `${THEMES[k] ? THEMES[k].name : k} ${n} 次`).join('、') : '还没有切换过'}。</p>
+    <p style="margin-top:10px">新手演示：出现 ${save.stats.demo.shown} 次，看完 ${save.stats.demo.done} 次，跳过 ${save.stats.demo.skipped} 次。</p>
+    <p>切换主题：${th.length ? th.map(([k, n]) => `${THEMES[k] ? THEMES[k].name : k} ${n} 次`).join('、') : '还没有切换过'}。</p>
     <div class="modal-actions"><button class="btn primary" type="button" data-act="copy-stats" data-focus>复制统计，发给开发者</button><button class="btn" type="button" data-act="close">关闭</button></div>`;
 }
 function statsText() {
   const head = ['庭院', '开局', '通关', '失败', '通关率', '均步数', '均回看', '均翻错', '均用时'].join('\t');
   return [`御守花札 游玩统计 ${new Date().toLocaleString()}`, `难度 ${MODES[save.mode].name} · 主题 ${THEMES[save.look].name} · 卡面 ${SKINS[save.skin].name}`, head,
     ...statsRows().map(x => [x.l.name, x.plays, x.wins, x.losses, x.rate, x.moves, x.peeks, x.misses, x.time].join('\t')),
-    '主题切换 ' + JSON.stringify(save.stats.themes), '原始数据 ' + JSON.stringify(save.stats.levels)].join('\n');
+    '新手演示 ' + JSON.stringify(save.stats.demo), '主题切换 ' + JSON.stringify(save.stats.themes), '原始数据 ' + JSON.stringify(save.stats.levels)].join('\n');
 }
 function later(fn, ms) { const t = setTimeout(fn, ms); if (G) G.timers.push(t); return t; }
 function stopTimers() { if (G) G.timers.forEach(clearTimeout); }
 function requestLevel(n, sameSet) {
-  if (!save.seenRules) { openModal(rulesHTML('明白了，开始'), () => { save.seenRules = true; persist(); startLevel(n, sameSet); }); return; }
+  if (!save.demoDone) { openDemo(n); return; }
   startLevel(n, sameSet);
 }
 function startLevel(n, sameSet) {
@@ -1721,16 +1744,10 @@ function startLevel(n, sameSet) {
     setHint('看一眼，记在心里', ms);
     later(() => {
       G.deck.forEach(c => c.peek = false); paintAll(); SFX.unflip(); G.phase = 'play'; renderHud();
-      if (G.n === 1 && !save.coached) startCoach(); else setHint('翻开两张，找出成对的花札');
+      setHint('翻开两张，找出成对的花札');
     }, ms);
   });
 }
-function startCoach() {
-  const id = G.deck[0].id, idx = G.deck.map((c, i) => c.id === id ? i : -1).filter(i => i >= 0);
-  G.coach = {step: 1, a: idx[0], b: idx[1]};
-  coachMark(idx[0]); setHint('跟我来：先翻开发光的这张');
-}
-function coachMark(i) { [...$('#deck').children].forEach((el, k) => el.classList.toggle('coach', k === i)); }
 function buildBoard() {
   const deck = $('#deck');
   deck.innerHTML = G.deck.map((c, i) => `<button class="card" type="button" data-i="${i}" style="--d:${i}" aria-label="第 ${i + 1} 张，背面朝上">
@@ -1786,19 +1803,10 @@ function skipWait() { if (!G || !G.missPending) return false; const m = G.missPe
 function tap(i) {
   if (G && G.phase === 'resolve' && G.missPending) skipWait();
   if (!G || G.phase !== 'play') return;
-  if (G.coach) {   // guided first garden: only the glowing card can be turned
-    const want = G.coach.step === 1 ? G.coach.a : G.coach.b;
-    if (i !== want) { setHint(G.coach.step === 1 ? '先翻开发光的那张' : '它的另一半在发光的位置'); return; }
-  }
   const c = G.deck[i];
   if (!c || c.done || c.up) return;
   SFX.flip(); c.up = true; paint(i);
-  if (G.first === null) {
-    G.first = i;
-    if (G.coach) { G.coach.step = 2; coachMark(G.coach.b); setHint('很好。它的另一半在这里'); } else setHint('再翻一张');
-    return;
-  }
-  if (G.coach) { G.coach = null; G.coachDone = true; coachMark(-1); save.coached = true; persist(); }
+  if (G.first === null) { G.first = i; setHint('再翻一张'); return; }
   const a = G.first, b = i, Acard = G.deck[a];
   G.first = null; G.used++; G.phase = 'resolve'; renderHud();
   if (Acard.id === c.id) {
@@ -1810,7 +1818,7 @@ function tap(i) {
       if (A.combo === 3 || A.combo === 5 || A.combo === 7) later(comboFX, 450);
       if (G.pairs === G.ids.length) { G.phase = 'end'; later(win, 900); }
       else if (movesLeft() <= 0) { G.phase = 'end'; later(lose, 900); }
-      else { G.phase = 'play'; renderHud(); setHint(G.coachDone ? '配对成功！接下来就靠你的记忆了' : A.combo >= 2 ? `连续配对 ${A.combo} 组` : playHint()); G.coachDone = false; }
+      else { G.phase = 'play'; renderHud(); setHint(A.combo >= 2 ? `连续配对 ${A.combo} 组` : playHint()); }
     }, 300);
   } else {
     SFX.miss(); G.misses++; setHint('不是一对，记下它们 · 点任意处继续');
@@ -1819,11 +1827,6 @@ function tap(i) {
       Acard.up = c.up = false; paint(a); paint(b); SFX.unflip();
       if (movesLeft() <= 0) { G.phase = 'end'; later(lose, 500); return; }
       G.phase = 'play'; renderHud(); setHint(playHint());
-      if (!save.peekTip && G.peeks > 0) {   // first miss ever: point at the look-back button once
-        save.peekTip = true; persist();
-        setHint('记不清？点「重新看牌」，不耗步数');
-        const pb = $('#btnPeek'); pb.classList.remove('coach-btn'); void pb.offsetWidth; pb.classList.add('coach-btn');
-      }
     };
     G.missPending = {t: later(run, 950), run};
   }
@@ -1920,6 +1923,90 @@ function lose() {
 }
 function goHome() { stopTimers(); if (G) G.phase = 'idle'; $('#toast').classList.remove('show'); show('home'); }
 
+/* ================= 练习庭 · new-player walkthrough =================
+   Four cards, two pairs, the player's own taps. Steps: look → turn → look again → done. Skippable at every step;
+   nothing here counts toward moves, the dex or statistics other than the demo's own seen/finished/skipped counts. */
+let D = null;
+const dLater = (fn, ms) => { const t = setTimeout(fn, ms); if (D) D.timers.push(t); return t; };
+function demoStep(k, label) { $('#demoStep').textContent = `${k} / 4 · ${label}`; [...document.querySelectorAll('.demo-steps i')].forEach((el, i) => el.classList.toggle('on', i < k)); }
+const demoCap = t => { $('#demoCap').textContent = t; };
+function dPaint() { [...$('#demoDeck').children].forEach((el, i) => { const c = D.cards[i]; el.classList.toggle('up', c.up || c.done || c.peek); el.classList.toggle('done', c.done); }); }
+function openDemo(n) {
+  closeDemo(false);
+  const ids = ['matsu-tsuru', 'susuki-tsuki'];
+  D = {n, cards: shuffle(ids.concat(ids)).map(id => ({id, up: false, done: false, peek: true})), first: null, phase: 'show', peeked: false, pending: null, timers: []};
+  save.stats.demo.shown++; persist();
+  $('#demoDeck').innerHTML = D.cards.map((c, i) => `<button class="card up" type="button" data-i="${i}" aria-label="练习牌 ${i + 1}">
+    <span class="inner"><span class="face back">${cardBack()}</span><span class="face front">${art(BY_ID[c.id])}</span></span></button>`).join('');
+  $('#demoDeck').hidden = false; $('#demoDone').hidden = true;
+  const pb = $('#demoPeek'); pb.hidden = false; pb.disabled = true; pb.classList.remove('coach-btn');
+  $('#demoGo').textContent = n ? `开始第${KANJI[n - 1]}庭「${LEVELS[n - 1].name}」` : '回到庭院';
+  $('#demo').hidden = false; $('#demoSkip').focus();
+  demoStep(1, '看牌'); demoCap('开局时，牌会亮几秒。记住它们的位置。'); SFX.peek();
+  dLater(() => { D.cards.forEach(c => c.peek = false); dPaint(); SFX.unflip(); D.phase = 'play'; demoStep(2, '翻牌'); demoCap('现在翻开两张。每翻两张，算一步。'); }, 2800);
+}
+function demoTap(i) {
+  if (!D) return;
+  if (D.pending) { const p = D.pending; D.pending = null; clearTimeout(p.t); p.run(); if (i < 0) return; }
+  if (D.phase === 'peekPrompt') { demoCap('先点下面闪动的「重新看牌」。'); return; }
+  if (D.phase !== 'play') return;
+  const c = D.cards[i];
+  if (!c || c.done || c.up) return;
+  SFX.flip(); c.up = true; dPaint();
+  if (D.first === null) { D.first = i; demoCap('再翻一张。'); return; }
+  const a = D.first, A2 = D.cards[a];
+  D.first = null; D.phase = 'resolve';
+  if (A2.id === c.id) {
+    dLater(() => {
+      A2.done = c.done = true; dPaint(); SFX.match(BY_ID[c.id], false);
+      if (D.cards.every(x => x.done)) { dLater(demoFinish, 700); return; }
+      demoCap('配对成功！图案相同的两张会留下。');
+      dLater(() => { if (D.peeked) { D.phase = 'play'; demoCap('再找出最后一对。'); } else demoPeekPrompt(); }, 1300);
+    }, 300);
+  } else {
+    SFX.miss(); demoCap('不是一对，它们会自动盖回。点任意处继续。');
+    const run = () => {
+      D.pending = null; A2.up = c.up = false; dPaint(); SFX.unflip();
+      if (D.peeked) { D.phase = 'play'; demoCap('再试一次，想想刚才看到的位置。'); } else demoPeekPrompt();
+    };
+    D.pending = {t: dLater(run, 1400), run};
+  }
+}
+function demoPeekPrompt() {
+  D.phase = 'peekPrompt'; demoStep(3, '回看');
+  demoCap('记不清的时候，点「重新看牌」。它不耗步数，每处庭院可以用一到两次。');
+  const b = $('#demoPeek'); b.disabled = false; b.classList.remove('coach-btn'); void b.offsetWidth; b.classList.add('coach-btn');
+}
+function demoPeek() {
+  if (!D || D.phase !== 'peekPrompt') return;
+  D.peeked = true; D.phase = 'peek';
+  const b = $('#demoPeek'); b.disabled = true; b.classList.remove('coach-btn');
+  SFX.peek(); D.cards.forEach(x => { if (!x.done) x.peek = true; }); dPaint(); demoCap('看清了吗？');
+  dLater(() => { D.cards.forEach(x => x.peek = false); dPaint(); SFX.unflip(); D.phase = 'play'; demoCap('接着，把剩下的牌配完。'); }, 1600);
+}
+function demoFinish() {
+  D.phase = 'done'; demoStep(4, '完成'); demoCap('');
+  save.demoDone = true; save.stats.demo.done++; persist();
+  $('#demoDeck').hidden = true; $('#demoPeek').hidden = true; $('#demoDone').hidden = false; $('#demoGo').focus();
+  SFX.win(); petals({particleCount: 60, spread: 90, startVelocity: 30, origin: {x: .5, y: .6}, zIndex: 35});
+}
+function closeDemo(run = true) {
+  if (D) D.timers.forEach(clearTimeout);
+  const n = D ? D.n : 0;
+  D = null; $('#demo').hidden = true;
+  if (run && n) startLevel(n);
+}
+function skipDemo() {
+  if (!D) return;
+  save.stats.demo.skipped++; save.demoDone = true; persist();
+  closeDemo(true);
+}
+$('#demoDeck').addEventListener('click', e => { const b = e.target.closest('.card'); if (b) demoTap(+b.dataset.i); else if (D && D.pending) demoTap(-1); });
+$('.demo-body').addEventListener('click', e => { if (D && D.pending && !e.target.closest('#demoDeck, button')) demoTap(-1); });
+$('#demoPeek').addEventListener('click', demoPeek);
+$('#demoSkip').addEventListener('click', () => { SFX.tap(); skipDemo(); });
+$('#demoGo').addEventListener('click', () => { SFX.tap(); closeDemo(true); });
+
 /* Fit the whole deck into the board area: try every column count, keep the one with the largest card. */
 function layoutBoard() {
   if (!G || current !== 'game') return;
@@ -2009,7 +2096,7 @@ $('#board').addEventListener('click', e => { if (!e.target.closest('#deck')) ski
 $('#btnPeek').addEventListener('click', peek);
 $('#btnRestart').addEventListener('click', () => { if (G) { SFX.tap(); startLevel(G.n, true); } });
 $('#btnHome').addEventListener('click', () => { SFX.tap(); goHome(); });
-$('#btnRules').addEventListener('click', () => openModal(rulesHTML('知道了')));
+$('#btnRules').addEventListener('click', () => { closeSheet('settings'); openDemo(0); });
 $('#btnCredits').addEventListener('click', () => openModal(creditsHTML()));
 $('#btnStats').addEventListener('click', () => openModal(statsHTML()));
 $('#btnTestSound').addEventListener('click', testSound);
@@ -2038,7 +2125,7 @@ async function wipeAll() {
 }
 function resetProgress() {
   stopTimers(); G = null; A.combo = 0;
-  Object.assign(save, {unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, collectedAt: {}, seals: {}, unseen: [], seenRules: false, coached: false, peekTip: false, stats: {levels: {}, themes: {}}});
+  Object.assign(save, {unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, collectedAt: {}, seals: {}, unseen: [], seenRules: false, demoDone: false, stats: {levels: {}, themes: {}, demo: {shown: 0, done: 0, skipped: 0}}});
   persist();
   for (const id of Object.keys(SHEETS)) $('#' + id).hidden = true;
   show('home'); refreshMeta();
@@ -2091,6 +2178,7 @@ $('#modalCard').addEventListener('click', e => {
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
   if (!$('#modal').hidden && $('#modalCard [data-act="close"]')) { closeModal(true); return; }
+  if (!$('#demo').hidden) { skipDemo(); return; }
   for (const id of ['settings', 'themes', 'omamori', 'dex']) if (!$('#' + id).hidden) { closeSheet(id); return; }
 });
 // Mobile audio unlock. iOS Safari only lets audio start inside touchend/click (not pointerdown/touchstart), and a context can be
