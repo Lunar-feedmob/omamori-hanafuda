@@ -37,17 +37,22 @@
 
 ## 主题
 
-七种主题共用同一套玩法和布局，每个主题有自己的卡背、牌桌、转场和一组乐器（季节决定音阶），切换时不会打断正在进行的一局。设置里可以分别调音乐和音效的音量。
+十二种主题共用同一套玩法和布局，每个主题有自己的卡背、牌桌、转场和一组乐器（季节决定音阶），切换时不会打断正在进行的一局。设置里可以分别调音乐和音效的音量。
 
 | 分组 | 主题 | 主页 | 推荐卡面 | 声音 |
 |---|---|---|---|---|
 | 传统和风 | 浮世锦绘 | 按季节展示广重《名所江户百景》的版画海报 | 彩绘 | 三味线，通关敲拍子木 |
 | 传统和风 | 京都和纸 | 文库本封面，按季节换神坂雪佳的画 | 墨绘 | 琴与笙，翻页声 |
 | 传统和风 | 砂纹石庭 | 一圈砂纹，一块石 | 墨染 | 钵铃与尺八，风声 |
+| 古画新游 | 月白风清 | 月冈芳年《月百姿》挂成卷轴，八处庭院是一轮渐满的月 | 彩绘 | 琵琶与虫声，通关寺钟 |
+| 古画新游 | 金碧琳琅 | 光琳、抱一、其一的金屏风，关卡是一枚枚色纸 | 彩绘 | 笙与龙笛 |
+| 古画新游 | 墨戏山野 | 《鸟兽戏画》相扑一段做封面，关卡排在可横向展开的绘卷上 | 墨绘 | 笛与小鼓 |
 | 节令生活 | 灯火夜祭 | 广重「两国花火」上的灯笼与摊位 | 朱缘 | 篠笛与太鼓，通关远处烟火 |
 | 节令生活 | 旅行手账 | 纸页、印章集、北斋草花小稿 | 剪纸 | 八音盒，盖章声 |
-| 动画漫画 | 四叠青春 | 四叠半杂志页 | 剪纸 | 轻快拨弦与拍手 |
-| 动画漫画 | 昭和漫画 | 以《北斋漫画》为刊头的连载目次 | 网点 | 玩具钢琴，唱片底噪，连击「咚」 |
+| 摩登时光 | 洋灯旧梦 | 咖啡馆墙上挂着竹久梦二的乐谱封面，关卡写在菜单上 | 朱缘 | 曼陀林与留声机底噪 |
+| 摩登时光 | 四叠青春 | 四叠半杂志页 | 剪纸 | 轻快拨弦与拍手 |
+| 摩登时光 | 昭和漫画 | 以《北斋漫画》为刊头的连载目次 | 网点 | 玩具钢琴，唱片底噪，连击「咚」 |
+| 摩登时光 | 电光游园 | 霓虹像素的游园，PRESS START 与关卡地图 | 剪纸 | 芯片音，连击投币声 |
 
 ## 本地运行
 
@@ -66,8 +71,11 @@ python3 -m http.server 8000
 - 主页插图（`art/`）：神坂雪佳《百々世草》（1909–10）、葛饰北斋《北斋漫画》、歌川广重《名所江户百景》中的「两国花火」「龟户梅屋敷」「大桥阿宅骤雨」「月之岬」「浅草金龙山」（1856–58），均为公有领域作品，图像来自[芝加哥艺术博物馆开放馆藏](https://www.artic.edu/open-access)（CC0），仅缩放与裁切取景；纸纹为 [ambientCG Paper006](https://ambientcg.com/view?id=Paper006)（CC0）。
 - 卡背（`backs/`）：江户至明治时期的染布型纸（katagami），[大都会艺术博物馆开放馆藏](https://www.metmuseum.org/about-the-met/policies-and-documents/open-access)（CC0）：[菊菱](https://www.metmuseum.org/art/collection/search/69131)、[麻の葉](https://www.metmuseum.org/art/collection/search/53215)、[杉綾と波](https://www.metmuseum.org/art/collection/search/69130)、[菊菱に紗綾形](https://www.metmuseum.org/art/collection/search/69138)、[梅散らし](https://www.metmuseum.org/art/collection/search/69145)、[梅](https://www.metmuseum.org/art/collection/search/69107)、[矢筈](https://www.metmuseum.org/art/collection/search/69114)。裁取花纹，镂空处做成透明，部分主题把柿涩纸染成主题色。
 - 十二月花屏风（`niwa/`）：歌川广重「雪中松に錦鶏」「梅」「枝垂桜に鳥」「藤に燕」「菖蒲に雀」「牡丹に鶏」「月に雁」「菊に鷦鷯」「紅葉に孔雀」，松村景文「萩に虫」，窪俊満「柳に翡翠」，礒田湖龍斎「桐に鳳凰」；公有领域，图像来自大都会艺术博物馆开放馆藏（CC0，馆藏号 44894、56940、36725、36726、36724、56939、36742、36731、36741、55364、54058、36694），仅裁切取景。
+- 新主题插图（`art/tsuki-*`、`art/rinpa-*`、`art/giga-*`、`art/taisho-*`）：月冈芳年《月百姿》「忍冈之月」「云居之月」「原野之月」「浅野川雪月」（1885–92）；酒井抱一《樱枫图》、尾形光琳《八桥图》（大都会艺术博物馆，CC0）、铃木其一《夏秋溪流图》左扇、尾形光琳《红白梅图》；《鸟兽人物戏画》甲卷（12 世纪，高山寺藏）；竹久梦二为セノオ乐谱所作封面《桜町》《羽衣》《月光》《Old Refrain》（1917–24）。均为公有领域，图像经 [Wikimedia Commons](https://commons.wikimedia.org/) 取得，仅缩放、裁切；绘卷转为墨色以统一纸色。
+- 新主题卡背：大都会艺术博物馆型纸「草花」(69147)、「紗綾形」(65305)、「八角繋ぎ」(69143)；墨戏山野卡背取自《鸟兽戏画》相扑一段的青蛙；电光游园卡背为本项目原创像素画。
+- 像素字体（`fonts/`）：[Fusion Pixel Font](https://github.com/TakWolf/fusion-pixel-font) 12px 简体中文版，SIL OFL 1.1（许可证见 `fonts/fusion-pixel-OFL.txt`），只保留本作用到的字。
 - 纸牌音效（`sfx/`）：Kenney「[Casino Audio](https://kenney.nl/assets/casino-audio)」，CC0，已转码为 MP3。
 - 琴声、风铃、尺八与环境音：[Tone.js](https://github.com/Tonejs/Tone.js)（MIT）实时合成。
 - 落花特效：[canvas-confetti](https://github.com/catdad/canvas-confetti)（ISC）。
-- 字体：每个主题两到三种。日文显示字体 Shippori Mincho B1、Zen Old Mincho、Shippori Mincho、Kaisei Decol、Klee One、Yusei Magic、Zen Antique；中文 Noto Serif SC、Noto Sans SC；点缀用 Yuji Syuku、ZCOOL XiaoWei、ZCOOL KuaiLe（SIL OFL 1.1），经 Google Fonts 提供。
+- 字体：每个主题两到三种。日文显示字体 Shippori Mincho B1、Zen Old Mincho、Shippori Mincho、Kaisei Decol、Klee One、Yusei Magic、Zen Antique、Hina Mincho、Kaisei Tokumin、Yuji Boku、Shippori Antique B1、DotGothic16；中文 Noto Serif SC、Noto Sans SC；点缀用 Yuji Syuku、ZCOOL XiaoWei、ZCOOL KuaiLe（SIL OFL 1.1），经 Google Fonts 提供。
 - 俳句：服部嵐雪、松尾芭蕉、山口素堂、与謝蕪村的作品（公有领域），中文译文为本项目所作。

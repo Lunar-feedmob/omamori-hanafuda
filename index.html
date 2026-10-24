@@ -8,11 +8,12 @@
 <title>御守花札</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&family=Zen+Old+Mincho:wght@600;900&family=Shippori+Mincho+B1:wght@600;800&family=Shippori+Mincho:wght@500;700&family=Kaisei+Decol:wght@700&family=Yusei+Magic&family=Zen+Antique&family=Klee+One:wght@600&family=ZCOOL+XiaoWei&family=ZCOOL+KuaiLe&family=Yuji+Syuku&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&family=Zen+Old+Mincho:wght@600;900&family=Shippori+Mincho+B1:wght@600;800&family=Shippori+Mincho:wght@500;700&family=Kaisei+Decol:wght@700&family=Yusei+Magic&family=Zen+Antique&family=Klee+One:wght@600&family=ZCOOL+XiaoWei&family=ZCOOL+KuaiLe&family=Yuji+Syuku&family=Hina+Mincho&family=Kaisei+Tokumin:wght@700;800&family=Yuji+Boku&family=Shippori+Antique+B1&family=DotGothic16&display=swap">
 <style>
 /* Layout: one game shell shared by eight looks. Each look swaps tokens (colour, type, button and panel shape), paints its own garden
    backdrops, and has its own home page (poster, paperback cover, magazine contents page, journal spread …).
    Tokens sit on [data-look] so a look can also be applied to a small preview inside the theme picker. Card faces are never filtered. */
+@font-face{font-family:"Fusion Pixel";src:url(fonts/fusion-pixel-12.woff2) format("woff2");font-display:swap}
 :root,[data-look="ukiyo"]{
   --bg:#f3ecdd; --panel:rgba(250,246,236,.92); --panel-solid:#f8f2e4; --line:rgba(31,58,104,.16); --line-2:rgba(31,58,104,.34);
   --text:#1c2a44; --muted:#4a5670; --faint:#5f697f; --accent:#1f3a68; --accent-ink:#f8f2e4; --shu:#c8402a; --moss:#3e7a5e; --gold:#b8913e;
@@ -71,6 +72,48 @@
   --f-jp:"Klee One","Hiragino Maru Gothic ProN","Noto Sans SC",sans-serif; --f-head:"ZCOOL KuaiLe","Noto Sans SC",sans-serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
   --w-jp:600; --w-head:400; --btn-radius:12px; --btn-bw:1px; --btn-shadow:0 2px 0 rgba(110,90,70,.25); --panel-radius:6px; --panel-bw:1px;
   --panel-shadow:0 3px 10px -4px rgba(110,90,70,.35); --blur:0px; --board-bg:linear-gradient(rgba(110,90,70,.08) 1px,transparent 1px) 0 0/14px 14px,linear-gradient(90deg,rgba(110,90,70,.08) 1px,transparent 1px) 0 0/14px 14px,#fffdf8; --board-pad:8px; --board-bd:1px solid rgba(110,90,70,.22); --board-sh:0 5px 14px -7px rgba(110,90,70,.55); color-scheme:light;
+}
+[data-look="tsuki"]{
+  --bg:#10162a; --panel:rgba(22,30,56,.86); --panel-solid:#19213f; --line:rgba(236,230,207,.14); --line-2:rgba(236,230,207,.32);
+  --text:#efebdf; --muted:#c6c1b2; --faint:#9c988d; --accent:#d9c78f; --accent-ink:#141a2e; --shu:#d0573c; --moss:#8fb3a0; --gold:#d9c78f;
+  --back:#1e2642; --back-line:rgba(236,230,207,.6); --stone:#3c4566; --stone-2:#2c3456; --unlit:#252d4b; --scrim:rgba(6,9,20,.72); --chip:rgba(255,255,255,.05);
+  --f-jp:"Hina Mincho","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --w-jp:400; --w-head:600; --btn-radius:2px; --btn-bw:1px; --btn-shadow:none; --panel-radius:2px; --panel-bw:1px; --panel-shadow:inset 0 0 0 1px rgba(217,199,143,.08);
+  --blur:6px; --board-bg:rgba(14,19,38,.74); --board-pad:8px; --board-bd:1px solid rgba(217,199,143,.38); --board-sh:0 0 40px -16px rgba(236,230,207,.45); color-scheme:dark;
+}
+[data-look="rinpa"]{
+  --home-veil:.62; --bg:#ecdcb0; --panel:rgba(251,245,228,.93); --panel-solid:#faf3e0; --line:rgba(70,52,18,.18); --line-2:rgba(70,52,18,.36);
+  --text:#232619; --muted:#55503a; --faint:#6a634a; --accent:#1d4b86; --accent-ink:#fbf3dc; --shu:#b23a26; --moss:#2c7563; --gold:#b8913e;
+  --back:#2c7563; --back-line:rgba(233,207,134,.8); --stone:#8a7a52; --stone-2:#a8986a; --unlit:#e3d2a4; --scrim:rgba(40,32,12,.45); --chip:rgba(70,52,18,.05);
+  --f-jp:"Kaisei Tokumin","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --w-jp:800; --w-head:900; --btn-radius:1px; --btn-bw:1.5px; --btn-shadow:none; --panel-radius:1px; --panel-bw:1px; --panel-shadow:inset 0 0 0 3px #faf3e0,inset 0 0 0 4px rgba(184,145,62,.55);
+  --blur:2px; --board-bg:linear-gradient(rgba(150,110,30,.1) 1px,transparent 1px) 0 0/36px 36px,linear-gradient(90deg,rgba(150,110,30,.1) 1px,transparent 1px) 0 0/36px 36px,linear-gradient(135deg,#ecd391,#d8b45c 48%,#ebd08c);
+  --board-pad:9px; --board-bd:3px solid #1b120a; --board-sh:0 10px 24px -12px rgba(40,28,8,.6); color-scheme:light;
+}
+[data-look="giga"]{
+  --home-veil:.55; --bg:#f0eadb; --panel:rgba(250,246,236,.93); --panel-solid:#f8f3e6; --line:rgba(38,33,28,.18); --line-2:rgba(38,33,28,.42);
+  --text:#26211c; --muted:#574f45; --faint:#6b6358; --accent:#2b2620; --accent-ink:#f8f3e6; --shu:#b23a2a; --moss:#6b7a4a; --gold:#a8916a;
+  --back:#d9cdb2; --back-line:rgba(38,33,28,.6); --stone:#7b746a; --stone-2:#a39b8e; --unlit:#e5dccb; --scrim:rgba(38,33,28,.42); --chip:rgba(38,33,28,.05);
+  --f-jp:"Yuji Boku","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --w-jp:400; --w-head:700; --btn-radius:3px 8px 4px 9px; --btn-bw:1.5px; --btn-shadow:none; --panel-radius:4px 10px 6px 12px; --panel-bw:1.5px; --panel-shadow:none;
+  --blur:0px; --board-bg:rgba(248,243,230,.94); --board-pad:9px; --board-bd:1.5px solid rgba(38,33,28,.55); --board-sh:0 8px 18px -12px rgba(38,33,28,.5); color-scheme:light;
+}
+[data-look="taisho"]{
+  --home-veil:.74; --bg:#efe2c8; --panel:rgba(252,246,233,.95); --panel-solid:#fbf4e4; --line:rgba(96,28,44,.2); --line-2:rgba(96,28,44,.4);
+  --text:#2c1b1e; --muted:#5b4645; --faint:#6e5a56; --accent:#7a2236; --accent-ink:#fbf4e4; --shu:#b8392a; --moss:#2e6a69; --gold:#c4923a;
+  --back:#7a2236; --back-line:rgba(226,180,83,.8); --stone:#8a6a5a; --stone-2:#a98a78; --unlit:#e6d6b8; --scrim:rgba(44,27,30,.45); --chip:rgba(96,28,44,.05);
+  --f-jp:"Shippori Antique B1","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --w-jp:400; --w-head:700; --btn-radius:999px; --btn-bw:1.5px; --btn-shadow:0 2px 0 rgba(96,28,44,.25); --panel-radius:0; --panel-bw:1px; --panel-shadow:inset 0 0 0 3px #fbf4e4,inset 0 0 0 4px rgba(122,34,54,.45);
+  --blur:0px; --board-bg:radial-gradient(circle at 50% 0,rgba(226,180,83,.18),transparent 60%),#fbf4e4; --board-pad:9px; --board-bd:3px double #7a2236; --board-sh:0 10px 22px -12px rgba(44,27,30,.5); color-scheme:light;
+}
+[data-look="pixel"]{
+  --bg:#140f2b; --panel:rgba(28,20,60,.94); --panel-solid:#1c143c; --line:rgba(62,230,255,.35); --line-2:#3ee6ff;
+  --text:#f4f1ff; --muted:#cfc7f2; --faint:#a59dd0; --accent:#ff4f9a; --accent-ink:#140f2b; --shu:#ff5d6c; --moss:#5cf28a; --gold:#ffd23f;
+  --back:#2a1e5c; --back-line:#3ee6ff; --stone:#3a2f73; --stone-2:#2a2257; --unlit:#241a4d; --scrim:rgba(6,4,18,.75); --chip:rgba(62,230,255,.06);
+  --f-jp:"DotGothic16","Fusion Pixel",monospace; --f-head:"Fusion Pixel","DotGothic16","Noto Sans SC",sans-serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
+  --w-jp:400; --w-head:400; --btn-radius:0; --btn-bw:3px; --btn-shadow:4px 4px 0 #000; --panel-radius:0; --panel-bw:3px; --panel-shadow:4px 4px 0 rgba(0,0,0,.55);
+  --blur:0px; --board-bg:linear-gradient(rgba(62,230,255,.07) 1px,transparent 1px) 0 0/16px 16px,linear-gradient(90deg,rgba(62,230,255,.07) 1px,transparent 1px) 0 0/16px 16px,#0d0922;
+  --board-pad:9px; --board-bd:3px solid #3ee6ff; --board-sh:0 0 0 3px #140f2b,0 0 28px rgba(62,230,255,.35); color-scheme:dark;
 }
 :root{--season:#e08a45}
 [hidden]{display:none!important}
@@ -585,6 +628,11 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .niwa-screen{--frame:linear-gradient(#c99a3a,#8a6420);display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:3px;padding:5px;background:var(--frame);border-radius:3px;box-shadow:0 6px 16px -8px rgba(0,0,0,.45)}
 :root[data-look="manga"] .niwa-screen{--frame:#111}
 :root[data-look="matsuri"] .niwa-screen{--frame:linear-gradient(#2a1a12,#120a06)}
+:root[data-look="tsuki"] .niwa-screen{--frame:linear-gradient(#cfcab9,#7d7f8f)}
+:root[data-look="rinpa"] .niwa-screen{--frame:linear-gradient(#2a1d12,#0e0904)}
+:root[data-look="giga"] .niwa-screen{--frame:#4a3c2c}
+:root[data-look="taisho"] .niwa-screen{--frame:linear-gradient(#7a2236,#4a1422)}
+:root[data-look="pixel"] .niwa-screen{--frame:#3ee6ff}
 .np{position:relative;display:grid;padding:0;border:0;background:#f1e8d4;cursor:pointer;text-align:left;border-radius:1px}
 .np-art{position:relative;display:block;aspect-ratio:1/2.4;overflow:hidden;background:linear-gradient(160deg,#f6efe0,#ece1c9)}
 .np-art img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(.85) sepia(.15) opacity(.6);
@@ -624,6 +672,116 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .poster-view img{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 .poster-tip,.poster-msg{margin:4px 0 0;font-size:12px;color:var(--muted);text-align:center}
 .poster-msg:empty{display:none}
+/* ---------- 月白风清: a hanging scroll of Yoshitoshi's moon; the gardens are a waxing moon ---------- */
+.hv-tsuki .ts-head{text-align:center;display:grid;gap:4px}
+.hv-tsuki .ts-head h1{margin:0;font-family:var(--f-jp);font-weight:400;font-size:40px;letter-spacing:.3em;text-indent:.3em}
+.hv-tsuki .ts-head p{margin:0;font-family:var(--f-jp);font-size:13px;color:var(--muted);letter-spacing:.12em}
+.hv-tsuki .ts-scroll{justify-self:center;align-self:center;width:min(70vw,270px);padding:0;border:0;background:none;display:grid;cursor:pointer;color:inherit}
+.hv-tsuki .ts-rod{display:block;height:12px;margin:0 -12px;border-radius:6px;background:linear-gradient(#6a543c,#2a1d12);box-shadow:0 2px 4px rgba(0,0,0,.5)}
+.hv-tsuki .ts-silk{display:block;padding:18px 14px 28px;background:linear-gradient(90deg,#33302a,#4f4636 8%,#463e30 92%,#33302a);box-shadow:0 22px 44px -18px rgba(0,0,0,.85)}
+.hv-tsuki .ts-silk img{display:block;width:100%;height:auto;box-shadow:0 0 0 1px rgba(236,230,207,.25)}
+.hv-tsuki .ts-cap{display:grid;justify-items:center;gap:2px;margin-top:14px}
+.hv-tsuki .ts-cap b{font-family:var(--f-jp);font-size:26px;font-weight:400;letter-spacing:.2em;text-indent:.2em}
+.hv-tsuki .ts-cap small{font-size:12px;color:var(--muted)}
+.hv-tsuki .ts-cap em{font-style:normal;margin-top:6px;padding:4px 20px;border:1px solid var(--accent);color:var(--accent);font-size:13px;letter-spacing:.3em}
+.hv-tsuki .ts-phases{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 6px}
+.hv-tsuki .ts-moon{display:grid;justify-items:center;gap:3px;min-height:96px;padding:6px 2px;border:0;background:none;cursor:pointer;color:var(--text)}
+.hv-tsuki .ts-moon .ph{width:46px;height:46px;border-radius:50%;background:#1f2747;box-shadow:inset var(--k) 0 0 0 #3a4366;transition:box-shadow .4s}
+.hv-tsuki .ts-moon.done .ph,.hv-tsuki .ts-moon.next .ph{box-shadow:inset var(--k) 0 0 0 #ece6cf,0 0 18px -4px rgba(236,230,207,.55)}
+.hv-tsuki .ts-moon .jp{font-size:16px}
+.hv-tsuki .ts-moon small{font-size:11px;color:var(--muted)}
+.hv-tsuki .ts-moon.next .jp{color:var(--accent)}
+.hv-tsuki .ts-moon.st-lock{opacity:.5;cursor:default}
+.hv-tsuki .ts-hk{text-align:center}
+/* ---------- 金碧琳琅: a gold folding screen and shikishi squares ---------- */
+.hv-rinpa .rp-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-bottom:2px solid #1b120a;padding-bottom:6px}
+.hv-rinpa .rp-head h1{margin:0;font-family:var(--f-jp);font-size:34px;letter-spacing:.12em;color:#1d4b86;white-space:nowrap}
+.hv-rinpa .rp-head span{font-family:var(--f-jp);font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.hv-rinpa .rp-screen{display:block;padding:8px;border:0;background:#1b120a;box-shadow:0 14px 28px -14px rgba(40,28,8,.7);cursor:pointer}
+.hv-rinpa .rp-panels{position:relative;display:block}
+.hv-rinpa .rp-panels img{display:block;width:100%;height:auto}
+.hv-rinpa .rp-folds{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 16.666%,rgba(0,0,0,.09) 16.666% 33.333%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.4)}
+.hv-rinpa .rp-plaque{display:grid;justify-items:center;gap:2px;padding:12px 16px;border:1px solid #1b120a;background:#faf3e0;cursor:pointer;box-shadow:inset 0 0 0 3px #faf3e0,inset 0 0 0 4px #b8913e}
+.hv-rinpa .rp-plaque b{font-family:var(--f-jp);font-size:28px;color:#1d4b86;letter-spacing:.2em;text-indent:.2em}
+.hv-rinpa .rp-plaque small{font-size:12px;color:var(--muted)}
+.hv-rinpa .rp-plaque em{font-style:normal;margin-top:4px;padding:4px 22px;background:#1d4b86;color:#fbf3dc;font-size:13px;letter-spacing:.3em}
+.hv-rinpa .rp-shikishi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.hv-rinpa .rp-tile{position:relative;aspect-ratio:1;display:grid;align-content:end;justify-items:start;padding:8px 7px;border:1px solid rgba(70,52,18,.3);cursor:pointer;text-align:left;overflow:hidden;
+  background:radial-gradient(circle at 80% 15%,rgba(255,255,255,.5),transparent 40%),linear-gradient(135deg,#efd795,#d9b45a 55%,#e9cd86);box-shadow:0 6px 12px -8px rgba(40,28,8,.6)}
+.hv-rinpa .rp-tile::before{content:"";position:absolute;left:0;right:0;top:0;height:22%;background:var(--season);opacity:.85}
+.hv-rinpa .rp-k{position:absolute;top:1px;right:6px;font-family:var(--f-jp);color:#faf3e0;font-size:13px}
+.hv-rinpa .rp-tile .jp{font-size:17px;color:#1b2a18;line-height:1.2}
+.hv-rinpa .rp-tile small{font-size:10px;color:#4a4330;line-height:1.3}
+.hv-rinpa .rp-tile.st-lock{filter:grayscale(.85);opacity:.6;cursor:default}
+.hv-rinpa .rp-tile.next{outline:2px solid #1d4b86;outline-offset:2px}
+.hv-rinpa .rp-hk{text-align:center}
+/* ---------- 墨戏山野: the animals' handscroll, read right to left ---------- */
+.hv-giga .gg-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.hv-giga .gg-head h1{margin:0;font-family:var(--f-jp);font-size:42px;font-weight:400;letter-spacing:.06em}
+.hv-giga .gg-seal{display:grid;place-items:center;width:40px;height:40px;flex:none;border:2px solid #b23a2a;color:#b23a2a;font-family:var(--f-jp);font-size:20px;border-radius:4px;transform:rotate(-4deg)}
+.hv-giga .gg-hero{display:block;padding:0;border:0;background:none;cursor:pointer;text-align:left;color:inherit}
+.hv-giga .gg-hero img{display:block;width:100%;height:auto;border-radius:3px;box-shadow:0 10px 24px -14px rgba(38,33,28,.6)}
+.hv-giga .gg-cap{display:grid;gap:2px;margin-top:10px}
+.hv-giga .gg-cap b{font-family:var(--f-jp);font-size:30px;font-weight:400}
+.hv-giga .gg-cap small{font-size:12px;color:var(--muted)}
+.hv-giga .gg-cap em{justify-self:start;font-style:normal;margin-top:4px;padding:4px 18px;border:1.5px solid var(--text);border-radius:3px 8px 4px 9px;font-size:13px}
+.hv-giga .gg-roll h2{margin:0 0 6px;font-family:var(--f-head);font-size:17px;display:flex;gap:8px;align-items:baseline}
+.hv-giga .gg-roll h2 small{font-size:12px;color:var(--muted);font-weight:400}
+.hv-giga .gg-scroll{overflow-x:auto;overflow-y:hidden;border-block:6px solid #6b5a44;background:#efe7d6;overscroll-behavior-x:contain;scrollbar-width:thin}
+.hv-giga .gg-track{position:relative;height:200px;width:calc(200px * 7394 / 240);background:url(art/giga-scroll.webp) 0 0/100% 100% no-repeat}
+.hv-giga .gg-stop{position:absolute;top:8px;left:var(--x);transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:8px 5px;border:1.5px solid #b23a2a;background:rgba(248,243,230,.92);color:#b23a2a;cursor:pointer;writing-mode:vertical-rl;font-family:var(--f-jp)}
+.hv-giga .gg-stop .jp{font-size:19px;color:#26211c}
+.hv-giga .gg-stop .gg-no{font-size:12px}
+.hv-giga .gg-stop small{font-size:11px;color:var(--muted);font-family:var(--f-body)}
+.hv-giga .gg-stop.st-lock{border-style:dashed;border-color:#8a8278;color:#8a8278;opacity:.8;cursor:default}
+.hv-giga .gg-stop.done{background:#b23a2a}
+.hv-giga .gg-stop.done span,.hv-giga .gg-stop.done small{color:#fbf3e6}
+.hv-giga .gg-stop.next{box-shadow:0 0 0 4px rgba(178,58,42,.25)}
+.hv-giga .gg-hk{text-align:left}
+/* ---------- 洋灯旧梦: a café wall with a Yumeji cover, the gardens on the menu ---------- */
+.hv-taisho .tsh-sign{position:relative;text-align:center;display:grid;gap:2px;padding:14px 10px 12px;background:#7a2236;color:#fbf4e4;box-shadow:inset 0 0 0 3px #7a2236,inset 0 0 0 5px #e2b453}
+.hv-taisho .tsh-sign h1{margin:0;font-family:var(--f-jp);font-size:38px;font-weight:400;letter-spacing:.18em;text-indent:.18em}
+.hv-taisho .tsh-sign small{font-size:12px;letter-spacing:.4em;text-indent:.4em;color:#e2b453}
+.hv-taisho .tsh-lamp{position:absolute;top:-36px;left:50%;width:180px;height:110px;transform:translateX(-50%);background:radial-gradient(circle at 50% 70%,rgba(255,214,140,.5),transparent 65%);pointer-events:none}
+.hv-taisho .tsh-frame{align-self:center;justify-self:center;width:min(72vw,290px);padding:12px;border:0;background:linear-gradient(135deg,#d8aa52,#8a6420 50%,#d8aa52);box-shadow:0 16px 30px -14px rgba(44,27,30,.7);cursor:pointer}
+.hv-taisho .tsh-frame img{display:block;width:100%;height:auto;box-shadow:0 0 0 4px #fbf4e4}
+.hv-taisho .tsh-ticket{display:grid;justify-items:center;gap:2px;padding:12px 16px;border:0;border-radius:999px;background:#2e6a69;color:#fbf4e4;cursor:pointer}
+.hv-taisho .tsh-ticket small{font-size:11px;letter-spacing:.3em;color:#e2b453}
+.hv-taisho .tsh-ticket b{font-family:var(--f-jp);font-weight:400;font-size:22px}
+.hv-taisho .tsh-ticket span{font-size:12px;opacity:.9}
+.hv-taisho .tsh-ticket em{font-style:normal;font-size:12px;letter-spacing:.3em;margin-top:2px;padding-top:2px;border-top:1px dashed rgba(251,244,228,.5)}
+.hv-taisho .tsh-menu{display:grid;padding:18px 20px;background:#fbf4e4;box-shadow:inset 0 0 0 3px #fbf4e4,inset 0 0 0 4px #7a2236,inset 0 0 0 7px #fbf4e4,inset 0 0 0 8px #7a2236}
+.hv-taisho .tsh-menu h2{margin:0 0 6px;display:grid;justify-items:center;font-family:var(--f-head);font-size:13px;letter-spacing:.4em;text-indent:.4em;color:#7a2236}
+.hv-taisho .tsh-menu h2 span{font-family:var(--f-jp);font-size:28px;letter-spacing:.12em;font-style:italic}
+.hv-taisho .tsh-menu button{display:grid;grid-template-columns:auto auto 1fr auto;align-items:baseline;gap:8px;min-height:44px;padding:6px 2px;border:0;border-bottom:1px dotted rgba(96,28,44,.3);background:none;cursor:pointer;text-align:left}
+.hv-taisho .tsh-menu .jp{font-size:19px}
+.hv-taisho .tsh-menu small{font-size:11px;color:var(--muted)}
+.hv-taisho .tsh-menu i{border-bottom:2px dotted rgba(96,28,44,.35);align-self:center}
+.hv-taisho .tsh-menu .pr{font-size:12px;color:#7a2236;min-width:40px;text-align:right}
+.hv-taisho .tsh-menu .st-lock{opacity:.55;cursor:default}
+.hv-taisho .tsh-menu .next .jp{color:#7a2236}
+.hv-taisho .tsh-hk{margin:12px 0 0;text-align:center;font-family:var(--f-jp);font-size:14px;line-height:1.7}
+.hv-taisho .tsh-hk small{font-family:var(--f-body);color:var(--muted);font-size:12px}
+/* ---------- 电光游园: an arcade title screen and a stage map ---------- */
+.hv-pixel .px-title{text-align:center;padding:10px 0 4px}
+.hv-pixel .px-title h1{margin:0;font-family:"Fusion Pixel","DotGothic16",monospace;font-weight:400;font-size:48px;line-height:1.1;color:#ffd23f;letter-spacing:.06em;text-shadow:3px 0 0 #ff4f9a,-3px 0 0 #3ee6ff,0 4px 0 #000}
+.hv-pixel .px-title p{margin:8px 0 0;font-family:"Fusion Pixel",monospace;font-size:12px;letter-spacing:.2em;color:#3ee6ff}
+.hv-pixel .px-start{display:grid;justify-items:center;gap:6px;padding:14px;border:3px solid #ffd23f;background:#1c143c;color:#ffd23f;font-family:"Fusion Pixel","DotGothic16",monospace;font-size:24px;letter-spacing:.12em;box-shadow:6px 6px 0 #000;cursor:pointer}
+.hv-pixel .px-start small{font-size:12px;color:#f4f1ff;letter-spacing:.04em}
+.hv-pixel .px-start .blink{animation:px-blink 1s steps(1) infinite}
+@keyframes px-blink{50%{opacity:0}}
+.hv-pixel .px-map{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.hv-pixel .px-stage{display:grid;justify-items:center;gap:4px;padding:10px 2px;border:3px solid #3ee6ff;background:#1c143c;color:#f4f1ff;box-shadow:4px 4px 0 #000;cursor:pointer;font-family:"Fusion Pixel","DotGothic16",monospace}
+.hv-pixel .px-stage .px-n{font-size:12px;color:#3ee6ff}
+.hv-pixel .px-stage .jp{font-family:"DotGothic16",monospace;font-size:18px}
+.hv-pixel .px-stage .px-stars{font-size:12px;color:#ffd23f;letter-spacing:.1em}
+.hv-pixel .px-stage.st-lock{border-color:#3a2f73;color:#8a82bd;cursor:default}
+.hv-pixel .px-stage.st-lock .px-stars,.hv-pixel .px-stage.st-lock .px-n{color:#8a82bd}
+.hv-pixel .px-stage.next{border-color:#ff4f9a;animation:px-pulse 1.2s steps(2) infinite}
+@keyframes px-pulse{50%{box-shadow:4px 4px 0 #000,0 0 0 3px #ff4f9a}}
+.hv-pixel .px-coin{margin:0;text-align:center;font-family:"Fusion Pixel",monospace;font-size:12px;color:#a59dd0;letter-spacing:.2em}
+.hv-pixel .px-hk{text-align:center}
+:root[data-look="pixel"] .sheet-head h2,:root[data-look="pixel"] .set-group h3{font-weight:400}
 /* ---------- screen transitions: each look enters its own way (backwards fill, so nothing lingers afterwards) ---------- */
 .screen.enter{animation:enter-rise .42s cubic-bezier(.2,.7,.25,1) backwards}
 :root[data-look="washi"] .screen.enter,:root[data-look="techo"] .screen.enter{animation:enter-page .62s cubic-bezier(.2,.7,.2,1) backwards;transform-origin:0 50%}
@@ -631,6 +789,16 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 :root[data-look="kare"] .screen.enter{animation:enter-fade 1s ease backwards}
 :root[data-look="matsuri"] .screen.enter{animation:enter-lantern .6s ease-out backwards}
 :root[data-look="youth"] .screen.enter{animation:enter-bounce .5s cubic-bezier(.3,1.4,.5,1) backwards}
+:root[data-look="tsuki"] .screen.enter{animation:enter-moonrise 1s ease backwards}
+:root[data-look="rinpa"] .screen.enter{animation:enter-unfold .6s cubic-bezier(.3,.7,.2,1) backwards}
+:root[data-look="giga"] .screen.enter{animation:enter-unroll .75s cubic-bezier(.4,.1,.3,1) backwards}
+:root[data-look="taisho"] .screen.enter{animation:enter-iris .7s ease-out backwards}
+:root[data-look="pixel"] .screen.enter{animation:enter-pixel .4s steps(4) backwards}
+@keyframes enter-moonrise{from{opacity:0;transform:translateY(-10px)}}
+@keyframes enter-unfold{from{clip-path:inset(0 50% 0 50%)}to{clip-path:inset(0 0 0 0)}}
+@keyframes enter-unroll{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0 0 0 0)}}
+@keyframes enter-iris{from{clip-path:circle(0% at 50% 40%)}to{clip-path:circle(140% at 50% 40%)}}
+@keyframes enter-pixel{from{opacity:0;transform:scale(1.06)}}
 @keyframes enter-rise{from{opacity:0;transform:translateY(16px)}}
 @keyframes enter-fade{from{opacity:0}}
 @keyframes enter-page{from{opacity:0;transform:perspective(1600px) rotateY(-12deg)}}
@@ -686,7 +854,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 @media (max-height:640px){ .stat{padding:5px 10px 6px} .stat .val b{font-size:24px} .btn{min-height:46px} }
 @media (prefers-reduced-motion:reduce){
   .card .inner{transition:none}
-  .deck.dealing .card,.card.pop .inner,.modal-card,.float,#board.aura,.hv-matsuri .mt-l,.btn.coach-btn{animation:none}
+  .deck.dealing .card,.card.pop .inner,.modal-card,.float,#board.aura,.hv-matsuri .mt-l,.btn.coach-btn,.hv-pixel .px-start .blink,.hv-pixel .px-stage.next{animation:none}
   .stamp-fx .seal,.stamp-fx small{animation-duration:.01s;animation-delay:1.6s}
   .toast,.rail i,.mbar i{transition:none}
   .hint.marquee #hintText{animation:none}
@@ -950,9 +1118,14 @@ const THEMES = {
   washi: {name: '京都和纸', jp: '和紙', line: '一册文库本，封面是雪佳的四季，朱印只落一枚。', deck: 'ink', light: true, homeScene: false, fx: {k: .55}},
   kare: {name: '砂纹石庭', jp: '枯山水', line: '砂纹如水，石上生苔，风从耙痕间走过。', deck: 'sumi', light: true, homeScene: false, fx: {k: .4}},
   matsuri: {name: '灯火夜祭', jp: '夜祭り', line: '广重的烟花照着夜色，灯笼一串串亮起。', deck: 'shu', light: false, homeScene: false, homeArt: 'art/matsuri-fireworks.jpg', fx: {k: .7}},
-  techo: {name: '旅行手账', jp: '旅の手帳', line: '纸页、邮戳、纸胶带，北斋的草花夹在页间。', deck: 'kirie', light: true, homeScene: false, fx: {k: .7, colors: ['#e8b4b8', '#a8c3a0', '#a9c6e0', '#f2d18b']}}
+  techo: {name: '旅行手账', jp: '旅の手帳', line: '纸页、邮戳、纸胶带，北斋的草花夹在页间。', deck: 'kirie', light: true, homeScene: false, fx: {k: .7, colors: ['#e8b4b8', '#a8c3a0', '#a9c6e0', '#f2d18b']}},
+  tsuki: {name: '月白风清', jp: '月夜', line: '芳年的月挂在卷轴上，八处庭院是一轮渐满的月。', deck: 'classic', light: false, homeScene: true, fx: {k: .45, colors: ['rgba(236,230,207,.8)', 'rgba(217,199,143,.7)']}},
+  rinpa: {name: '金碧琳琅', jp: '琳派', line: '光琳与抱一的金屏风，群青、绿青落在金箔上。', deck: 'classic', light: true, homeScene: true, fx: {k: .6, colors: ['#e9c46a', '#2c7563', '#1d4b86', '#f6efe0']}},
+  giga: {name: '墨戏山野', jp: '戯画', line: '兔与蛙在绘卷里嬉闹，墨线一路展开到庭院。', deck: 'ink', light: true, homeScene: true, fx: {k: .5, colors: ['rgba(38,33,28,.55)', 'rgba(107,122,74,.55)', 'rgba(178,58,42,.5)']}},
+  taisho: {name: '洋灯旧梦', jp: '浪漫', line: '梦二的乐谱封面挂在墙上，庭院写进咖啡馆的菜单。', deck: 'shu', light: true, homeScene: true, fx: {k: .55, colors: ['#7a2236', '#2e6a69', '#e2b453', '#e8a0a8']}},
+  pixel: {name: '电光游园', jp: 'ドット', line: '霓虹与像素的夜间游园，八处庭院是八个关卡。', deck: 'kirie', light: false, homeScene: true, fx: {k: .6, colors: ['#ff4f9a', '#3ee6ff', '#ffd23f']}}
 };
-const THEME_GROUPS = [['传统和风', ['ukiyo', 'washi', 'kare']], ['节令生活', ['matsuri', 'techo']], ['动画漫画', ['youth', 'manga']]];
+const THEME_GROUPS = [['传统和风', ['ukiyo', 'washi', 'kare']], ['古画新游', ['tsuki', 'rinpa', 'giga']], ['节令生活', ['matsuri', 'techo']], ['摩登时光', ['taisho', 'manga', 'youth', 'pixel']]];
 // Public-domain art used on the home pages (Art Institute of Chicago open access, CC0) plus a CC0 paper texture from ambientCG.
 const WASHI_COVERS = [['spring', '梅与诗笺'], ['summer', '紫阳花'], ['autumn', '武藏野之月'], ['winter', '冬之川']];
 // 歌川广重《名所江户百景》, one per season, chosen to echo that season's gardens (梅 → 初音, 夕立, 月見, 除夜の雪).
@@ -961,6 +1134,13 @@ const UKIYO_PRINTS = [['spring', '龟户梅屋敷', 1857, '亀戸梅屋舗'], ['
 const HOME_BG = {
   ukiyo: c => `art/ukiyo-${UKIYO_PRINTS[c.tgt.s][0]}.jpg`, matsuri: () => 'art/matsuri-fireworks.jpg'
 };
+// Public-domain art for the five newer looks (via Wikimedia Commons; Rinpa screens partly from The Met, CC0).
+const TSUKI_PRINTS = ['忍冈之月', '云居之月', '原野之月', '浅野川雪月'];
+const ART_SIZE = {tsuki: [[512, 723], [623, 900], [417, 600], [509, 721]], rinpa: [[1500, 708], [1500, 684], [1280, 565], [1500, 668]], taisho: [[676, 900], [655, 900], [653, 900], [668, 900]]};
+const artDim = (look, si) => { const [w, h] = ART_SIZE[look][si]; return `width="${w}" height="${h}"`; };
+const RINPA_SCREENS = [['樱枫图', '酒井抱一', '1820 年代', '大都会艺术博物馆开放馆藏（CC0）'], ['八桥图', '尾形光琳', '1709 年后', '大都会艺术博物馆开放馆藏（CC0）'],
+  ['夏秋溪流图 · 左扇', '铃木其一', '19 世纪', '公有领域，图像来自 Wikimedia Commons'], ['红白梅图', '尾形光琳', '18 世纪', '公有领域，图像来自 Wikimedia Commons']];
+const TAISHO_COVERS = [['桜町', 1924], ['羽衣', 1924], ['月光', 1917], ['Old Refrain', 1924]];
 const calendarSeason = () => { const m = new Date().getMonth() + 1; return m >= 3 && m <= 5 ? 0 : m >= 6 && m <= 8 ? 1 : m >= 9 && m <= 11 ? 2 : 3; };
 const previewMs = (cards, k) => Math.round((2200 + cards * 130) * k);
 const peekMs = cards => 1500 + cards * 50;
@@ -1031,7 +1211,7 @@ const art = (m, skin) => `<img src="${cardSrc(m, skin)}" alt="" draggable="false
 const warmed = {};
 function warmDeck() {
   const k = save.skin; if (warmed[k]) return; warmed[k] = true;
-  const run = () => { preloadArt(MOTIFS.map(m => m.id)); Object.keys(BACK_KATAGAMI).forEach(k => { const im = new Image(); im.src = backSrc(k); }); };
+  const run = () => { preloadArt(MOTIFS.map(m => m.id)); Object.keys(BACK_KATAGAMI).forEach(k => { const im = new Image(); im.src = backSrc(k); }); };   // the pixel back is inline
   if ('requestIdleCallback' in window) requestIdleCallback(run, {timeout: 4000}); else setTimeout(run, 1500);
 }
 function preloadArt(ids) { return Promise.all(ids.map(id => new Promise(res => { const im = new Image(); im.onload = im.onerror = res; im.src = cardSrc(BY_ID[id]); }))); }
@@ -1045,11 +1225,25 @@ const BACK_KATAGAMI = {
   matsuri: {cloth: '#f2b13a', met: 69138, name: '菊菱に紗綾形', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="2" fill="none" stroke="#f4ead2" stroke-opacity=".8" stroke-width=".7"/>'},
   techo: {cloth: '#fff6e6', met: 69145, name: '梅散らし', frame: '<rect x="3" y="3" width="44" height="74" rx="2" fill="none" stroke="#fffdf8" stroke-opacity=".9" stroke-width=".7" stroke-dasharray="2 1.6"/>'},
   youth: {cloth: '#f2b134', met: 69107, name: '梅', frame: '<rect x="1.6" y="1.6" width="46.8" height="76.8" rx="3" fill="none" stroke="#222" stroke-width="2.2"/>'},
-  manga: {cloth: '#ffffff', met: 69114, name: '矢筈', frame: '<rect x="2.4" y="2.4" width="45.2" height="75.2" fill="none" stroke="#fff" stroke-width="1"/><rect x="3.6" y="3.6" width="42.8" height="72.8" fill="none" stroke="#111" stroke-width=".6"/>'}
+  manga: {cloth: '#ffffff', met: 69114, name: '矢筈', frame: '<rect x="2.4" y="2.4" width="45.2" height="75.2" fill="none" stroke="#fff" stroke-width="1"/><rect x="3.6" y="3.6" width="42.8" height="72.8" fill="none" stroke="#111" stroke-width=".6"/>'},
+  tsuki: {cloth: '#d9d4c4', met: 69147, name: '草花', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="1" fill="none" stroke="#d9c78f" stroke-opacity=".8" stroke-width=".6"/>'},
+  rinpa: {cloth: '#d8b65e', met: 65305, name: '紗綾形', frame: '<rect x="1.2" y="1.2" width="47.6" height="77.6" fill="none" stroke="#1b120a" stroke-width="2.4"/><rect x="3.6" y="3.6" width="42.8" height="72.8" fill="none" stroke="#e9cf86" stroke-width=".6"/>'},
+  taisho: {cloth: '#e2b453', met: 69143, name: '八角繋ぎ', frame: '<rect x="2.4" y="2.4" width="45.2" height="75.2" fill="none" stroke="#e2b453" stroke-width=".9"/><rect x="4" y="4" width="42" height="72" fill="none" stroke="#e2b453" stroke-width=".4"/>'},
+  giga: {cloth: '#efe4cc', link: 'https://commons.wikimedia.org/wiki/File:Chouju_sumo2.jpg', name: '戯画の蛙', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="1.5" fill="none" stroke="#26211c" stroke-opacity=".7" stroke-width=".8"/>'}
 };
 const backSrc = look => `backs/${look}.webp`;
 const BACKS = Object.fromEntries(Object.entries(BACK_KATAGAMI).map(([k, b]) => [k,
   `<rect width="50" height="80" fill="${b.cloth}"/><image href="${backSrc(k)}" x="0" y="0" width="50" height="80" preserveAspectRatio="xMidYMid slice"/>${b.frame}`]));
+// 电光游园 has a pixel-art back drawn here: a blossom on a dark field, framed in neon.
+BACKS.pixel = (() => {
+  const u = 2.5, px = (x, y, c, o = 1) => `<rect x="${x * u}" y="${y * u}" width="${u}" height="${u}" fill="${c}"${o < 1 ? ` opacity="${o}"` : ''}/>`;
+  const art = ['....#.#....', '...##.##...', '.#.#####.#.', '.#########.', '..##@@@##..', '###@@@@@###', '..##@@@##..', '.#########.', '.#.#####.#.', '...##.##...', '....#.#....'];
+  let out = `<rect width="50" height="80" fill="#1c143c"/>`;
+  for (let y = 0; y < 32; y++) for (let x = 0; x < 20; x++) if ((x + y) % 4 === 0) out += px(x, y, '#3a2f73', .7);
+  art.forEach((row, y) => [...row].forEach((ch, x) => { if (ch !== '.') out += px(x + 4.5, y + 10.5, ch === '@' ? '#ffd23f' : '#ff4f9a'); }));
+  for (const [x, y] of [[3, 3], [16, 4], [4, 27], [15, 28]]) out += px(x, y, '#3ee6ff');
+  return `<g shape-rendering="crispEdges">${out}<rect x="1.25" y="1.25" width="47.5" height="77.5" fill="none" stroke="#3ee6ff" stroke-width="2.5"/></g>`;
+})();
 const cardBack = (look = save.look) => `<svg viewBox="0 0 50 80" aria-hidden="true" preserveAspectRatio="xMidYMid slice">${BACKS[look] || BACKS.ukiyo}</svg>`;
 const flowerIcon = on => `<svg viewBox="0 0 20 20" aria-hidden="true">${blossom(10, 10, 9, on ? 'var(--accent)' : 'var(--line-2)', on ? 'var(--shu)' : 'var(--line)')}</svg>`.replace(/fill="(var\([^)]+\))"/g, 'style="fill:$1"');
 const LANTERN_SVG = `<svg viewBox="0 0 44 64" aria-hidden="true"><path fill="currentColor" d="M5 18 L22 7 L39 18Z"/><rect fill="currentColor" x="19" y="2" width="6" height="6" rx="2"/><rect x="11" y="19" width="22" height="17" rx="2" fill="currentColor" opacity=".6"/><rect x="16" y="22" width="12" height="11" rx="1" fill="#f2c46a"/><rect fill="currentColor" x="9" y="36" width="26" height="4" rx="1"/><rect fill="currentColor" x="18" y="40" width="8" height="15"/><rect fill="currentColor" x="10" y="55" width="24" height="6" rx="2"/></svg>`;
@@ -1115,7 +1309,16 @@ const PAL = {
   kare: {sky: ['#efebe2', '#e7e2d6'], ink: '#3a3833', inkA: .72, flowerA: .7, moon: '#ffffff', ground: '#e4dfd2', line: '#cbc4b3', mist: '#ffffff', rain: '#8c8a84', snow: '#ffffff', stone: '#8d8a82', moss: '#6e7f4f'},
   matsuri: {sky: ['#0b1328', '#1d2b52'], ink: '#070d1d', inkA: .95, flowerA: .7, moon: '#f4ead2', ground: '#141d38', line: '#2a3658', mist: '#7a8bb0', rain: '#7a8bb0', snow: '#f4ead2'},
   techo: {sky: ['#fbf7ef', '#f7f1e4'], ink: '#5a4a3a', inkA: .55, flowerA: .8, moon: '#fffdf8', ground: '#efe6d6', line: '#e2d6c2', mist: '#ffffff', rain: '#a9c6e0', snow: '#ffffff', water: '#a9c6e0',
-    acc: {plum: '#e8a0a8', cherry: '#f2c4cc', maple: '#a8c3a0', pampas: '#e6cf9a', willow: '#a8c3a0'}}
+    acc: {plum: '#e8a0a8', cherry: '#f2c4cc', maple: '#a8c3a0', pampas: '#e6cf9a', willow: '#a8c3a0'}},
+  tsuki: {sky: ['#0b1124', '#1e2846'], ink: '#0a0f1e', inkA: .95, flowerA: .6, moon: '#ece6cf', ground: '#141b33', line: '#2a3458', mist: '#8e9bc0', rain: '#8e9bc0', snow: '#ece6cf', water: '#3a4a7a',
+    acc: {plum: '#c9a0b0', cherry: '#e6d4dc', maple: '#b0705a', pampas: '#d9c78f', willow: '#6f8a7a'}},
+  rinpa: {sky: ['#ead08a', '#d9b45a'], ink: '#1d4b86', inkA: .9, flowerA: 1, moon: '#fbf3dc', ground: '#2c7563', line: '#b8913e', mist: '#f3dc9a', rain: '#1d4b86', snow: '#fbf3dc', water: '#1d4b86',
+    acc: {plum: '#c8402a', cherry: '#f6efe0', maple: '#c8402a', pampas: '#f3e3b0', willow: '#2c7563'}},
+  giga: {sky: ['#f3eee2', '#ece4d2'], ink: '#26211c', inkA: .8, flowerA: .7, moon: '#fbf8f0', ground: '#e6dcc6', line: '#c9bda4', mist: '#ffffff', rain: '#6e665b', snow: '#ffffff', water: '#8a8278',
+    acc: {plum: '#a8584a', cherry: '#d8b4b0', maple: '#9a5a3a', pampas: '#b8a888', willow: '#6b7a4a'}},
+  taisho: {sky: ['#efe2c8', '#e8d6b4'], ink: '#2c1b1e', inkA: .85, flowerA: .95, moon: '#fbf4e4', ground: '#2e6a69', line: '#c4923a', mist: '#ffffff', rain: '#2e6a69', snow: '#ffffff', water: '#2e6a69',
+    acc: {plum: '#7a2236', cherry: '#e8a0a8', maple: '#c86a4a', pampas: '#e2b453', willow: '#2e6a69'}},
+  pixel: {sky: ['#140f2b', '#3a1458'], ink: '#0d0922', inkA: 1, flowerA: 1, moon: '#ffd23f', ground: '#0d0922', line: '#3ee6ff', mist: '#3ee6ff', rain: '#3ee6ff', snow: '#f4f1ff', water: '#3ee6ff'}
 };
 const P = {
   moon(p, cx, cy, r, phase) {
@@ -1320,6 +1523,49 @@ const PAINT = {
       + `<g transform="translate(320 300) rotate(-14)" fill="none" stroke="#c0675a" stroke-width="2.4" opacity=".7"><circle r="42"/><circle r="34"/>`
       + `<text y="-6" text-anchor="middle" font-size="16" font-family="Klee One, sans-serif" fill="#c0675a" stroke="none">${lv.name}</text><text y="14" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#c0675a" stroke="none">${new Date().getFullYear()}</text>`
       + `<path d="M48 -16 h60 M48 -6 q15 -6 30 0 t30 0 M48 4 h60 M48 14 q15 -6 30 0 t30 0"/></g>`;
+  },
+  tsuki(lv, p, rnd) {   // a moonlit night: a large moon, cloud bands drifting across it, a dark ridge with the garden's plants
+    const m = sceneMotifs(lv, p, rnd), top = [1, 5, 8].includes(lv.n) ? '' : m.top;
+    let stars = ''; for (let i = 0; i < 60; i++) stars += `<circle cx="${r2(rnd() * 400)}" cy="${r2(rnd() * 560)}" r="${r2(.4 + rnd() * .9)}" fill="#ece6cf" opacity="${r2(.2 + rnd() * .5)}"/>`;
+    const band = (x, y, w) => `<rect x="${x}" y="${y}" width="${w}" height="16" rx="8" fill="#26305a" opacity=".9"/><rect x="${x + 34}" y="${y + 22}" width="${r2(w * .6)}" height="9" rx="4.5" fill="#26305a" opacity=".65"/>`;
+    return sky(p) + stars + `<circle cx="292" cy="160" r="150" fill="url(#glow)" opacity=".3"/><circle cx="292" cy="160" r="80" fill="${p.moon}"/><circle cx="270" cy="146" r="12" fill="#d9d2b8" opacity=".5"/><circle cx="312" cy="182" r="8" fill="#d9d2b8" opacity=".45"/>`
+      + band(-40, 186, 260) + band(190, 250, 300) + band(-60, 540, 320) + `<g opacity=".5">${top}</g>`
+      + `<path d="M-20 690 L60 630 L130 660 L220 600 L300 650 L420 610 L420 800 L-20 800Z" fill="${p.ground}"/><g opacity=".75">${m.bottom}</g>`;
+  },
+  rinpa(lv, p, rnd) {   // gold leaf laid in squares, drifting gold clouds, Kōrin's swirling blue water below
+    const m = sceneMotifs(lv, p, rnd);
+    let leaf = ''; for (let y = 0; y < 800; y += 40) for (let x = (y / 40) % 2 ? -20 : 0; x < 400; x += 40) leaf += `<rect x="${x}" y="${y}" width="40" height="40" fill="${rnd() < .5 ? '#e6c878' : '#dcb862'}" stroke="#c9a24a" stroke-width=".6"/>`;
+    const cloud = (x, y, w) => `<path d="M${x} ${y} h${w} a14 14 0 0 1 0 28 h-${w} a14 14 0 0 1 0 -28Z" fill="#f3dc9a" opacity=".9"/>`;
+    let waves = ''; for (let i = 0; i < 9; i++) { const y = 660 + i * 16; waves += `<path d="M-20 ${y} Q40 ${y - 18} 100 ${y} T220 ${y} T340 ${y} T460 ${y}" fill="none" stroke="#f3e3b0" stroke-width="3" opacity=".85"/>`; }
+    return `<rect width="400" height="800" fill="#d9b45a"/>` + leaf + cloud(-30, 230, 200) + cloud(220, 300, 180) + m.top
+      + `<path d="M-20 640 Q100 600 200 640 T420 630 L420 800 L-20 800Z" fill="#1d4b86"/>` + waves + m.bottom + cloud(150, 600, 220);
+  },
+  giga(lv, p, rnd) {   // a handscroll: paper, a dry-brush ridge, and the frolicking animals along the bottom edge
+    const m = sceneMotifs(lv, p, rnd), h = 150, w = Math.round(7394 * h / 240), x = -Math.round((lv.n - 1) / 7 * (w - 400));
+    return sky(p) + `<rect width="400" height="800" filter="url(#fiber)" opacity=".55"/>`
+      + `<path d="M-20 230 Q60 180 140 220 T300 200 T420 220" fill="none" stroke="${p.ink}" stroke-width="3" stroke-linecap="round" opacity=".3"/><path d="M40 260 q50 -20 90 4" fill="none" stroke="${p.ink}" stroke-width="1.6" opacity=".3"/>`
+      + `<g opacity=".55">${m.top}</g><g opacity=".5">${m.bottom}</g>`
+      + `<image href="art/giga-scroll.webp" x="${x}" y="640" width="${w}" height="${h}" preserveAspectRatio="none" opacity=".9"/>`;
+  },
+  taisho(lv, p, rnd) {   // a café wall: an Art Deco sunburst, a stained-glass transom, striped wainscot
+    const m = sceneMotifs(lv, p, rnd), cols = ['#7a2236', '#2e6a69', '#e2b453', '#c86a4a', '#4a5a8a'];
+    let rays = ''; for (let i = 0; i < 24; i++) { const a0 = rad(180 + i * 7.5), a1 = rad(180 + (i + 1) * 7.5);
+      rays += `<path d="M200 330 L${r2(200 + Math.cos(a0) * 600)} ${r2(330 + Math.sin(a0) * 600)} L${r2(200 + Math.cos(a1) * 600)} ${r2(330 + Math.sin(a1) * 600)}Z" fill="${i % 2 ? '#f3e6cb' : '#e8d4ae'}"/>`; }
+    let glass = ''; for (let i = 0; i < 10; i++) glass += `<rect x="${i * 40}" y="0" width="40" height="70" fill="${cols[(i + lv.n) % 5]}" opacity=".78"/><path d="M${i * 40} 0 L${i * 40 + 40} 70 M${i * 40 + 40} 0 L${i * 40} 70" stroke="#2c1b1e" stroke-width="3"/>`;
+    let wains = ''; for (let i = 0; i < 20; i++) wains += `<rect x="${i * 20}" y="642" width="10" height="160" fill="#245655"/>`;
+    return `<rect width="400" height="800" fill="#efe2c8"/>` + rays + `<rect width="400" height="78" fill="#2c1b1e"/>` + glass + `<rect y="70" width="400" height="8" fill="#c4923a"/>`
+      + `<g opacity=".8">${m.top}</g><rect y="640" width="400" height="160" fill="#2e6a69"/>${wains}<rect y="634" width="400" height="8" fill="#c4923a"/><g opacity=".85">${m.bottom}</g>`;
+  },
+  pixel(lv, p, rnd) {   // a night arcade: pixel stars, a striped sunset sun, a neon grid floor, square petals
+    let stars = ''; for (let i = 0; i < 70; i++) { const z = rnd() < .2 ? 4 : 2; stars += `<rect x="${Math.floor(rnd() * 100) * 4}" y="${Math.floor(rnd() * 120) * 4}" width="${z}" height="${z}" fill="${['#f4f1ff', '#3ee6ff', '#ffd23f'][i % 3]}" opacity="${r2(.4 + rnd() * .6)}"/>`; }
+    let sun = '<clipPath id="sun"><circle cx="200" cy="560" r="120"/></clipPath><g clip-path="url(#sun)">';
+    for (let y = 440; y < 680; y += 12) sun += `<rect x="60" y="${y}" width="280" height="${y > 540 ? r2(12 - Math.min(8, (y - 540) / 14)) : 12}" fill="${y < 520 ? '#ffd23f' : y < 580 ? '#ff8a3d' : '#ff4f9a'}"/>`;
+    sun += '</g>';
+    let grid = ''; for (let i = -10; i <= 10; i++) grid += `<path d="M200 600 L${200 + i * 60} 800" stroke="#3ee6ff" stroke-width="2" opacity=".6"/>`;
+    for (let k = 0; k < 8; k++) grid += `<path d="M0 ${r2(600 + Math.pow(k / 8, 2) * 200)} H400" stroke="#3ee6ff" stroke-width="2" opacity="${r2(.25 + k * .07)}"/>`;
+    let pet = ''; for (let i = 0; i < 14; i++) { const x = Math.floor(rnd() * 95) * 4, y = Math.floor(rnd() * 140) * 4 + 8; pet += `<rect x="${x}" y="${y}" width="8" height="4" fill="#ff8fc0"/><rect x="${x + 2}" y="${y - 2}" width="4" height="8" fill="#ff8fc0"/>`; }
+    return `<g shape-rendering="crispEdges"><rect width="400" height="800" fill="#140f2b"/><linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#140f2b"/><stop offset=".7" stop-color="#3a1458"/><stop offset="1" stop-color="#7a1e6a"/></linearGradient>`
+      + `<rect width="400" height="600" fill="url(#dusk)"/>${stars}${sun}<rect y="600" width="400" height="200" fill="#0d0922"/>${grid}${pet}</g>`;
   }
 };
 const scopeIds = (svg, ns) => svg.replace(/id="([\w-]+)"/g, `id="$1-${ns}"`).replace(/url\(#([\w-]+)\)/g, `url(#$1-${ns})`);
@@ -1337,7 +1583,7 @@ function paintScene(lv, mode) {   // mode: 'game' | 'home' | 'none'
   const key = save.look + lv.n + mode;
   if (key === sceneKey) return;
   sceneKey = key;
-  $('#scene').innerHTML = mode === 'none' ? '' : sceneSVG(lv, save.look) + (mode === 'home' ? `<div style="position:absolute;inset:0;background:var(--bg);opacity:.42"></div>` : '<div class="game-veil"></div>');
+  $('#scene').innerHTML = mode === 'none' ? '' : sceneSVG(lv, save.look) + (mode === 'home' ? `<div style="position:absolute;inset:0;background:var(--bg);opacity:var(--home-veil,.42)"></div>` : '<div class="game-veil"></div>');
 }
 
 /* ================= sound =================
@@ -1363,13 +1609,19 @@ const SOUNDSCAPE = {
   matsuri: {lead: 'shinobue', name: '篠笛与太鼓', drum: true, win: 'fireworks', combo: 'taiko', step: [.22, .36], gap: [6, 9], notes: [4, 6]},
   techo: {lead: 'musicbox', name: '八音盒', page: true, combo: 'stamp', step: [.2, .32], gap: [6, 10], notes: [4, 7]},
   youth: {lead: 'pop', name: '轻快拨弦与拍手', clap: true, win: 'claps', step: [.16, .26], gap: [5, 8], notes: [4, 7]},
-  manga: {lead: 'toy', name: '玩具钢琴', combo: 'don', amb: 'crackle', step: [.24, .4], gap: [6, 10], notes: [3, 5]}
+  manga: {lead: 'toy', name: '玩具钢琴', combo: 'don', amb: 'crackle', step: [.24, .4], gap: [6, 10], notes: [3, 5]},
+  tsuki: {lead: 'biwa', name: '琵琶与虫声', win: 'bell', amb: 'wind', step: [.42, .75], gap: [8, 13], notes: [3, 4]},
+  rinpa: {lead: 'flute', name: '笙与龙笛', pad: true, win: 'bowl', step: [.42, .7], gap: [8, 12], notes: [3, 4]},
+  giga: {lead: 'shinobue', name: '笛与小鼓', tsuzumi: true, win: 'tsuzumi', combo: 'tsuzumi', step: [.2, .34], gap: [6, 10], notes: [3, 5]},
+  taisho: {lead: 'mandolin', name: '曼陀林与留声机', amb: 'crackle', step: [.3, .48], gap: [6, 10], notes: [3, 5]},
+  pixel: {lead: 'chip', name: '芯片音', win: 'chip', combo: 'coin', step: [.12, .18], gap: [5, 8], notes: [6, 9]}
 };
 const scape = () => SOUNDSCAPE[save.look] || SOUNDSCAPE.ukiyo;
-const PLUCK = {koto: {attackNoise: 1.3, dampening: 3600, resonance: .95}, shamisen: {attackNoise: 3.2, dampening: 5800, resonance: .86}};
+const PLUCK = {koto: {attackNoise: 1.3, dampening: 3600, resonance: .95}, shamisen: {attackNoise: 3.2, dampening: 5800, resonance: .86},
+  biwa: {attackNoise: 2.6, dampening: 2400, resonance: .93}, mandolin: {attackNoise: 2.2, dampening: 6800, resonance: .82}};
 function applySoundscape() {
   if (!A.tone) return;
-  const p = PLUCK[scape().lead === 'shamisen' ? 'shamisen' : 'koto'];
+  const p = PLUCK[scape().lead] || PLUCK.koto;
   try { A.koto.forEach(v => v.set(p)); } catch (e) {}
   applyAmbience();
 }
@@ -1399,6 +1651,8 @@ function startAudio() {
       A.toy.connect(dry); A.toy.connect(rev);
       A.pop = new T.PolySynth(T.Synth, {oscillator: {type: 'triangle'}, envelope: {attack: .002, decay: .22, sustain: 0, release: .15}, volume: -9});
       A.pop.connect(dry); A.pop.connect(rev);
+      A.chip = new T.PolySynth(T.Synth, {oscillator: {type: 'square'}, envelope: {attack: .002, decay: .12, sustain: .12, release: .06}, volume: -24});
+      A.chip.connect(dry); A.chip.connect(new T.Gain(.2).connect(rev));
       A.sho = new T.PolySynth(T.Synth, {oscillator: {type: 'fatsine', count: 3, spread: 14}, envelope: {attack: 1.4, decay: .4, sustain: .7, release: 2.6}, volume: -28}).connect(rev);
       A.taiko = new T.MembraneSynth({pitchDecay: .06, octaves: 3, envelope: {attack: .001, decay: .6, sustain: 0, release: .3}, volume: -11}).connect(rev);
       A.clap = new T.NoiseSynth({noise: {type: 'white'}, envelope: {attack: .001, decay: .09, sustain: 0, release: .02}, volume: -20}).connect(new T.Filter(1400, 'bandpass').connect(rev));
@@ -1448,12 +1702,16 @@ function play(voice, note, delay = 0, vel = .7, kind = 'sfx') {
     const T = window.Tone; let t = T.now() + delay;
     const queue = key => { t = Math.max(t, (A.lastT[key] || 0) + .02); A.lastT[key] = t; };
     const up = (n, s) => T.Frequency(n).transpose(s).toNote();
+    const pluck = (n, at, v, dur) => {
+      let j = 0; for (let i = 1; i < A.koto.length; i++) if (A.kotoT[i] < A.kotoT[j]) j = i;
+      at = Math.max(at, A.kotoT[j] + .02); A.kotoT[j] = at;
+      const pv = A.koto[j]; pv.volume.value = -8 + 20 * Math.log10(Math.max(.05, v)); pv.triggerAttackRelease(n, dur, at);
+    };
     switch (voice) {
-      case 'koto': case 'shamisen': {
-        let j = 0; for (let i = 1; i < A.koto.length; i++) if (A.kotoT[i] < A.kotoT[j]) j = i;
-        t = Math.max(t, A.kotoT[j] + .02); A.kotoT[j] = t;
-        const v = A.koto[j]; v.volume.value = -8 + 20 * Math.log10(Math.max(.05, vel)); v.triggerAttackRelease(note, voice === 'shamisen' ? .9 : 1.6, t); break;
-      }
+      case 'koto': case 'shamisen': pluck(note, t, vel, voice === 'shamisen' ? .9 : 1.6); break;
+      case 'biwa': pluck(up(note, -12), t, vel * 1.1, 1.4); break;
+      case 'mandolin': [0, .065, .13, .195].forEach((d, k) => pluck(note, t + d, vel * (1 - k * .18), .3)); break;
+      case 'chip': A.chip.triggerAttackRelease(note, .1, t, vel); break;
       case 'chime': A.chime.triggerAttackRelease(note, 2.2, t, vel * .9); break;
       case 'flute': case 'shinobue': {
         queue('flute'); const n = voice === 'shinobue' ? up(note, 12) : note;
@@ -1479,11 +1737,14 @@ function hit(what, delay = 0, vel = .7, kind = 'sfx') {
     else if (what === 'clap') { queue('clap'); A.clap.triggerAttackRelease(.08, t, vel); }
     else if (what === 'boom') { queue('boom'); A.boom.triggerAttackRelease(1.2, t, vel); }
     else if (what === 'stamp') { queue('wood'); A.wood.triggerAttackRelease('C3', .12, t, vel); }
+    else if (what === 'tsuzumi') { queue('taiko'); A.taiko.triggerAttackRelease('A3', .25, t, vel * .9); }
+    else if (what === 'bell') { queue('temple'); A.temple.triggerAttackRelease('D3', 5, t, vel); }
+    else if (what === 'coin') { A.chip.triggerAttackRelease('B5', .07, t, vel * .9); A.chip.triggerAttackRelease('E6', .22, t + .08, vel * .9); }
     else { queue('wood'); A.wood.triggerAttackRelease('A4', .05, t, vel * .3); }
   } catch (e) {}
 }
 const season = () => Math.max(0, seasonNow);
-const stepFor = () => ({shinobue: .2, flute: .24, bowl: .32, musicbox: .13, pop: .12, toy: .14}[scape().lead] || .15);
+const stepFor = () => ({shinobue: .2, flute: .24, bowl: .32, musicbox: .13, pop: .12, toy: .14, biwa: .3, mandolin: .2, chip: .09}[scape().lead] || .15);
 const SFX = {
   flip() { if (!sample('place', .85)) fbNoise(3400, .05, .16); },
   unflip() { if (!sample(Math.random() < .5 ? 'shove' : 'slide', .5)) fbNoise(1900, .06, .09); },
@@ -1497,6 +1758,7 @@ const SFX = {
     play('lead', sc[i], 0, .75); play('lead', sc[i + 2], stepFor() * .7, .55);
     if (sp.clap) hit('clap', .05, .6);
     if (sp.drum) hit('taiko', 0, .35);
+    if (sp.tsuzumi) hit('tsuzumi', .02, .5);
     if (m.tag === '光札') play('chime', 'A6', .3, .4), play('chime', 'D7', .36, .35);
     if (fresh) [5, 6, 8].forEach((k, j) => play('chime', SCALES[1][k], .32 + j * .09, .3));
   },
@@ -1509,15 +1771,20 @@ const SFX = {
     else if (sp.win === 'fireworks') { hit('boom', end + .1, .8); [0, .12, .2, .34].forEach(d => hit('clap', end + .7 + d, .35)); }
     else if (sp.win === 'claps') [0, .2, .4].forEach(d => hit('clap', end + .1 + d, .8));
     else if (sp.win === 'bowl') play('bowl', 'D4', end + .1, .8);
+    else if (sp.win === 'bell') hit('bell', end + .1, .7);
+    else if (sp.win === 'tsuzumi') [0, .22, .5, .62].forEach((d, k) => hit('tsuzumi', end + .1 + d, k === 3 ? 1 : .7));
+    else if (sp.win === 'chip') [0, 2, 4, 5, 7, 8].forEach((k, j) => play('chip', sc[k], end + j * .06, .7));
     else { play('chime', 'D7', end + .1, .45); play('chime', 'A6', end + .22, .35); }
   },
   flash() { hit('boom', 0, .6); play('chime', SCALES[season()][7], .25, .35); play('chime', SCALES[season()][8], .32, .3); },
   upgrade(tier) { const sc = SCALES[season()]; [4, 5, 7, 8].slice(0, tier + 2).forEach((k, j) => play('chime', sc[k], .35 + j * .12, .4)); },
   lose() { const sc = SCALES[season()]; play('lead', sc[2], 0, .45); play('lead', sc[0], .38, .4); },
-  tap() { const l = scape().lead; if (l === 'pop') play('pop', 'A6', 0, .25); else if (l === 'toy') play('toy', 'E6', 0, .2); else hit('tap'); },
+  tap() { const l = scape().lead; if (l === 'pop') play('pop', 'A6', 0, .25); else if (l === 'toy') play('toy', 'E6', 0, .2); else if (l === 'chip') play('chip', 'A5', 0, .2); else hit('tap'); },
   stamp() {
     const sp = scape(), sc = SCALES[season()];
     if (sp.combo === 'taiko' || sp.combo === 'don') { hit('taiko', .25, .95); hit('taiko', .5, .6); }
+    else if (sp.combo === 'tsuzumi') { hit('tsuzumi', .25, .9); hit('tsuzumi', .48, .7); }
+    else if (sp.combo === 'coin') hit('coin', .25, .9);
     else if (sp.combo === 'stamp') { hit('stamp', .28, .95); sample('shove', .5); }
     else hit('stamp', .3, .8);
     sc.forEach((n, j) => play('lead', n, .35 + j * Math.min(.06, stepFor() * .4), .4));
@@ -1539,6 +1806,7 @@ function scheduleBgm() {
           play('lead', sc[k], t, rnd(.22, .34), 'music');
           if (sp.drum && j % 2 === 0) hit('taiko', t, .28, 'music');
           if (sp.clap && j % 2 === 1) hit('clap', t, .35, 'music');
+          if (sp.tsuzumi && j % 3 === 0) hit('tsuzumi', t, .25, 'music');
           k = Math.max(0, Math.min(sc.length - 1, k + [-2, -1, 1, 1, 2][Math.floor(rnd(0, 5))]));
           t += st;
         }
@@ -1609,7 +1877,7 @@ function fallbackNote(voice, note, delay, vel) {
   const a = audio(); if (!a) return;
   const ring = ['chime', 'bowl', 'musicbox'].includes(voice), soft = ['flute', 'shinobue'].includes(voice);
   const t = a.currentTime + delay, o = a.createOscillator(), g = a.createGain(), dur = ring ? 1.8 : 1.1;
-  o.type = ring || soft ? 'sine' : 'triangle'; o.frequency.value = freqOf(note) * (voice === 'musicbox' || voice === 'shinobue' ? 2 : 1);
+  o.type = voice === 'chip' ? 'square' : ring || soft ? 'sine' : 'triangle'; o.frequency.value = freqOf(note) * (voice === 'musicbox' || voice === 'shinobue' ? 2 : 1);
   g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.1 * vel, t + (soft ? .08 : .004)); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
   o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + .05);
 }
@@ -1775,7 +2043,46 @@ const HOME = {
       ${modeSegHTML()}
       <div class="tc-press" aria-label="北斋的草花小稿">${[['peony', '牡丹', -4], ['iris', '杜若', 3], ['orchid', '蘭', -2], ['morning', '朝顔', 4]].map(([f, n, r]) => `<figure style="--r:${r}deg"><img src="art/techo-${f}.jpg" alt="${n}"><figcaption>${n}</figcaption></figure>`).join('')}</div>
       <section class="tc-rally"><h2>四季印章集</h2><div class="tc-stamps">${c.levels.map(l => go(l, 'tc-stamp', `<span class="ring">${l.done ? `${l.name}<br>${SEASONS[l.s].name}` : l.next ? '次の駅' : l.k}</span><small>${l.name}</small>`)).join('')}</div></section>
-      ${c.stats}<p class="art-credit">草花：葛饰北斋《北斋漫画》 · 纸纹：ambientCG（CC0）</p></div></div>`
+      ${c.stats}<p class="art-credit">草花：葛饰北斋《北斋漫画》 · 纸纹：ambientCG（CC0）</p></div></div>`,
+  tsuki: c => `<div class="hv hv-tsuki"><div class="hv-a">
+      <header class="ts-head"><h1>御守花札</h1><p>${c.S.name}夜 · ${c.hk[0]}</p></header>
+      <button type="button" class="go ts-scroll" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><span class="ts-rod"></span>
+        <span class="ts-silk"><img src="art/tsuki-${SEASONS[c.tgt.s].key}.webp" ${artDim('tsuki', c.tgt.s)} alt="月冈芳年《月百姿》「${TSUKI_PRINTS[c.tgt.s]}」"></span><span class="ts-rod"></span>
+        <span class="ts-cap"><b>${c.tgt.name}</b><small>第${c.k}庭 · ${c.meta}</small><em>${c.verb}</em></span></button>
+      <p class="art-credit">月冈芳年《月百姿》「${TSUKI_PRINTS[c.tgt.s]}」（1885–92），公有领域，图像来自 Wikimedia Commons</p></div><div class="hv-b">${modeSegHTML()}
+      <div class="ts-phases">${c.levels.map((l, i) => go(l, 'ts-moon', `<span class="ph" style="--k:${(6 + i * 5.7).toFixed(1)}px" aria-hidden="true"></span><span class="jp">${l.name}</span><small>${l.status}</small>`)).join('')}</div>
+      <div class="ts-hk">${haikuHTML(c.hk)}</div>
+      ${c.stats}</div></div>`,
+  rinpa: c => { const sc = RINPA_SCREENS[c.tgt.s]; return `<div class="hv hv-rinpa"><div class="hv-a">
+      <header class="rp-head"><h1>御守花札</h1><span>${c.S.name} · ${c.hk[0]}</span></header>
+      <button type="button" class="go rp-screen" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><span class="rp-panels"><img src="art/rinpa-${SEASONS[c.tgt.s].key}.webp" ${artDim('rinpa', c.tgt.s)} alt="${sc[1]}《${sc[0]}》"><i class="rp-folds" aria-hidden="true"></i></span></button>
+      <button type="button" class="go rp-plaque" data-go="${c.tgt.n}"><b>${c.tgt.name}</b><small>第${c.k}庭 · ${c.meta}</small><em>${c.verb}</em></button>
+      <p class="art-credit">${sc[1]}《${sc[0]}》（${sc[2]}），${sc[3]}</p></div><div class="hv-b">${modeSegHTML()}
+      <div class="rp-shikishi">${c.levels.map(l => go(l, 'rp-tile', `<span class="rp-k">${l.k}</span><span class="jp">${l.name}</span><small>${SEASONS[l.s].name} · ${l.status}</small>`, `style="--season:${l.sc}"`)).join('')}</div>
+      <div class="rp-hk">${haikuHTML(c.hk)}</div>${c.stats}</div></div>`; },
+  giga: c => `<div class="hv hv-giga"><div class="hv-a">
+      <header class="gg-head"><h1>御守花札</h1><span class="gg-seal">${c.S.name}</span></header>
+      <button type="button" class="go gg-hero" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}段 ${c.tgt.name}"><img src="art/giga-sumo.webp" width="563" height="372" alt="《鸟兽人物戏画》甲卷：青蛙与兔子相扑"><span class="gg-cap"><b>${c.tgt.name}</b><small>第${c.k}段 · ${c.meta}</small><em>${c.verb}</em></span></button>
+      <div class="gg-hk">${haikuHTML(c.hk)}</div>
+      <p class="art-credit">《鸟兽人物戏画》甲卷（12 世纪），高山寺藏，公有领域，图像来自 Wikimedia Commons</p></div><div class="hv-b">${modeSegHTML()}
+      <section class="gg-roll" aria-label="绘卷八段"><h2>绘卷八段<small>自右向左展开</small></h2><div class="gg-scroll"><div class="gg-track">
+        ${c.levels.map((l, i) => go(l, 'gg-stop', `<span class="gg-no">第${l.k}段</span><span class="jp">${l.name}</span><small>${l.status}</small>`, `style="--x:${(100 - (i + .5) * 12.5).toFixed(2)}%"`)).join('')}
+      </div></div></section>
+      ${c.stats}</div></div>`,
+  taisho: c => { const cv = TAISHO_COVERS[c.tgt.s]; return `<div class="hv hv-taisho"><div class="hv-a">
+      <header class="tsh-sign"><span class="tsh-lamp" aria-hidden="true"></span><h1>御守花札</h1><small>喫茶 · 四季八景</small></header>
+      <button type="button" class="go tsh-frame" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><img src="art/taisho-${SEASONS[c.tgt.s].key}.webp" ${artDim('taisho', c.tgt.s)} alt="竹久梦二 乐谱封面《${cv[0]}》"></button>
+      <button type="button" class="go tsh-ticket" data-go="${c.tgt.n}"><small>本日推荐 · ${c.S.name}</small><b>第${c.k}庭「${c.tgt.name}」</b><span>${c.meta}</span><em>${c.verb}</em></button>
+      <p class="art-credit">竹久梦二为セノオ乐谱所作封面《${cv[0]}》（${cv[1]}），公有领域，图像来自 Wikimedia Commons</p></div><div class="hv-b">${modeSegHTML()}
+      <section class="tsh-menu"><h2><span>Menu</span>庭院一览</h2>${c.levels.map(l => go(l, '', `<span class="jp">${l.name}</span><small>${SEASONS[l.s].name} · ${l.sub}</small><i></i><span class="pr">${l.locked ? '準備中' : l.best ? '✿'.repeat(l.best) : l.next ? 'NEW' : ''}</span>`)).join('')}
+        <p class="tsh-hk">${c.hk[0]}<br><small>${c.hk[1]}　— ${c.hk[2]}</small></p></section>
+      ${c.stats}</div></div>`; },
+  pixel: c => `<div class="hv hv-pixel"><div class="hv-a">
+      <header class="px-title"><h1>御守花札</h1><p>HANAFUDA · MEMORY · ${['SPRING', 'SUMMER', 'AUTUMN', 'WINTER'][c.tgt.s]}</p></header>
+      <button type="button" class="go px-start" data-go="${c.tgt.n}"><span><span class="blink" aria-hidden="true">▶</span> PRESS START</span><small>STAGE ${c.tgt.n} · ${c.tgt.name} · ${c.meta}</small></button>
+      <div class="px-hk">${haikuHTML(c.hk)}</div></div><div class="hv-b">${modeSegHTML()}
+      <div class="px-map">${c.levels.map(l => go(l, 'px-stage', `<span class="px-n">STAGE ${l.n}</span><span class="jp">${l.name}</span><span class="px-stars">${l.locked ? 'LOCKED' : [1, 2, 3].map(k => k <= l.best ? '★' : '☆').join('')}</span>`)).join('')}</div>
+      ${c.stats}<p class="px-coin">INSERT COIN · 1 CREDIT</p></div></div>`
 };
 function mangaLines() {
   let s = '';
@@ -1817,6 +2124,8 @@ function renderHome() {
   const view = $('#homeView'), y = view.scrollTop;
   view.innerHTML = HOME[save.look](c);
   balanceHome(view);
+  const roll = view.querySelector('.gg-scroll');
+  if (roll) { const at = roll.querySelector('.gg-stop.next') || [...roll.querySelectorAll('.gg-stop:not(.st-lock)')].pop(); if (at) roll.scrollLeft = at.offsetLeft - roll.clientWidth / 2; }
   view.scrollTop = y;
   refreshMeta();
 }
@@ -1868,7 +2177,12 @@ const POSTER = {
   matsuri: {bg: '#0f1a36', ink: '#f4ead2', acc: '#f29a3a', sub: '#b9c2dc', frame: 'lanterns'},
   techo: {bg: '#fbf7ef', ink: '#5a4a3a', acc: '#c0675a', sub: '#8a7a68', frame: 'polaroid'},
   youth: {bg: '#f7e9c6', ink: '#222222', acc: '#e8553e', sub: '#555555', frame: 'pop'},
-  manga: {bg: '#ffffff', ink: '#111111', acc: '#d7261e', sub: '#444444', frame: 'koma'}
+  manga: {bg: '#ffffff', ink: '#111111', acc: '#d7261e', sub: '#444444', frame: 'koma'},
+  tsuki: {bg: '#10162a', ink: '#efebdf', acc: '#d9c78f', sub: '#b9b4a6', frame: 'moon'},
+  rinpa: {bg: '#e3c477', ink: '#1b2416', acc: '#1d4b86', sub: '#5a4a2a', frame: 'gold'},
+  giga: {bg: '#f0eadb', ink: '#26211c', acc: '#b23a2a', sub: '#6b6358', frame: 'scroll'},
+  taisho: {bg: '#efe2c8', ink: '#2c1b1e', acc: '#7a2236', sub: '#6e5a56', frame: 'deco'},
+  pixel: {bg: '#140f2b', ink: '#f4f1ff', acc: '#ff4f9a', sub: '#a59dd0', frame: 'arcade'}
 };
 const cssVar = k => getComputedStyle(document.documentElement).getPropertyValue(k).trim();
 const loadImg = src => new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
@@ -1955,6 +2269,37 @@ const FRAMES = {
     g.fillStyle = '#111'; g.font = `900 100px ${F.jp}`; g.fillText('御守花札', 92, 180);
     g.lineWidth = 12; g.strokeRect(40, 40, W - 80, H - 80); g.beginPath(); g.moveTo(40, 268); g.lineTo(W - 40, 268); g.stroke();
     g.fillStyle = '#d7261e'; g.fillRect(W - 250, 196, 170, 52); g.fillStyle = '#fff'; g.font = `900 30px ${F.body}`; g.textAlign = 'center'; g.fillText('好评连载中', W - 165, 232); g.textAlign = 'left';
+  },
+  moon(g, st, F, W, H) {
+    const grd = g.createRadialGradient(W - 230, 220, 60, W - 230, 220, 330); grd.addColorStop(0, 'rgba(236,230,207,.35)'); grd.addColorStop(1, 'rgba(236,230,207,0)');
+    g.fillStyle = grd; g.fillRect(0, 0, W, 600); g.fillStyle = '#ece6cf'; g.beginPath(); g.arc(W - 230, 220, 130, 0, Math.PI * 2); g.fill();
+    g.fillStyle = '#26305a'; [[-40, 270, 520], [W - 520, 330, 600]].forEach(([x, y, w]) => { g.beginPath(); g.roundRect ? g.roundRect(x, y, w, 30, 15) : g.rect(x, y, w, 30); g.fill(); });
+    g.strokeStyle = 'rgba(217,199,143,.5)'; g.lineWidth = 2; g.strokeRect(40, 40, W - 80, H - 80);
+    g.fillStyle = st.ink; g.font = `400 56px ${F.jp}`; g.fillText('御 守 花 札', 90, 150);
+  },
+  gold(g, st, F, W, H) {
+    for (let y = 0; y < H; y += 90) for (let x = (y / 90) % 2 ? -45 : 0; x < W; x += 90) { g.fillStyle = (x + y) % 180 ? '#e6c878' : '#dcb862'; g.fillRect(x, y, 90, 90); g.strokeStyle = 'rgba(150,110,30,.25)'; g.lineWidth = 1.5; g.strokeRect(x, y, 90, 90); }
+    g.fillStyle = 'rgba(243,220,154,.9)'; [[-60, 230, 520], [W - 470, 1210, 560]].forEach(([x, y, w]) => { g.beginPath(); g.roundRect ? g.roundRect(x, y, w, 60, 30) : g.rect(x, y, w, 60); g.fill(); });
+    g.strokeStyle = '#1b120a'; g.lineWidth = 26; g.strokeRect(13, 13, W - 26, H - 26);
+    g.fillStyle = st.acc; g.font = `800 84px ${F.jp}`; g.fillText('御守花札', 90, 170);
+  },
+  scroll(g, st, F, W, H) {
+    g.fillStyle = '#6b5a44'; g.fillRect(0, 0, W, 34); g.fillRect(0, H - 34, W, 34);
+    g.strokeStyle = 'rgba(38,33,28,.35)'; g.lineWidth = 3; g.beginPath(); g.moveTo(-20, 250); g.quadraticCurveTo(300, 190, 560, 240); g.quadraticCurveTo(820, 290, W + 20, 230); g.stroke();
+    g.fillStyle = st.ink; g.font = `400 92px ${F.jp}`; g.fillText('御守花札', 90, 180);
+    g.strokeStyle = st.acc; g.lineWidth = 5; g.strokeRect(W - 190, 96, 96, 96); g.fillStyle = st.acc; g.font = `400 58px ${F.jp}`; g.textAlign = 'center'; g.fillText('戯', W - 142, 164); g.textAlign = 'left';
+  },
+  deco(g, st, F, W, H) {
+    for (let i = 0; i < 24; i++) { const a0 = Math.PI + i * Math.PI / 24, a1 = a0 + Math.PI / 24; g.fillStyle = i % 2 ? '#f3e6cb' : '#e8d4ae'; g.beginPath(); g.moveTo(W / 2, 300); g.lineTo(W / 2 + Math.cos(a0) * 900, 300 + Math.sin(a0) * 900); g.lineTo(W / 2 + Math.cos(a1) * 900, 300 + Math.sin(a1) * 900); g.fill(); }
+    g.strokeStyle = st.acc; g.lineWidth = 4; g.strokeRect(30, 30, W - 60, H - 60); g.lineWidth = 1.5; g.strokeRect(44, 44, W - 88, H - 88);
+    [[44, 44, 0], [W - 44, 44, 1], [W - 44, H - 44, 2], [44, H - 44, 3]].forEach(([x, y, q]) => { for (let r = 30; r <= 90; r += 30) { g.beginPath(); g.arc(x, y, r, q * Math.PI / 2, (q + 1) * Math.PI / 2); g.stroke(); } });
+    g.fillStyle = st.acc; g.fillRect(W / 2 - 300, 110, 600, 120); g.fillStyle = '#fbf4e4'; g.font = `400 76px ${F.jp}`; g.textAlign = 'center'; g.fillText('御守花札', W / 2, 196); g.textAlign = 'left';
+  },
+  arcade(g, st, F, W, H) {
+    for (let x = 0; x < W; x += 30) for (const y of [0, H - 30]) { g.fillStyle = (x / 30) % 2 ? '#3ee6ff' : '#ff4f9a'; g.fillRect(x, y, 30, 30); }
+    for (let y = 30; y < H - 30; y += 30) for (const x of [0, W - 30]) { g.fillStyle = (y / 30) % 2 ? '#ff4f9a' : '#3ee6ff'; g.fillRect(x, y, 30, 30); }
+    g.font = `400 108px ${F.head}`; g.fillStyle = '#000'; g.fillText('御守花札', 96, 196); g.fillStyle = '#3ee6ff'; g.fillText('御守花札', 84, 186); g.fillStyle = '#ff4f9a'; g.fillText('御守花札', 96, 186); g.fillStyle = '#ffd23f'; g.fillText('御守花札', 90, 186);
+    g.fillStyle = '#ff4f9a'; g.font = `400 36px ${F.head}`; g.textAlign = 'right'; g.fillText('STAGE CLEAR', W - 80, 260); g.textAlign = 'left';
   }
 };
 async function makePoster(spec) {
@@ -2166,12 +2511,14 @@ function creditsHTML() {
       <li><b>花札「花图」</b>：韩式 Hwatu，Marcus Richert 以 Louie Mantia 的花札为基础制作，Spenĉjo 整理上传；<a href="https://commons.wikimedia.org/wiki/Category:SVG_Hwatu" target="_blank" rel="noopener">Wikimedia Commons</a>，CC BY-SA 4.0，未作修改。</li>
       <li><b>花札「墨绘」「剪纸」「网点」与御守</b>：本作原创，由程序绘制；御守花纹取自传统和柄。</li>
       <li><b>我的庭院 · 十二月花屏风</b>：${NIWA_ART.map(([id, who, what]) => `<a href="https://www.metmuseum.org/art/collection/search/${id}" target="_blank" rel="noopener">${who}「${what}」</a>`).join('、')}，均为公有领域作品，图像来自大都会艺术博物馆开放馆藏（CC0），仅裁切取景。</li>
-      <li><b>卡背</b>：江户至明治时期的染布型纸（katagami），<a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">大都会艺术博物馆开放馆藏</a>（CC0）：${Object.values(BACK_KATAGAMI).map(b => `<a href="https://www.metmuseum.org/art/collection/search/${b.met}" target="_blank" rel="noopener">${b.name}</a>`).join('、')}。裁取花纹部分，镂空处透出底色；部分主题把柿涩纸染成主题色。</li>
+      <li><b>月白风清 · 金碧琳琅 · 墨戏山野 · 洋灯旧梦</b>：月冈芳年《月百姿》（1885–92）中的四幅；酒井抱一《樱枫图》、尾形光琳《八桥图》（大都会艺术博物馆，CC0）、铃木其一《夏秋溪流图》、尾形光琳《红白梅图》；《鸟兽人物戏画》甲卷（12 世纪，高山寺藏）；竹久梦二为セノオ乐谱所作封面四幅（1917–24）。均为公有领域，图像经 <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> 取得，仅缩放、裁切；绘卷转成墨色以统一纸色。</li>
+      <li><b>像素字体</b>：<a href="https://github.com/TakWolf/fusion-pixel-font" target="_blank" rel="noopener">Fusion Pixel Font</a>（12px，SIL OFL 1.1），只保留本作用到的字；DotGothic16（SIL OFL 1.1，Google Fonts）。</li>
+      <li><b>卡背</b>：江户至明治时期的染布型纸（katagami），<a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">大都会艺术博物馆开放馆藏</a>（CC0）：${Object.values(BACK_KATAGAMI).filter(b => b.met).map(b => `<a href="https://www.metmuseum.org/art/collection/search/${b.met}" target="_blank" rel="noopener">${b.name}</a>`).join('、')}。裁取花纹部分，镂空处透出底色；部分主题把柿涩纸染成主题色。墨戏山野的卡背是《鸟兽戏画》里欢呼的青蛙，电光游园的卡背为本作原创像素画。</li>
       <li><b>主页插图</b>：神坂雪佳《百々世草》（1909–10）、葛饰北斋《北斋漫画》、歌川广重《名所江户百景》中的「两国花火」「龟户梅屋敷」「大桥阿宅骤雨」「月之岬」「浅草金龙山」（1856–58），均为公有领域作品，图像来自<a href="https://www.artic.edu/open-access" target="_blank" rel="noopener">芝加哥艺术博物馆开放馆藏</a>（CC0），仅缩放、裁切取景。纸纹：<a href="https://ambientcg.com/view?id=Paper006" target="_blank" rel="noopener">ambientCG Paper006</a>（CC0）。</li>
       <li><b>纸牌音效</b>：Kenney「<a href="https://kenney.nl/assets/casino-audio" target="_blank" rel="noopener">Casino Audio</a>」，CC0。</li>
       <li><b>琴声、风铃、尺八与环境音</b>：<a href="https://github.com/Tonejs/Tone.js" target="_blank" rel="noopener">Tone.js</a>（MIT）实时合成。</li>
       <li><b>落花特效</b>：<a href="https://github.com/catdad/canvas-confetti" target="_blank" rel="noopener">canvas-confetti</a>（ISC）。</li>
-      <li><b>字体</b>：每个主题两到三种。日文显示字体 Shippori Mincho B1、Zen Old Mincho、Shippori Mincho、Kaisei Decol、Klee One、Yusei Magic、Zen Antique；中文 Noto Serif SC、Noto Sans SC；点缀用 Yuji Syuku（石庭标题）、ZCOOL XiaoWei（和纸标题）、ZCOOL KuaiLe（手账标题），均为 SIL OFL 1.1，经 Google Fonts 提供。</li>
+      <li><b>字体</b>：每个主题两到三种。日文显示字体 Shippori Mincho B1、Zen Old Mincho、Shippori Mincho、Kaisei Decol、Klee One、Yusei Magic、Zen Antique、Hina Mincho、Kaisei Tokumin、Yuji Boku、Shippori Antique B1、DotGothic16；中文 Noto Serif SC、Noto Sans SC；点缀用 Yuji Syuku（石庭标题）、ZCOOL XiaoWei（和纸标题）、ZCOOL KuaiLe（手账标题），均为 SIL OFL 1.1，经 Google Fonts 提供。</li>
     </ul>
     <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>关闭</button></div>`;
 }
@@ -2285,7 +2632,7 @@ function startLevel(n, sameSet) {
   SFX.deal();
   const cards = G.deck.length, token = G;
   const dealt = new Promise(res => setTimeout(res, reduceMotion() ? 150 : 450 + cards * 22));
-  const backLoaded = new Promise(res => { const im = new Image(); im.onload = im.onerror = res; im.src = backSrc(save.look); });
+  const backLoaded = BACK_KATAGAMI[save.look] ? new Promise(res => { const im = new Image(); im.onload = im.onerror = res; im.src = backSrc(save.look); }) : Promise.resolve();
   const loaded = Promise.race([Promise.all([preloadArt(ids), backLoaded]), new Promise(res => setTimeout(res, 4000))]);
   Promise.all([dealt, loaded]).then(() => {
     if (G !== token || G.phase !== 'deal') return;
