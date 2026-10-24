@@ -582,9 +582,31 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .niwa-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .niwa-h h2{margin:0;font-family:var(--f-head);font-weight:var(--w-head);font-size:18px}
 .niwa-h small{font-size:12px;color:var(--muted)}
-.niwa-art svg{display:block;width:100%;height:auto;border-radius:calc(var(--panel-radius) * .6)}
-.niwa-art .np{cursor:pointer;outline:none}
-.niwa-art .np:focus-visible rect{stroke:var(--accent);stroke-width:2}
+.niwa-screen{--frame:linear-gradient(#c99a3a,#8a6420);display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:3px;padding:5px;background:var(--frame);border-radius:3px;box-shadow:0 6px 16px -8px rgba(0,0,0,.45)}
+:root[data-look="manga"] .niwa-screen{--frame:#111}
+:root[data-look="matsuri"] .niwa-screen{--frame:linear-gradient(#2a1a12,#120a06)}
+.np{position:relative;display:grid;padding:0;border:0;background:#f1e8d4;cursor:pointer;text-align:left;border-radius:1px}
+.np-art{position:relative;display:block;aspect-ratio:1/2.4;overflow:hidden;background:linear-gradient(160deg,#f6efe0,#ece1c9)}
+.np-art img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(.85) sepia(.15) opacity(.6);
+  -webkit-mask-image:linear-gradient(to top,#000 calc(var(--rise) - 22%),transparent var(--rise));mask-image:linear-gradient(to top,#000 calc(var(--rise) - 22%),transparent var(--rise));transition:filter .6s}
+.np.n0 .np-art img{visibility:hidden}
+.np.n4 .np-art img{filter:none;-webkit-mask-image:none;mask-image:none}
+:root[data-look="manga"] .np .np-art img{filter:grayscale(1) contrast(1.15) opacity(.6)}
+:root[data-look="manga"] .np.n4 .np-art img{filter:grayscale(1) contrast(1.15)}
+.np.n4{box-shadow:0 0 0 1px #f3d27a,0 0 10px rgba(243,210,122,.55)}
+.np-empty{position:absolute;inset:0;display:grid;place-items:center;writing-mode:vertical-rl;font-family:var(--f-jp);font-size:13px;letter-spacing:.3em;color:rgba(90,70,50,.38)}
+.np-lab{display:grid;justify-items:center;gap:0;padding:2px 2px 3px;background:#2b2116;color:#f3e6c4;min-width:0;line-height:1.25}
+.np-lab b{font-family:var(--f-jp);font-weight:600;font-size:12px;white-space:nowrap}
+.np-lab i{font-style:normal;font-size:7px;letter-spacing:-.5px;color:#a8916a;white-space:nowrap}
+.np.n4 .np-lab i{color:#f3d27a}
+.np:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.niwa-rail{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:6px 8px;border-radius:3px;background:linear-gradient(#7a5a3a,#5c4128);color:#f3e6c4;font-size:12px}
+.nr-lab{font-family:var(--f-jp);letter-spacing:.2em}
+.nr-om{display:flex;align-items:center;gap:3px;flex:1;min-width:0;flex-wrap:wrap}
+.nr-om small{opacity:.75}
+.nr-mini svg{display:block;width:13px;height:auto}
+.nr-seals{display:flex;gap:3px}
+.nr-seal{display:grid;place-items:center;width:20px;height:20px;background:#c23b22;color:#fff8e3;font-family:var(--f-jp);font-size:9px;line-height:1;writing-mode:vertical-rl;border-radius:2px}
 .niwa-cap{margin:0;font-size:12px;color:var(--muted)}
 .niwa-act{display:flex;justify-content:flex-end}
 .niwa-act .btn{min-height:40px;font-size:13px}
@@ -635,7 +657,17 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
   .hv{max-width:1120px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:40px;align-items:start;padding-block:36px 40px}
   .hv > :not(.hv-a):not(.hv-b){grid-column:1/-1}
   .hv-a,.hv-b{display:flex;flex-direction:column;gap:16px;min-width:0}
-  .hv-a{position:sticky;top:20px}
+  /* heroes grow into the wider column */
+  .hv-washi .wa-cover{width:min(100%,340px)}
+  .hv-kare .ka-stone{width:380px}
+  .hv-kare .ka-head h1{font-size:52px}
+  .hv-youth .yo-head h1{font-size:60px}
+  .hv-manga .mg-mast h1{font-size:60px}
+  .hv-techo .tc-head h1{font-size:44px}
+  .hv-ukiyo .uk-cart b{font-size:36px}
+  .hv-matsuri .mt-lanterns{gap:16px}
+  .hv-matsuri .mt-l{width:84px;height:106px;font-size:40px}
+  .hv-matsuri .mt-l::before,.hv-matsuri .mt-l::after{left:20px;right:20px}
   .hv-kare .hv-a,.hv-kare .hv-b{gap:22px}
   #game{display:grid;grid-template-columns:300px minmax(0,1fr);grid-template-rows:auto auto auto auto 1fr;column-gap:32px;row-gap:14px;max-width:1360px;width:100%;padding-block:24px}
   #game > *{grid-column:1}
@@ -999,32 +1031,25 @@ const art = (m, skin) => `<img src="${cardSrc(m, skin)}" alt="" draggable="false
 const warmed = {};
 function warmDeck() {
   const k = save.skin; if (warmed[k]) return; warmed[k] = true;
-  const run = () => preloadArt(MOTIFS.map(m => m.id));
+  const run = () => { preloadArt(MOTIFS.map(m => m.id)); Object.keys(BACK_KATAGAMI).forEach(k => { const im = new Image(); im.src = backSrc(k); }); };
   if ('requestIdleCallback' in window) requestIdleCallback(run, {timeout: 4000}); else setTimeout(run, 1500);
 }
 function preloadArt(ids) { return Promise.all(ids.map(id => new Promise(res => { const im = new Image(); im.onload = im.onerror = res; im.src = cardSrc(BY_ID[id]); }))); }
 // One card back per look. Pattern ids are namespaced per look so several backs can share a page (the theme picker).
-const BACKS = {
-  ukiyo: `<defs><pattern id="bk-u" width="10" height="5" patternUnits="userSpaceOnUse"><g fill="none" stroke="#f3ecdd" stroke-opacity=".32" stroke-width=".6"><path d="M0 5a5 5 0 0 1 10 0M2 5a3 3 0 0 1 6 0M-5 2.5a5 5 0 0 1 10 0M5 2.5a5 5 0 0 1 10 0"/></g></pattern></defs>`
-    + `<rect width="50" height="80" fill="#1f3a68"/><rect width="50" height="80" fill="url(#bk-u)"/><rect x="3.5" y="3.5" width="43" height="73" fill="none" stroke="#f3ecdd" stroke-opacity=".65" stroke-width=".6"/>`
-    + `<rect x="18.5" y="33.5" width="13" height="13" fill="#c8402a"/><text x="25" y="43.4" text-anchor="middle" font-size="9" style="font-family:var(--f-jp)" fill="#f3ecdd">守</text>`,
-  washi: `<defs><pattern id="bk-w" width="8" height="13.86" patternUnits="userSpaceOnUse"><path d="M0 0L8 13.86M8 0L0 13.86M4 0V13.86M0 6.93H8" fill="none" stroke="#d9b867" stroke-opacity=".28" stroke-width=".5"/></pattern></defs>`
-    + `<rect width="50" height="80" fill="#6e2a20"/><rect width="50" height="80" fill="url(#bk-w)"/><rect x="3.5" y="3.5" width="43" height="73" rx="1" fill="none" stroke="#d9b867" stroke-opacity=".7" stroke-width=".5"/>`
-    + `<circle cx="25" cy="40" r="9" fill="#6e2a20" stroke="#d9b867" stroke-width=".7"/>` + blossom(25, 40, 7, 'rgba(217,184,103,.55)', '#d9b867'),
-  kare: `<rect width="50" height="80" fill="#4b4a45"/>` + [1, 2, 3, 4, 5, 6].map(k => `<ellipse cx="25" cy="42" rx="${4 + k * 3.6}" ry="${2.6 + k * 2.4}" fill="none" stroke="#ebe7dd" stroke-opacity=".28" stroke-width=".5"/>`).join('')
-    + `<path d="M19 43 Q20 35 25 34.5 Q30.5 35 31 43Z" fill="#8d8a82"/><path d="M20.5 39 Q25 33 30 38 Q25 36.5 20.5 39Z" fill="#6e7f4f"/>`,
-  matsuri: `<defs><pattern id="bk-m" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="3" height="6" fill="#fff" fill-opacity=".1"/></pattern></defs>`
-    + `<rect width="50" height="80" fill="#c43a26"/><rect width="50" height="80" fill="url(#bk-m)"/><rect x="3.5" y="3.5" width="43" height="73" rx="2" fill="none" stroke="#f4ead2" stroke-opacity=".6" stroke-width=".6"/>`
-    + `<circle cx="25" cy="40" r="13" fill="#f29a3a" opacity=".25"/><rect x="18" y="30" width="14" height="20" rx="6" fill="#f29a3a"/><rect x="20" y="28" width="10" height="3" fill="#2a1a12"/><rect x="20" y="49" width="10" height="3" fill="#2a1a12"/><path d="M18.5 37 H31.5 M18.5 43 H31.5" stroke="#c43a26" stroke-width=".8"/>`,
-  techo: `<rect width="50" height="80" fill="#c9a77c"/><rect x="3.5" y="3.5" width="43" height="73" rx="2" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width=".7" stroke-dasharray="2 1.6"/>`
-    + `<g transform="rotate(-12 25 40)" fill="none" stroke="#fffdf8" stroke-opacity=".85" stroke-width=".8"><circle cx="25" cy="40" r="9"/><circle cx="25" cy="40" r="7.2"/><path d="M35 36 q3 -2 6 0 t6 0 M35 40 q3 -2 6 0 t6 0 M35 44 q3 -2 6 0 t6 0"/></g>`
-    + `<text x="25" y="42.6" text-anchor="middle" font-size="7" style="font-family:var(--f-jp)" fill="#fffdf8" transform="rotate(-12 25 40)">御守</text>`,
-  youth: `<rect width="50" height="80" fill="#4aa3df"/><rect x="2.5" y="2.5" width="45" height="75" rx="3" fill="none" stroke="#222" stroke-width="2.2"/>`
-    + `<path d="M25 27 L28.8 35.8 L38 36.4 L30.8 42.2 L33.2 51.4 L25 46.2 L16.8 51.4 L19.2 42.2 L12 36.4 L21.2 35.8Z" fill="#f2b134" stroke="#222" stroke-width="1.6" stroke-linejoin="round"/>`,
-  manga: `<defs><pattern id="bk-g" width="3" height="3" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".55" fill="#fff" fill-opacity=".45"/></pattern></defs>`
-    + `<rect width="50" height="80" fill="#111"/><rect width="50" height="80" fill="url(#bk-g)"/><rect x="3" y="3" width="44" height="74" fill="none" stroke="#fff" stroke-width="1"/>`
-    + `<circle cx="25" cy="40" r="10" fill="#fff"/><text x="25" y="44.2" text-anchor="middle" font-size="12" style="font-family:var(--f-jp)" fill="#d7261e">花</text>`
+// Card backs: Edo–Meiji katagami (textile dyeing stencils, The Met, CC0) laid over a dyed cloth, the way 型染 is made.
+// The stencil's cut-outs are transparent; its persimmon paper is kept as-is or tinted to the look. A thin frame finishes the card.
+const BACK_KATAGAMI = {
+  ukiyo: {cloth: '#1f3a68', met: 69131, name: '菊菱', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="1.5" fill="none" stroke="#f3ecdd" stroke-opacity=".75" stroke-width=".7"/>'},
+  washi: {cloth: '#c9a24a', met: 53215, name: '麻の葉', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="1" fill="none" stroke="#f3e4b5" stroke-opacity=".85" stroke-width=".6"/><rect x="4" y="4" width="42" height="72" rx=".6" fill="none" stroke="#f3e4b5" stroke-opacity=".5" stroke-width=".35"/>'},
+  kare: {cloth: '#e4dfd2', met: 69130, name: '杉綾と波', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="1.2" fill="none" stroke="#4b4a45" stroke-opacity=".7" stroke-width=".6"/>'},
+  matsuri: {cloth: '#f2b13a', met: 69138, name: '菊菱に紗綾形', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="2" fill="none" stroke="#f4ead2" stroke-opacity=".8" stroke-width=".7"/>'},
+  techo: {cloth: '#fff6e6', met: 69145, name: '梅散らし', frame: '<rect x="3" y="3" width="44" height="74" rx="2" fill="none" stroke="#fffdf8" stroke-opacity=".9" stroke-width=".7" stroke-dasharray="2 1.6"/>'},
+  youth: {cloth: '#f2b134', met: 69107, name: '梅', frame: '<rect x="1.6" y="1.6" width="46.8" height="76.8" rx="3" fill="none" stroke="#222" stroke-width="2.2"/>'},
+  manga: {cloth: '#ffffff', met: 69114, name: '矢筈', frame: '<rect x="2.4" y="2.4" width="45.2" height="75.2" fill="none" stroke="#fff" stroke-width="1"/><rect x="3.6" y="3.6" width="42.8" height="72.8" fill="none" stroke="#111" stroke-width=".6"/>'}
 };
+const backSrc = look => `backs/${look}.webp`;
+const BACKS = Object.fromEntries(Object.entries(BACK_KATAGAMI).map(([k, b]) => [k,
+  `<rect width="50" height="80" fill="${b.cloth}"/><image href="${backSrc(k)}" x="0" y="0" width="50" height="80" preserveAspectRatio="xMidYMid slice"/>${b.frame}`]));
 const cardBack = (look = save.look) => `<svg viewBox="0 0 50 80" aria-hidden="true" preserveAspectRatio="xMidYMid slice">${BACKS[look] || BACKS.ukiyo}</svg>`;
 const flowerIcon = on => `<svg viewBox="0 0 20 20" aria-hidden="true">${blossom(10, 10, 9, on ? 'var(--accent)' : 'var(--line-2)', on ? 'var(--shu)' : 'var(--line)')}</svg>`.replace(/fill="(var\([^)]+\))"/g, 'style="fill:$1"');
 const LANTERN_SVG = `<svg viewBox="0 0 44 64" aria-hidden="true"><path fill="currentColor" d="M5 18 L22 7 L39 18Z"/><rect fill="currentColor" x="19" y="2" width="6" height="6" rx="2"/><rect x="11" y="19" width="22" height="17" rx="2" fill="currentColor" opacity=".6"/><rect x="16" y="22" width="12" height="11" rx="1" fill="#f2c46a"/><rect fill="currentColor" x="9" y="36" width="26" height="4" rx="1"/><rect fill="currentColor" x="18" y="40" width="8" height="15"/><rect fill="currentColor" x="10" y="55" width="24" height="6" rx="2"/></svg>`;
@@ -1767,6 +1792,22 @@ function pebble(l) {
   const fill = l.locked ? 'none' : '#8d8a82', st = l.locked ? 'stroke="#b4b0a6" stroke-dasharray="3 3"' : '';
   return `<svg viewBox="0 0 52 34" aria-hidden="true"><ellipse cx="26" cy="22" rx="24" ry="9" fill="none" stroke="#cbc4b3" stroke-width="1.2"/><path d="M10 24 Q12 8 27 7 Q42 8 43 24Z" fill="${fill}" ${st}/>${l.done ? '<path d="M14 16 Q26 4 40 14 Q27 11 14 16Z" fill="#6e7f4f"/>' : ''}${l.next ? '<circle cx="27" cy="16" r="3" fill="#55704a"/>' : ''}</svg>`;
 }
+// Desktop: the hero column is usually shorter than the list column, so the garden, 庭外 and the counters move to whichever
+// side leaves the two columns closest in height (every combination is tried; there are only four blocks). Measured after each render, since every look's hero is a different size.
+const DESKTOP = window.matchMedia ? matchMedia('(min-width: 960px) and (min-height: 560px)') : null;
+function balanceHome(view) {
+  if (!DESKTOP || !DESKTOP.matches) return;
+  const a = view.querySelector('.hv-a'), b = view.querySelector('.hv-b'); if (!a || !b) return;
+  const items = ['.niwa', '.gaien', '.hv-stats', '.hv-wipe'].map(sel => b.querySelector(sel)).filter(Boolean);
+  const hs = items.map(el => el.offsetHeight + 16), A = a.offsetHeight, B = b.offsetHeight;
+  let best = 0, bestD = Infinity;
+  for (let mask = 0; mask < 1 << items.length; mask++) {
+    const mv = hs.reduce((t, h, i) => t + (mask >> i & 1 ? h : 0), 0), d = Math.abs(A + mv - (B - mv));
+    if (d < bestD) { bestD = d; best = mask; }
+  }
+  items.forEach((el, i) => { if (best >> i & 1) a.appendChild(el); });
+}
+if (DESKTOP) { const re = () => { if (current === 'home') renderHome(); }; DESKTOP.addEventListener ? DESKTOP.addEventListener('change', re) : DESKTOP.addListener(re); }
 function renderHome() {
   const c = homeCtx(), th = THEMES[save.look];
   applySeason(homeLevel().s);
@@ -1775,75 +1816,43 @@ function renderHome() {
   else paintScene(homeLevel(), th.homeScene ? 'home' : 'none');
   const view = $('#homeView'), y = view.scrollTop;
   view.innerHTML = HOME[save.look](c);
+  balanceHome(view);
   view.scrollTop = y;
   refreshMeta();
 }
 
-/* ================= 我的庭院: a garden that grows with the collection =================
-   Twelve beds, one per month: a stone until a card of that month is collected, a seedling at one, a young plant at two or three,
-   in flower once all four are in. 満願 omamori hang on the ema rack; the stone lantern lights up with the first seal. */
+/* ================= 我的庭院: a twelve-panel screen that fills in with the collection =================
+   One bird-and-flower print per month (The Met, open access, CC0). A panel is bare paper until a card of that month is found;
+   the print then rises out of the mist a quarter per card, and turns to full colour once all four are in.
+   満願 omamori hang on the ema rail below the screen; earned seals are stamped beside them. */
 const monthCount = mo => MOTIFS.filter(m => m.m === mo && save.collected[m.id]).length;
-const PLANT_INK = [['#3f6b4a', '#3f6b4a'], ['#5a3a2e', '#d24d63'], ['#6a4a3a', '#f0a3b5'], ['#6b7d3c', '#9a7fc4'], ['#4f8f63', '#5b4fa8'], ['#4f7f4a', '#d0465c'],
-  ['#6f8a4a', '#c4508a'], ['#9a8a5a', '#e6dcc0'], ['#4f7f4a', '#e8b43a'], ['#5a3a2e', '#d65230'], ['#6fa36a', '#6fa36a'], ['#5f7f4a', '#8f6fb5']];
-// One plant per month, drawn upward from (0,0). Returns the plant without and with its flowers.
-function plantParts(i, mono) {
-  const [L0, F0] = PLANT_INK[i], L = mono ? '#111' : L0, F = mono ? '#fff' : F0, T = mono ? '#111' : '#5a3a2e';
-  const fs = mono ? ' stroke="#111" stroke-width="1"' : '';
-  const dot = (x, y, r, c = F) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"${fs}/>`;
-  const line = (d, c, w) => `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
-  switch (i) {
-    case 0: return [line('M0 0 Q-2 -20 3 -34', T, 4) + `<ellipse cx="-9" cy="-34" rx="14" ry="6" fill="${L}"/><ellipse cx="8" cy="-45" rx="12" ry="5" fill="${L}"/><ellipse cx="-1" cy="-55" rx="9" ry="4" fill="${L}"/>`, mono ? '' : dot(-12, -36, 1.6, '#a7c48a') + dot(10, -47, 1.6, '#a7c48a')];
-    case 1: return [line('M0 0 Q-4 -18 6 -30 Q14 -40 4 -54 M6 -30 Q-10 -38 -14 -48', T, 3), [[6, -30], [4, -54], [-14, -48], [11, -41], [-5, -39]].map(([x, y]) => dot(x, y, 3.6)).join('')];
-    case 2: return [line('M0 0 L0 -24', T, 4) + (mono ? `<circle cx="0" cy="-38" r="17" fill="#fff" stroke="#111" stroke-width="1.5"/>` : `<circle cx="0" cy="-38" r="16" fill="#7f9a62" opacity=".5"/>`), dot(-10, -34, 11) + dot(10, -34, 11) + dot(0, -46, 12) + (mono ? '' : dot(-4, -40, 1.6, '#fff') + dot(6, -36, 1.6, '#fff'))];
-    case 3: return [line('M-20 0 V-54 M20 0 V-54 M-24 -54 H24', T, 3) + `<ellipse cx="-12" cy="-58" rx="7" ry="3" fill="${L}"/><ellipse cx="10" cy="-58" rx="7" ry="3" fill="${L}"/>`, [-14, -5, 4, 13].map((x, j) => `<ellipse cx="${x}" cy="${-40 + (j % 2) * 4}" rx="3.6" ry="${10 - (j % 2) * 2}" fill="${F}"${fs}/>`).join('')];
-    case 4: return [line('M-6 0 Q-10 -24 -8 -44 M4 0 Q8 -22 10 -40 M0 0 Q0 -30 2 -50', L, 3), [[2, -52], [-8, -46]].map(([x, y]) => `<path d="M${x} ${y} q-6 -6 0 -10 q6 4 0 10 q-8 2 -9 -5 q7 -1 9 5 q8 2 9 -5 q-7 -1 -9 5Z" fill="${F}"${fs}/>`).join('')];
-    case 5: return [`<ellipse cx="0" cy="-12" rx="21" ry="12" fill="${L}"/>`, dot(-7, -22, 9) + dot(10, -18, 7) + (mono ? '' : dot(-7, -22, 3, '#f3c96b') + dot(10, -18, 2.4, '#f3c96b'))];
-    case 6: return [line('M0 0 Q-16 -30 -24 -26 M0 0 Q14 -34 24 -28 M0 0 Q-2 -36 -6 -46', L, 1.6), [[-12, -24], [-20, -27], [8, -28], [18, -30], [-3, -38], [-5, -44]].map(([x, y]) => dot(x, y, 2.2)).join('')];
-    case 7: return [line('M-6 0 Q-8 -30 -18 -50 M0 0 Q2 -34 -2 -58 M6 0 Q10 -28 18 -48', L, 1.5), [[-18, -50, -25], [-2, -58, -5], [18, -48, 25]].map(([x, y, a]) => `<ellipse cx="${x}" cy="${y}" rx="3.2" ry="9" transform="rotate(${a} ${x} ${y})" fill="${F}"${fs || ' stroke="#b5a77a" stroke-width=".6"'}/>`).join('')];
-    case 8: return [line('M0 0 V-34', L, 2) + `<ellipse cx="-7" cy="-14" rx="7" ry="3" fill="${L}" transform="rotate(-20 -7 -14)"/><ellipse cx="7" cy="-22" rx="7" ry="3" fill="${L}" transform="rotate(20 7 -22)"/>`, [...Array(12).keys()].map(k => `<ellipse cx="0" cy="-48" rx="2.4" ry="7" fill="${F}"${fs} transform="rotate(${k * 30} 0 -41)"/>`).join('') + dot(0, -41, 3, mono ? '#111' : '#b5651d')];
-    case 9: return [line('M0 0 Q2 -14 0 -26', T, 4) + `<circle cx="0" cy="-36" r="15" fill="${mono ? '#fff' : '#8a9a62'}"${mono ? ' stroke="#111" stroke-width="1.5"' : ' opacity=".45"'}/>`, [[-10, -34], [9, -33], [0, -46], [-4, -30], [12, -44]].map(([x, y]) => dot(x, y, 7)).join('')];
-    case 10: return [line('M0 0 Q2 -30 -2 -56', T, 4) + line('M-2 -56 Q-18 -50 -20 -16 M-2 -56 Q-8 -44 -9 -10 M-2 -56 Q6 -44 7 -12 M-2 -56 Q16 -50 19 -18', L, 1.4), mono ? '' : [[-20, -18], [-9, -12], [7, -14], [19, -20]].map(([x, y]) => dot(x, y, 1.4, '#a7c48a')).join('')];
-    default: return [line('M0 0 L0 -30', T, 4) + `<ellipse cx="-12" cy="-30" rx="11" ry="7" fill="${L}"/><ellipse cx="12" cy="-34" rx="11" ry="7" fill="${L}"/>`, [[0, -44, 4], [-3, -50, 3.4], [3, -50, 3.4], [0, -56, 3]].map(([x, y, rr]) => dot(x, y, rr)).join('')];
-  }
-}
-function plantSVG(i, n, mono, line) {
-  if (!n) return `<ellipse cx="0" cy="-3" rx="9" ry="4.5" fill="${line}" opacity=".8"/><ellipse cx="-2" cy="-5" rx="4" ry="1.6" fill="#fff" opacity=".25"/>`;
-  if (n === 1) { const c = mono ? '#111' : '#6f9a52'; return `<path d="M0 0 V-11" stroke="${c}" stroke-width="1.8"/><ellipse cx="-4" cy="-12" rx="4.5" ry="2.2" fill="${c}" transform="rotate(-25 -4 -12)"/><ellipse cx="4" cy="-13" rx="4.5" ry="2.2" fill="${c}" transform="rotate(25 4 -13)"/>`; }
-  const [base, bloom] = plantParts(i, mono);
-  return n === 4 ? base + bloom : `<g transform="scale(${n === 2 ? .74 : .86})">${base}<g opacity="${n === 2 ? .3 : .6}">${bloom}</g></g>`;
-}
-const gardenPlantSVG = mo => `<svg viewBox="-28 -66 56 70" aria-hidden="true">${plantSVG(mo - 1, 4, !!PAL[save.look].mono, PAL[save.look].line)}</svg>`;
-function gardenSVG() {
-  const p = PAL[save.look] || PAL.ukiyo, mono = !!p.mono, sealN = Object.keys(save.seals).length;
-  const mangan = MOTIFS.filter(m => omTierOf(m) >= 2);
-  const spot = i => i < 6 ? [72 + i * 46, 116] : [94 + (i - 6) * 46, 178];
-  const lit = sealN > 0, stone = p.stone || (mono ? '#fff' : '#9a968c'), sst = mono ? ' stroke="#111" stroke-width="1.5"' : '';
-  let out = `<rect x="0" y="0" width="400" height="200" fill="${p.sky[0]}"/><path d="M0 92 Q200 74 400 92 V200 H0Z" fill="${p.ground}"/>`
-    + `<path d="M0 132 Q200 118 400 132 M0 150 Q200 136 400 150" fill="none" stroke="${p.line}" stroke-width="1" opacity=".7"/>`;
-  // stone lantern; a warm window once the first seal is earned, plus one small red seal per achievement
-  out += `<g transform="translate(26 0)">${lit && !mono ? '<circle cx="0" cy="96" r="20" fill="#f3c96b" opacity=".28"/>' : ''}<path d="M-14 82 L0 72 L14 82Z" fill="${stone}"${sst}/><rect x="-9" y="84" width="18" height="16" fill="${lit ? '#f3c96b' : p.line}"${sst}/><rect x="-11" y="100" width="22" height="4" fill="${stone}"${sst}/><rect x="-4" y="104" width="8" height="34" fill="${stone}"${sst}/><rect x="-12" y="138" width="24" height="5" fill="${stone}"${sst}/>`
-    + [...Array(Math.min(sealN, 10)).keys()].map(k => `<rect x="${-12 + (k % 5) * 5}" y="${148 + Math.floor(k / 5) * 6}" width="4" height="4" fill="#c23b22"/>`).join('') + `</g>`;
-  // ema rack with 満願 omamori
-  out += `<g transform="translate(356 0)"><path d="M-20 140 V52 M20 140 V52 M-26 52 H26 M-24 60 H24 M-20 100 H20" stroke="${mono ? '#111' : '#7a5a3a'}" stroke-width="3" fill="none"/>`
-    + mangan.slice(0, 10).map((m, k) => { const x = -15 + (k % 4) * 10, y = 64 + Math.floor(k / 4) * 22 + (Math.floor(k / 4) > 0 ? 18 : 0); return `<path d="M${x + 4} ${y - 4} V${y}" stroke="#e9c46a" stroke-width="1"/><path d="M${x} ${y} h8 l.6 13 h-9.2Z" fill="${mono ? '#fff' : m.omc}" stroke="#e9c46a" stroke-width="1"/>`; }).join('')
-    + (mangan.length > 10 ? `<text x="0" y="152" text-anchor="middle" font-size="9" fill="${p.ink}">+${mangan.length - 10}</text>` : '') + `</g>`;
-  for (let i = 0; i < 12; i++) {
-    const [x, y] = spot(i), n = monthCount(i + 1);
-    out += `<g class="np" data-month="${i + 1}" transform="translate(${x} ${y})" tabindex="0" role="button" aria-label="${PLANT_NAMES[i]}，${MONTHS[i][2]}，已收 ${n} / 4 张"><rect x="-22" y="-62" width="44" height="66" fill="transparent"/>${plantSVG(i, n, mono, p.line)}</g>`;
-  }
-  return `<svg viewBox="0 0 400 200" role="group" aria-label="我的庭院">${out}</svg>`;
+const NIWA_ART = [
+  [44894, '歌川広重', '雪中松に錦鶏'], [56940, '歌川広重', '梅'], [36725, '歌川広重', '枝垂桜に鳥'], [36726, '歌川広重', '藤に燕'],
+  [36724, '歌川広重', '菖蒲に雀'], [56939, '歌川広重', '牡丹に鶏'], [55364, '松村景文', '萩に虫'], [36742, '歌川広重', '月に雁'],
+  [36731, '歌川広重', '菊に鷦鷯'], [36741, '歌川広重', '紅葉に孔雀'], [54058, '窪俊満', '柳に翡翠'], [36694, '礒田湖龍斎', '桐に鳳凰']
+];
+const niwaSrc = mo => `niwa/${String(mo).padStart(2, '0')}.webp`;
+const RISE = [0, 38, 62, 84, 100];
+const gardenThumb = mo => `<img src="${niwaSrc(mo)}" alt="">`;
+function gardenPanel(i) {
+  const mo = i + 1, n = monthCount(mo);
+  return `<button type="button" class="np n${n}" data-month="${mo}" style="--rise:${RISE[n]}%" aria-label="${PLANT_NAMES[i]}，${MONTHS[i][2]}，已收 ${n} / 4 张">
+    <span class="np-art"><img src="${niwaSrc(mo)}" alt="" loading="lazy" decoding="async">${n ? '' : `<span class="np-empty">${MONTHS[i][2]}</span>`}</span>
+    <span class="np-lab"><b>${PLANT_NAMES[i]}</b><i aria-hidden="true">${'●'.repeat(n)}${'○'.repeat(4 - n)}</i></span></button>`;
 }
 function gardenHTML() {
-  const full = [...Array(12).keys()].filter(i => monthCount(i + 1) === 4).length, sprout = [...Array(12).keys()].filter(i => monthCount(i + 1) && monthCount(i + 1) < 4).length;
-  const mangan = MOTIFS.filter(m => omTierOf(m) >= 2).length;
-  return `<section class="niwa panel"><div class="niwa-h"><h2>我的庭院</h2><small>随收集生长 · 点一株看看</small></div>
-    <div class="niwa-art">${gardenSVG()}</div>
-    <p class="niwa-cap">开花 ${full} / 12 · 生长中 ${sprout} · 绘马架上 ${mangan} 枚満願 · 石灯笼 ${Object.keys(save.seals).length} 枚朱印</p>
+  const full = [...Array(12).keys()].filter(i => monthCount(i + 1) === 4).length;
+  const mangan = MOTIFS.filter(m => omTierOf(m) >= 2), seals = SEALS.filter(x => save.seals[x.id]);
+  return `<section class="niwa panel"><div class="niwa-h"><h2>我的庭院</h2><small>十二月花屏风 · 集齐一个月的四张，那一扇就会着色</small></div>
+    <div class="niwa-screen">${[...Array(12).keys()].map(gardenPanel).join('')}</div>
+    <div class="niwa-rail"><span class="nr-lab">绘马架</span><span class="nr-om">${mangan.length ? mangan.slice(0, 12).map(m => `<span class="nr-mini" title="${m.om}">${omamoriSVG(m, false, 2)}</span>`).join('') + (mangan.length > 12 ? `<small>+${mangan.length - 12}</small>` : '') : '<small>満願的御守会挂在这里</small>'}</span>
+      <span class="nr-seals">${seals.map(x => `<span class="nr-seal" title="${x.how}">${x.k}</span>`).join('')}</span></div>
+    <p class="niwa-cap">着色 ${full} / 12 · 満願 ${mangan.length} 枚 · 朱印 ${seals.length} / ${SEALS.length}</p>
     <div class="niwa-act"><button type="button" class="btn" data-poster="garden">庭院海报</button></div></section>`;
 }
 function plantToast(mo) {
-  const n = monthCount(mo), name = PLANT_NAMES[mo - 1];
-  toast(`<div class="t-art">${gardenPlantSVG(mo)}</div><div><div class="t1">${name} · ${MONTHS[mo - 1][2]}　${n} / 4</div><div class="t3">${n === 4 ? '四张都到齐了，正开着' : n ? `再收 ${4 - n} 张${MONTHS[mo - 1][1]}的花札，就会开花` : '还是一块石头，等第一张花札'}</div></div>`, true);
+  const n = monthCount(mo), [, who, what] = NIWA_ART[mo - 1];
+  toast(`<div class="t-art">${gardenThumb(mo)}</div><div><div class="t1">${PLANT_NAMES[mo - 1]} · ${MONTHS[mo - 1][2]}　${n} / 4</div><div class="t2">${who}「${what}」</div><div class="t3">${n === 4 ? '四张都到齐了，这一扇已经着色' : n ? `再收 ${4 - n} 张${MONTHS[mo - 1][1]}的花札，画就会完全显现` : '还是一张白纸，等第一张花札'}</div></div>`, true);
 }
 function variantsHTML() {
   const open = variantsOpen();
@@ -1880,8 +1889,8 @@ function omamoriPoster(id) {
 }
 function gardenPoster() {
   const full = [...Array(12).keys()].filter(i => monthCount(i + 1) === 4).length;
-  return {eyebrow: `我的庭院 · ${THEMES[save.look].name}`, title: '御守之庭', svg: gardenSVG().replace(/ tabindex="0" role="button"/g, ''), svgBox: [400, 200],
-    lines: [`花札 ${collectedCount()} / 48 · 御守 ${omamoriTotal()} 枚 · 朱印 ${Object.keys(save.seals).length} / ${SEALS.length}`, `开花 ${full} / 12 · 満願 ${MOTIFS.filter(m => omTierOf(m) >= 2).length} 枚`],
+  return {eyebrow: `我的庭院 · ${THEMES[save.look].name}`, title: '十二月花屏风', screen: true,
+    lines: [`花札 ${collectedCount()} / 48 · 御守 ${omamoriTotal()} 枚 · 朱印 ${Object.keys(save.seals).length} / ${SEALS.length}`, `屏风着色 ${full} / 12 · 満願 ${MOTIFS.filter(m => omTierOf(m) >= 2).length} 枚`],
     haiku: LEVELS[calendarSeason() * 2].haiku};
 }
 function wrapText(g, text, x, y, maxW, lh, align = 'left') {
@@ -1963,9 +1972,9 @@ async function makePoster(spec) {
   g.fillStyle = st.sub; g.font = `600 30px ${F.body}`; g.fillText(spec.eyebrow, tx, top);
   g.fillStyle = st.ink; g.font = `900 108px ${F.jp}`; g.fillText(spec.title, tx, top + 120);
   // hero: cards (as they are) or a rasterised badge / garden
-  const textH = (spec.flowers ? 60 : 0) + (spec.haiku ? 150 : 0) + (spec.lines || []).length * 56 + 70;
+  const textH = (spec.screen ? 20 : 0) + (spec.flowers ? 60 : 0) + (spec.haiku ? 150 : 0) + (spec.lines || []).length * 56 + 70;
   const bottom = H - (st.frame === 'cover' ? 180 : 140), box = {x: X, y: top + 170, w: (st.frame === 'cartouche' ? 990 : W - 90) - X, h: 0};
-  box.h = Math.min(560, bottom - textH - box.y);
+  box.h = Math.min(spec.screen ? 660 : 560, bottom - textH - box.y);
   if (spec.cards) {
     const imgs = await Promise.all(spec.cards.map(m => loadImg(cardSrc(m))));
     const n = imgs.length, cols = n <= 3 ? n : 3, rows = Math.ceil(n / cols), gap = 28;
@@ -1983,6 +1992,24 @@ async function makePoster(spec) {
       if (im) g.drawImage(im, 0, 0, cw, ch);
       g.restore();
     });
+  } else if (spec.screen) {
+    // the twelve panels, in two rows of six, as they stand in the collection
+    const imgs = await Promise.all([...Array(12).keys()].map(i => loadImg(niwaSrc(i + 1))));
+    const pad = 14, gap = 6, cols = 6, rows = 2, labH = 46;
+    const pw = Math.min((box.w - pad * 2 - gap * (cols - 1)) / cols, ((box.h - pad * 2 - gap * (rows - 1)) / rows - labH) / 2.4), ph = pw * 2.4;
+    const sw = cols * pw + (cols - 1) * gap + pad * 2, sh = rows * (ph + labH) + (rows - 1) * gap + pad * 2, sx = box.x + (box.w - sw) / 2, sy = box.y + (box.h - sh) / 2;
+    const gold = g.createLinearGradient(0, sy, 0, sy + sh); gold.addColorStop(0, '#c99a3a'); gold.addColorStop(1, '#8a6420');
+    g.fillStyle = save.look === 'manga' ? '#111' : gold; g.fillRect(sx, sy, sw, sh);
+    imgs.forEach((im, i) => {
+      const n = monthCount(i + 1), x = sx + pad + (i % cols) * (pw + gap), y = sy + pad + Math.floor(i / cols) * (ph + labH + gap), rise = RISE[n] / 100;
+      g.fillStyle = '#f1e8d4'; g.fillRect(x, y, pw, ph);
+      if (im && n) { g.save(); g.beginPath(); g.rect(x, y + ph * (1 - rise), pw, ph * rise); g.clip(); g.drawImage(im, x, y, pw, ph); g.restore(); if (n < 4) { g.fillStyle = 'rgba(241,232,212,.55)'; g.fillRect(x, y, pw, ph); } }
+      if (!n) { g.fillStyle = 'rgba(90,70,50,.35)'; g.font = `600 ${Math.round(pw * .28)}px ${F.jp}`; g.textAlign = 'center'; vtext(g, MONTHS[i][2], x + pw / 2, y + ph * .3, pw * .28); }
+      g.fillStyle = '#2b2116'; g.fillRect(x, y + ph, pw, labH);
+      g.textAlign = 'center'; g.fillStyle = '#f3e6c4'; g.font = `600 18px ${F.jp}`; g.fillText(PLANT_NAMES[i], x + pw / 2, y + ph + 21);
+      g.fillStyle = n === 4 ? '#f3d27a' : '#a8916a'; g.font = `400 10px ${F.body}`; g.fillText('●'.repeat(n) + '○'.repeat(4 - n), x + pw / 2, y + ph + 38);
+    });
+    g.textAlign = center ? 'center' : 'left';
   } else if (spec.svg) {
     const [vw, vh] = spec.svgBox, k = Math.min(box.w / vw, box.h / vh), w = vw * k, h = vh * k;
     const im = await svgImg(spec.svg, Math.round(w), Math.round(h));
@@ -2138,6 +2165,8 @@ function creditsHTML() {
       <li><b>花札「彩绘」「墨染」「朱缘」</b>：Louie Mantia 绘制，后两套另有すけじょ参与；来自 <a href="https://commons.wikimedia.org/wiki/Category:SVG_Hanafuda" target="_blank" rel="noopener">Wikimedia Commons</a>，<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>，未作修改。</li>
       <li><b>花札「花图」</b>：韩式 Hwatu，Marcus Richert 以 Louie Mantia 的花札为基础制作，Spenĉjo 整理上传；<a href="https://commons.wikimedia.org/wiki/Category:SVG_Hwatu" target="_blank" rel="noopener">Wikimedia Commons</a>，CC BY-SA 4.0，未作修改。</li>
       <li><b>花札「墨绘」「剪纸」「网点」与御守</b>：本作原创，由程序绘制；御守花纹取自传统和柄。</li>
+      <li><b>我的庭院 · 十二月花屏风</b>：${NIWA_ART.map(([id, who, what]) => `<a href="https://www.metmuseum.org/art/collection/search/${id}" target="_blank" rel="noopener">${who}「${what}」</a>`).join('、')}，均为公有领域作品，图像来自大都会艺术博物馆开放馆藏（CC0），仅裁切取景。</li>
+      <li><b>卡背</b>：江户至明治时期的染布型纸（katagami），<a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">大都会艺术博物馆开放馆藏</a>（CC0）：${Object.values(BACK_KATAGAMI).map(b => `<a href="https://www.metmuseum.org/art/collection/search/${b.met}" target="_blank" rel="noopener">${b.name}</a>`).join('、')}。裁取花纹部分，镂空处透出底色；部分主题把柿涩纸染成主题色。</li>
       <li><b>主页插图</b>：神坂雪佳《百々世草》（1909–10）、葛饰北斋《北斋漫画》、歌川广重《名所江户百景》中的「两国花火」「龟户梅屋敷」「大桥阿宅骤雨」「月之岬」「浅草金龙山」（1856–58），均为公有领域作品，图像来自<a href="https://www.artic.edu/open-access" target="_blank" rel="noopener">芝加哥艺术博物馆开放馆藏</a>（CC0），仅缩放、裁切取景。纸纹：<a href="https://ambientcg.com/view?id=Paper006" target="_blank" rel="noopener">ambientCG Paper006</a>（CC0）。</li>
       <li><b>纸牌音效</b>：Kenney「<a href="https://kenney.nl/assets/casino-audio" target="_blank" rel="noopener">Casino Audio</a>」，CC0。</li>
       <li><b>琴声、风铃、尺八与环境音</b>：<a href="https://github.com/Tonejs/Tone.js" target="_blank" rel="noopener">Tone.js</a>（MIT）实时合成。</li>
@@ -2256,7 +2285,8 @@ function startLevel(n, sameSet) {
   SFX.deal();
   const cards = G.deck.length, token = G;
   const dealt = new Promise(res => setTimeout(res, reduceMotion() ? 150 : 450 + cards * 22));
-  const loaded = Promise.race([preloadArt(ids), new Promise(res => setTimeout(res, 4000))]);
+  const backLoaded = new Promise(res => { const im = new Image(); im.onload = im.onerror = res; im.src = backSrc(save.look); });
+  const loaded = Promise.race([Promise.all([preloadArt(ids), backLoaded]), new Promise(res => setTimeout(res, 4000))]);
   Promise.all([dealt, loaded]).then(() => {
     if (G !== token || G.phase !== 'deal') return;
     G.phase = 'preview';
@@ -2402,7 +2432,7 @@ function collect(ids, el) {
     toast(`<div class="t-art">${omamoriSVG(u, false, tier)}</div><div><div class="t1">御守升级 · ${T.name}</div><div class="t2">${u.om}</div><div class="t3">${tier > 1 ? '金线织满，挂上了庭院的绘马架' : '布面绣上了金线'} · 第 ${save.collected[up]} 枚</div></div>`, true);
     SFX.upgrade(tier);
   } else cardToast(m, isFresh);
-  grown.forEach((mo, j) => later(() => toast(`<div class="t-art">${gardenPlantSVG(mo)}</div><div><div class="t1">庭里长出了${PLANT_NAMES[mo - 1]}</div><div class="t2">${MONTHS[mo - 1][2]}的四张花札都到齐了</div><div class="t3">回主页看看「我的庭院」</div></div>`, true), 2100 + j * 1600));
+  grown.forEach((mo, j) => later(() => toast(`<div class="t-art">${gardenThumb(mo)}</div><div><div class="t1">屏风上的「${PLANT_NAMES[mo - 1]}」着色了</div><div class="t2">${MONTHS[mo - 1][2]}的四张花札都到齐了</div><div class="t3">回主页看看「我的庭院」</div></div>`, true), 2100 + j * 1600));
   if (collectedCount() === MOTIFS.length && awardSeal('zensatsu')) later(() => stampFX('全札', '四十八张，都在这里了'), 2200);
   refreshMeta();
 }
@@ -2749,7 +2779,6 @@ document.addEventListener('keydown', e => {
   else if ((e.key === ' ' || e.key === 'Enter') && at < 0 && G.missPending) { e.preventDefault(); skipWait(); }
 });
 document.addEventListener('keydown', e => {
-  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('[data-month]')) { e.preventDefault(); SFX.tap(); plantToast(+e.target.dataset.month); return; }
   if (e.key !== 'Escape') return;
   if (!$('#modal').hidden && $('#modalCard [data-act="close"]')) { closeModal(true); return; }
   if (!$('#demo').hidden) { skipDemo(); return; }

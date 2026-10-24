@@ -19,7 +19,8 @@
   - **夜庭**：看牌只有烟火亮起的一瞬，三枚花火代替回看。
   - **役之庭**：在步数内配出指定的役（如猪鹿蝶），其余的牌只是陪衬。
 - 通关、御守详情和主页庭院都能生成分享海报（1080×1440），排版随当前主题变化；在 claude.ai 里通过下载确认保存，其他浏览器直接下载或调用系统分享。
-- 桌面端（宽于 960px）左侧是信息栏，右侧是牌阵；方向键选牌，空格或回车翻开，R 再看一眼。
+- 每个主题的卡背是一张江户—明治时期的染布型纸（katagami），镂空处透出主题底色。
+- 桌面端（宽于 960px）主页分两栏，「我的庭院」「庭外」和统计会自动放到较短的一栏，让两边高度接近；对局左侧是信息栏，右侧是牌阵；方向键选牌，空格或回车翻开，R 再看一眼。
 - 支持震动的手机（如安卓 Chrome）在配对、翻错、连击和通关时会轻震，可在设置里关闭。
 - 设置里可以清除全部进度（保留主题等设置）；主页底部的「清空记录，重新开始」会清掉浏览器里的全部游戏记录和设置，并刷新页面。
 
@@ -32,7 +33,7 @@
 - **花札图鉴**：完整 48 张，附寓意、介绍、收集日期，以及「役」的进度。
 - **御守帖**：48 枚御守徽章，获得即点亮，未获得只显示剪影。同一枚收得越多越华丽：布面 → 金线（3 枚）→ 満願（6 枚，金线织锦加流苏），升级时会有提示。
 - **朱印帖**：三連、五連、七連、無垢、一目、八景、全札，以及庭外的花合、夜庭、役成。
-- **我的庭院**：主页上的一方小庭，随收集生长。十二个月各一株草木：没有牌时是一块石头，一张发芽，两三张长成，四张到齐就开花；満願的御守挂上绘马架，得到朱印后石灯笼亮起。
+- **我的庭院 · 十二月花屏风**：主页上的十二扇屏风，每月一幅花鸟版画。没有牌时是白纸；每收一张当月的花札，画就从雾中升起一截；四张到齐，这一扇着色。満願的御守挂在下方的绘马架上，朱印盖在一旁。
 
 ## 主题
 
@@ -63,6 +64,8 @@ python3 -m http.server 8000
 - 花札「花图」(`cards/hwatu`)：韩式 Hwatu，Marcus Richert 以 Louie Mantia 的花札为基础制作，Spenĉjo 整理上传；[Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:SVG_Hwatu)，CC BY-SA 4.0，未作修改。文件按日式月份重命名（韩式的十一月桐、十二月柳已对调）。
 - 花札「墨绘」「剪纸」「网点」(`cards/ink`、`cards/kirie`、`cards/tone`) 与御守徽章：本项目原创，由程序绘制；御守花纹取自传统和柄。
 - 主页插图（`art/`）：神坂雪佳《百々世草》（1909–10）、葛饰北斋《北斋漫画》、歌川广重《名所江户百景》中的「两国花火」「龟户梅屋敷」「大桥阿宅骤雨」「月之岬」「浅草金龙山」（1856–58），均为公有领域作品，图像来自[芝加哥艺术博物馆开放馆藏](https://www.artic.edu/open-access)（CC0），仅缩放与裁切取景；纸纹为 [ambientCG Paper006](https://ambientcg.com/view?id=Paper006)（CC0）。
+- 卡背（`backs/`）：江户至明治时期的染布型纸（katagami），[大都会艺术博物馆开放馆藏](https://www.metmuseum.org/about-the-met/policies-and-documents/open-access)（CC0）：[菊菱](https://www.metmuseum.org/art/collection/search/69131)、[麻の葉](https://www.metmuseum.org/art/collection/search/53215)、[杉綾と波](https://www.metmuseum.org/art/collection/search/69130)、[菊菱に紗綾形](https://www.metmuseum.org/art/collection/search/69138)、[梅散らし](https://www.metmuseum.org/art/collection/search/69145)、[梅](https://www.metmuseum.org/art/collection/search/69107)、[矢筈](https://www.metmuseum.org/art/collection/search/69114)。裁取花纹，镂空处做成透明，部分主题把柿涩纸染成主题色。
+- 十二月花屏风（`niwa/`）：歌川广重「雪中松に錦鶏」「梅」「枝垂桜に鳥」「藤に燕」「菖蒲に雀」「牡丹に鶏」「月に雁」「菊に鷦鷯」「紅葉に孔雀」，松村景文「萩に虫」，窪俊満「柳に翡翠」，礒田湖龍斎「桐に鳳凰」；公有领域，图像来自大都会艺术博物馆开放馆藏（CC0，馆藏号 44894、56940、36725、36726、36724、56939、36742、36731、36741、55364、54058、36694），仅裁切取景。
 - 纸牌音效（`sfx/`）：Kenney「[Casino Audio](https://kenney.nl/assets/casino-audio)」，CC0，已转码为 MP3。
 - 琴声、风铃、尺八与环境音：[Tone.js](https://github.com/Tonejs/Tone.js)（MIT）实时合成。
 - 落花特效：[canvas-confetti](https://github.com/catdad/canvas-confetti)（ISC）。
