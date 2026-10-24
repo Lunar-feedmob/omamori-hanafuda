@@ -1,0 +1,8 @@
+{
+  "description": "御守花札 · 微信小游戏",
+  "compileType": "game",
+  "appid": "touristappid",
+  "projectname": "omamori-hanafuda",
+  "setting": {"es6": true, "enhance": true, "minified": true, "urlCheck": true},
+  "packOptions": {"ignore": [{"type": "folder", "value": "tools"}, {"type": "folder", "value": "dev"}]}
+}
