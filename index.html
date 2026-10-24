@@ -146,7 +146,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 #game.compact .g-title b{font-size:18px}
 #game.compact .g-title .eyebrow{font-size:10px}
 #game.compact .stat{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:3px 10px}
-#game.compact .stat .top{display:block}
+#game.compact .stat .top{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #game.compact #usedMoves,#game.compact .mbar{display:none}
 #game.compact .stat .val b{font-size:20px}
 #game.compact .stat .val small{font-size:12px}
@@ -160,14 +160,19 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .hud{display:grid;grid-template-columns:1.35fr 1fr;gap:8px}
 .stat{padding:7px 12px 8px;min-width:0}
 .stat .lab{font-size:12px;color:var(--muted);letter-spacing:.06em}
-.stat .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.stat .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;white-space:nowrap;overflow:hidden}
 .stat .val{display:flex;align-items:baseline;gap:4px;font-family:var(--f-num,var(--f-body));font-weight:900;line-height:1.1}
 .stat .val b{font-size:28px}
 .stat .val small{font-size:14px;color:var(--muted);font-weight:600}
 .mbar{height:4px;border-radius:99px;background:var(--line);margin-top:5px;overflow:hidden}
 .mbar i{display:block;height:100%;background:var(--accent);border-radius:inherit;transition:width .35s}
 .stat.low .val b{color:var(--shu)} .stat.low .mbar i{background:var(--shu)}
-.hint{align-self:center;min-height:26px;padding:2px 14px;font-size:13px;color:var(--muted);position:relative;text-align:center}
+.hint{align-self:center;min-height:26px;max-width:100%;padding:2px 14px;font-size:13px;color:var(--muted);position:relative;text-align:center;white-space:nowrap;overflow:hidden}
+.hint #hintText{display:inline-block}
+/* a hint wider than the strip scrolls end to end and back, pausing at each end */
+.hint.marquee{align-self:stretch;text-align:left}
+.hint.marquee #hintText{animation:hintScroll var(--mdur,6s) ease-in-out infinite alternate}
+@keyframes hintScroll{0%,18%{transform:translateX(0)}82%,100%{transform:translateX(var(--mx,0))}}
 .hint .tbar{position:absolute;left:14px;right:14px;bottom:0;height:2px;border-radius:2px;background:var(--season);transform-origin:left;opacity:0}
 .hint .tbar.run{opacity:.9;animation:tbar var(--dur,3s) linear forwards}
 @keyframes tbar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
@@ -551,6 +556,8 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
   .deck.dealing .card,.card.pop .inner,.modal-card,.float,#board.aura,.hv-matsuri .mt-l,.card.coach,.btn.coach-btn{animation:none}
   .stamp-fx .seal,.stamp-fx small{animation-duration:.01s;animation-delay:1.6s}
   .toast,.rail i,.mbar i{transition:none}
+  .hint.marquee #hintText{animation:none}
+  .hint{text-overflow:ellipsis}
 }
 </style>
 </head>
@@ -631,7 +638,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
       <button class="toggle" id="tgSound" type="button" role="switch"><span><b>音效</b><small>翻牌、配对与通关的声音</small></span><span class="sw2"></span></button>
       <button class="toggle" id="tgBgm" type="button" role="switch"><span><b>背景琴声</b><small>按季节换乐器：春琴、夏风铃、秋尺八、冬钵铃</small></span><span class="sw2"></span></button>
       <button class="toggle" id="tgAmb" type="button" role="switch"><span><b>庭院环境音</b><small>流水、鹿威し，以及黄莺、风铃、铃虫或寺钟</small></span><span class="sw2"></span></button>
-    </div></section>
+    </div><div class="links"><button class="btn" id="btnTestSound" type="button">声音检测</button></div><p class="save-note" id="audioDiag">听不到声音时点一下，会播放一段测试音并显示音频状态。</p></section>
     <section class="set-group"><h3>其他</h3><div class="links">
       <button class="btn" id="btnRules" type="button">游玩说明</button>
       <button class="btn" id="btnCredits" type="button">素材致谢</button>
@@ -1177,8 +1184,9 @@ function startAudio() {
     try {
       T.start().catch(() => {});   // never block on resume: iOS only allows it on a later tap, and the graph can be built while suspended
       const out = new T.Volume(-3).toDestination();
-      const rev = new T.Reverb({decay: 3.8, preDelay: .02, wet: .4});
-      await rev.generate(); rev.connect(out);
+      let rev;
+      try { rev = new T.Reverb({decay: 3.8, preDelay: .02, wet: .4}); await rev.generate(); rev.connect(out); }
+      catch (e) { rev = new T.Gain(.9).connect(out); }   // some phones can't render the reverb impulse; play dry instead
       const dry = new T.Gain(.75).connect(out);
       A.koto = Array.from({length: 5}, () => { const v = new T.PluckSynth({attackNoise: 1.3, dampening: 3600, resonance: .95, volume: -6}); v.connect(rev); v.connect(dry); return v; });
       A.kotoT = A.koto.map(() => 0); A.fluteT = 0;
@@ -1199,7 +1207,7 @@ function startAudio() {
       A.amb.noise = new T.Noise('pink').connect(A.amb.filter);
       A.tone = true; T.Destination.mute = !save.sound;
       applyAmbience(); scheduleBgm();
-    } catch (e) { A.tone = false; }
+    } catch (e) { A.tone = false; A.failed = String((e && e.message) || e); }
   })().then(() => { A.done = true; renderSoundUI(); });
   return A.starting;
 }
@@ -1307,7 +1315,7 @@ function seasonCall() {
 }
 let actx = null, master = null, noiseBuf = null;
 function audio() {
-  if (!save.sound || window.Tone) return null;
+  if (!save.sound || A.tone) return null;   // the raw synth only plays when Tone.js isn't running
   try {
     if (!actx) {
       const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
@@ -1693,7 +1701,7 @@ function startLevel(n, sameSet) {
   const L = LEVELS[n - 1], mode = save.mode, M = MODES[mode];
   const ids = sameSet && G && G.n === n ? G.ids : pickMotifs(L);
   G = {n, L, mode, ids, deck: shuffle(ids.concat(ids)).map(id => ({id, up: false, done: false, peek: false})),
-    budget: budgetOf(L, mode), used: 0, peeks: M.peeks(L), peeksUsed: 0, misses: 0, phase: 'deal', first: null, pairs: 0, fresh: [], yaku: [], seals: [], timers: [], compact: false};
+    budget: budgetOf(L, mode), used: 0, peeks: M.peeks(L), peeksUsed: 0, misses: 0, phase: 'deal', first: null, pairs: 0, fresh: [], yaku: [], seals: [], timers: [], compact: false, cols: 0};
   $('#game').classList.remove('compact');
   A.combo = 0;
   G.t0 = Date.now(); statFor(n, mode).plays++; persist();
@@ -1762,7 +1770,13 @@ function renderHud() {
   $('#btnPeek').setAttribute('aria-label', G.peeks ? `重新看牌，本关还剩 ${G.peeks} 次，不消耗步数` : '本关的重新看牌已用完');
 }
 function setHint(text, dur) {
-  $('#hintText').textContent = text;
+  const h = $('#hint'), t = $('#hintText');
+  t.textContent = text;
+  h.classList.remove('marquee');
+  if (!reduceMotion()) requestAnimationFrame(() => {
+    const room = h.clientWidth - 28, over = t.scrollWidth - room;
+    if (over > 2) { h.style.setProperty('--mx', -Math.ceil(over) + 'px'); h.style.setProperty('--mdur', Math.max(3, over / 28 + 2).toFixed(1) + 's'); h.classList.add('marquee'); }
+  });
   const b = $('#tbar'); b.classList.remove('run');
   if (dur) { b.style.setProperty('--dur', dur + 'ms'); void b.offsetWidth; b.classList.add('run'); }
 }
@@ -1807,7 +1821,7 @@ function tap(i) {
       G.phase = 'play'; renderHud(); setHint(playHint());
       if (!save.peekTip && G.peeks > 0) {   // first miss ever: point at the look-back button once
         save.peekTip = true; persist();
-        setHint('记不清了？试试下面的「重新看牌」，不耗步数');
+        setHint('记不清？点「重新看牌」，不耗步数');
         const pb = $('#btnPeek'); pb.classList.remove('coach-btn'); void pb.offsetWidth; pb.classList.add('coach-btn');
       }
     };
@@ -1915,19 +1929,24 @@ function layoutBoard() {
   const W = board.clientWidth - pad * 2, H = board.clientHeight - parseFloat(bs.paddingTop) - parseFloat(bs.paddingBottom) - 2 - pad * 2, N = G.deck.length;
   if (W <= 0 || H <= 0) return;
   const ratio = 100 / 61, gap = G.compact ? (W < 480 ? 4 : 8) : (W < 480 ? 6 : 10), MAX = W < 480 ? 92 : 118;
+  const fitFor = cols => { const rows = Math.ceil(N / cols); return Math.min((W - gap * (cols - 1)) / cols, ((H - gap * (rows - 1)) / rows) / ratio, MAX); };
   let best = null;
   for (let cols = 2; cols <= N; cols++) {
-    const rows = Math.ceil(N / cols);
-    const w = Math.min((W - gap * (cols - 1)) / cols, ((H - gap * (rows - 1)) / rows) / ratio, MAX);
-    const score = w - (cols * rows - N) * .6;
+    const w = fitFor(cols), score = w - (cols * Math.ceil(N / cols) - N) * .6;
     if (!best || score > best.score) best = {cols, w, score};
   }
   // Cards getting small: switch this garden to the compact chrome once, then measure again with the freed-up height.
-  if (!G.compact && best.w < 58) { G.compact = true; $('#game').classList.add('compact'); requestAnimationFrame(layoutBoard); return; }
+  // Decided once, while dealing, so the HUD never changes shape during the preview or play.
+  if (!G.compact && best.w < 58 && G.phase === 'deal') { G.compact = true; $('#game').classList.add('compact'); requestAnimationFrame(layoutBoard); return; }
+  // Keep the arrangement for the whole garden: positions are what the player memorises. Small viewport changes (the mobile
+  // address bar, fonts arriving) only rescale the cards; a new column count is chosen only for a big change such as rotating.
+  let cols = best.cols;
+  if (G.cols && G.cols !== best.cols && fitFor(G.cols) >= best.w * .8) cols = G.cols;
+  G.cols = cols;
   // The width always comes from both limits, so the whole deck fits on screen and never scrolls.
-  const w = Math.max(28, Math.floor(best.w));
+  const w = Math.max(28, Math.floor(fitFor(cols)));
   deck.style.setProperty('--gap', gap + 'px');
-  deck.style.width = (best.cols * w + (best.cols - 1) * gap) + 'px';
+  deck.style.width = (cols * w + (cols - 1) * gap) + 'px';
   for (const el of deck.children) el.style.setProperty('--cw', w + 'px');
 }
 
@@ -1993,6 +2012,7 @@ $('#btnHome').addEventListener('click', () => { SFX.tap(); goHome(); });
 $('#btnRules').addEventListener('click', () => openModal(rulesHTML('知道了')));
 $('#btnCredits').addEventListener('click', () => openModal(creditsHTML()));
 $('#btnStats').addEventListener('click', () => openModal(statsHTML()));
+$('#btnTestSound').addEventListener('click', testSound);
 $('#btnReset').addEventListener('click', () => openModal(`<div class="eyebrow">从头再来</div><h2>清除全部进度？</h2>
   <p>已收集的 ${collectedCount()} 张花札、${omamoriTotal()} 枚御守、${Object.keys(save.seals).length} 枚朱印、所有庭院的通关记录和游玩统计都会清空，无法恢复。</p>
   <p>主题、卡面、难度和声音设置会保留。</p>
@@ -2076,14 +2096,30 @@ document.addEventListener('keydown', e => {
 // Mobile audio unlock. iOS Safari only lets audio start inside touchend/click (not pointerdown/touchstart), and a context can be
 // suspended again later (calls, backgrounding), so every tap re-checks. 'playback' keeps sound on when the ring/silent switch is set.
 let silentEl = null;
+const IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 function unlockAudio() {
   try { if (navigator.audioSession && navigator.audioSession.type !== 'playback') navigator.audioSession.type = 'playback'; } catch (e) {}
-  if (!navigator.audioSession && !silentEl) {
+  if (IS_IOS && !navigator.audioSession && !silentEl) {
     try { silentEl = new Audio('sfx/silence.mp3'); silentEl.loop = true; silentEl.setAttribute('playsinline', ''); silentEl.play().catch(() => { silentEl = null; }); } catch (e) {}
   }
   const T = window.Tone;
-  if (T) { try { if (T.context.state !== 'running') T.context.resume(); } catch (e) {} startAudio(); }
-  else audio();
+  if (T && !A.failed) { try { if (T.context.state !== 'running') T.context.resume(); } catch (e) {} startAudio(); }
+  if (!A.tone) audio();   // raw Web Audio is unlocked in the same tap, so there is sound even before (or without) Tone.js
+}
+// Settings → 声音检测: play a short phrase and report what the audio engine is doing, for remote troubleshooting.
+function audioReport() {
+  const T = window.Tone, ctx = A.tone ? T.context : actx;
+  const state = ctx ? ({running: '运行中', suspended: '已暂停（需要再点一下）', closed: '已关闭', interrupted: '被系统打断'}[ctx.state] || ctx.state) : '未创建';
+  const engine = A.tone ? 'Tone.js 音色' : A.failed ? `简易合成（Tone.js 初始化失败：${A.failed.slice(0, 60)}）` : !T ? '简易合成（Tone.js 未加载）' : actx ? '简易合成' : '尚未启动';
+  const samples = A.samples ? (A.samples.loaded ? '已加载' : '加载中或失败') : '—';
+  return `引擎：${engine} · 状态：${state} · 纸牌音样本：${samples} · 音效开关：${save.sound ? '开' : '关'} · ${IS_IOS ? 'iOS' : /Android/.test(navigator.userAgent) ? 'Android' : '其他系统'}`;
+}
+function testSound() {
+  if (!save.sound) setSound(true);
+  unlockAudio();
+  const go = () => { const si = season(); [0, 2, 4, 5].forEach((k, j) => play(si, SCALES[si][k], j * .16, .7)); SFX.flip(); };
+  (A.starting || Promise.resolve()).then(() => { go(); setTimeout(() => { $('#audioDiag').textContent = audioReport() + '。如果显示「运行中」却仍听不到，请调高手机的媒体音量（不是铃声音量）。'; }, 400); });
+  $('#audioDiag').textContent = '正在播放测试音…';
 }
 ['touchend', 'click', 'keydown'].forEach(ev => document.addEventListener(ev, unlockAudio, {passive: true}));
 if ('ResizeObserver' in window) new ResizeObserver(() => layoutBoard()).observe($('#board'));
