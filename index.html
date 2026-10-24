@@ -577,6 +577,31 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 :root[data-look="ukiyo"] .s-kanji{border-radius:3px}
 :root[data-look="manga"] .s-kanji{border-radius:0;border:2px solid #111;color:#111}
 
+/* ---------- 我的庭院 + 庭外 (home, every look) ---------- */
+.niwa,.gaien{padding:14px;display:grid;gap:10px;text-align:left}
+.niwa-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.niwa-h h2{margin:0;font-family:var(--f-head);font-weight:var(--w-head);font-size:18px}
+.niwa-h small{font-size:12px;color:var(--muted)}
+.niwa-art svg{display:block;width:100%;height:auto;border-radius:calc(var(--panel-radius) * .6)}
+.niwa-art .np{cursor:pointer;outline:none}
+.niwa-art .np:focus-visible rect{stroke:var(--accent);stroke-width:2}
+.niwa-cap{margin:0;font-size:12px;color:var(--muted)}
+.niwa-act{display:flex;justify-content:flex-end}
+.niwa-act .btn{min-height:40px;font-size:13px}
+.gaien-list{display:grid;gap:8px}
+.gaien-go{display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:2px 10px;padding:10px 12px;text-align:left;border-radius:var(--btn-radius);border:var(--panel-bw) solid var(--line);background:var(--panel-solid);cursor:pointer}
+.gaien-go b{font-size:20px;grid-row:span 2}
+.gaien-go small{font-size:12px;color:var(--accent);font-weight:700}
+.gaien-go span{font-size:12px;color:var(--muted);grid-column:2}
+.gaien-go:disabled{opacity:.55;cursor:default}
+#game.night .deck{background:#0d1328;border-color:#1d2b52}
+#game.night #board{background:radial-gradient(ellipse at 50% 40%,rgba(20,30,64,.55),rgba(5,8,20,.75))}
+#board.flash{animation:flash 1s ease-out}
+@keyframes flash{0%{box-shadow:inset 0 0 0 transparent}20%{box-shadow:inset 0 0 120px rgba(242,154,58,.7)}100%{box-shadow:inset 0 0 0 transparent}}
+.poster-view{margin:8px auto 4px;max-width:min(360px,100%)}
+.poster-view img{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.poster-tip,.poster-msg{margin:4px 0 0;font-size:12px;color:var(--muted);text-align:center}
+.poster-msg:empty{display:none}
 /* ---------- screen transitions: each look enters its own way (backwards fill, so nothing lingers afterwards) ---------- */
 .screen.enter{animation:enter-rise .42s cubic-bezier(.2,.7,.25,1) backwards}
 :root[data-look="washi"] .screen.enter,:root[data-look="techo"] .screen.enter{animation:enter-page .62s cubic-bezier(.2,.7,.2,1) backwards;transform-origin:0 50%}
@@ -634,7 +659,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
   .toast,.rail i,.mbar i{transition:none}
   .hint.marquee #hintText{animation:none}
   .hint{text-overflow:ellipsis}
-  .screen.enter,.sheet.enter{animation:none}
+  .screen.enter,.sheet.enter,#board.flash{animation:none}
 }
 </style>
 
@@ -669,7 +694,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
         <div class="mbar" id="movesRail"><i id="movesBar" style="width:100%"></i></div>
       </div>
       <div class="stat panel">
-        <div class="top"><span class="lab">已配对</span><span class="lab" id="comboLab"></span></div>
+        <div class="top"><span class="lab" id="pairsLab">已配对</span><span class="lab" id="comboLab"></span></div>
         <div class="val tnum"><b id="pairsDone">0</b><small id="pairsTotal">/ 4 组</small></div>
       </div>
     </div>
@@ -843,7 +868,8 @@ const YAKU = [
 const SEALS = [
   {id: 'san', k: '三連', how: '连续配对三组'}, {id: 'go', k: '五連', how: '连续配对五组'}, {id: 'nana', k: '七連', how: '连续配对七组'},
   {id: 'muku', k: '無垢', how: '一局里一次也没翻错'}, {id: 'ichimoku', k: '一目', how: '不回看就点亮灯笼'},
-  {id: 'hakkei', k: '八景', how: '点亮全部八盏灯笼'}, {id: 'zensatsu', k: '全札', how: '集齐四十八张花札'}
+  {id: 'hakkei', k: '八景', how: '点亮全部八盏灯笼'}, {id: 'zensatsu', k: '全札', how: '集齐四十八张花札'},
+  {id: 'v-awase', k: '花合', how: '通过庭外「花合」'}, {id: 'v-yoru', k: '夜庭', how: '通过庭外「夜庭」'}, {id: 'v-yaku', k: '役成', how: '在「役之庭」凑成指定的役'}
 ];
 const SKINS = {
   classic: {name: '彩绘', note: 'Mantia · 绿野红缘'}, sumi: {name: '墨染', note: 'Mantia · 黑边浓墨'}, shu: {name: '朱缘', note: 'Mantia · 朱红边框'},
@@ -870,6 +896,15 @@ const LEVELS = [
   {name: '時雨', s: 3, sub: '初冬', pairs: 10, std: 20, hard: 16, haiku: ['初しぐれ猿も小蓑をほしげなり', '初冬的阵雨，猴子也想要件小蓑衣', '松尾芭蕉']},
   {name: '除夜', s: 3, sub: '岁末', pairs: 12, std: 23, hard: 19, haiku: ['年暮れぬ笠きて草鞋はきながら', '一年又尽，依旧戴着斗笠，穿着草鞋', '松尾芭蕉']}
 ].map((l, i) => ({...l, n: i + 1}));
+// 庭外: three ways to play once all eight gardens are lit. Each round is generated fresh, in the season of the real calendar.
+const VARIANTS = [
+  {key: 'awase', n: 101, name: '花合', sub: '同月相配', seal: 'v-awase', note: '同一个月的四张牌互相配对，牌面不再一模一样。',
+    haiku: ['花の雲鐘は上野か浅草か', '花开如云，钟声是从上野，还是浅草', '松尾芭蕉']},
+  {key: 'yoru', n: 102, name: '夜庭', sub: '花火一闪', seal: 'v-yoru', note: '天黑了，只在烟火亮起的一瞬看清牌面；三枚花火代替回看。',
+    haiku: ['闇の夜や巣をまどはして鳴く千鳥', '漆黑的夜，找不到巢的千鸟在鸣叫', '松尾芭蕉']},
+  {key: 'yaku', n: 103, name: '役之庭', sub: '凑一个役', seal: 'v-yaku', note: '在步数内配出指定的役，其余的牌只是陪衬。',
+    haiku: ['ぴいと啼く尻声悲し夜の鹿', '呦的一声，尾音悲凉，夜里的鹿', '松尾芭蕉']}
+];
 const MODES = {
   relax: {name: '悠闲', note: '不计步数，慢慢看。', limit: false, preview: 1.4, peeks: l => l.n >= 5 ? 2 : 1},
   std: {name: '标准', note: '步数宽裕；第五庭起，可以多回看一次。', limit: true, preview: 1.4, peeks: l => l.n >= 5 ? 2 : 1},
@@ -1451,6 +1486,7 @@ const SFX = {
     else if (sp.win === 'bowl') play('bowl', 'D4', end + .1, .8);
     else { play('chime', 'D7', end + .1, .45); play('chime', 'A6', end + .22, .35); }
   },
+  flash() { hit('boom', 0, .6); play('chime', SCALES[season()][7], .25, .35); play('chime', SCALES[season()][8], .32, .3); },
   upgrade(tier) { const sc = SCALES[season()]; [4, 5, 7, 8].slice(0, tier + 2).forEach((k, j) => play('chime', sc[k], .35 + j * .12, .4)); },
   lose() { const sc = SCALES[season()]; play('lead', sc[2], 0, .45); play('lead', sc[0], .38, .4); },
   tap() { const l = scape().lead; if (l === 'pop') play('pop', 'A6', 0, .25); else if (l === 'toy') play('toy', 'E6', 0, .2); else hit('tap'); },
@@ -1655,7 +1691,7 @@ function homeCtx() {
   const pick = MOTIFS.filter(m => S.months.includes(m.m) && (m.tag === '光札' || m.tag === '种札'));
   return {tgt, S, allDone, levels, card: pick[tgt.n % pick.length], k: KANJI[tgt.n - 1], meta: levelMeta(tgt),
     verb: allDone ? '再访' : cleared(tgt.n) ? '再访' : '继续', hk: tgt.haiku,
-    stats: `<div class="hv-stats"><button type="button" data-sheet="dex"><span>花札</span><b class="tnum">${collectedCount()} / 48</b></button><button type="button" data-sheet="omamori"><span>御守</span><b class="tnum">${omamoriTotal()} 枚</b></button><button type="button" data-sheet="dex"><span>朱印</span><b class="tnum">${Object.keys(save.seals).length} / ${SEALS.length}</b></button></div>
+    stats: `${gardenHTML()}${variantsHTML()}<div class="hv-stats"><button type="button" data-sheet="dex"><span>花札</span><b class="tnum">${collectedCount()} / 48</b></button><button type="button" data-sheet="omamori"><span>御守</span><b class="tnum">${omamoriTotal()} 枚</b></button><button type="button" data-sheet="dex"><span>朱印</span><b class="tnum">${Object.keys(save.seals).length} / ${SEALS.length}</b></button></div>
       <div class="hv-wipe"><button type="button" class="btn danger" data-wipe>清空记录，重新开始</button></div>`};
 }
 const go = (l, cls, inner, extra = '') => `<button type="button" class="go ${cls} ${l.cls}" data-go="${l.n}" ${l.locked ? 'disabled' : ''} aria-label="第${l.k}庭 ${l.name}${l.locked ? '，未解锁' : l.done ? '，已通关' : ''}" ${extra}>${inner}</button>`;
@@ -1743,6 +1779,270 @@ function renderHome() {
   refreshMeta();
 }
 
+/* ================= 我的庭院: a garden that grows with the collection =================
+   Twelve beds, one per month: a stone until a card of that month is collected, a seedling at one, a young plant at two or three,
+   in flower once all four are in. 満願 omamori hang on the ema rack; the stone lantern lights up with the first seal. */
+const monthCount = mo => MOTIFS.filter(m => m.m === mo && save.collected[m.id]).length;
+const PLANT_INK = [['#3f6b4a', '#3f6b4a'], ['#5a3a2e', '#d24d63'], ['#6a4a3a', '#f0a3b5'], ['#6b7d3c', '#9a7fc4'], ['#4f8f63', '#5b4fa8'], ['#4f7f4a', '#d0465c'],
+  ['#6f8a4a', '#c4508a'], ['#9a8a5a', '#e6dcc0'], ['#4f7f4a', '#e8b43a'], ['#5a3a2e', '#d65230'], ['#6fa36a', '#6fa36a'], ['#5f7f4a', '#8f6fb5']];
+// One plant per month, drawn upward from (0,0). Returns the plant without and with its flowers.
+function plantParts(i, mono) {
+  const [L0, F0] = PLANT_INK[i], L = mono ? '#111' : L0, F = mono ? '#fff' : F0, T = mono ? '#111' : '#5a3a2e';
+  const fs = mono ? ' stroke="#111" stroke-width="1"' : '';
+  const dot = (x, y, r, c = F) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"${fs}/>`;
+  const line = (d, c, w) => `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+  switch (i) {
+    case 0: return [line('M0 0 Q-2 -20 3 -34', T, 4) + `<ellipse cx="-9" cy="-34" rx="14" ry="6" fill="${L}"/><ellipse cx="8" cy="-45" rx="12" ry="5" fill="${L}"/><ellipse cx="-1" cy="-55" rx="9" ry="4" fill="${L}"/>`, mono ? '' : dot(-12, -36, 1.6, '#a7c48a') + dot(10, -47, 1.6, '#a7c48a')];
+    case 1: return [line('M0 0 Q-4 -18 6 -30 Q14 -40 4 -54 M6 -30 Q-10 -38 -14 -48', T, 3), [[6, -30], [4, -54], [-14, -48], [11, -41], [-5, -39]].map(([x, y]) => dot(x, y, 3.6)).join('')];
+    case 2: return [line('M0 0 L0 -24', T, 4) + (mono ? `<circle cx="0" cy="-38" r="17" fill="#fff" stroke="#111" stroke-width="1.5"/>` : `<circle cx="0" cy="-38" r="16" fill="#7f9a62" opacity=".5"/>`), dot(-10, -34, 11) + dot(10, -34, 11) + dot(0, -46, 12) + (mono ? '' : dot(-4, -40, 1.6, '#fff') + dot(6, -36, 1.6, '#fff'))];
+    case 3: return [line('M-20 0 V-54 M20 0 V-54 M-24 -54 H24', T, 3) + `<ellipse cx="-12" cy="-58" rx="7" ry="3" fill="${L}"/><ellipse cx="10" cy="-58" rx="7" ry="3" fill="${L}"/>`, [-14, -5, 4, 13].map((x, j) => `<ellipse cx="${x}" cy="${-40 + (j % 2) * 4}" rx="3.6" ry="${10 - (j % 2) * 2}" fill="${F}"${fs}/>`).join('')];
+    case 4: return [line('M-6 0 Q-10 -24 -8 -44 M4 0 Q8 -22 10 -40 M0 0 Q0 -30 2 -50', L, 3), [[2, -52], [-8, -46]].map(([x, y]) => `<path d="M${x} ${y} q-6 -6 0 -10 q6 4 0 10 q-8 2 -9 -5 q7 -1 9 5 q8 2 9 -5 q-7 -1 -9 5Z" fill="${F}"${fs}/>`).join('')];
+    case 5: return [`<ellipse cx="0" cy="-12" rx="21" ry="12" fill="${L}"/>`, dot(-7, -22, 9) + dot(10, -18, 7) + (mono ? '' : dot(-7, -22, 3, '#f3c96b') + dot(10, -18, 2.4, '#f3c96b'))];
+    case 6: return [line('M0 0 Q-16 -30 -24 -26 M0 0 Q14 -34 24 -28 M0 0 Q-2 -36 -6 -46', L, 1.6), [[-12, -24], [-20, -27], [8, -28], [18, -30], [-3, -38], [-5, -44]].map(([x, y]) => dot(x, y, 2.2)).join('')];
+    case 7: return [line('M-6 0 Q-8 -30 -18 -50 M0 0 Q2 -34 -2 -58 M6 0 Q10 -28 18 -48', L, 1.5), [[-18, -50, -25], [-2, -58, -5], [18, -48, 25]].map(([x, y, a]) => `<ellipse cx="${x}" cy="${y}" rx="3.2" ry="9" transform="rotate(${a} ${x} ${y})" fill="${F}"${fs || ' stroke="#b5a77a" stroke-width=".6"'}/>`).join('')];
+    case 8: return [line('M0 0 V-34', L, 2) + `<ellipse cx="-7" cy="-14" rx="7" ry="3" fill="${L}" transform="rotate(-20 -7 -14)"/><ellipse cx="7" cy="-22" rx="7" ry="3" fill="${L}" transform="rotate(20 7 -22)"/>`, [...Array(12).keys()].map(k => `<ellipse cx="0" cy="-48" rx="2.4" ry="7" fill="${F}"${fs} transform="rotate(${k * 30} 0 -41)"/>`).join('') + dot(0, -41, 3, mono ? '#111' : '#b5651d')];
+    case 9: return [line('M0 0 Q2 -14 0 -26', T, 4) + `<circle cx="0" cy="-36" r="15" fill="${mono ? '#fff' : '#8a9a62'}"${mono ? ' stroke="#111" stroke-width="1.5"' : ' opacity=".45"'}/>`, [[-10, -34], [9, -33], [0, -46], [-4, -30], [12, -44]].map(([x, y]) => dot(x, y, 7)).join('')];
+    case 10: return [line('M0 0 Q2 -30 -2 -56', T, 4) + line('M-2 -56 Q-18 -50 -20 -16 M-2 -56 Q-8 -44 -9 -10 M-2 -56 Q6 -44 7 -12 M-2 -56 Q16 -50 19 -18', L, 1.4), mono ? '' : [[-20, -18], [-9, -12], [7, -14], [19, -20]].map(([x, y]) => dot(x, y, 1.4, '#a7c48a')).join('')];
+    default: return [line('M0 0 L0 -30', T, 4) + `<ellipse cx="-12" cy="-30" rx="11" ry="7" fill="${L}"/><ellipse cx="12" cy="-34" rx="11" ry="7" fill="${L}"/>`, [[0, -44, 4], [-3, -50, 3.4], [3, -50, 3.4], [0, -56, 3]].map(([x, y, rr]) => dot(x, y, rr)).join('')];
+  }
+}
+function plantSVG(i, n, mono, line) {
+  if (!n) return `<ellipse cx="0" cy="-3" rx="9" ry="4.5" fill="${line}" opacity=".8"/><ellipse cx="-2" cy="-5" rx="4" ry="1.6" fill="#fff" opacity=".25"/>`;
+  if (n === 1) { const c = mono ? '#111' : '#6f9a52'; return `<path d="M0 0 V-11" stroke="${c}" stroke-width="1.8"/><ellipse cx="-4" cy="-12" rx="4.5" ry="2.2" fill="${c}" transform="rotate(-25 -4 -12)"/><ellipse cx="4" cy="-13" rx="4.5" ry="2.2" fill="${c}" transform="rotate(25 4 -13)"/>`; }
+  const [base, bloom] = plantParts(i, mono);
+  return n === 4 ? base + bloom : `<g transform="scale(${n === 2 ? .74 : .86})">${base}<g opacity="${n === 2 ? .3 : .6}">${bloom}</g></g>`;
+}
+const gardenPlantSVG = mo => `<svg viewBox="-28 -66 56 70" aria-hidden="true">${plantSVG(mo - 1, 4, !!PAL[save.look].mono, PAL[save.look].line)}</svg>`;
+function gardenSVG() {
+  const p = PAL[save.look] || PAL.ukiyo, mono = !!p.mono, sealN = Object.keys(save.seals).length;
+  const mangan = MOTIFS.filter(m => omTierOf(m) >= 2);
+  const spot = i => i < 6 ? [72 + i * 46, 116] : [94 + (i - 6) * 46, 178];
+  const lit = sealN > 0, stone = p.stone || (mono ? '#fff' : '#9a968c'), sst = mono ? ' stroke="#111" stroke-width="1.5"' : '';
+  let out = `<rect x="0" y="0" width="400" height="200" fill="${p.sky[0]}"/><path d="M0 92 Q200 74 400 92 V200 H0Z" fill="${p.ground}"/>`
+    + `<path d="M0 132 Q200 118 400 132 M0 150 Q200 136 400 150" fill="none" stroke="${p.line}" stroke-width="1" opacity=".7"/>`;
+  // stone lantern; a warm window once the first seal is earned, plus one small red seal per achievement
+  out += `<g transform="translate(26 0)">${lit && !mono ? '<circle cx="0" cy="96" r="20" fill="#f3c96b" opacity=".28"/>' : ''}<path d="M-14 82 L0 72 L14 82Z" fill="${stone}"${sst}/><rect x="-9" y="84" width="18" height="16" fill="${lit ? '#f3c96b' : p.line}"${sst}/><rect x="-11" y="100" width="22" height="4" fill="${stone}"${sst}/><rect x="-4" y="104" width="8" height="34" fill="${stone}"${sst}/><rect x="-12" y="138" width="24" height="5" fill="${stone}"${sst}/>`
+    + [...Array(Math.min(sealN, 10)).keys()].map(k => `<rect x="${-12 + (k % 5) * 5}" y="${148 + Math.floor(k / 5) * 6}" width="4" height="4" fill="#c23b22"/>`).join('') + `</g>`;
+  // ema rack with 満願 omamori
+  out += `<g transform="translate(356 0)"><path d="M-20 140 V52 M20 140 V52 M-26 52 H26 M-24 60 H24 M-20 100 H20" stroke="${mono ? '#111' : '#7a5a3a'}" stroke-width="3" fill="none"/>`
+    + mangan.slice(0, 10).map((m, k) => { const x = -15 + (k % 4) * 10, y = 64 + Math.floor(k / 4) * 22 + (Math.floor(k / 4) > 0 ? 18 : 0); return `<path d="M${x + 4} ${y - 4} V${y}" stroke="#e9c46a" stroke-width="1"/><path d="M${x} ${y} h8 l.6 13 h-9.2Z" fill="${mono ? '#fff' : m.omc}" stroke="#e9c46a" stroke-width="1"/>`; }).join('')
+    + (mangan.length > 10 ? `<text x="0" y="152" text-anchor="middle" font-size="9" fill="${p.ink}">+${mangan.length - 10}</text>` : '') + `</g>`;
+  for (let i = 0; i < 12; i++) {
+    const [x, y] = spot(i), n = monthCount(i + 1);
+    out += `<g class="np" data-month="${i + 1}" transform="translate(${x} ${y})" tabindex="0" role="button" aria-label="${PLANT_NAMES[i]}，${MONTHS[i][2]}，已收 ${n} / 4 张"><rect x="-22" y="-62" width="44" height="66" fill="transparent"/>${plantSVG(i, n, mono, p.line)}</g>`;
+  }
+  return `<svg viewBox="0 0 400 200" role="group" aria-label="我的庭院">${out}</svg>`;
+}
+function gardenHTML() {
+  const full = [...Array(12).keys()].filter(i => monthCount(i + 1) === 4).length, sprout = [...Array(12).keys()].filter(i => monthCount(i + 1) && monthCount(i + 1) < 4).length;
+  const mangan = MOTIFS.filter(m => omTierOf(m) >= 2).length;
+  return `<section class="niwa panel"><div class="niwa-h"><h2>我的庭院</h2><small>随收集生长 · 点一株看看</small></div>
+    <div class="niwa-art">${gardenSVG()}</div>
+    <p class="niwa-cap">开花 ${full} / 12 · 生长中 ${sprout} · 绘马架上 ${mangan} 枚満願 · 石灯笼 ${Object.keys(save.seals).length} 枚朱印</p>
+    <div class="niwa-act"><button type="button" class="btn" data-poster="garden">庭院海报</button></div></section>`;
+}
+function plantToast(mo) {
+  const n = monthCount(mo), name = PLANT_NAMES[mo - 1];
+  toast(`<div class="t-art">${gardenPlantSVG(mo)}</div><div><div class="t1">${name} · ${MONTHS[mo - 1][2]}　${n} / 4</div><div class="t3">${n === 4 ? '四张都到齐了，正开着' : n ? `再收 ${4 - n} 张${MONTHS[mo - 1][1]}的花札，就会开花` : '还是一块石头，等第一张花札'}</div></div>`, true);
+}
+function variantsHTML() {
+  const open = variantsOpen();
+  return `<section class="gaien panel"><div class="niwa-h"><h2>庭外</h2><small>${open ? '八庭之外，三种玩法' : '点亮全部八处庭院后开放'}</small></div>
+    <div class="gaien-list">${VARIANTS.map(v => `<button type="button" class="gaien-go" data-go="${v.n}" ${open ? '' : 'disabled'} aria-label="庭外 ${v.name}${open ? '' : '，未开放'}"><b class="jp">${v.name}</b><small>${v.sub}${save.seals[v.seal] ? ' · 已成' : ''}</small><span>${v.note}</span></button>`).join('')}</div></section>`;
+}
+
+/* ================= 海报: a share image drawn in the current look ================= */
+const POSTER = {
+  ukiyo: {bg: '#f3ead6', ink: '#1f2b44', acc: '#c23b22', sub: '#6b5a44', frame: 'cartouche'},
+  washi: {bg: '#f6f1e6', ink: '#3a2f26', acc: '#b8392a', sub: '#7a6a58', frame: 'cover'},
+  kare: {bg: '#efebe2', ink: '#3a3833', acc: '#55704a', sub: '#7d786c', frame: 'rings'},
+  matsuri: {bg: '#0f1a36', ink: '#f4ead2', acc: '#f29a3a', sub: '#b9c2dc', frame: 'lanterns'},
+  techo: {bg: '#fbf7ef', ink: '#5a4a3a', acc: '#c0675a', sub: '#8a7a68', frame: 'polaroid'},
+  youth: {bg: '#f7e9c6', ink: '#222222', acc: '#e8553e', sub: '#555555', frame: 'pop'},
+  manga: {bg: '#ffffff', ink: '#111111', acc: '#d7261e', sub: '#444444', frame: 'koma'}
+};
+const cssVar = k => getComputedStyle(document.documentElement).getPropertyValue(k).trim();
+const loadImg = src => new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
+function svgImg(svg, w, h) {
+  const fixed = svg.replace('<svg ', `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" `)
+    .replace(/var\((--f-[a-z]+)\)/g, (_, k) => cssVar(k).replace(/"/g, "'"));
+  return loadImg('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(fixed));
+}
+function winPoster() {
+  const {L} = G, pick = [...new Set([...G.fresh, ...G.ids.filter(id => BY_ID[id].tag === '光札'), ...G.ids])].slice(0, 6);
+  return {eyebrow: `${levelTag(L)} · ${MODES[G.mode].name}`, title: L.name, haiku: L.haiku, flowers: G.fl || flowersFor(),
+    cards: pick.map(id => BY_ID[id]), lines: [`${G.used} 步 · 收下御守 ${G.got} 枚${G.yaku.length ? ' · 凑成 ' + G.yaku.join('、') : ''}`]};
+}
+function omamoriPoster(id) {
+  const m = BY_ID[id], n = save.collected[id] || 0, t = omTier(n);
+  return {eyebrow: `御守 · ${MONTHS[m.m - 1][2]} · ${OM_TIERS[t].name}`, title: m.om, svg: omamoriSVG(m, false, t), svgBox: [60, 100],
+    lines: [`保佑「${m.mean}」`, `得自花札「${m.jp}」 · 已收下 ${n} 枚`]};
+}
+function gardenPoster() {
+  const full = [...Array(12).keys()].filter(i => monthCount(i + 1) === 4).length;
+  return {eyebrow: `我的庭院 · ${THEMES[save.look].name}`, title: '御守之庭', svg: gardenSVG().replace(/ tabindex="0" role="button"/g, ''), svgBox: [400, 200],
+    lines: [`花札 ${collectedCount()} / 48 · 御守 ${omamoriTotal()} 枚 · 朱印 ${Object.keys(save.seals).length} / ${SEALS.length}`, `开花 ${full} / 12 · 満願 ${MOTIFS.filter(m => omTierOf(m) >= 2).length} 枚`],
+    haiku: LEVELS[calendarSeason() * 2].haiku};
+}
+function wrapText(g, text, x, y, maxW, lh, align = 'left') {
+  let line = '', yy = y;
+  for (const ch of text) { if (g.measureText(line + ch).width > maxW && line) { g.fillText(line, x, yy); line = ch; yy += lh; } else line += ch; }
+  if (line) g.fillText(line, x, yy);
+  return yy + lh;
+}
+function vtext(g, str, x, y, size, step = 1.1) { [...str].forEach((ch, i) => g.fillText(ch, x, y + i * size * step)); }
+function bloomAt(g, x, y, r, fill) { g.fillStyle = fill; for (let k = 0; k < 5; k++) { const a = k * Math.PI * 2 / 5 - Math.PI / 2; g.beginPath(); g.arc(x + Math.cos(a) * r * .5, y + Math.sin(a) * r * .5, r * .48, 0, Math.PI * 2); g.fill(); } }
+// Per-look decoration drawn behind the content, and the 御守花札 brand drawn in that look's manner.
+const FRAMES = {
+  cartouche(g, st, F, W, H) {
+    g.strokeStyle = st.ink; g.lineWidth = 6; g.strokeRect(36, 36, W - 72, H - 72); g.lineWidth = 2; g.strokeRect(50, 50, W - 100, H - 100);
+    g.fillStyle = '#fbf6e8'; g.fillRect(860, 80, 130, 400); g.lineWidth = 4; g.strokeRect(860, 80, 130, 400); g.lineWidth = 1.5; g.strokeRect(870, 90, 110, 380);
+    g.fillStyle = st.ink; g.font = `900 72px ${F.jp}`; g.textAlign = 'center'; vtext(g, '御守花札', 925, 160, 72, 1.15);
+    g.fillStyle = st.acc; g.fillRect(890, 500, 70, 70); g.fillStyle = '#fbf6e8'; g.font = `900 40px ${F.jp}`; g.fillText(SEASONS[season()].name, 925, 548); g.textAlign = 'left';
+  },
+  cover(g, st, F, W, H) {
+    g.fillStyle = seasonColor(season()); g.globalAlpha = .85; g.fillRect(56, 0, 54, H); g.globalAlpha = 1;
+    g.fillStyle = st.ink; g.font = `900 84px ${F.jp}`; g.textAlign = 'center'; vtext(g, '御守花札', 960, 150, 84, 1.12);
+    g.font = `600 30px ${F.body}`; g.fillStyle = st.sub; vtext(g, '庭院文库', 960, 560, 30, 1.2); g.textAlign = 'left';
+    g.fillStyle = st.acc; g.fillRect(0, H - 150, W, 150);
+  },
+  rings(g, st, F, W, H) {
+    g.strokeStyle = '#cbc4b3'; g.lineWidth = 3;
+    for (let r = 40; r <= 330; r += 26) { g.globalAlpha = 1 - r / 420; g.beginPath(); g.arc(W / 2, 700, r, 0, Math.PI * 2); g.stroke(); }
+    g.globalAlpha = 1;
+    g.fillStyle = st.ink; g.font = `600 44px ${F.jp}`; g.textAlign = 'center'; g.fillText('御 守 花 札', W / 2, 150); g.textAlign = 'left';
+  },
+  lanterns(g, st, F, W, H) {
+    for (let k = 0; k < 90; k++) { g.fillStyle = ['#f29a3a', '#f4ead2', '#e8553e', '#7a8bb0'][k % 4]; g.globalAlpha = .35; g.beginPath(); g.arc((k * 397) % W, 240 + ((k * 211) % 760), 2 + (k % 3), 0, Math.PI * 2); g.fill(); }
+    g.globalAlpha = 1;
+    [...'御守花札'].forEach((ch, i) => {
+      const x = 210 + i * 220, y = 140;
+      const grd = g.createRadialGradient(x, y, 10, x, y, 120); grd.addColorStop(0, 'rgba(242,154,58,.45)'); grd.addColorStop(1, 'rgba(242,154,58,0)');
+      g.fillStyle = grd; g.fillRect(x - 120, y - 120, 240, 240);
+      g.fillStyle = '#e8553e'; g.beginPath(); g.ellipse(x, y, 62, 78, 0, 0, Math.PI * 2); g.fill();
+      g.fillStyle = '#1a1a1a'; g.fillRect(x - 34, y - 90, 68, 16); g.fillRect(x - 34, y + 74, 68, 16);
+      g.fillStyle = '#fff4dc'; g.font = `900 64px ${F.jp}`; g.textAlign = 'center'; g.fillText(ch, x, y + 22);
+    });
+    g.textAlign = 'left';
+  },
+  polaroid(g, st, F, W, H) {
+    g.fillStyle = '#e2d6c2'; for (let x = 40; x < W; x += 36) for (let y = 40; y < H; y += 36) { g.beginPath(); g.arc(x, y, 2, 0, Math.PI * 2); g.fill(); }
+    g.fillStyle = st.ink; g.font = `700 64px ${F.head}`; g.fillText('御守花札', 90, 160);
+    g.font = `600 32px ${F.head}`; g.fillStyle = st.sub; const d = new Date(); g.fillText(`${d.getMonth() + 1}月${d.getDate()}日 · 旅行记`, 90, 210);
+    g.strokeStyle = st.acc; g.lineWidth = 5; g.beginPath(); g.arc(900, 1210, 92, 0, Math.PI * 2); g.stroke(); g.lineWidth = 2; g.beginPath(); g.arc(900, 1210, 78, 0, Math.PI * 2); g.stroke();
+    g.fillStyle = st.acc; g.font = `700 34px ${F.head}`; g.textAlign = 'center'; g.fillText(SEASONS[season()].name, 900, 1200); g.font = `600 22px ${F.body}`; g.fillText(String(d.getFullYear()), 900, 1236); g.textAlign = 'left';
+  },
+  pop(g, st, F, W, H) {
+    g.fillStyle = '#bfe3f7'; for (let k = -H; k < W; k += 90) { g.save(); g.globalAlpha = .35; g.beginPath(); g.moveTo(k, 0); g.lineTo(k + 40, 0); g.lineTo(k + 40 + H, H); g.lineTo(k + H, H); g.fill(); g.restore(); }
+    g.save(); g.translate(90, 70); g.rotate(-.025);
+    g.fillStyle = '#222'; g.fillRect(12, 12, 560, 150); g.fillStyle = '#4aa3df'; g.fillRect(0, 0, 560, 150); g.lineWidth = 6; g.strokeStyle = '#222'; g.strokeRect(0, 0, 560, 150);
+    g.font = `900 104px ${F.jp}`; g.lineWidth = 10; g.strokeText('御守花札', 30, 116); g.fillStyle = '#fff'; g.fillText('御守花札', 30, 116); g.restore();
+  },
+  koma(g, st, F, W, H) {
+    g.save(); g.beginPath(); g.rect(40, 40, W - 80, 220); g.clip();
+    for (let k = 0; k < 64; k++) { const a = k * Math.PI * 2 / 64; g.fillStyle = '#111'; g.globalAlpha = .9; g.beginPath(); g.moveTo(W - 160, 120); g.lineTo(W - 160 + Math.cos(a - .012) * 1400, 120 + Math.sin(a - .012) * 1400); g.lineTo(W - 160 + Math.cos(a + .012) * 1400, 120 + Math.sin(a + .012) * 1400); g.fill(); }
+    g.restore(); g.globalAlpha = 1;
+    g.fillStyle = '#fff'; g.fillRect(70, 80, 520, 130); g.strokeStyle = '#111'; g.lineWidth = 6; g.strokeRect(70, 80, 520, 130);
+    g.fillStyle = '#111'; g.font = `900 100px ${F.jp}`; g.fillText('御守花札', 92, 180);
+    g.lineWidth = 12; g.strokeRect(40, 40, W - 80, H - 80); g.beginPath(); g.moveTo(40, 268); g.lineTo(W - 40, 268); g.stroke();
+    g.fillStyle = '#d7261e'; g.fillRect(W - 250, 196, 170, 52); g.fillStyle = '#fff'; g.font = `900 30px ${F.body}`; g.textAlign = 'center'; g.fillText('好评连载中', W - 165, 232); g.textAlign = 'left';
+  }
+};
+async function makePoster(spec) {
+  const st = POSTER[save.look] || POSTER.ukiyo, W = 1080, H = 1440;
+  const F = {jp: cssVar('--f-jp') || 'serif', head: cssVar('--f-head') || 'serif', body: cssVar('--f-body') || 'sans-serif'};
+  const text = ['御守花札旅行记庭院文库', spec.eyebrow, spec.title, ...(spec.lines || []), ...(spec.haiku || []), THEMES[save.look].name, '春夏秋冬0123456789月日年'].join('');
+  try { await Promise.race([Promise.all([`900 80px ${F.jp}`, `600 40px ${F.jp}`, `700 40px ${F.head}`, `600 30px ${F.body}`].map(f => document.fonts.load(f, text))), new Promise(r => setTimeout(r, 2500))]); } catch (e) {}
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const g = cv.getContext('2d'); g.textBaseline = 'alphabetic';
+  g.fillStyle = st.bg; g.fillRect(0, 0, W, H);
+  FRAMES[st.frame](g, st, F, W, H);
+  const X = st.frame === 'cover' ? 150 : 90, top = st.frame === 'rings' ? 230 : 330, center = st.frame === 'rings';
+  g.textAlign = center ? 'center' : 'left';
+  const tx = center ? W / 2 : X;
+  g.fillStyle = st.sub; g.font = `600 30px ${F.body}`; g.fillText(spec.eyebrow, tx, top);
+  g.fillStyle = st.ink; g.font = `900 108px ${F.jp}`; g.fillText(spec.title, tx, top + 120);
+  // hero: cards (as they are) or a rasterised badge / garden
+  const textH = (spec.flowers ? 60 : 0) + (spec.haiku ? 150 : 0) + (spec.lines || []).length * 56 + 70;
+  const bottom = H - (st.frame === 'cover' ? 180 : 140), box = {x: X, y: top + 170, w: (st.frame === 'cartouche' ? 990 : W - 90) - X, h: 0};
+  box.h = Math.min(560, bottom - textH - box.y);
+  if (spec.cards) {
+    const imgs = await Promise.all(spec.cards.map(m => loadImg(cardSrc(m))));
+    const n = imgs.length, cols = n <= 3 ? n : 3, rows = Math.ceil(n / cols), gap = 28;
+    const cw = Math.min((box.w - gap * (cols - 1)) / cols, ((box.h - gap * (rows - 1)) / rows) * 61 / 100), ch = cw * 100 / 61;
+    imgs.forEach((im, i) => {
+      const r = Math.floor(i / cols), inRow = Math.min(cols, n - r * cols), c = i % cols;
+      const x = box.x + (box.w - (inRow * cw + (inRow - 1) * gap)) / 2 + c * (cw + gap), y = box.y + (box.h - (rows * ch + (rows - 1) * gap)) / 2 + r * (ch + gap);
+      g.save();
+      const tilt = st.frame === 'polaroid' || st.frame === 'pop' ? ((i % 2 ? 1 : -1) * .03) : 0;
+      g.translate(x + cw / 2, y + ch / 2); g.rotate(tilt); g.translate(-cw / 2, -ch / 2);
+      if (st.frame === 'polaroid') { g.fillStyle = '#fff'; g.shadowColor = 'rgba(0,0,0,.18)'; g.shadowBlur = 18; g.fillRect(-14, -14, cw + 28, ch + 52); g.shadowBlur = 0; g.fillStyle = 'rgba(168,195,160,.8)'; g.fillRect(cw / 2 - 40, -26, 80, 26); }
+      else if (st.frame === 'pop') { g.fillStyle = '#222'; g.fillRect(8, 8, cw, ch); }
+      else if (st.frame === 'koma') { g.lineWidth = 6; g.strokeStyle = '#111'; g.strokeRect(-10, -10, cw + 20, ch + 20); }
+      else { g.shadowColor = 'rgba(0,0,0,.25)'; g.shadowBlur = 22; g.shadowOffsetY = 8; }
+      if (im) g.drawImage(im, 0, 0, cw, ch);
+      g.restore();
+    });
+  } else if (spec.svg) {
+    const [vw, vh] = spec.svgBox, k = Math.min(box.w / vw, box.h / vh), w = vw * k, h = vh * k;
+    const im = await svgImg(spec.svg, Math.round(w), Math.round(h));
+    if (im) g.drawImage(im, box.x + (box.w - w) / 2, box.y + (box.h - h) / 2, w, h);
+  }
+  let y = box.y + box.h + 64;
+  if (spec.flowers) { const fx = center ? W / 2 - 70 : X + 24; for (let i = 0; i < 3; i++) bloomAt(g, fx + i * 70, y - 14, 30, i < spec.flowers ? st.acc : 'rgba(128,128,128,.3)'); y += 60; }
+  g.textAlign = center ? 'center' : 'left';
+  const maxW = (st.frame === 'cartouche' ? 990 : W - 90) - X;
+  if (spec.haiku) {
+    g.fillStyle = st.ink; g.font = `600 44px ${F.jp}`; y = wrapText(g, spec.haiku[0], tx, y, maxW, 58);
+    g.fillStyle = st.sub; g.font = `400 30px ${F.body}`; y = wrapText(g, spec.haiku[1] + '　— ' + spec.haiku[2], tx, y, maxW, 42);
+  }
+  g.fillStyle = st.ink; g.font = `600 32px ${F.body}`;
+  for (const l of spec.lines || []) y = wrapText(g, l, tx, y + 10, maxW, 44);
+  // footer
+  const onObi = st.frame === 'cover';
+  g.fillStyle = onObi ? '#fbf8f0' : st.sub; g.font = `600 26px ${F.body}`; g.textAlign = 'left';
+  const d = new Date(), fy = H - (onObi ? 64 : 84);
+  g.fillText(`御守花札 · ${THEMES[save.look].name}`, X, fy);
+  g.textAlign = 'right'; g.fillText(`${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`, W - 90, fy);
+  if (/github\.io$/.test(location.hostname)) { g.font = `400 22px ${F.body}`; g.fillText(location.host + location.pathname.replace(/index\.html$/, ''), W - 90, fy + 34); }
+  g.textAlign = 'left';
+  return cv;
+}
+let posterReturn = null, posterBlob = null, posterUrl = '';
+async function sharePoster(spec) {
+  posterReturn = !$('#modal').hidden ? {html: $('#modalCard').innerHTML, onClose: modalOnClose} : null;
+  openModal(`<div class="eyebrow">海报</div><h2>正在绘制…</h2><p>按「${THEMES[save.look].name}」的样子排版。</p>`, posterReturn && posterReturn.onClose);
+  let cv;
+  try { cv = await makePoster(spec); } catch (e) { cv = null; }
+  const blob = cv && await new Promise(r => { try { cv.toBlob(r, 'image/png'); } catch (e) { r(null); } });
+  if (posterUrl) URL.revokeObjectURL(posterUrl);
+  posterBlob = blob; posterUrl = blob ? URL.createObjectURL(blob) : '';
+  const file = blob && typeof File === 'function' ? new File([blob], 'omamori-hanafuda.png', {type: 'image/png'}) : null;
+  const canShare = !!(file && navigator.canShare && navigator.canShare({files: [file]}));
+  $('#modalCard').innerHTML = blob ? `<div class="eyebrow">海报 · ${THEMES[save.look].name}</div><div class="poster-view"><img src="${posterUrl}" alt="${spec.title} 的分享海报"></div>
+    <p class="poster-tip">也可以长按或右键图片直接保存。</p><p class="poster-msg" aria-live="polite"></p>
+    <div class="modal-actions"><button class="btn primary" type="button" data-act="poster-save" data-focus>保存图片</button>${canShare ? '<button class="btn" type="button" data-act="poster-share">分享</button>' : ''}<button class="btn" type="button" data-act="poster-back">${posterReturn ? '返回' : '关闭'}</button></div>`
+    : `<div class="eyebrow">海报</div><h2>没能画出来</h2><p>这个浏览器暂时不支持生成图片。</p><div class="modal-actions"><button class="btn primary" type="button" data-act="poster-back" data-focus>返回</button></div>`;
+  const f = $('#modalCard [data-focus]'); if (f) f.focus();
+}
+// Save: through the claude.ai download prompt when the page runs there, otherwise a plain browser download.
+let dlCap = null;
+async function savePoster(btn) {
+  if (!posterBlob) return;
+  const name = `omamori-hanafuda-${Date.now()}.png`, msg = $('#modalCard .poster-msg');
+  if (window.claude && typeof window.claude.use === 'function') {
+    try {
+      dlCap = dlCap || await Promise.race([window.claude.use('downloads'), new Promise(r => setTimeout(() => r(null), 3000))]);
+      if (dlCap) { await dlCap.save({filename: name, data: posterBlob}); if (msg) msg.textContent = '已保存。'; return; }
+    } catch (e) { if (e && e.code === 'declined') { if (msg) msg.textContent = '已取消保存。'; return; } }
+  }
+  const a = document.createElement('a'); a.href = posterUrl; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  if (msg) msg.textContent = '如果没有开始下载，请长按或右键图片保存。';
+}
+async function sharePosterFile() {
+  try { await navigator.share({files: [new File([posterBlob], 'omamori-hanafuda.png', {type: 'image/png'})], title: '御守花札'}); } catch (e) {}
+}
+
 /* ================= sheets ================= */
 function renderDex() {
   const got = id => !!save.collected[id];
@@ -1795,7 +2095,7 @@ function omamoriDetail(id) {
     <p style="margin:0">已收下 ${n} 枚${at ? ` · 初次求得于 ${at.getMonth() + 1}月${at.getDate()}日` : ''}</p>
     <ol class="om-path" aria-label="御守的成长">${OM_TIERS.map((T, i) => `<li class="${i <= t ? 'on' : ''}${i === t ? ' now' : ''}"><span class="om-mini">${omamoriSVG(x, false, i)}</span><b>${T.name}</b><small>${T.min} 枚</small></li>`).join('')}</ol>
     <p style="margin:0;font-size:13px;color:var(--muted)">${nx ? `再配对 ${nx.min - n} 次「<span class="jp">${x.jp}</span>」，就能升为${nx.name}。` : '已经満願：愿望圆满，金线织满了整只御守。'}</p></div>
-    <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>收好</button></div>`);
+    <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>收好</button><button class="btn" type="button" data-act="poster-om" data-id="${id}">生成海报</button></div>`);
 }
 function themePreview(key) {
   const deck = THEMES[key].deck, ids = ['susuki-tsuki', 'kiku-sakazuki'];
@@ -1884,7 +2184,7 @@ function statEnd(won) {
   st.peeks += G.peeksUsed; st.misses += G.misses; st.ms += Date.now() - G.t0;
 }
 function statsRows() {
-  return LEVELS.map(l => {
+  return [...LEVELS, ...VARIANTS].map(l => {
     const all = Object.keys(MODES).map(m => save.stats.levels[m + ':' + l.n]).filter(Boolean);
     const sum = k => all.reduce((a, x) => a + x[k], 0), ends = sum('wins') + sum('losses'), wins = sum('wins');
     return {l, plays: sum('plays'), wins, losses: sum('losses'), rate: ends ? Math.round(wins / ends * 100) + '%' : '—',
@@ -1911,19 +2211,45 @@ function statsText() {
 function later(fn, ms) { const t = setTimeout(fn, ms); if (G) G.timers.push(t); return t; }
 function stopTimers() { if (G) G.timers.forEach(clearTimeout); }
 function requestLevel(n, sameSet) {
-  if (!save.demoDone) { openDemo(n); return; }
+  if (!save.demoDone && n < 100) { openDemo(n); return; }
   startLevel(n, sameSet);
 }
+const variantsOpen = () => LEVELS.every(l => cleared(l.n));
+function variantLevel(v) {
+  const base = {n: v.n, s: calendarSeason(), name: v.name, sub: v.sub, haiku: v.haiku, variant: v.key, seal: v.seal};
+  if (v.key === 'awase') return {...base, pairs: 8, std: 19, hard: 15};
+  if (v.key === 'yoru') return {...base, pairs: 8, std: 18, hard: 14};
+  // aim for a yaku the player hasn't completed yet when there is one
+  const open = YAKU.filter(y => !y.ids.every(k => save.collected[k]));
+  return {...base, pairs: 8, std: 16, hard: 13, target: shuffle(open.length ? open : YAKU)[0]};
+}
+const levelFor = n => n > 100 ? variantLevel(VARIANTS.find(v => v.n === n)) : LEVELS[n - 1];
+const levelTag = L => L.variant ? `庭外 · ${SEASONS[L.s].name}` : `${SEASONS[L.s].name} · 第${KANJI[L.n - 1]}庭`;
+function idsFor(L) {
+  if (L.variant === 'awase') {   // the season's three months plus one more; all four cards of each
+    const months = SEASONS[L.s].months.concat(shuffle([...Array(12).keys()].map(i => i + 1).filter(m => !SEASONS[L.s].months.includes(m)))[0]);
+    return MOTIFS.filter(m => months.includes(m.m)).map(m => m.id);
+  }
+  if (L.variant === 'yaku') {
+    const t = L.target.ids, rest = pickMotifs({...L, pairs: L.pairs + t.length}).filter(id => !t.includes(id));
+    return shuffle(t.concat(rest.slice(0, L.pairs - t.length)));
+  }
+  return pickMotifs(L);
+}
+// 花合 pairs any two cards of the same month; every other way to play pairs identical cards.
+const sameKind = (a, b) => G.L.variant === 'awase' ? BY_ID[a.id].m === BY_ID[b.id].m : a.id === b.id;
 function startLevel(n, sameSet) {
   stopTimers();
-  const L = LEVELS[n - 1], mode = save.mode, M = MODES[mode];
-  const ids = sameSet && G && G.n === n ? G.ids : pickMotifs(L);
-  G = {n, L, mode, ids, deck: shuffle(ids.concat(ids)).map(id => ({id, up: false, done: false, peek: false})),
-    budget: budgetOf(L, mode), used: 0, peeks: M.peeks(L), peeksUsed: 0, misses: 0, phase: 'deal', first: null, pairs: 0, fresh: [], yaku: [], seals: [], timers: [], compact: false, cols: 0};
+  const again = sameSet && G && G.n === n, L = again ? G.L : levelFor(n), mode = save.mode, M = MODES[mode];
+  const ids = again ? G.ids : idsFor(L), awase = L.variant === 'awase';
+  G = {n, L, mode, ids, deck: shuffle(awase ? ids.slice() : ids.concat(ids)).map(id => ({id, up: false, done: false, peek: false})),
+    total: awase ? ids.length / 2 : ids.length, goal: L.target ? L.target.ids.length : 0, goalDone: 0, got: 0,
+    budget: budgetOf(L, mode), used: 0, peeks: L.variant === 'yoru' ? 3 : M.peeks(L), peeksUsed: 0, misses: 0, phase: 'deal', first: null, pairs: 0, fresh: [], yaku: [], seals: [], timers: [], compact: false, cols: 0};
   $('#game').classList.remove('compact');
+  $('#game').classList.toggle('night', L.variant === 'yoru');
   A.combo = 0;
   G.t0 = Date.now(); statFor(n, mode).plays++; persist();
-  $('#gNum').textContent = `${SEASONS[L.s].name} · 第${KANJI[n - 1]}庭 · ${M.name}`;
+  $('#gNum').textContent = `${levelTag(L)} · ${M.name}`;
   $('#gName').textContent = L.name;
   applySeason(L.s); paintScene(L, 'game');
   buildBoard(); show('game'); renderHud(); setHint('发牌中…');
@@ -1935,11 +2261,12 @@ function startLevel(n, sameSet) {
     if (G !== token || G.phase !== 'deal') return;
     G.phase = 'preview';
     G.deck.forEach(c => c.peek = true); paintAll(); SFX.peek();
-    const ms = previewMs(cards, M.preview);
-    setHint('看一眼，记在心里', ms);
+    const night = L.variant === 'yoru', ms = Math.round(previewMs(cards, M.preview) * (night ? .4 : 1));
+    if (night) SFX.flash();
+    setHint(night ? '花火亮了，快看' : L.target ? `记住「${L.target.name}」的牌：${L.target.ids.map(k => BY_ID[k].jp).join('、')}` : '看一眼，记在心里', ms);
     later(() => {
       G.deck.forEach(c => c.peek = false); paintAll(); SFX.unflip(); G.phase = 'play'; renderHud();
-      setHint('翻开两张，找出成对的花札');
+      setHint(playHint());
     }, ms);
   });
 }
@@ -1975,7 +2302,8 @@ function renderHud() {
   $('#movesRail').hidden = !limited;
   if (limited) $('#movesBar').style.width = (movesLeft() / G.budget * 100) + '%';
   $('#statMoves').classList.toggle('low', limited && movesLeft() <= 3);
-  $('#pairsDone').textContent = G.pairs; $('#pairsTotal').textContent = `/ ${G.ids.length} 组`;
+  $('#pairsLab').textContent = G.goal ? `役札 · ${G.L.target.name}` : '已配对';
+  $('#pairsDone').textContent = G.goal ? G.goalDone : G.pairs; $('#pairsTotal').textContent = G.goal ? `/ ${G.goal} 组` : `/ ${G.total} 组`;
   $('#comboLab').innerHTML = A.combo >= 2 ? `<span class="combo">连续 ${A.combo}</span>` : '';
   $('#peekLeft').textContent = G.peeks;
   $('#btnPeek').disabled = G.peeks < 1 || G.phase !== 'play';
@@ -1992,7 +2320,11 @@ function setHint(text, dur) {
   const b = $('#tbar'); b.classList.remove('run');
   if (dur) { b.style.setProperty('--dur', dur + 'ms'); void b.offsetWidth; b.classList.add('run'); }
 }
-const playHint = () => isFinite(G.budget) && movesLeft() <= 3 ? `还剩 ${movesLeft()} 步，不急` : '翻开两张，找出成对的花札';
+const playHint = () => {
+  if (isFinite(G.budget) && movesLeft() <= 3) return `还剩 ${movesLeft()} 步，不急`;
+  if (G.L.target) { const left = G.L.target.ids.filter(k => !G.deck.some(c => c.id === k && c.done)); return `凑「${G.L.target.name}」：还差 ${left.map(k => BY_ID[k].jp).join('、')}`; }
+  return G.L.variant === 'awase' ? '同一个月的两张就是一对' : '翻开两张，找出成对的花札';
+};
 // After a miss the two cards stay up ~1s; any tap closes them at once (and a tap on a card then plays it).
 function skipWait() { if (!G || !G.missPending) return false; const m = G.missPending; G.missPending = null; clearTimeout(m.t); m.run(); return true; }
 function tap(i) {
@@ -2004,14 +2336,16 @@ function tap(i) {
   if (G.first === null) { G.first = i; setHint('再翻一张'); return; }
   const a = G.first, b = i, Acard = G.deck[a];
   G.first = null; G.used++; G.phase = 'resolve'; renderHud();
-  if (Acard.id === c.id) {
+  if (sameKind(Acard, c)) {
     later(() => {
       Acard.done = c.done = true; paint(a); paint(b);
       const els = $('#deck').children;
       [a, b].forEach(k => { els[k].classList.add('pop'); later(() => els[k] && els[k].classList.remove('pop'), 600); });
-      G.pairs++; collect(c.id, els[b]); renderHud(); buzz('match');
+      G.pairs++; collect(Acard.id === c.id ? [c.id] : [Acard.id, c.id], els[b]); buzz('match');
+      if (G.L.target && G.L.target.ids.includes(c.id)) G.goalDone++;
+      renderHud();
       if (A.combo === 3 || A.combo === 5 || A.combo === 7) later(comboFX, 450);
-      if (G.pairs === G.ids.length) { G.phase = 'end'; later(win, 900); }
+      if (G.L.target ? G.goalDone === G.goal : G.pairs === G.total) { G.phase = 'end'; later(win, 900); }
       else if (movesLeft() <= 0) { G.phase = 'end'; later(lose, 900); }
       else { G.phase = 'play'; renderHud(); setHint(A.combo >= 2 ? `连续配对 ${A.combo} 组` : playHint()); }
     }, 300);
@@ -2043,26 +2377,32 @@ function comboFX() {
   else if (c === 7) { awardSeal('nana'); stampFX('七連', '花吹雪'); petals({particleCount: 120, spread: 160, startVelocity: 30, origin: {x: .5, y: .35}}); }
   renderHud();
 }
-function collect(id, el) {
-  const m = BY_ID[id], fresh = !save.collected[id];
-  const before = YAKU.filter(y => y.ids.every(k => save.collected[k])).map(y => y.name);
-  save.collected[id] = (save.collected[id] || 0) + 1;
-  if (fresh) { save.unseen.push(id); save.collectedAt[id] = Date.now(); G.fresh.push(id); }
+function collect(ids, el) {
+  const before = YAKU.filter(y => y.ids.every(k => save.collected[k])).map(y => y.name), grown = [];
+  let up = null;
+  const fresh = ids.filter(id => !save.collected[id]);
+  for (const id of ids) {
+    const was = save.collected[id] || 0;
+    save.collected[id] = was + 1; G.got++;
+    if (!was) { save.unseen.push(id); save.collectedAt[id] = Date.now(); G.fresh.push(id); if (monthCount(BY_ID[id].m) === 4) grown.push(BY_ID[id].m); }
+    else if (omTier(was + 1) > omTier(was)) up = id;
+  }
+  const m = BY_ID[fresh[0] || up || ids[0]], isFresh = fresh.length > 0;
   const made = YAKU.filter(y => y.ids.every(k => save.collected[k]) && !before.includes(y.name));
   persist();
-  SFX.match(m, fresh);
+  SFX.match(m, isFresh);
   floatOmamori(el, m);
-  if (fresh && el) { const rc = el.getBoundingClientRect(); petals({particleCount: 22, spread: 60, startVelocity: 17, origin: {x: (rc.left + rc.width / 2) / innerWidth, y: (rc.top + rc.height / 2) / innerHeight}}); }
+  if (isFresh && el) { const rc = el.getBoundingClientRect(); petals({particleCount: 22, spread: 60, startVelocity: 17, origin: {x: (rc.left + rc.width / 2) / innerWidth, y: (rc.top + rc.height / 2) / innerHeight}}); }
   if (made.length) {
     G.yaku.push(...made.map(y => y.name)); SFX.yaku();
     later(() => toast(`<div><div class="t1">凑成役</div><div class="t2"><span class="jp">${made.map(y => y.name).join('、')}</span></div><div class="t3">${made[0].note}</div></div>`, true), 1300);
   }
-  const tier = omTier(save.collected[id]);
-  if (!fresh && tier > omTier(save.collected[id] - 1)) {
-    const T = OM_TIERS[tier];
-    toast(`<div class="t-art">${omamoriSVG(m, false, tier)}</div><div><div class="t1">御守升级 · ${T.name}</div><div class="t2">${m.om}</div><div class="t3">${tier > 1 ? '金线织满，愿望圆满' : '布面绣上了金线'} · 第 ${save.collected[id]} 枚</div></div>`, true);
+  if (up && !isFresh) {
+    const u = BY_ID[up], tier = omTier(save.collected[up]), T = OM_TIERS[tier];
+    toast(`<div class="t-art">${omamoriSVG(u, false, tier)}</div><div><div class="t1">御守升级 · ${T.name}</div><div class="t2">${u.om}</div><div class="t3">${tier > 1 ? '金线织满，挂上了庭院的绘马架' : '布面绣上了金线'} · 第 ${save.collected[up]} 枚</div></div>`, true);
     SFX.upgrade(tier);
-  } else cardToast(m, fresh);
+  } else cardToast(m, isFresh);
+  grown.forEach((mo, j) => later(() => toast(`<div class="t-art">${gardenPlantSVG(mo)}</div><div><div class="t1">庭里长出了${PLANT_NAMES[mo - 1]}</div><div class="t2">${MONTHS[mo - 1][2]}的四张花札都到齐了</div><div class="t3">回主页看看「我的庭院」</div></div>`, true), 2100 + j * 1600));
   if (collectedCount() === MOTIFS.length && awardSeal('zensatsu')) later(() => stampFX('全札', '四十八张，都在这里了'), 2200);
   refreshMeta();
 }
@@ -2070,9 +2410,10 @@ function peek() {
   if (!G || G.phase !== 'play' || G.peeks < 1) return;
   G.peeks--; G.peeksUsed++; G.phase = 'peek';
   G.deck.forEach(c => { if (!c.done) c.peek = true; }); paintAll();
-  renderHud(); SFX.peek();
-  const ms = peekMs(G.deck.length);
-  setHint('再看一眼，步数不变', ms);
+  renderHud();
+  const night = G.L.variant === 'yoru', ms = Math.round(peekMs(G.deck.length) * (night ? .5 : 1));
+  if (night) { SFX.flash(); const b = $('#board'); b.classList.remove('flash'); void b.offsetWidth; b.classList.add('flash'); } else SFX.peek();
+  setHint(night ? '又一枚花火' : '再看一眼，步数不变', ms);
   later(() => { G.deck.forEach(c => c.peek = false); paintAll(); SFX.unflip(); G.phase = 'play'; renderHud(); setHint(G.first !== null ? '再翻一张' : playHint()); }, ms);
 }
 function freshRow() {
@@ -2086,27 +2427,31 @@ function flowersFor() {
 }
 function win() {
   statEnd(true);
-  const {n, L} = G, fl = flowersFor();
-  save.best[G.mode][n] = Math.max(save.best[G.mode][n] || 0, fl);
-  const unlockedNew = n < LEVELS.length && save.unlocked < n + 1;
-  if (n < LEVELS.length) save.unlocked = Math.max(save.unlocked, n + 1);
+  const {n, L} = G, fl = flowersFor(), v = !!L.variant;
+  G.fl = fl;
+  if (!v) save.best[G.mode][n] = Math.max(save.best[G.mode][n] || 0, fl);
+  const unlockedNew = !v && n < LEVELS.length && save.unlocked < n + 1;
+  if (!v && n < LEVELS.length) save.unlocked = Math.max(save.unlocked, n + 1);
+  if (v) awardSeal(L.seal);
   if (!G.misses) awardSeal('muku');
   if (!G.peeksUsed) awardSeal('ichimoku');
   if (LEVELS.every(l => cleared(l.n))) awardSeal('hakkei');
   persist(); SFX.win(); buzz('win'); setHint('庭院已整理完毕'); warmDeck();
   petals({particleCount: 70, angle: 60, spread: 70, startVelocity: 42, origin: {x: 0, y: .95}});
   petals({particleCount: 70, angle: 120, spread: 70, startVelocity: 42, origin: {x: 1, y: .95}});
-  const nextL = LEVELS[n];
+  const nextL = v ? null : LEVELS[n], opened = !v && n === LEVELS.length;
+  const head = v ? (L.target ? `凑成了「${L.target.name}」` : L.variant === 'yoru' ? '夜庭里，灯笼亮了' : '花合，圆满') : n === LEVELS.length ? '八处庭院，全部点亮' : '庭院点亮了';
   const movesTxt = isFinite(G.budget) ? `用了 ${G.used} 步，还剩 ${movesLeft()} 步。` : `用了 ${G.used} 步（参考 ${L.std} 步）。`;
-  openModal(`<div class="eyebrow">${SEASONS[L.s].name} · 第${KANJI[n - 1]}庭 · ${L.name}</div><h2>${n === LEVELS.length ? '八处庭院，全部点亮' : '庭院点亮了'}</h2>
+  openModal(`<div class="eyebrow">${levelTag(L)} · ${L.name}</div><h2>${head}</h2>
     ${haikuHTML(L.haiku)}
     <div class="big-flowers" aria-label="获得 ${fl} 朵花">${[1, 2, 3].map(i => flowerIcon(i <= fl)).join('')}</div>
-    <p>${movesTxt}收下御守 ${G.ids.length} 枚。${G.yaku.length ? `<br>凑成役：${G.yaku.join('、')}。` : ''}${unlockedNew ? `<br>下一处庭院「${nextL.name}」的灯，也亮了。` : ''}</p>
+    <p>${movesTxt}收下御守 ${G.got} 枚。${G.yaku.length ? `<br>凑成役：${G.yaku.join('、')}。` : ''}${unlockedNew ? `<br>下一处庭院「${nextL.name}」的灯，也亮了。` : ''}${opened ? '<br>庭外的三种玩法也开放了：花合、夜庭、役之庭。' : ''}</p>
     ${G.seals.length ? `<div class="seals" style="margin:4px 0 8px">${G.seals.map(id => { const x = SEALS.find(z => z.id === id); return `<div class="seal-cell">${sealHTML(x.k, true)}<span>${x.how}</span></div>`; }).join('')}</div>` : ''}
     ${freshRow()}
     <div class="modal-actions">
-      ${nextL ? `<button class="btn primary" type="button" data-act="next" data-focus>前往 · ${nextL.name}</button>` : `<button class="btn primary" type="button" data-act="dex" data-focus>打开图鉴</button>`}
-      <button class="btn" type="button" data-act="replay">再玩一次</button>
+      ${nextL ? `<button class="btn primary" type="button" data-act="next" data-focus>前往 · ${nextL.name}</button>` : v ? `<button class="btn primary" type="button" data-act="replay" data-focus>再来一局</button>` : `<button class="btn primary" type="button" data-act="dex" data-focus>打开图鉴</button>`}
+      ${v ? '' : '<button class="btn" type="button" data-act="replay">再玩一次</button>'}
+      <button class="btn" type="button" data-act="poster">生成海报</button>
       <button class="btn" type="button" data-act="home">返回庭院</button>
     </div>`);
 }
@@ -2114,15 +2459,15 @@ function lose() {
   statEnd(false); persist();
   SFX.lose(); buzz('lose'); setHint('步数用完了');
   const easier = G.mode === 'hard' ? '<p>也可以回主页，换成「标准」或「悠闲」。</p>' : G.mode === 'std' ? '<p>想慢慢记，回主页换成「悠闲」，不计步数。</p>' : '';
-  openModal(`<div class="eyebrow">${SEASONS[G.L.s].name} · 第${KANJI[G.n - 1]}庭 · ${G.L.name}</div><h2>步数用尽了</h2>
-    <p>配成 ${G.pairs} / ${G.ids.length} 组。庭院还在，再来一次时，步数和回看都会恢复，牌也会重新洗过。</p>
+  openModal(`<div class="eyebrow">${levelTag(G.L)} · ${G.L.name}</div><h2>步数用尽了</h2>
+    <p>${G.goal ? `役札配成 ${G.goalDone} / ${G.goal} 组` : `配成 ${G.pairs} / ${G.total} 组`}。庭院还在，再来一次时，步数和回看都会恢复，牌也会重新洗过。</p>
     ${G.fresh.length ? '<p>这一局收下的花札与御守，已经记在图鉴里。</p>' : ''}${easier}${freshRow()}
     <div class="modal-actions">
       <button class="btn primary" type="button" data-act="retry" data-focus>重试本关</button>
       <button class="btn" type="button" data-act="home">返回庭院</button>
     </div>`);
 }
-function goHome() { stopTimers(); if (G) G.phase = 'idle'; $('#toast').classList.remove('show'); show('home'); }
+function goHome() { stopTimers(); if (G) G.phase = 'idle'; $('#game').classList.remove('night'); $('#toast').classList.remove('show'); show('home'); }
 
 /* ================= 练习庭 · new-player walkthrough =================
    Four cards, two pairs, the player's own taps. Steps: look → turn → look again → done. Skippable at every step;
@@ -2358,6 +2703,8 @@ document.addEventListener('click', e => {
   }
   const sk = t.closest('[data-skin]'); if (sk) { save.skin = sk.dataset.skin; save.skinPinned = true; persist(); SFX.tap(); refreshBoardArt(); renderSettings(); warmDeck(); return; }
   const om = t.closest('[data-om]'); if (om) { SFX.tap(); omamoriDetail(om.dataset.om); return; }
+  const pl = t.closest('[data-month]'); if (pl) { SFX.tap(); plantToast(+pl.dataset.month); return; }
+  if (t.closest('[data-poster="garden"]')) { SFX.tap(); sharePoster(gardenPoster()); return; }
   if (t.closest('.sound-btn')) setSound(!save.sound);
 });
 $('#modalCard').addEventListener('click', e => {
@@ -2366,6 +2713,11 @@ $('#modalCard').addEventListener('click', e => {
   const act = b.dataset.act, n = G ? G.n : 1;
   SFX.tap();
   if (act === 'close') return closeModal(true);
+  if (act === 'poster') return sharePoster(winPoster());
+  if (act === 'poster-om') return sharePoster(omamoriPoster(b.dataset.id));
+  if (act === 'poster-back') { const pr = posterReturn; posterReturn = null; if (pr) openModal(pr.html, pr.onClose); else closeModal(false); return; }
+  if (act === 'poster-save') { savePoster(b); return; }
+  if (act === 'poster-share') { sharePosterFile(b); return; }
   if (act === 'copy-stats') {
     const text = statsText();
     const done = () => { b.textContent = '已复制 ✓'; };
@@ -2397,6 +2749,7 @@ document.addEventListener('keydown', e => {
   else if ((e.key === ' ' || e.key === 'Enter') && at < 0 && G.missPending) { e.preventDefault(); skipWait(); }
 });
 document.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('[data-month]')) { e.preventDefault(); SFX.tap(); plantToast(+e.target.dataset.month); return; }
   if (e.key !== 'Escape') return;
   if (!$('#modal').hidden && $('#modalCard [data-act="close"]')) { closeModal(true); return; }
   if (!$('#demo').hidden) { skipDemo(); return; }
