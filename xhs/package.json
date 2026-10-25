@@ -1,0 +1,8 @@
+{
+  "name": "omamori-hanafuda-xhs",
+  "private": true,
+  "description": "Builds the 小红书小工具 package of 御守花札 from src/page.html",
+  "type": "module",
+  "scripts": {"build": "node build.mjs"},
+  "devDependencies": {"esbuild": "0.24.2"}
+}

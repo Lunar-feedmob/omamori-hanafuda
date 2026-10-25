@@ -316,7 +316,9 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 
 /* ---------- sheets ---------- */
 .sheet{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;background:var(--bg);padding-top:env(safe-area-inset-top,0px)}
-.sheet-head{display:flex;align-items:center;gap:12px;padding:12px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));border-bottom:var(--panel-bw) solid var(--line)}
+.sheet-head{display:flex;align-items:center;gap:12px;padding:8px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));border-bottom:var(--panel-bw) solid var(--line)}
+/* every full-screen page exits from the same place: the ‹ button at top-left, as in the garden */
+.sheet-head .back-btn{flex:none}
 .sheet-head h2{margin:0;font-family:var(--f-head);font-weight:var(--w-head);font-size:22px;letter-spacing:.06em}
 .sheet-head .count{color:var(--muted);font-size:13px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sheet-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;
@@ -879,9 +881,11 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
   #game #board{grid-column:2;grid-row:1/-1}
   #game .hud{grid-template-columns:1fr}
   #game .g-top{flex-wrap:wrap;row-gap:10px}
-  #game .g-title{order:-1;flex:1 0 100%;text-align:left}
+  #game .g-title{order:-1;flex:1 0 calc(100% - 60px);text-align:left}
   #game .g-title b{font-size:28px}
-  #game .g-top #btnHome{margin-right:auto}
+  #game .g-top #btnHome{order:-2}
+  #game .g-top #btnHome + .g-title + .icon-btn{margin-left:auto}
+  .sheet-head{padding-top:24px}
   #game .hint{align-self:stretch;white-space:normal;text-align:left;padding:8px 14px;line-height:1.6}
   #game .g-actions{flex-direction:column}
   #game .g-actions .btn{width:100%}
@@ -949,7 +953,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 </div>
 
 <div class="sheet" id="dex" role="dialog" aria-modal="true" aria-labelledby="dexTitle" hidden>
-  <div class="sheet-head"><h2 id="dexTitle">花札图鉴</h2><span class="count tnum" id="dexCount"></span><button class="btn" data-close="dex" type="button">关闭</button></div>
+  <div class="sheet-head"><button class="icon-btn back-btn" data-close="dex" type="button" aria-label="返回"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4 6.5 10l6 6"/></svg></button><h2 id="dexTitle">花札图鉴</h2><span class="count tnum" id="dexCount"></span></div>
   <div class="sheet-body"><div class="sheet-inner">
     <div class="rail"><i id="dexRail" style="width:0%"></i></div>
     <section class="intro panel" id="dexIntro"></section>
@@ -957,16 +961,16 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
   </div></div>
 </div>
 <div class="sheet" id="omamori" role="dialog" aria-modal="true" aria-labelledby="omTitle" hidden>
-  <div class="sheet-head"><h2 id="omTitle">御守帖</h2><span class="count tnum" id="omCount"></span><button class="btn" data-close="omamori" type="button">关闭</button></div>
+  <div class="sheet-head"><button class="icon-btn back-btn" data-close="omamori" type="button" aria-label="返回"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4 6.5 10l6 6"/></svg></button><h2 id="omTitle">御守帖</h2><span class="count tnum" id="omCount"></span></div>
   <div class="sheet-body"><div class="sheet-inner">
     <p class="sheet-note">四十八枚御守徽章。配对一组花札，对应的徽章就会点亮；还没求得的只留一道剪影。同一枚收得越多，布面会绣上金线（3 枚），再织成「満願」（6 枚）。点开亮着的徽章，看看它保佑什么。</p>
     <div id="omSeasons" class="dex-seasons"></div>
   </div></div>
 </div>
 <div class="sheet" id="settings" role="dialog" aria-modal="true" aria-labelledby="setTitle" hidden>
-  <div class="sheet-head"><h2 id="setTitle">设置</h2><span class="count"></span><button class="btn" data-close="settings" type="button">完成</button></div>
+  <div class="sheet-head"><button class="icon-btn back-btn" data-close="settings" type="button" aria-label="返回"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4 6.5 10l6 6"/></svg></button><h2 id="setTitle">设置</h2><span class="count"></span></div>
   <div class="sheet-body"><div class="sheet-inner">
-    <section class="set-group"><h3>卡面</h3><p>七套牌面，图像原样显示。切换主题时会换成推荐卡面，自己选过之后就不再自动更换。</p><div class="skins" id="skins" role="radiogroup" aria-label="卡面"></div></section>
+    <section class="set-group"><h3>卡面</h3><p><span id="skinCount">七</span>套牌面，图像原样显示。切换主题时会换成推荐卡面，自己选过之后就不再自动更换。</p><div class="skins" id="skins" role="radiogroup" aria-label="卡面"></div></section>
     <section class="set-group"><h3>难度</h3><div class="seg" id="modeSeg2" role="radiogroup" aria-label="难度"></div><p id="modeNote2"></p></section>
     <section class="set-group"><h3>声音</h3><div class="toggles">
       <button class="toggle" id="tgSound" type="button" role="switch"><span><b>音效</b><small>翻牌、配对与通关的声音</small></span><span class="sw2"></span></button>
@@ -988,7 +992,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 </div>
 
 <div class="sheet demo" id="demo" role="dialog" aria-modal="true" aria-labelledby="demoTitle" hidden>
-  <div class="sheet-head"><h2 id="demoTitle">练习庭</h2><span class="count" id="demoStep">1 / 4 · 看牌</span><button class="btn" id="demoSkip" type="button">跳过</button></div>
+  <div class="sheet-head"><button class="icon-btn back-btn" id="demoSkip" type="button" aria-label="跳过演示"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4 6.5 10l6 6"/></svg><span>跳过</span></button><h2 id="demoTitle">练习庭</h2><span class="count" id="demoStep">1 / 4 · 看牌</span></div>
   <div class="demo-body">
     <div class="demo-steps" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <p class="demo-cap" id="demoCap" aria-live="polite"></p>
@@ -1015,6 +1019,17 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 <script>
 (() => {
 'use strict';
+// The host the page runs in. On the web and in claude.ai this is plain browser storage; inside the Xiaohongshu 小工具
+// container, xhs/shim.js sets window.OMA_HOST to the platform's storage, album, note and vibration bridges.
+const HOST = window.OMA_HOST || {
+  name: 'web', cardExt: {},
+  storage: {
+    get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} },
+    remove: k => { try { localStorage.removeItem(k); } catch (e) {} }
+  },
+  vibrate: null, saveImage: null, postNote: null
+};
 const $ = s => document.querySelector(s);
 const r2 = n => Math.round(n * 100) / 100;
 const rad = d => d * Math.PI / 180;
@@ -1101,10 +1116,14 @@ const SEALS = [
   {id: 'hakkei', k: '八景', how: '点亮全部八盏灯笼'}, {id: 'zensatsu', k: '全札', how: '集齐四十八张花札'},
   {id: 'v-awase', k: '花合', how: '通过庭外「花合」'}, {id: 'v-yoru', k: '夜庭', how: '通过庭外「夜庭」'}, {id: 'v-yaku', k: '役成', how: '在「役之庭」凑成指定的役'}
 ];
-const SKINS = {
+const SKINS_ALL = {
   classic: {name: '彩绘', note: 'Mantia · 绿野红缘'}, sumi: {name: '墨染', note: 'Mantia · 黑边浓墨'}, shu: {name: '朱缘', note: 'Mantia · 朱红边框'},
   hwatu: {name: '花图', note: '韩式 Hwatu · 带「光」字'}, ink: {name: '墨绘', note: '原创 · 淡墨与朱印'}, kirie: {name: '剪纸', note: '原创 · 平面色块'}, tone: {name: '网点', note: '原创 · 黑白网点'}
 };
+// The 小工具 build ships fewer decks to stay light; a look whose deck isn't there borrows the closest one.
+const SKINS = HOST.skins ? Object.fromEntries(Object.entries(SKINS_ALL).filter(([k]) => HOST.skins.includes(k))) : SKINS_ALL;
+const DECK_STANDIN = {sumi: 'ink', shu: 'classic', hwatu: 'classic'};
+const deckFor = look => { const d = THEMES[look].deck; return SKINS[d] ? d : DECK_STANDIN[d] || Object.keys(SKINS)[0]; };
 
 /* ================= seasons, gardens, modes ================= */
 const SEASONS = [
@@ -1204,8 +1223,8 @@ function mergeProgress(d, withPrefs) {
     if (SKINS[d.skin]) save.skin = d.skin;
   }
 }
-try { const d = JSON.parse(localStorage.getItem(KEY) || 'null'); if (d && typeof d === 'object') mergeProgress(d, true); } catch (e) {}
-function persist() { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) {} cloudQueue(); }
+try { const d = JSON.parse(HOST.storage.get(KEY) || 'null'); if (d && typeof d === 'object') mergeProgress(d, true); } catch (e) {}
+function persist() { HOST.storage.set(KEY, JSON.stringify(save)); cloudQueue(); }
 const cleared = n => Object.values(save.best).some(b => b[n] > 0);
 
 let cloud = null, cloudTimer = 0, cloudBusy = false, cloudDirty = false;
@@ -1229,14 +1248,14 @@ async function initCloud() {
     if (!id) return;
     const ref = db.doc('data/users/' + id + '/save');
     const snap = await ref.get();
-    if (snap.exists) { mergeProgress(snap.data() || {}, false); try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) {} refreshMeta(); if (current === 'home') renderHome(); }
+    if (snap.exists) { mergeProgress(snap.data() || {}, false); HOST.storage.set(KEY, JSON.stringify(save)); refreshMeta(); if (current === 'home') renderHome(); }
     cloud = ref; setSaveNote(); cloudQueue();
   } catch (e) {}
 }
 function setSaveNote() { $('#saveNote2').textContent = cloud ? '收集进度已同步到你的账号，换台设备打开也能接着玩。' : '收集进度保存在这台设备的浏览器里，刷新页面不会丢失。'; }
 
 /* ================= art ================= */
-const cardSrc = (m, skin = save.skin) => `cards/${skin}/${m.file}.svg`;
+const cardSrc = (m, skin = save.skin) => `cards/${skin}/${m.file}.${HOST.cardExt[skin] || 'svg'}`;
 const art = (m, skin) => `<img src="${cardSrc(m, skin)}" alt="" draggable="false" decoding="async">`;
 const warmed = {};
 function warmDeck() {
@@ -1259,7 +1278,7 @@ const BACK_KATAGAMI = {
   tsuki: {cloth: '#d9d4c4', met: 69147, name: '草花', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="1" fill="none" stroke="#d9c78f" stroke-opacity=".8" stroke-width=".6"/>'},
   rinpa: {cloth: '#d8b65e', met: 65305, name: '紗綾形', frame: '<rect x="1.2" y="1.2" width="47.6" height="77.6" fill="none" stroke="#1b120a" stroke-width="2.4"/><rect x="3.6" y="3.6" width="42.8" height="72.8" fill="none" stroke="#e9cf86" stroke-width=".6"/>'},
   taisho: {cloth: '#e2b453', met: 69143, name: '八角繋ぎ', frame: '<rect x="2.4" y="2.4" width="45.2" height="75.2" fill="none" stroke="#e2b453" stroke-width=".9"/><rect x="4" y="4" width="42" height="72" fill="none" stroke="#e2b453" stroke-width=".4"/>'},
-  giga: {cloth: '#efe4cc', link: 'https://commons.wikimedia.org/wiki/File:Chouju_sumo2.jpg', name: '戯画の蛙', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="1.5" fill="none" stroke="#26211c" stroke-opacity=".7" stroke-width=".8"/>'}
+  giga: {cloth: '#efe4cc', name: '戯画の蛙', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="1.5" fill="none" stroke="#26211c" stroke-opacity=".7" stroke-width=".8"/>'}
 };
 const backSrc = look => `backs/${look}.webp`;
 const BACKS = Object.fromEntries(Object.entries(BACK_KATAGAMI).map(([k, b]) => [k,
@@ -1692,8 +1711,9 @@ function startAudio() {
       A.temple = new T.FMSynth({harmonicity: 1.41, modulationIndex: 2.4, envelope: {attack: .004, decay: 6, sustain: 0, release: 6}, modulationEnvelope: {attack: .004, decay: 4, sustain: 0, release: 4}, volume: -20}).connect(rev);
       A.wood = new T.MembraneSynth({pitchDecay: .012, octaves: 2.5, envelope: {attack: .001, decay: .28, sustain: 0, release: .2}, volume: -16}).connect(rev);
       A.bus = new T.Gain(1).connect(out); A.bus.connect(new T.Gain(.16).connect(rev));
-      const urls = {}; Object.values(SAMPLE_GROUPS).flat().forEach(n => urls[n] = n + '.mp3');
-      A.samples = new T.ToneAudioBuffers({baseUrl: 'sfx/', urls});
+      /*web-only*/const urls = {}; Object.values(SAMPLE_GROUPS).flat().forEach(n => urls[n] = n + '.mp3');
+      A.samples = new T.ToneAudioBuffers({baseUrl: 'sfx/', urls});/*end-web-only*/
+      /*xhs-only A.samples = new T.ToneAudioBuffers({synth: SAMPLE_GROUPS}); xhs-only*/
       A.amb = {vol: new T.Volume(-60).connect(out)};
       A.amb.filter = new T.AutoFilter({frequency: .06, baseFrequency: 320, octaves: 1.8, depth: .8}).connect(A.amb.vol).start();
       A.amb.noise = new T.Noise('pink').connect(A.amb.filter);
@@ -1943,9 +1963,9 @@ function show(name) {
 }
 function enter(el) { el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter'); el.addEventListener('animationend', () => el.classList.remove('enter'), {once: true}); }
 // Light haptics on phones that support it (Android Chrome; iOS Safari has no vibration API, so the toggle stays hidden there).
-const CAN_BUZZ = typeof navigator.vibrate === 'function' && !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
+const CAN_BUZZ = !!HOST.vibrate || (typeof navigator.vibrate === 'function' && !!(window.matchMedia && matchMedia('(pointer: coarse)').matches));
 const BUZZ = {match: 14, miss: [8, 50, 8], combo: [12, 40, 24], win: [16, 70, 16, 70, 40], lose: 40};
-function buzz(kind) { if (CAN_BUZZ && save.haptics) try { navigator.vibrate(BUZZ[kind] || 10); } catch (e) {} }
+function buzz(kind) { if (!CAN_BUZZ || !save.haptics) return; if (HOST.vibrate) { HOST.vibrate(kind); return; } try { navigator.vibrate(BUZZ[kind] || 10); } catch (e) {} }
 function applySeason(i) {
   const changed = i !== seasonNow;
   seasonNow = i;
@@ -1958,7 +1978,7 @@ function renderLookName() { document.querySelectorAll('.look-name').forEach(el =
 function cycleLook() {
   const i = LOOK_ORDER.indexOf(save.look), next = LOOK_ORDER[(i + 1) % LOOK_ORDER.length];
   save.look = next;
-  if (!save.skinPinned) save.skin = THEMES[next].deck;
+  if (!save.skinPinned) save.skin = deckFor(next);
   refreshBoardArt();
   save.stats.themes[next] = (save.stats.themes[next] || 0) + 1;
   persist(); SFX.tap(); applyLook(); renderLookName(); warmDeck();
@@ -2426,6 +2446,7 @@ async function makePoster(spec) {
 }
 let posterReturn = null, posterBlob = null, posterUrl = '';
 async function sharePoster(spec) {
+  posterSpec = spec;
   posterReturn = !$('#modal').hidden ? {html: $('#modalCard').innerHTML, onClose: modalOnClose} : null;
   openModal(`<div class="eyebrow">海报</div><h2>正在绘制…</h2><p>按「${THEMES[save.look].name}」的样子排版。</p>`, posterReturn && posterReturn.onClose);
   let cv;
@@ -2434,26 +2455,42 @@ async function sharePoster(spec) {
   if (posterUrl) URL.revokeObjectURL(posterUrl);
   posterBlob = blob; posterUrl = blob ? URL.createObjectURL(blob) : '';
   const file = blob && typeof File === 'function' ? new File([blob], 'omamori-hanafuda.png', {type: 'image/png'}) : null;
-  const canShare = !!(file && navigator.canShare && navigator.canShare({files: [file]}));
+  const canShare = !HOST.saveImage && !!(file && navigator.canShare && navigator.canShare({files: [file]}));
   $('#modalCard').innerHTML = blob ? `<div class="eyebrow">海报 · ${THEMES[save.look].name}</div><div class="poster-view"><img src="${posterUrl}" alt="${spec.title} 的分享海报"></div>
-    <p class="poster-tip">也可以长按或右键图片直接保存。</p><p class="poster-msg" aria-live="polite"></p>
-    <div class="modal-actions"><button class="btn primary" type="button" data-act="poster-save" data-focus>保存图片</button>${canShare ? '<button class="btn" type="button" data-act="poster-share">分享</button>' : ''}<button class="btn" type="button" data-act="poster-back">${posterReturn ? '返回' : '关闭'}</button></div>`
+    ${HOST.saveImage ? '' : '<p class="poster-tip">也可以长按或右键图片直接保存。</p>'}<p class="poster-msg" aria-live="polite"></p>
+    <div class="modal-actions">${HOST.postNote ? '<button class="btn primary" type="button" data-act="poster-note" data-focus>发到小红书</button>' : ''}<button class="btn${HOST.postNote ? '' : ' primary'}" type="button" data-act="poster-save"${HOST.postNote ? '' : ' data-focus'}>${HOST.saveImage ? '存到相册' : '保存图片'}</button>${canShare ? '<button class="btn" type="button" data-act="poster-share">分享</button>' : ''}<button class="btn" type="button" data-act="poster-back">${posterReturn ? '返回' : '关闭'}</button></div>`
     : `<div class="eyebrow">海报</div><h2>没能画出来</h2><p>这个浏览器暂时不支持生成图片。</p><div class="modal-actions"><button class="btn primary" type="button" data-act="poster-back" data-focus>返回</button></div>`;
   const f = $('#modalCard [data-focus]'); if (f) f.focus();
 }
 // Save: through the claude.ai download prompt when the page runs there, otherwise a plain browser download.
 let dlCap = null;
+const blobToDataURL = blob => new Promise(res => { const f = new FileReader(); f.onload = () => res(f.result); f.onerror = () => res(''); f.readAsDataURL(blob); });
 async function savePoster(btn) {
   if (!posterBlob) return;
   const name = `omamori-hanafuda-${Date.now()}.png`, msg = $('#modalCard .poster-msg');
+  if (HOST.saveImage) {
+    if (msg) msg.textContent = '正在保存…';
+    const ok = await HOST.saveImage(await blobToDataURL(posterBlob));
+    if (msg) msg.textContent = ok ? '已存到相册。' : '没能保存：请在系统设置里允许小红书访问相册。';
+    return;
+  }
   if (window.claude && typeof window.claude.use === 'function') {
     try {
       dlCap = dlCap || await Promise.race([window.claude.use('downloads'), new Promise(r => setTimeout(() => r(null), 3000))]);
       if (dlCap) { await dlCap.save({filename: name, data: posterBlob}); if (msg) msg.textContent = '已保存。'; return; }
     } catch (e) { if (e && e.code === 'declined') { if (msg) msg.textContent = '已取消保存。'; return; } }
   }
-  const a = document.createElement('a'); a.href = posterUrl; a.download = name; document.body.appendChild(a); a.click(); a.remove();
-  if (msg) msg.textContent = '如果没有开始下载，请长按或右键图片保存。';
+  /*web-only*/const a = document.createElement('a'); a.href = posterUrl; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  if (msg) msg.textContent = '如果没有开始下载，请长按或右键图片保存。';/*end-web-only*/
+}
+// Xiaohongshu: open the note composer with the poster attached; the player writes and posts it themselves.
+let posterSpec = null;
+async function postPoster() {
+  if (!posterBlob || !HOST.postNote) return;
+  const msg = $('#modalCard .poster-msg'), sp = posterSpec || {};
+  const lines = [sp.eyebrow, (sp.haiku && sp.haiku[0]) || '', (sp.lines || []).join(' · ')].filter(Boolean);
+  const ok = await HOST.postNote({title: `御守花札 · ${sp.title || ''}`.slice(0, 20), content: lines.join('\n') + '\n#御守花札 #花札', image: await blobToDataURL(posterBlob)});
+  if (msg && !ok) msg.textContent = '没能打开发布页，可以先存到相册再发笔记。';
 }
 async function sharePosterFile() {
   try { await navigator.share({files: [new File([posterBlob], 'omamori-hanafuda.png', {type: 'image/png'})], title: '御守花札'}); } catch (e) {}
@@ -2514,6 +2551,7 @@ function omamoriDetail(id) {
     <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>收好</button><button class="btn" type="button" data-act="poster-om" data-id="${id}">生成海报</button></div>`);
 }
 function renderSettings() {
+  $('#skinCount').textContent = '一二三四五六七'[Object.keys(SKINS).length - 1] || Object.keys(SKINS).length;
   $('#skins').innerHTML = Object.entries(SKINS).map(([k, s]) => `<button class="skin" type="button" role="radio" data-skin="${k}" aria-checked="${save.skin === k}">
     <span class="mini">${['matsu-tsuru', 'susuki-tsuki'].map(id => art(BY_ID[id], k)).join('')}</span><b>${s.name}</b><small>${s.note}</small></button>`).join('');
   renderModes(); renderSoundUI(); setSaveNote();
@@ -2523,7 +2561,7 @@ const sheetReturn = {};
 function openSheet(id) {
   sheetReturn[id] = document.activeElement;
   SHEETS[id](); $('#' + id).hidden = false; $('#' + id + ' .sheet-body').scrollTop = 0; enter($('#' + id));
-  $('#' + id + ' .sheet-head .btn').focus();
+  $('#' + id + ' .sheet-head .back-btn').focus();
 }
 function closeSheet(id) {
   $('#' + id).hidden = true;
@@ -2608,7 +2646,7 @@ function statsHTML() {
     <tbody>${rows.map(x => `<tr><td><span class="jp">${x.l.name}</span></td><td>${x.plays}</td><td>${x.wins}</td><td>${x.losses}</td><td>${x.rate}</td><td>${x.moves}</td><td>${x.peeks}</td><td>${x.misses}</td><td>${x.time}</td></tr>`).join('')}</tbody></table></div>
     <p style="margin-top:10px">新手演示：出现 ${save.stats.demo.shown} 次，看完 ${save.stats.demo.done} 次，跳过 ${save.stats.demo.skipped} 次。</p>
     <p>切换主题：${th.length ? th.map(([k, n]) => `${THEMES[k] ? THEMES[k].name : k} ${n} 次`).join('、') : '还没有切换过'}。</p>
-    <div class="modal-actions"><button class="btn primary" type="button" data-act="copy-stats" data-focus>复制统计，发给开发者</button><button class="btn" type="button" data-act="close">关闭</button></div>`;
+    <div class="modal-actions">${HOST.name === 'xhs' ? '' : '<button class="btn primary" type="button" data-act="copy-stats" data-focus>复制统计，发给开发者</button>'}<button class="btn" type="button" data-act="close"${HOST.name === 'xhs' ? ' data-focus' : ''}>关闭</button></div>`;
 }
 function statsText() {
   const head = ['庭院', '开局', '通关', '失败', '通关率', '均步数', '均回看', '均翻错', '均用时'].join('\t');
@@ -3075,11 +3113,11 @@ async function wipeAll() {
   const fresh = JSON.parse(DEFAULT_SAVE);
   for (const k of Object.keys(save)) delete save[k];
   Object.assign(save, fresh);
-  try { localStorage.removeItem(KEY); } catch (e) {}
+  HOST.storage.remove(KEY);
   if (cloud) { try { clearTimeout(cloudTimer); await cloud.set({unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, collectedAt: {}, seals: {}, updatedAt: Date.now()}); } catch (e) {} }
   try { location.reload(); return; } catch (e) {}
   // If the frame refuses to reload, rebuild the page from the defaults instead.
-  document.documentElement.dataset.look = save.look; save.skin = THEMES[save.look].deck;
+  document.documentElement.dataset.look = save.look; save.skin = deckFor(save.look);
   for (const id of Object.keys(SHEETS)) $('#' + id).hidden = true;
   applyLook(); renderModes(); renderSoundUI(); show('home'); refreshMeta();
 }
@@ -3124,12 +3162,13 @@ $('#modalCard').addEventListener('click', e => {
   if (act === 'poster-om') return sharePoster(omamoriPoster(b.dataset.id));
   if (act === 'poster-back') { const pr = posterReturn; posterReturn = null; if (pr) openModal(pr.html, pr.onClose); else closeModal(false); return; }
   if (act === 'poster-save') { savePoster(b); return; }
+  if (act === 'poster-note') { postPoster(); return; }
   if (act === 'poster-share') { sharePosterFile(b); return; }
   if (act === 'copy-stats') {
     const text = statsText();
     const done = () => { b.textContent = '已复制 ✓'; };
     const fallback = () => { const ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'width:100%;height:120px;margin-top:10px;font-size:11px'; b.after(ta); ta.select(); b.textContent = '已选中，长按复制'; };
-    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (err) { fallback(); }
+    /*web-only*/try { navigator.clipboard.writeText(text).then(done, fallback); } catch (err) { fallback(); }/*end-web-only*/
     return;
   }
   closeModal(false);
@@ -3167,9 +3206,9 @@ let silentEl = null;
 const IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 function unlockAudio() {
   try { if (navigator.audioSession && navigator.audioSession.type !== 'playback') navigator.audioSession.type = 'playback'; } catch (e) {}
-  if (IS_IOS && !navigator.audioSession && !silentEl) {
+  /*web-only*/if (IS_IOS && !navigator.audioSession && !silentEl) {
     try { silentEl = new Audio('sfx/silence.mp3'); silentEl.loop = true; silentEl.setAttribute('playsinline', ''); silentEl.play().catch(() => { silentEl = null; }); } catch (e) {}
-  }
+  }/*end-web-only*/
   const T = window.Tone;
   if (T && !A.failed) { try { if (T.context.state !== 'running') T.context.resume(); } catch (e) {} startAudio(); }
   if (!A.tone) audio();   // raw Web Audio is unlocked in the same tap, so there is sound even before (or without) Tone.js
@@ -3195,7 +3234,7 @@ else window.addEventListener('resize', layoutBoard);
 
 /* ================= boot ================= */
 document.documentElement.dataset.look = save.look;
-if (!save.skinPinned) save.skin = THEMES[save.look].deck;
+if (!save.skinPinned) save.skin = deckFor(save.look);
 renderModes(); renderSoundUI(); setSaveNote(); refreshMeta(); warmDeck(); renderLookName();
 initCloud();
 function start(data) {
