@@ -556,35 +556,66 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .hv-matsuri .mt-stall.next{outline:2px solid #f29a3a;outline-offset:2px}
 /* 8 · 手账收藏 — a travel-journal spread with a stamp-rally card */
 .hv-techo{position:relative}
-.hv-techo .tc-press{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:6px 4px 0}
-.hv-techo .tc-press figure{position:relative;margin:0;padding:4px 4px 6px;background:#fffdf8;box-shadow:0 4px 10px -5px rgba(74,61,50,.5);transform:rotate(var(--r))}
-.hv-techo .tc-press img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
-.hv-techo .tc-press figcaption{font-family:var(--f-jp);font-size:11px;text-align:center;margin-top:2px}
-.hv-techo .tc-press figure::before{content:"";position:absolute;top:-7px;left:30%;width:40%;height:12px;background:rgba(168,195,160,.8);transform:rotate(-4deg)}
-.hv-techo .tc-head{display:flex;justify-content:space-between;align-items:baseline}
-.hv-techo .tc-head h1{margin:0;font-family:var(--f-jp);font-size:34px}
-.hv-techo .tc-head span{font-family:var(--f-head);font-size:15px;color:var(--muted);border-bottom:2px solid #e8b4b8}
-.hv-techo .tc-spread{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;align-items:start}
-.hv-techo .tc-polaroid{position:relative;padding:8px 8px 10px;border:0;background:#fff;box-shadow:0 6px 16px -6px rgba(74,61,50,.45);transform:rotate(-3deg);display:grid;gap:6px;text-align:center}
-.hv-techo .tc-photo{display:block;aspect-ratio:1;overflow:hidden}
-.hv-techo .tc-photo svg{display:block;width:100%;height:100%}
-.hv-techo .tc-cap{font-family:var(--f-jp);font-size:14px}
-.hv-techo .tc-tape{position:absolute;top:-10px;left:30%;width:56px;height:20px;background:repeating-linear-gradient(45deg,rgba(232,180,184,.85) 0 6px,rgba(255,255,255,.6) 6px 10px);transform:rotate(4deg)}
-.hv-techo .tc-note{padding:12px 10px;background:#fdf1b8;box-shadow:0 4px 10px -6px rgba(74,61,50,.5);transform:rotate(2deg);font-size:13px}
-.hv-techo .tc-note .jp{font-size:14px}
-.hv-techo .tc-ticket{position:relative;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 18px;border:0;background:#c0675a;color:#fff;border-radius:8px;
-  -webkit-mask:radial-gradient(circle at 0 50%,transparent 9px,#000 10px) left/51% 100% no-repeat,radial-gradient(circle at 100% 50%,transparent 9px,#000 10px) right/51% 100% no-repeat;
-  mask:radial-gradient(circle at 0 50%,transparent 9px,#000 10px) left/51% 100% no-repeat,radial-gradient(circle at 100% 50%,transparent 9px,#000 10px) right/51% 100% no-repeat}
-.hv-techo .tc-ticket b{font-family:var(--f-head);font-weight:var(--w-head);font-size:22px}
-.hv-techo .tc-ticket small{font-size:12px;opacity:.9}
-.hv-techo .tc-rally{padding:14px 12px;background:#fffdf8;border:1px dashed var(--line-2);border-radius:8px}
-.hv-techo .tc-rally h2{margin:0 0 10px;font-family:var(--f-head);font-weight:400;font-size:22px}
-.hv-techo .tc-stamps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 6px}
-.hv-techo .tc-stamp{display:grid;justify-items:center;gap:4px;border:0;background:transparent;padding:0;font-family:var(--f-jp);font-size:12px}
-.hv-techo .tc-stamp .ring{width:58px;height:58px;border-radius:50%;border:2px dashed var(--line-2);display:grid;place-items:center;font-size:18px;color:var(--faint)}
-.hv-techo .tc-stamp.done .ring{border:2.5px double #c0675a;color:#c0675a;transform:rotate(-12deg);font-size:12px;line-height:1.2;text-align:center}
-.hv-techo .tc-stamp.next .ring{border-color:#c0675a;color:#c0675a}
-/* techo: dex entries as stickers */
+/* the notebook: kraft cover strap down the right edge, cream pages */
+:root[data-look="techo"] #home::after{content:"";position:absolute;top:0;bottom:0;right:5px;width:9px;background:linear-gradient(90deg,#6e2a24,#a8463d 45%,#6e2a24);box-shadow:-1px 0 3px rgba(0,0,0,.25);pointer-events:none;z-index:3;border-radius:2px}
+.hv-techo .tc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.hv-techo .tc-brand h1{margin:0;font-family:var(--f-jp);font-size:34px;line-height:1.1;color:#3a2e24}
+.hv-techo .tc-brand span{display:inline-block;margin-top:4px;padding:1px 8px;font-family:var(--f-jp);font-size:12px;letter-spacing:.2em;color:#fff;background:#2c4a7a;transform:rotate(-1.5deg)}
+.hv-techo .tc-post{flex:none;width:66px;height:66px;border-radius:50%;border:2px solid #2c4a7a;color:#2c4a7a;display:grid;place-items:center;align-content:center;gap:0;transform:rotate(12deg);opacity:.85;
+  box-shadow:inset 0 0 0 4px var(--bg),inset 0 0 0 5px rgba(44,74,122,.6)}
+.hv-techo .tc-post b{font-family:var(--f-num,var(--f-body));font-size:17px;line-height:1}.hv-techo .tc-post small{font-size:10px;letter-spacing:.1em}
+.hv-techo .tc-page{position:relative;padding:10px 0 14px}
+.hv-techo .tc-print{position:relative;display:block;width:100%;padding:10px 10px 34px;border:0;background:#fffdf8;box-shadow:0 10px 22px -12px rgba(74,61,50,.6);transform:rotate(-1.6deg);cursor:pointer}
+.hv-techo .tc-print img{display:block;width:100%;height:auto}
+.hv-techo .tc-cap{position:absolute;left:14px;bottom:8px;font-family:var(--f-jp);font-size:15px;color:#3a2e24}
+.hv-techo .tc-tape{position:absolute;width:76px;height:22px;background:repeating-linear-gradient(90deg,rgba(168,195,160,.82) 0 10px,rgba(190,214,182,.82) 10px 20px);box-shadow:0 1px 2px rgba(0,0,0,.12);z-index:1}
+.hv-techo .tc-tape.a{top:-8px;left:-14px;transform:rotate(-28deg)} .hv-techo .tc-tape.b{top:-8px;right:-6px;transform:rotate(30deg);background:repeating-linear-gradient(90deg,rgba(232,180,184,.85) 0 10px,rgba(244,206,208,.85) 10px 20px)}
+.hv-techo .tc-note{position:absolute;right:-4px;bottom:-14px;width:min(52%,220px);padding:10px 12px;background:#fdf1b0;box-shadow:0 6px 12px -6px rgba(74,61,50,.55);transform:rotate(2.5deg);font-size:12px;z-index:2}
+.hv-techo .tc-note .haiku .jp{font-size:13px}
+@media (max-width:359px){.hv-techo .tc-cap{font-size:13px}}
+.hv-techo .tc-ticket{position:relative;display:grid;grid-template-columns:1fr auto;margin-top:26px;padding:0;border:0;background:none;cursor:pointer;text-align:left;filter:drop-shadow(0 6px 8px rgba(74,61,50,.3))}
+.hv-techo .tk-body{display:grid;gap:3px;padding:12px 16px;background:linear-gradient(#f2e6c8,#ead9b2);border-radius:8px 0 0 8px;
+  background-image:repeating-linear-gradient(0deg,transparent 0 7px,rgba(122,90,40,.06) 7px 8px),linear-gradient(#f2e6c8,#ead9b2)}
+.hv-techo .tk-kind{font-size:11px;letter-spacing:.2em;color:#8a5a2a}
+.hv-techo .tk-route{display:flex;align-items:baseline;gap:10px;font-family:var(--f-jp);font-size:26px;color:#3a2e24}
+.hv-techo .tk-route i{font-style:normal;font-size:18px;color:#b85644}
+.hv-techo .tk-roma{margin-top:-2px;font-size:11px;letter-spacing:.06em;color:#8a5a2a}
+.hv-techo .tk-body > small:last-child{font-size:12px;color:#6e5e52}
+.hv-techo .tk-stub{position:relative;display:grid;place-items:center;align-content:center;gap:2px;min-width:84px;padding:10px 12px;background:#b85644;color:#fff;border-radius:0 8px 8px 0;
+  border-left:3px dotted #f2e6c8;font-family:var(--f-head)}
+.hv-techo .tk-stub b{font-size:18px;font-weight:400} .hv-techo .tk-stub i{font-style:normal;font-size:14px}
+.hv-techo .tk-stub::after{content:"";position:absolute;top:50%;right:10px;width:9px;height:9px;margin-top:-26px;border-radius:50%;background:var(--bg)}
+/* the route: eight stops on a dotted line, stamped when cleared */
+.hv-techo .tc-route{position:relative;padding:14px 12px 10px;background:#fffdf8;border-radius:4px;box-shadow:0 6px 14px -10px rgba(74,61,50,.5);
+  background-image:linear-gradient(rgba(110,90,70,.07) 1px,transparent 1px);background-size:100% 22px}
+.hv-techo .tc-route h2{margin:0 0 6px;font-family:var(--f-head);font-weight:400;font-size:20px}
+.hv-techo .tc-path{position:absolute;left:12px;right:12px;top:44px;width:calc(100% - 24px);height:calc(100% - 54px);pointer-events:none}
+.hv-techo .tc-path path{fill:none;stroke:#b85644;stroke-width:2;stroke-dasharray:2 7;stroke-linecap:round;opacity:.7}
+.hv-techo .tc-stops{position:relative;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto;gap:14px 4px}
+.hv-techo .tc-stop{position:relative;display:grid;justify-items:center;gap:4px;padding:2px 0;border:0;background:transparent;cursor:pointer;font-family:var(--f-jp);font-size:12px;color:var(--muted)}
+.hv-techo .tc-stop.st-lock{cursor:default;opacity:.55}
+.hv-techo .tc-stop.next small{color:#b85644;font-weight:600}
+.eki{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;align-content:center;gap:0;color:var(--ink);background:#fffdf8;
+  border:2.5px solid var(--ink);box-shadow:inset 0 0 0 3px #fffdf8,inset 0 0 0 4px var(--ink);transform:rotate(var(--rot));font-family:var(--f-jp);line-height:1.1}
+.eki b{font-size:15px;letter-spacing:.08em} .eki.l3 b{font-size:13px;letter-spacing:0} .eki i{font-style:normal;font-size:8px;max-width:48px;text-align:center;line-height:1.1} .eki small{font-size:7px;opacity:.8}
+.eki.blank{--ink:rgba(110,90,70,.35);border-style:dashed;box-shadow:none;transform:none}
+.eki.blank b{font-size:13px;color:var(--faint)} .eki.blank.l3 b{font-size:12px}
+.tc-stop.next .eki.blank{--ink:#b85644;border-width:2px}
+.tc-pin{position:absolute;top:-10px;left:50%;width:18px;height:18px;margin-left:12px;border-radius:50% 50% 50% 0;background:#d9483b;transform:rotate(-45deg);box-shadow:1px 2px 3px rgba(0,0,0,.3)}
+.tc-pin::after{content:"";position:absolute;inset:5px;border-radius:50%;background:#fffdf8}
+/* garden: the board is a notebook page held by tape; the HUD is a luggage tag and a ticket stub */
+:root[data-look="techo"] #game .deck{position:relative;background:linear-gradient(90deg,transparent 22px,rgba(217,72,59,.35) 22px 23.5px,transparent 23.5px),linear-gradient(rgba(44,74,122,.1) 1px,transparent 1px) 0 0/100% 18px,#fffdf8;
+  border:0;box-shadow:0 10px 24px -14px rgba(74,61,50,.6);padding-left:30px}
+:root[data-look="techo"] #game .deck::before,:root[data-look="techo"] #game .deck::after{content:"";position:absolute;top:-9px;width:64px;height:20px;background:rgba(168,195,160,.82);z-index:2}
+:root[data-look="techo"] #game .deck::before{left:-12px;transform:rotate(-24deg)} :root[data-look="techo"] #game .deck::after{right:-12px;transform:rotate(22deg);background:rgba(232,180,184,.85)}
+:root[data-look="techo"] #statMoves{border-radius:4px 14px 14px 4px;background:#f2e6c8;border:0;box-shadow:0 4px 10px -6px rgba(74,61,50,.5);position:relative;padding-left:26px}
+:root[data-look="techo"] #statMoves::before{content:"";position:absolute;left:9px;top:50%;width:9px;height:9px;margin-top:-5px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 1.5px #8a5a2a}
+:root[data-look="techo"] .hud .stat:not(#statMoves){border:0;border-left:3px dotted var(--bg);border-radius:0 8px 8px 0;background:#b85644;color:#fff;box-shadow:0 4px 10px -6px rgba(74,61,50,.5)}
+:root[data-look="techo"] .hud .stat:not(#statMoves) .lab,:root[data-look="techo"] .hud .stat:not(#statMoves) small{color:rgba(255,255,255,.85)}
+/* the win: this stop's stamp is pressed onto the page */
+.win-eki{position:absolute;top:16px;right:18px;z-index:2;animation:eki-press .5s cubic-bezier(.3,1.6,.5,1) .35s backwards}
+.win-eki .eki{width:76px;height:76px} .win-eki .eki b{font-size:18px} .win-eki .eki.l3 b{font-size:16px}
+@keyframes eki-press{from{opacity:0;transform:scale(1.8) rotate(-20deg)}}
 :root[data-look="techo"] .entry:not(.locked) .e-art{background:#fff;padding:3px;box-shadow:0 2px 6px rgba(0,0,0,.2);transform:rotate(-2.5deg)}
 :root[data-look="techo"] .entry:nth-child(even):not(.locked) .e-art{transform:rotate(2deg)}
 :root[data-look="techo"] .entry:not(.locked) .e-art::before{content:"";position:absolute;top:-7px;left:14px;width:30px;height:12px;background:rgba(168,195,160,.75);transform:rotate(-6deg)}
@@ -631,8 +662,6 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .nr-seals{display:flex;gap:3px}
 .nr-seal{display:grid;place-items:center;width:20px;height:20px;background:#c23b22;color:#fff8e3;font-family:var(--f-jp);font-size:9px;line-height:1;writing-mode:vertical-rl;border-radius:2px}
 .niwa-cap{margin:0;font-size:12px;color:var(--muted)}
-.niwa-act{display:flex;justify-content:flex-end}
-.niwa-act .btn{min-height:40px;font-size:13px}
 .gaien-list{display:grid;gap:8px}
 .gaien-go{display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:2px 10px;padding:10px 12px;text-align:left;border-radius:var(--btn-radius);border:var(--panel-bw) solid var(--line);background:var(--panel-solid);cursor:pointer}
 .gaien-go b{font-size:20px;grid-row:span 2}
@@ -643,10 +672,6 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 #game.night #board{background:radial-gradient(ellipse at 50% 40%,rgba(20,30,64,.55),rgba(5,8,20,.75))}
 #board.flash{animation:flash 1s ease-out}
 @keyframes flash{0%{box-shadow:inset 0 0 0 transparent}20%{box-shadow:inset 0 0 120px rgba(242,154,58,.7)}100%{box-shadow:inset 0 0 0 transparent}}
-.poster-view{margin:8px auto 4px;max-width:min(360px,100%)}
-.poster-view img{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
-.poster-tip,.poster-msg{margin:4px 0 0;font-size:12px;color:var(--muted);text-align:center}
-.poster-msg:empty{display:none}
 /* ---------- 月白风清: a hanging scroll of Yoshitoshi's moon; the gardens are a waxing moon ---------- */
 .hv-tsuki .ts-head{text-align:center;display:grid;gap:4px}
 .hv-tsuki .ts-head h1{margin:0;font-family:var(--f-jp);font-weight:400;font-size:40px;letter-spacing:.3em;text-indent:.3em}
@@ -1023,7 +1048,7 @@ const HOST = window.OMA_HOST || {
     set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} },
     remove: k => { try { localStorage.removeItem(k); } catch (e) {} }
   },
-  vibrate: null, saveImage: null, postNote: null
+  vibrate: null
 };
 const $ = s => document.querySelector(s);
 const r2 = n => Math.round(n * 100) / 100;
@@ -1162,7 +1187,7 @@ const THEMES = {
   washi: {name: '京都和纸', jp: '和紙', line: '一册文库本，封面是雪佳的四季，朱印只落一枚。', deck: 'ink', light: true, homeScene: false, fx: {k: .55}},
   kare: {name: '砂纹石庭', jp: '枯山水', line: '砂纹如水，石上生苔，风从耙痕间走过。', deck: 'sumi', light: true, homeScene: false, fx: {k: .4}},
   matsuri: {name: '灯火夜祭', jp: '夜祭り', line: '广重的烟花照着夜色，灯笼一串串亮起。', deck: 'shu', light: false, homeScene: false, homeArt: 'art/matsuri-fireworks.jpg', fx: {k: .7}},
-  techo: {name: '旅行手账', jp: '旅の手帳', line: '纸页、邮戳、纸胶带，北斋的草花夹在页间。', deck: 'kirie', light: true, homeScene: false, fx: {k: .7, colors: ['#e8b4b8', '#a8c3a0', '#a9c6e0', '#f2d18b']}},
+  techo: {name: '旅行手账', jp: '旅の手帳', line: '沿东海道一路往西，八处庭院是八个宿场，广重的版画贴在手帐里。', deck: 'kirie', light: true, homeScene: false, fx: {k: .7, colors: ['#e8b4b8', '#a8c3a0', '#a9c6e0', '#f2d18b']}},
   tsuki: {name: '月白风清', jp: '月夜', line: '芳年的月挂在卷轴上，八处庭院是一轮渐满的月。', deck: 'classic', light: false, homeScene: true, fx: {k: .45, colors: ['rgba(236,230,207,.8)', 'rgba(217,199,143,.7)']}},
   rinpa: {name: '金碧琳琅', jp: '琳派', line: '光琳与抱一的金屏风，群青、绿青落在金箔上。', deck: 'classic', light: true, homeScene: true, fx: {k: .6, colors: ['#e9c46a', '#2c7563', '#1d4b86', '#f6efe0']}},
   giga: {name: '墨戏山野', jp: '戯画', line: '兔与蛙在绘卷里嬉闹，墨线一路展开到庭院。', deck: 'ink', light: true, homeScene: true, fx: {k: .5, colors: ['rgba(38,33,28,.55)', 'rgba(107,122,74,.55)', 'rgba(178,58,42,.5)']}},
@@ -1180,6 +1205,12 @@ const HOME_BG = {
 };
 // Public-domain art for the five newer looks (via Wikimedia Commons; Rinpa screens partly from The Met, CC0).
 const TSUKI_PRINTS = ['忍冈之月', '云居之月', '原野之月', '浅野川雪月'];
+// 旅行手账 follows the Tōkaidō: one Hiroshige print (Hōeidō edition, 1833–35; The Met, CC0) per garden, from Nihonbashi to Kyoto.
+const TOKAIDO = [['日本橋', '朝之景', 36922], ['平塚', '縄手道', 36929], ['箱根', '湖水図', 36932], ['岡部', '宇津之山', 36943],
+  ['日坂', '佐夜ノ中山', 36947], ['浜松', '冬枯ノ図', 36951], ['庄野', '白雨', 36521], ['京師', '三条大橋', 36976]];
+const INK = ['#2c4a7a', '#b8473a', '#3f7a5a', '#6a4a8a', '#a0562a', '#2c6a7a', '#8a3a5a', '#4a5a2a'];
+// an eki stamp: a double ring with the station's name, its print number and the date it was earned
+const ekiStamp = (i, cls = '') => { const [st, view] = TOKAIDO[i]; return `<span class="eki${st.length > 2 ? ' l3' : ''} ${cls}" style="--ink:${INK[i]};--rot:${(i % 2 ? 1 : -1) * (6 + i * 2)}deg" translate="no"><b>${st}</b><i>${view}</i><small>${i ? '第' + ['', '七', '十', '廿一', '廿五', '廿九', '四十五', '五十五'][i] + '景' : '起点'}</small></span>`; };
 const ART_SIZE = {tsuki: [[512, 723], [623, 900], [417, 600], [509, 721]], rinpa: [[1500, 708], [1500, 684], [1280, 565], [1500, 668]], taisho: [[676, 900], [655, 900], [653, 900], [668, 900]]};
 const artDim = (look, si) => { const [w, h] = ART_SIZE[look][si]; return `width="${w}" height="${h}"`; };
 const RINPA_SCREENS = [['樱枫图', '酒井抱一', '1820 年代', '大都会艺术博物馆开放馆藏（CC0）'], ['八桥图', '尾形光琳', '1709 年后', '大都会艺术博物馆开放馆藏（CC0）'],
@@ -1274,7 +1305,6 @@ const BACK_KATAGAMI = {
   washi: {cloth: '#c9a24a', met: 53215, name: '麻の葉', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="1" fill="none" stroke="#f3e4b5" stroke-opacity=".85" stroke-width=".6"/><rect x="4" y="4" width="42" height="72" rx=".6" fill="none" stroke="#f3e4b5" stroke-opacity=".5" stroke-width=".35"/>'},
   kare: {cloth: '#e4dfd2', met: 69130, name: '杉綾と波', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="1.2" fill="none" stroke="#4b4a45" stroke-opacity=".7" stroke-width=".6"/>'},
   matsuri: {cloth: '#f2b13a', met: 69138, name: '菊菱に紗綾形', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="2" fill="none" stroke="#f4ead2" stroke-opacity=".8" stroke-width=".7"/>'},
-  techo: {cloth: '#fff6e6', met: 69145, name: '梅散らし', frame: '<rect x="3" y="3" width="44" height="74" rx="2" fill="none" stroke="#fffdf8" stroke-opacity=".9" stroke-width=".7" stroke-dasharray="2 1.6"/>'},
   youth: {cloth: '#f2b134', met: 69107, name: '梅', frame: '<rect x="1.6" y="1.6" width="46.8" height="76.8" rx="3" fill="none" stroke="#222" stroke-width="2.2"/>'},
   manga: {cloth: '#ffffff', met: 69114, name: '矢筈', frame: '<rect x="2.4" y="2.4" width="45.2" height="75.2" fill="none" stroke="#fff" stroke-width="1"/><rect x="3.6" y="3.6" width="42.8" height="72.8" fill="none" stroke="#111" stroke-width=".6"/>'},
   tsuki: {cloth: '#d9d4c4', met: 69147, name: '草花', frame: '<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="1" fill="none" stroke="#d9c78f" stroke-opacity=".8" stroke-width=".6"/>'},
@@ -1285,6 +1315,16 @@ const BACK_KATAGAMI = {
 const backSrc = look => `backs/${look}.webp`;
 const BACKS = Object.fromEntries(Object.entries(BACK_KATAGAMI).map(([k, b]) => [k,
   `<rect width="50" height="80" fill="${b.cloth}"/><image href="${backSrc(k)}" x="0" y="0" width="50" height="80" preserveAspectRatio="xMidYMid slice"/>${b.frame}`]));
+// 旅行手账's back is the reverse of a picture postcard: header, stamp box, a postmark over it, address lines.
+BACKS.techo = `<rect width="50" height="80" fill="#f6efdf"/><rect width="50" height="80" fill="url(#bk-pc)" opacity=".5"/>`
+  + `<defs><pattern id="bk-pc" width="3" height="3" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".35" fill="#c9b48a"/></pattern></defs>`
+  + `<text x="25" y="9" text-anchor="middle" font-size="4.2" letter-spacing=".8" fill="#b85644" style="font-family:var(--f-head)">POST CARD</text>`
+  + `<rect x="35" y="13" width="10" height="12" fill="#fffdf8" stroke="#b85644" stroke-width=".5" stroke-dasharray="1 .6"/><circle cx="40" cy="19" r="2.6" fill="#d9483b"/><circle cx="40" cy="19" r="1" fill="#f2c46a"/>`
+  + `<g fill="none" stroke="#2c4a7a" stroke-width=".55" opacity=".8"><circle cx="33" cy="21" r="6"/><circle cx="33" cy="21" r="4.8"/><path d="M40 18 h8 M40 20.5 q2 -1 4 0 t4 0 M40 23 h8"/></g>`
+  + `<text x="33" y="22.2" text-anchor="middle" font-size="2.6" fill="#2c4a7a" style="font-family:var(--f-jp)">東海道</text>`
+  + `<path d="M25 30 V74" stroke="#c9a77c" stroke-width=".5"/><g stroke="#c9a77c" stroke-width=".5">${[38, 46, 54, 62].map(y => `<path d="M28 ${y} H45"/>`).join('')}</g>`
+  + `<g stroke="#e0cfae" stroke-width=".5">${[38, 46, 54, 62, 70].map(y => `<path d="M5 ${y} H22"/>`).join('')}</g>`
+  + `<rect x="1.5" y="1.5" width="47" height="77" rx="2" fill="none" stroke="#c9a77c" stroke-width=".8"/>`;
 // 电光游园 has a pixel-art back drawn here: a blossom on a dark field, framed in neon.
 BACKS.pixel = (() => {
   const u = 2.5, px = (x, y, c, o = 1) => `<rect x="${x * u}" y="${y * u}" width="${u}" height="${u}" fill="${c}"${o < 1 ? ` opacity="${o}"` : ''}/>`;
@@ -1297,7 +1337,6 @@ BACKS.pixel = (() => {
 })();
 const cardBack = (look = save.look) => `<svg viewBox="0 0 50 80" aria-hidden="true" preserveAspectRatio="xMidYMid slice">${BACKS[look] || BACKS.ukiyo}</svg>`;
 const flowerIcon = on => `<svg viewBox="0 0 20 20" aria-hidden="true">${blossom(10, 10, 9, on ? 'var(--accent)' : 'var(--line-2)', on ? 'var(--shu)' : 'var(--line)')}</svg>`.replace(/fill="(var\([^)]+\))"/g, 'style="fill:$1"');
-const LANTERN_SVG = `<svg viewBox="0 0 44 64" aria-hidden="true"><path fill="currentColor" d="M5 18 L22 7 L39 18Z"/><rect fill="currentColor" x="19" y="2" width="6" height="6" rx="2"/><rect x="11" y="19" width="22" height="17" rx="2" fill="currentColor" opacity=".6"/><rect x="16" y="22" width="12" height="11" rx="1" fill="#f2c46a"/><rect fill="currentColor" x="9" y="36" width="26" height="4" rx="1"/><rect fill="currentColor" x="18" y="40" width="8" height="15"/><rect fill="currentColor" x="10" y="55" width="24" height="6" rx="2"/></svg>`;
 const sealHTML = (k, on) => `<span class="seal${on ? '' : ' off'}" aria-hidden="true" translate="no">${k}</span>`;   // a stamp keeps its kanji in every language
 
 /* ================= omamori ================= */
@@ -1572,7 +1611,7 @@ const PAINT = {
       + `<g stroke="${p.ink}" stroke-width="1.6" stroke-opacity=".5">${m.top}</g><g stroke="${p.ink}" stroke-width="1.4" stroke-opacity=".4">${m.bottom}</g>`
       + tape(-20, 40, 140, -12, '#a8c3a0') + tape(290, 740, 150, 10, '#e8b4b8')
       + `<g transform="translate(320 300) rotate(-14)" fill="none" stroke="#c0675a" stroke-width="2.4" opacity=".7"><circle r="42"/><circle r="34"/>`
-      + `<text y="-6" text-anchor="middle" font-size="16" font-family="Klee One, sans-serif" fill="#c0675a" stroke="none">${lv.name}</text><text y="14" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#c0675a" stroke="none">${new Date().getFullYear()}</text>`
+      + `<text y="-6" text-anchor="middle" font-size="16" font-family="Klee One, sans-serif" fill="#c0675a" stroke="none">${lv.n <= 8 ? TOKAIDO[lv.n - 1][0] : lv.name}</text><text y="14" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#c0675a" stroke="none">${new Date().getFullYear()}</text>`
       + `<path d="M48 -16 h60 M48 -6 q15 -6 30 0 t30 0 M48 4 h60 M48 14 q15 -6 30 0 t30 0"/></g>`;
   },
   tsuki(lv, p, rnd) {   // a moonlit night: a large moon, cloud bands drifting across it, a dark ridge with the garden's plants
@@ -1675,6 +1714,7 @@ function applySoundscape() {
   const p = PLUCK[scape().lead] || PLUCK.koto;
   try { A.koto.forEach(v => v.set(p)); } catch (e) {}
   applyAmbience();
+  scheduleBgm(2400);   // the new band takes over right after the switch phrase, not at the old band's next turn
 }
 function startAudio() {
   if (A.starting) return A.starting;
@@ -1798,8 +1838,8 @@ function hit(what, delay = 0, vel = .7, kind = 'sfx') {
 const season = () => Math.max(0, seasonNow);
 const stepFor = () => ({shinobue: .2, flute: .24, bowl: .32, musicbox: .13, pop: .12, toy: .14, biwa: .3, mandolin: .2, chip: .09}[scape().lead] || .15);
 const SFX = {
-  flip() { if (!sample('place', .85)) fbNoise(3400, .05, .16); },
-  unflip() { if (!sample(Math.random() < .5 ? 'shove' : 'slide', .5)) fbNoise(1900, .06, .09); },
+  flip() { if (save.look === 'pixel') play('chip', 'E6', 0, .22); if (!sample('place', save.look === 'pixel' ? .35 : .85)) fbNoise(3400, .05, .16); },
+  unflip() { if (save.look === 'pixel') play('chip', 'B5', 0, .16); if (!sample(Math.random() < .5 ? 'shove' : 'slide', save.look === 'pixel' ? .2 : .5)) fbNoise(1900, .06, .09); },
   miss() { A.combo = 0; },
   deal() { if (sample('shuffle', .5, 1.5)) sample('take', .4); else fbNoise(2600, .4, .06); },
   peek() { if (!sample('fan', .65)) fbNoise(700, .6, .06); },
@@ -1831,7 +1871,31 @@ const SFX = {
   flash() { hit('boom', 0, .6); play('chime', SCALES[season()][7], .25, .35); play('chime', SCALES[season()][8], .32, .3); },
   upgrade(tier) { const sc = SCALES[season()]; [4, 5, 7, 8].slice(0, tier + 2).forEach((k, j) => play('chime', sc[k], .35 + j * .12, .4)); },
   lose() { const sc = SCALES[season()]; play('lead', sc[2], 0, .45); play('lead', sc[0], .38, .4); },
-  tap() { const l = scape().lead; if (l === 'pop') play('pop', 'A6', 0, .25); else if (l === 'toy') play('toy', 'E6', 0, .2); else if (l === 'chip') play('chip', 'A5', 0, .2); else hit('tap'); },
+  // a button tap, voiced by the look: paper for the books, a bell tick for the moon, a drum tap for the festival…
+  tap() {
+    const k = save.look, sc = SCALES[season()];
+    if (k === 'youth') play('pop', 'A6', 0, .25); else if (k === 'manga') play('toy', 'E6', 0, .2); else if (k === 'pixel') play('chip', 'A5', 0, .2);
+    else if (k === 'washi' || k === 'techo') { if (!sample('fan', .28, .25)) hit('tap'); }
+    else if (k === 'kare') play('bowl', sc[7], 0, .12); else if (k === 'tsuki') play('biwa', sc[4], 0, .22); else if (k === 'rinpa') play('chime', sc[8], 0, .16);
+    else if (k === 'giga') hit('tsuzumi', 0, .3); else if (k === 'matsuri') hit('taiko', 0, .22); else if (k === 'taisho') play('mandolin', sc[5], 0, .2);
+    else hit('tap');
+  },
+  // the look's calling card, played when switching to it: a short phrase on its lead instrument and its signature sound
+  theme() {
+    const sp = scape(), sc = SCALES[season()], st = stepFor() * 1.15, end = 3 * st;
+    [2, 4, 5].forEach((k, j) => play('lead', sc[k], j * st, j === 2 ? .7 : .55));
+    if (sp.pad && A.tone) A.sho.triggerAttackRelease([sc[0], sc[2], sc[4]], 2.2, window.Tone.now(), .3 * save.sfxVol);
+    if (sp.win === 'hyoshigi') hit('hyoshigi', end, .7);
+    else if (sp.win === 'bell') hit('bell', end, .45);
+    else if (sp.win === 'bowl') play('bowl', 'D4', end, .5);
+    else if (sp.win === 'fireworks') { hit('taiko', end, .5); hit('taiko', end + .2, .35); }
+    else if (sp.win === 'claps') [0, .18].forEach(d => hit('clap', end + d, .6));
+    else if (sp.win === 'tsuzumi') [0, .25].forEach((d, i) => hit('tsuzumi', end + d, i ? .8 : .55));
+    else if (sp.win === 'chip') hit('coin', end, .6);
+    else if (sp.combo === 'stamp') hit('stamp', end, .6);
+    else if (sp.combo === 'don') hit('taiko', end, .55);
+    else play('chime', sc[8], end, .3);
+  },
   stamp() {
     const sp = scape(), sc = SCALES[season()];
     if (sp.combo === 'taiko' || sp.combo === 'don') { hit('taiko', .25, .95); hit('taiko', .5, .6); }
@@ -1844,7 +1908,7 @@ const SFX = {
 };
 // Sound must never break the game: any audio error is swallowed so the play logic around it always runs.
 for (const k of Object.keys(SFX)) { const f = SFX[k]; SFX[k] = (...args) => { try { return f(...args); } catch (e) {} }; }
-function scheduleBgm() {
+function scheduleBgm(first = 1800) {
   clearTimeout(A.bgmTimer);
   const tick = () => {
     const sp = scape();
@@ -1867,7 +1931,7 @@ function scheduleBgm() {
     }
     A.bgmTimer = setTimeout(tick, rnd(sp.gap[0], sp.gap[1]) * 1000);
   };
-  A.bgmTimer = setTimeout(tick, 1800);
+  A.bgmTimer = setTimeout(tick, first);
 }
 function applyAmbience() {
   if (!A.tone) return;
@@ -1983,7 +2047,7 @@ function cycleLook() {
   if (!save.skinPinned) save.skin = deckFor(next);
   refreshBoardArt();
   save.stats.themes[next] = (save.stats.themes[next] || 0) + 1;
-  persist(); SFX.tap(); applyLook(); renderLookName(); warmDeck();
+  persist(); applyLook(); renderLookName(); warmDeck(); SFX.theme();
   if (current === 'home') enter(screens.home);
   const th = THEMES[next];
   toast(`<div><div class="t1">主题 · ${LOOK_ORDER.indexOf(next) + 1} / ${LOOK_ORDER.length}</div><div class="t2">${th.name}<span class="jp" style="margin-left:6px;font-weight:400;font-size:12px;opacity:.75">${th.jp}</span></div><div class="t3">${th.line}</div></div>`);
@@ -2100,16 +2164,27 @@ const HOME = {
       <div class="mt-fan">${haikuHTML(c.hk)}</div></div><div class="hv-b">${modeSegHTML()}
       <div class="mt-stalls">${c.levels.map(l => go(l, 'mt-stall', `<span class="mt-roof" style="--season:${l.sc}"></span><span class="jp">${l.name}</span><small>第${l.k}庭 · ${l.status}</small>`)).join('')}</div>
       ${c.stats}<p class="art-credit">背景：歌川广重《名所江户百景 · 两国花火》（1858），芝加哥艺术博物馆开放馆藏</p></div></div>`,
-  techo: c => `<div class="hv hv-techo"><div class="hv-a">
-      <header class="tc-head"><h1>花合帖</h1><span>${new Date().getMonth() + 1}月${new Date().getDate()}日 · 旅行记</span></header>
-      <div class="tc-spread">
-        <button type="button" class="go tc-polaroid" data-go="${c.tgt.n}"><span class="tc-tape"></span><span class="tc-photo">${sceneSVG(c.tgt, 'techo', 'hp', '20 40 360 360')}</span><span class="tc-cap">第${c.k}庭 · ${c.tgt.name}</span></button>
-        <div class="tc-note">${haikuHTML(c.hk)}</div></div>
-      <button type="button" class="go tc-ticket" data-go="${c.tgt.n}"><b>${c.verb} ▶</b><small>${c.S.name} · ${c.meta}</small></button></div><div class="hv-b">
+  techo: c => { const i = c.tgt.n - 1, [st, view] = TOKAIDO[i], from = i ? TOKAIDO[i - 1][0] : '江戸', d = new Date(); return `<div class="hv hv-techo"><div class="hv-a">
+      <header class="tc-head"><div class="tc-brand"><h1>花合帖</h1><span>東海道 · 旅の手帖</span></div>
+        <span class="tc-post" aria-hidden="true"><b>${d.getMonth() + 1}.${d.getDate()}</b><small>${d.getFullYear()}</small></span></header>
+      <div class="tc-page">
+        <button type="button" class="go tc-print" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><span class="tc-tape a"></span><span class="tc-tape b"></span>
+          <img src="art/techo-0${c.tgt.n}.webp" width="960" height="654" alt="歌川广重《东海道五十三次 · ${st}》">
+          <span class="tc-cap" translate="no">${st} · ${view}</span></button>
+        <div class="tc-note">${haikuHTML(c.hk)}</div>
+      </div>
+      <button type="button" class="go tc-ticket" data-go="${c.tgt.n}">
+        <span class="tk-body"><small class="tk-kind">乗車券 · 東海道 · 第${c.k}庭</small>
+          <span class="tk-route" translate="no"><b>${from}</b><i>→</i><b>${st}</b></span>${LANG === 'en' ? `<small class="tk-roma">${T(from)} → ${T(st)} · ${T(view)}</small>` : ''}
+          <small>「${c.tgt.name}」 · ${c.meta}</small></span>
+        <span class="tk-stub"><b>${c.verb}</b><i>▶</i></span></button>
+      <p class="art-credit">歌川广重《东海道五十三次》（保永堂版，1833–35），大都会艺术博物馆开放馆藏（CC0）</p></div><div class="hv-b">
       ${modeSegHTML()}
-      <div class="tc-press" aria-label="北斋的草花小稿">${[['peony', '牡丹', -4], ['iris', '杜若', 3], ['orchid', '蘭', -2], ['morning', '朝顔', 4]].map(([f, n, r]) => `<figure style="--r:${r}deg"><img src="art/techo-${f}.jpg" alt="${n}"><figcaption>${n}</figcaption></figure>`).join('')}</div>
-      <section class="tc-rally"><h2>四季印章集</h2><div class="tc-stamps">${c.levels.map(l => go(l, 'tc-stamp', `<span class="ring">${l.done ? `${l.name}<br>${SEASONS[l.s].name}` : l.next ? '次の駅' : l.k}</span><small>${l.name}</small>`)).join('')}</div></section>
-      ${c.stats}<p class="art-credit">草花：葛饰北斋《北斋漫画》 · 纸纹：ambientCG（CC0）</p></div></div>`,
+      <section class="tc-route"><h2>道中记 · 八处宿场</h2>
+        <svg class="tc-path" viewBox="0 0 400 230" preserveAspectRatio="none" aria-hidden="true"><path d="M50 62 H350 C392 62 392 168 350 168 H50" vector-effect="non-scaling-stroke"/></svg>
+        <div class="tc-stops">${c.levels.map((l, j) => go(l, 'tc-stop', `${l.done ? ekiStamp(j) : `<span class="eki blank${TOKAIDO[j][0].length > 2 ? ' l3' : ''}"><b translate="no">${TOKAIDO[j][0]}</b></span>`}${l.next ? '<span class="tc-pin" aria-hidden="true"></span>' : ''}<small>${l.name}</small>`,
+          `style="grid-row:${j < 4 ? 1 : 2};grid-column:${j < 4 ? j + 1 : 8 - j}"`)).join('')}</div></section>
+      ${c.stats}</div></div>`; },
   tsuki: c => `<div class="hv hv-tsuki"><div class="hv-a">
       <header class="ts-head"><h1>花合帖</h1><p>${c.S.name}夜 · ${c.hk[0]}</p></header>
       <button type="button" class="go ts-scroll" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><span class="ts-rod"></span>
@@ -2222,8 +2297,7 @@ function gardenHTML() {
     <div class="niwa-screen">${[...Array(12).keys()].map(gardenPanel).join('')}</div>
     <div class="niwa-rail"><span class="nr-lab">绘马架</span><span class="nr-om">${mangan.length ? mangan.slice(0, 12).map(m => `<span class="nr-mini" title="${m.om}">${omamoriSVG(m, false, 2)}</span>`).join('') + (mangan.length > 12 ? `<small>+${mangan.length - 12}</small>` : '') : '<small>満願的御守会挂在这里</small>'}</span>
       <span class="nr-seals">${seals.map(x => `<span class="nr-seal" title="${x.how}">${x.k}</span>`).join('')}</span></div>
-    <p class="niwa-cap">着色 ${full} / 12 · 満願 ${mangan.length} 枚 · 朱印 ${seals.length} / ${SEALS.length}</p>
-    <div class="niwa-act"><button type="button" class="btn" data-poster="garden">庭院海报</button></div></section>`;
+    <p class="niwa-cap">着色 ${full} / 12 · 満願 ${mangan.length} 枚 · 朱印 ${seals.length} / ${SEALS.length}</p></section>`;
 }
 function plantToast(mo) {
   const n = monthCount(mo), [, who, what] = NIWA_ART[mo - 1];
@@ -2233,271 +2307,6 @@ function variantsHTML() {
   const open = variantsOpen();
   return `<section class="gaien panel"><div class="niwa-h"><h2>庭外</h2><small>${open ? '八庭之外，三种玩法' : '点亮全部八处庭院后开放'}</small></div>
     <div class="gaien-list">${VARIANTS.map(v => `<button type="button" class="gaien-go" data-go="${v.n}" ${open ? '' : 'disabled'} aria-label="庭外 ${v.name}${open ? '' : '，未开放'}"><b class="jp">${v.name}</b><small>${v.sub}${save.seals[v.seal] ? ' · 已成' : ''}</small><span>${v.note}</span></button>`).join('')}</div></section>`;
-}
-
-/* ================= 海报: a share image drawn in the current look ================= */
-const POSTER = {
-  ukiyo: {bg: '#f3ead6', ink: '#1f2b44', acc: '#c23b22', sub: '#6b5a44', frame: 'cartouche'},
-  washi: {bg: '#f6f1e6', ink: '#3a2f26', acc: '#b8392a', sub: '#7a6a58', frame: 'cover'},
-  kare: {bg: '#efebe2', ink: '#3a3833', acc: '#55704a', sub: '#7d786c', frame: 'rings'},
-  matsuri: {bg: '#0f1a36', ink: '#f4ead2', acc: '#f29a3a', sub: '#b9c2dc', frame: 'lanterns'},
-  techo: {bg: '#fbf7ef', ink: '#5a4a3a', acc: '#c0675a', sub: '#8a7a68', frame: 'polaroid'},
-  youth: {bg: '#f7e9c6', ink: '#222222', acc: '#e8553e', sub: '#555555', frame: 'pop'},
-  manga: {bg: '#ffffff', ink: '#111111', acc: '#d7261e', sub: '#444444', frame: 'koma'},
-  tsuki: {bg: '#10162a', ink: '#efebdf', acc: '#d9c78f', sub: '#b9b4a6', frame: 'moon'},
-  rinpa: {bg: '#e3c477', ink: '#1b2416', acc: '#1d4b86', sub: '#5a4a2a', frame: 'gold'},
-  giga: {bg: '#f0eadb', ink: '#26211c', acc: '#b23a2a', sub: '#6b6358', frame: 'scroll'},
-  taisho: {bg: '#efe2c8', ink: '#2c1b1e', acc: '#7a2236', sub: '#6e5a56', frame: 'deco'},
-  pixel: {bg: '#140f2b', ink: '#f4f1ff', acc: '#ff4f9a', sub: '#a59dd0', frame: 'arcade'}
-};
-const cssVar = k => getComputedStyle(document.documentElement).getPropertyValue(k).trim();
-const loadImg = src => new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
-function svgImg(svg, w, h) {
-  const fixed = svg.replace('<svg ', `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" `)
-    .replace(/var\((--f-[a-z]+)\)/g, (_, k) => cssVar(k).replace(/"/g, "'"));
-  return loadImg('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(fixed));
-}
-function winPoster() {
-  const {L} = G, pick = [...new Set([...G.fresh, ...G.ids.filter(id => BY_ID[id].tag === '光札'), ...G.ids])].slice(0, 6);
-  return {eyebrow: `${levelTag(L)} · ${MODES[G.mode].name}`, title: L.name, haiku: L.haiku, flowers: G.fl || flowersFor(),
-    cards: pick.map(id => BY_ID[id]), lines: [`${G.used} 步 · 收下御守 ${G.got} 枚${G.yaku.length ? ' · 凑成 ' + G.yaku.join('、') : ''}`]};
-}
-function omamoriPoster(id) {
-  const m = BY_ID[id], n = save.collected[id] || 0, t = omTier(n);
-  return {eyebrow: `御守 · ${MONTHS[m.m - 1][2]} · ${OM_TIERS[t].name}`, title: m.om, svg: omamoriSVG(m, false, t), svgBox: [60, 100],
-    lines: [`保佑「${m.mean}」`, `得自花札「${m.jp}」 · 已收下 ${n} 枚`]};
-}
-function gardenPoster() {
-  const full = [...Array(12).keys()].filter(i => monthCount(i + 1) === 4).length;
-  return {eyebrow: `我的庭院 · ${THEMES[save.look].name}`, title: '十二月花屏风', screen: true,
-    lines: [`花札 ${collectedCount()} / 48 · 御守 ${omamoriTotal()} 枚 · 朱印 ${Object.keys(save.seals).length} / ${SEALS.length}`, `屏风着色 ${full} / 12 · 満願 ${MOTIFS.filter(m => omTierOf(m) >= 2).length} 枚`],
-    haiku: LEVELS[calendarSeason() * 2].haiku};
-}
-function wrapText(g, text, x, y, maxW, lh, align = 'left') {
-  let line = '', yy = y;
-  for (const ch of text) { if (g.measureText(line + ch).width > maxW && line) { g.fillText(line, x, yy); line = ch; yy += lh; } else line += ch; }
-  if (line) g.fillText(line, x, yy);
-  return yy + lh;
-}
-function vtext(g, str, x, y, size, step = 1.1) { [...str].forEach((ch, i) => g.fillText(ch, x, y + i * size * step)); }
-function bloomAt(g, x, y, r, fill) { g.fillStyle = fill; for (let k = 0; k < 5; k++) { const a = k * Math.PI * 2 / 5 - Math.PI / 2; g.beginPath(); g.arc(x + Math.cos(a) * r * .5, y + Math.sin(a) * r * .5, r * .48, 0, Math.PI * 2); g.fill(); } }
-// Per-look decoration drawn behind the content, and the 花合帖 brand drawn in that look's manner.
-const FRAMES = {
-  cartouche(g, st, F, W, H) {
-    g.strokeStyle = st.ink; g.lineWidth = 6; g.strokeRect(36, 36, W - 72, H - 72); g.lineWidth = 2; g.strokeRect(50, 50, W - 100, H - 100);
-    g.fillStyle = '#fbf6e8'; g.fillRect(860, 80, 130, 400); g.lineWidth = 4; g.strokeRect(860, 80, 130, 400); g.lineWidth = 1.5; g.strokeRect(870, 90, 110, 380);
-    g.fillStyle = st.ink; g.font = `900 72px ${F.jp}`; g.textAlign = 'center'; vtext(g, '花合帖', 925, 160, 72, 1.15);
-    g.fillStyle = st.acc; g.fillRect(890, 500, 70, 70); g.fillStyle = '#fbf6e8'; g.font = `900 40px ${F.jp}`; g.fillText(SEASONS[season()].name, 925, 548); g.textAlign = 'left';
-  },
-  cover(g, st, F, W, H) {
-    g.fillStyle = seasonColor(season()); g.globalAlpha = .85; g.fillRect(56, 0, 54, H); g.globalAlpha = 1;
-    g.fillStyle = st.ink; g.font = `900 84px ${F.jp}`; g.textAlign = 'center'; vtext(g, '花合帖', 960, 150, 84, 1.12);
-    g.font = `600 30px ${F.body}`; g.fillStyle = st.sub; vtext(g, LANG === 'zh' ? '庭院文库' : '庭の文庫', 960, 560, 30, 1.2); g.textAlign = 'left';
-    g.fillStyle = st.acc; g.fillRect(0, H - 150, W, 150);
-  },
-  rings(g, st, F, W, H) {
-    g.strokeStyle = '#cbc4b3'; g.lineWidth = 3;
-    for (let r = 40; r <= 330; r += 26) { g.globalAlpha = 1 - r / 420; g.beginPath(); g.arc(W / 2, 700, r, 0, Math.PI * 2); g.stroke(); }
-    g.globalAlpha = 1;
-    g.fillStyle = st.ink; g.font = `600 44px ${F.jp}`; g.textAlign = 'center'; g.fillText('花 合 帖', W / 2, 150); g.textAlign = 'left';
-  },
-  lanterns(g, st, F, W, H) {
-    for (let k = 0; k < 90; k++) { g.fillStyle = ['#f29a3a', '#f4ead2', '#e8553e', '#7a8bb0'][k % 4]; g.globalAlpha = .35; g.beginPath(); g.arc((k * 397) % W, 240 + ((k * 211) % 760), 2 + (k % 3), 0, Math.PI * 2); g.fill(); }
-    g.globalAlpha = 1;
-    [...'花合帖'].forEach((ch, i) => {
-      const x = W / 2 + (i - 1) * 240, y = 140;
-      const grd = g.createRadialGradient(x, y, 10, x, y, 120); grd.addColorStop(0, 'rgba(242,154,58,.45)'); grd.addColorStop(1, 'rgba(242,154,58,0)');
-      g.fillStyle = grd; g.fillRect(x - 120, y - 120, 240, 240);
-      g.fillStyle = '#e8553e'; g.beginPath(); g.ellipse(x, y, 62, 78, 0, 0, Math.PI * 2); g.fill();
-      g.fillStyle = '#1a1a1a'; g.fillRect(x - 34, y - 90, 68, 16); g.fillRect(x - 34, y + 74, 68, 16);
-      g.fillStyle = '#fff4dc'; g.font = `900 64px ${F.jp}`; g.textAlign = 'center'; g.fillText(ch, x, y + 22);
-    });
-    g.textAlign = 'left';
-  },
-  polaroid(g, st, F, W, H) {
-    g.fillStyle = '#e2d6c2'; for (let x = 40; x < W; x += 36) for (let y = 40; y < H; y += 36) { g.beginPath(); g.arc(x, y, 2, 0, Math.PI * 2); g.fill(); }
-    g.fillStyle = st.ink; g.font = `700 64px ${F.head}`; g.fillText('花合帖', 90, 160);
-    g.font = `600 32px ${F.head}`; g.fillStyle = st.sub; const d = new Date(); g.fillText(T(`${d.getMonth() + 1}月${d.getDate()}日 · 旅行记`), 90, 210);
-    g.strokeStyle = st.acc; g.lineWidth = 5; g.beginPath(); g.arc(900, 1210, 92, 0, Math.PI * 2); g.stroke(); g.lineWidth = 2; g.beginPath(); g.arc(900, 1210, 78, 0, Math.PI * 2); g.stroke();
-    g.fillStyle = st.acc; g.font = `700 34px ${F.head}`; g.textAlign = 'center'; g.fillText(SEASONS[season()].name, 900, 1200); g.font = `600 22px ${F.body}`; g.fillText(String(d.getFullYear()), 900, 1236); g.textAlign = 'left';
-  },
-  pop(g, st, F, W, H) {
-    g.fillStyle = '#bfe3f7'; for (let k = -H; k < W; k += 90) { g.save(); g.globalAlpha = .35; g.beginPath(); g.moveTo(k, 0); g.lineTo(k + 40, 0); g.lineTo(k + 40 + H, H); g.lineTo(k + H, H); g.fill(); g.restore(); }
-    g.save(); g.translate(90, 70); g.rotate(-.025);
-    g.fillStyle = '#222'; g.fillRect(12, 12, 560, 150); g.fillStyle = '#4aa3df'; g.fillRect(0, 0, 560, 150); g.lineWidth = 6; g.strokeStyle = '#222'; g.strokeRect(0, 0, 560, 150);
-    g.font = `900 104px ${F.jp}`; g.lineWidth = 10; g.strokeText('花合帖', 30, 116); g.fillStyle = '#fff'; g.fillText('花合帖', 30, 116); g.restore();
-  },
-  koma(g, st, F, W, H) {
-    g.save(); g.beginPath(); g.rect(40, 40, W - 80, 220); g.clip();
-    for (let k = 0; k < 64; k++) { const a = k * Math.PI * 2 / 64; g.fillStyle = '#111'; g.globalAlpha = .9; g.beginPath(); g.moveTo(W - 160, 120); g.lineTo(W - 160 + Math.cos(a - .012) * 1400, 120 + Math.sin(a - .012) * 1400); g.lineTo(W - 160 + Math.cos(a + .012) * 1400, 120 + Math.sin(a + .012) * 1400); g.fill(); }
-    g.restore(); g.globalAlpha = 1;
-    g.fillStyle = '#fff'; g.fillRect(70, 80, 520, 130); g.strokeStyle = '#111'; g.lineWidth = 6; g.strokeRect(70, 80, 520, 130);
-    g.fillStyle = '#111'; g.font = `900 100px ${F.jp}`; g.fillText('花合帖', 92, 180);
-    g.lineWidth = 12; g.strokeRect(40, 40, W - 80, H - 80); g.beginPath(); g.moveTo(40, 268); g.lineTo(W - 40, 268); g.stroke();
-    g.fillStyle = '#d7261e'; g.fillRect(W - 250, 196, 170, 52); g.fillStyle = '#fff'; g.font = `900 ${LANG === 'en' ? 22 : 30}px ${F.body}`; g.textAlign = 'center'; g.fillText(T('好评连载中'), W - 165, 232); g.textAlign = 'left';
-  },
-  moon(g, st, F, W, H) {
-    const grd = g.createRadialGradient(W - 230, 220, 60, W - 230, 220, 330); grd.addColorStop(0, 'rgba(236,230,207,.35)'); grd.addColorStop(1, 'rgba(236,230,207,0)');
-    g.fillStyle = grd; g.fillRect(0, 0, W, 600); g.fillStyle = '#ece6cf'; g.beginPath(); g.arc(W - 230, 220, 130, 0, Math.PI * 2); g.fill();
-    g.fillStyle = '#26305a'; [[-40, 270, 520], [W - 520, 330, 600]].forEach(([x, y, w]) => { g.beginPath(); g.roundRect ? g.roundRect(x, y, w, 30, 15) : g.rect(x, y, w, 30); g.fill(); });
-    g.strokeStyle = 'rgba(217,199,143,.5)'; g.lineWidth = 2; g.strokeRect(40, 40, W - 80, H - 80);
-    g.fillStyle = st.ink; g.font = `400 56px ${F.jp}`; g.fillText('花 合 帖', 90, 150);
-  },
-  gold(g, st, F, W, H) {
-    for (let y = 0; y < H; y += 90) for (let x = (y / 90) % 2 ? -45 : 0; x < W; x += 90) { g.fillStyle = (x + y) % 180 ? '#e6c878' : '#dcb862'; g.fillRect(x, y, 90, 90); g.strokeStyle = 'rgba(150,110,30,.25)'; g.lineWidth = 1.5; g.strokeRect(x, y, 90, 90); }
-    g.fillStyle = 'rgba(243,220,154,.9)'; [[-60, 230, 520], [W - 470, 1210, 560]].forEach(([x, y, w]) => { g.beginPath(); g.roundRect ? g.roundRect(x, y, w, 60, 30) : g.rect(x, y, w, 60); g.fill(); });
-    g.strokeStyle = '#1b120a'; g.lineWidth = 26; g.strokeRect(13, 13, W - 26, H - 26);
-    g.fillStyle = st.acc; g.font = `800 84px ${F.jp}`; g.fillText('花合帖', 90, 170);
-  },
-  scroll(g, st, F, W, H) {
-    g.fillStyle = '#6b5a44'; g.fillRect(0, 0, W, 34); g.fillRect(0, H - 34, W, 34);
-    g.strokeStyle = 'rgba(38,33,28,.35)'; g.lineWidth = 3; g.beginPath(); g.moveTo(-20, 250); g.quadraticCurveTo(300, 190, 560, 240); g.quadraticCurveTo(820, 290, W + 20, 230); g.stroke();
-    g.fillStyle = st.ink; g.font = `400 92px ${F.jp}`; g.fillText('花合帖', 90, 180);
-    g.strokeStyle = st.acc; g.lineWidth = 5; g.strokeRect(W - 190, 96, 96, 96); g.fillStyle = st.acc; g.font = `400 58px ${F.jp}`; g.textAlign = 'center'; g.fillText('戯', W - 142, 164); g.textAlign = 'left';
-  },
-  deco(g, st, F, W, H) {
-    for (let i = 0; i < 24; i++) { const a0 = Math.PI + i * Math.PI / 24, a1 = a0 + Math.PI / 24; g.fillStyle = i % 2 ? '#f3e6cb' : '#e8d4ae'; g.beginPath(); g.moveTo(W / 2, 300); g.lineTo(W / 2 + Math.cos(a0) * 900, 300 + Math.sin(a0) * 900); g.lineTo(W / 2 + Math.cos(a1) * 900, 300 + Math.sin(a1) * 900); g.fill(); }
-    g.strokeStyle = st.acc; g.lineWidth = 4; g.strokeRect(30, 30, W - 60, H - 60); g.lineWidth = 1.5; g.strokeRect(44, 44, W - 88, H - 88);
-    [[44, 44, 0], [W - 44, 44, 1], [W - 44, H - 44, 2], [44, H - 44, 3]].forEach(([x, y, q]) => { for (let r = 30; r <= 90; r += 30) { g.beginPath(); g.arc(x, y, r, q * Math.PI / 2, (q + 1) * Math.PI / 2); g.stroke(); } });
-    g.fillStyle = st.acc; g.fillRect(W / 2 - 300, 110, 600, 120); g.fillStyle = '#fbf4e4'; g.font = `400 76px ${F.jp}`; g.textAlign = 'center'; g.fillText('花合帖', W / 2, 196); g.textAlign = 'left';
-  },
-  arcade(g, st, F, W, H) {
-    for (let x = 0; x < W; x += 30) for (const y of [0, H - 30]) { g.fillStyle = (x / 30) % 2 ? '#3ee6ff' : '#ff4f9a'; g.fillRect(x, y, 30, 30); }
-    for (let y = 30; y < H - 30; y += 30) for (const x of [0, W - 30]) { g.fillStyle = (y / 30) % 2 ? '#ff4f9a' : '#3ee6ff'; g.fillRect(x, y, 30, 30); }
-    g.font = `400 108px ${F.head}`; g.fillStyle = '#000'; g.fillText('花合帖', 96, 196); g.fillStyle = '#3ee6ff'; g.fillText('花合帖', 84, 186); g.fillStyle = '#ff4f9a'; g.fillText('花合帖', 96, 186); g.fillStyle = '#ffd23f'; g.fillText('花合帖', 90, 186);
-    g.fillStyle = '#ff4f9a'; g.font = `400 36px ${F.head}`; g.textAlign = 'right'; g.fillText('STAGE CLEAR', W - 80, 260); g.textAlign = 'left';
-  }
-};
-async function makePoster(spec) {
-  spec = Object.assign({}, spec, {eyebrow: T(spec.eyebrow), title: T(spec.title), lines: (spec.lines || []).map(T),
-    haiku: spec.haiku && [spec.haiku[0], T(spec.haiku[1]), T(spec.haiku[2])]});
-  const st = POSTER[save.look] || POSTER.ukiyo, W = 1080, H = 1440;
-  const F = {jp: cssVar('--f-jp') || 'serif', head: cssVar('--f-head') || 'serif', body: cssVar('--f-body') || 'sans-serif'};
-  const text = ['花合帖旅行记庭院文库', spec.eyebrow, spec.title, ...(spec.lines || []), ...(spec.haiku || []), THEMES[save.look].name, '春夏秋冬0123456789月日年'].join('');
-  try { await Promise.race([Promise.all([`900 80px ${F.jp}`, `600 40px ${F.jp}`, `700 40px ${F.head}`, `600 30px ${F.body}`].map(f => document.fonts.load(f, text))), new Promise(r => setTimeout(r, 2500))]); } catch (e) {}
-  const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
-  const g = cv.getContext('2d'); g.textBaseline = 'alphabetic';
-  g.fillStyle = st.bg; g.fillRect(0, 0, W, H);
-  FRAMES[st.frame](g, st, F, W, H);
-  const X = st.frame === 'cover' ? 150 : 90, top = st.frame === 'rings' ? 230 : 330, center = st.frame === 'rings';
-  g.textAlign = center ? 'center' : 'left';
-  const tx = center ? W / 2 : X;
-  g.fillStyle = st.sub; g.font = `600 30px ${F.body}`; g.fillText(spec.eyebrow, tx, top);
-  g.fillStyle = st.ink; g.font = `900 108px ${F.jp}`; g.fillText(spec.title, tx, top + 120);
-  // hero: cards (as they are) or a rasterised badge / garden
-  const textH = (spec.screen ? 20 : 0) + (spec.flowers ? 60 : 0) + (spec.haiku ? 150 : 0) + (spec.lines || []).length * 56 + 70;
-  const bottom = H - (st.frame === 'cover' ? 180 : 140), box = {x: X, y: top + 170, w: (st.frame === 'cartouche' ? 990 : W - 90) - X, h: 0};
-  box.h = Math.min(spec.screen ? 660 : 560, bottom - textH - box.y);
-  if (spec.cards) {
-    const imgs = await Promise.all(spec.cards.map(m => loadImg(cardSrc(m))));
-    const n = imgs.length, cols = n <= 3 ? n : 3, rows = Math.ceil(n / cols), gap = 28;
-    const cw = Math.min((box.w - gap * (cols - 1)) / cols, ((box.h - gap * (rows - 1)) / rows) * 61 / 100), ch = cw * 100 / 61;
-    imgs.forEach((im, i) => {
-      const r = Math.floor(i / cols), inRow = Math.min(cols, n - r * cols), c = i % cols;
-      const x = box.x + (box.w - (inRow * cw + (inRow - 1) * gap)) / 2 + c * (cw + gap), y = box.y + (box.h - (rows * ch + (rows - 1) * gap)) / 2 + r * (ch + gap);
-      g.save();
-      const tilt = st.frame === 'polaroid' || st.frame === 'pop' ? ((i % 2 ? 1 : -1) * .03) : 0;
-      g.translate(x + cw / 2, y + ch / 2); g.rotate(tilt); g.translate(-cw / 2, -ch / 2);
-      if (st.frame === 'polaroid') { g.fillStyle = '#fff'; g.shadowColor = 'rgba(0,0,0,.18)'; g.shadowBlur = 18; g.fillRect(-14, -14, cw + 28, ch + 52); g.shadowBlur = 0; g.fillStyle = 'rgba(168,195,160,.8)'; g.fillRect(cw / 2 - 40, -26, 80, 26); }
-      else if (st.frame === 'pop') { g.fillStyle = '#222'; g.fillRect(8, 8, cw, ch); }
-      else if (st.frame === 'koma') { g.lineWidth = 6; g.strokeStyle = '#111'; g.strokeRect(-10, -10, cw + 20, ch + 20); }
-      else { g.shadowColor = 'rgba(0,0,0,.25)'; g.shadowBlur = 22; g.shadowOffsetY = 8; }
-      if (im) g.drawImage(im, 0, 0, cw, ch);
-      g.restore();
-    });
-  } else if (spec.screen) {
-    // the twelve panels, in two rows of six, as they stand in the collection
-    const imgs = await Promise.all([...Array(12).keys()].map(i => loadImg(niwaSrc(i + 1))));
-    const pad = 14, gap = 6, cols = 6, rows = 2, labH = 46;
-    const pw = Math.min((box.w - pad * 2 - gap * (cols - 1)) / cols, ((box.h - pad * 2 - gap * (rows - 1)) / rows - labH) / 2.4), ph = pw * 2.4;
-    const sw = cols * pw + (cols - 1) * gap + pad * 2, sh = rows * (ph + labH) + (rows - 1) * gap + pad * 2, sx = box.x + (box.w - sw) / 2, sy = box.y + (box.h - sh) / 2;
-    const gold = g.createLinearGradient(0, sy, 0, sy + sh); gold.addColorStop(0, '#c99a3a'); gold.addColorStop(1, '#8a6420');
-    g.fillStyle = save.look === 'manga' ? '#111' : gold; g.fillRect(sx, sy, sw, sh);
-    imgs.forEach((im, i) => {
-      const n = monthCount(i + 1), x = sx + pad + (i % cols) * (pw + gap), y = sy + pad + Math.floor(i / cols) * (ph + labH + gap), rise = RISE[n] / 100;
-      g.fillStyle = '#f1e8d4'; g.fillRect(x, y, pw, ph);
-      if (im && n) { g.save(); g.beginPath(); g.rect(x, y + ph * (1 - rise), pw, ph * rise); g.clip(); g.drawImage(im, x, y, pw, ph); g.restore(); if (n < 4) { g.fillStyle = 'rgba(241,232,212,.55)'; g.fillRect(x, y, pw, ph); } }
-      if (!n) { g.fillStyle = 'rgba(90,70,50,.35)'; g.font = `600 ${Math.round(pw * .28)}px ${F.jp}`; g.textAlign = 'center'; vtext(g, MONTHS[i][2], x + pw / 2, y + ph * .3, pw * .28); }
-      g.fillStyle = '#2b2116'; g.fillRect(x, y + ph, pw, labH);
-      g.textAlign = 'center'; g.fillStyle = '#f3e6c4'; g.font = `600 18px ${F.jp}`; g.fillText(PLANT_NAMES[i], x + pw / 2, y + ph + 21);
-      g.fillStyle = n === 4 ? '#f3d27a' : '#a8916a'; g.font = `400 10px ${F.body}`; g.fillText('●'.repeat(n) + '○'.repeat(4 - n), x + pw / 2, y + ph + 38);
-    });
-    g.textAlign = center ? 'center' : 'left';
-  } else if (spec.svg) {
-    const [vw, vh] = spec.svgBox, k = Math.min(box.w / vw, box.h / vh), w = vw * k, h = vh * k;
-    const im = await svgImg(spec.svg, Math.round(w), Math.round(h));
-    if (im) g.drawImage(im, box.x + (box.w - w) / 2, box.y + (box.h - h) / 2, w, h);
-  }
-  let y = box.y + box.h + 64;
-  if (spec.flowers) { const fx = center ? W / 2 - 70 : X + 24; for (let i = 0; i < 3; i++) bloomAt(g, fx + i * 70, y - 14, 30, i < spec.flowers ? st.acc : 'rgba(128,128,128,.3)'); y += 60; }
-  g.textAlign = center ? 'center' : 'left';
-  const maxW = (st.frame === 'cartouche' ? 990 : W - 90) - X;
-  if (spec.haiku) {
-    g.fillStyle = st.ink; g.font = `600 44px ${F.jp}`; y = wrapText(g, spec.haiku[0], tx, y, maxW, 58);
-    g.fillStyle = st.sub; g.font = `400 30px ${F.body}`; y = wrapText(g, spec.haiku[1] + '　— ' + spec.haiku[2], tx, y, maxW, 42);
-  }
-  g.fillStyle = st.ink; g.font = `600 32px ${F.body}`;
-  for (const l of spec.lines || []) y = wrapText(g, l, tx, y + 10, maxW, 44);
-  // footer
-  const onObi = st.frame === 'cover';
-  g.fillStyle = onObi ? '#fbf8f0' : st.sub; g.font = `600 26px ${F.body}`; g.textAlign = 'left';
-  const d = new Date(), fy = H - (onObi ? 64 : 84);
-  g.fillText(LANG === 'zh' ? `花合帖 · ${THEMES[save.look].name}` : `${LANG === 'ja' ? '花合わせ帖' : 'Hana Awase'} · ${T(THEMES[save.look].name)}`, X, fy);
-  g.textAlign = 'right'; g.fillText(`${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`, W - 90, fy);
-  if (/github\.io$/.test(location.hostname)) { g.font = `400 22px ${F.body}`; g.fillText(location.host + location.pathname.replace(/index\.html$/, ''), W - 90, fy + 34); }
-  g.textAlign = 'left';
-  return cv;
-}
-let posterReturn = null, posterBlob = null, posterUrl = '';
-async function sharePoster(spec) {
-  posterSpec = spec;
-  posterReturn = !$('#modal').hidden ? {html: $('#modalCard').innerHTML, onClose: modalOnClose} : null;
-  openModal(`<div class="eyebrow">海报</div><h2>正在绘制…</h2><p>按「${THEMES[save.look].name}」的样子排版。</p>`, posterReturn && posterReturn.onClose);
-  let cv;
-  try { cv = await makePoster(spec); } catch (e) { cv = null; }
-  const blob = cv && await new Promise(r => { try { cv.toBlob(r, 'image/png'); } catch (e) { r(null); } });
-  if (posterUrl) URL.revokeObjectURL(posterUrl);
-  posterBlob = blob; posterUrl = blob ? URL.createObjectURL(blob) : '';
-  const file = blob && typeof File === 'function' ? new File([blob], 'hana-awase.png', {type: 'image/png'}) : null;
-  const canShare = !HOST.saveImage && !!(file && navigator.canShare && navigator.canShare({files: [file]}));
-  $('#modalCard').innerHTML = blob ? `<div class="eyebrow">海报 · ${THEMES[save.look].name}</div><div class="poster-view"><img src="${posterUrl}" alt="${spec.title} 的分享海报"></div>
-    ${HOST.saveImage ? '' : '<p class="poster-tip">也可以长按或右键图片直接保存。</p>'}<p class="poster-msg" aria-live="polite"></p>
-    <div class="modal-actions">${HOST.postNote ? '<button class="btn primary" type="button" data-act="poster-note" data-focus>发到小红书</button>' : ''}<button class="btn${HOST.postNote ? '' : ' primary'}" type="button" data-act="poster-save"${HOST.postNote ? '' : ' data-focus'}>${HOST.saveImage ? '存到相册' : '保存图片'}</button>${canShare ? '<button class="btn" type="button" data-act="poster-share">分享</button>' : ''}<button class="btn" type="button" data-act="poster-back">${posterReturn ? '返回' : '关闭'}</button></div>`
-    : `<div class="eyebrow">海报</div><h2>没能画出来</h2><p>这个浏览器暂时不支持生成图片。</p><div class="modal-actions"><button class="btn primary" type="button" data-act="poster-back" data-focus>返回</button></div>`;
-  const f = $('#modalCard [data-focus]'); if (f) f.focus();
-}
-// Save: through the claude.ai download prompt when the page runs there, otherwise a plain browser download.
-let dlCap = null;
-const blobToDataURL = blob => new Promise(res => { const f = new FileReader(); f.onload = () => res(f.result); f.onerror = () => res(''); f.readAsDataURL(blob); });
-async function savePoster(btn) {
-  if (!posterBlob) return;
-  const name = `hana-awase-${Date.now()}.png`, msg = $('#modalCard .poster-msg');
-  if (HOST.saveImage) {
-    if (msg) msg.textContent = '正在保存…';
-    const ok = await HOST.saveImage(await blobToDataURL(posterBlob));
-    if (msg) msg.textContent = ok ? '已存到相册。' : '没能保存：请在系统设置里允许小红书访问相册。';
-    return;
-  }
-  if (window.claude && typeof window.claude.use === 'function') {
-    try {
-      dlCap = dlCap || await Promise.race([window.claude.use('downloads'), new Promise(r => setTimeout(() => r(null), 3000))]);
-      if (dlCap) { await dlCap.save({filename: name, data: posterBlob}); if (msg) msg.textContent = '已保存。'; return; }
-    } catch (e) { if (e && e.code === 'declined') { if (msg) msg.textContent = '已取消保存。'; return; } }
-  }
-  /*web-only*/const a = document.createElement('a'); a.href = posterUrl; a.download = name; document.body.appendChild(a); a.click(); a.remove();
-  if (msg) msg.textContent = '如果没有开始下载，请长按或右键图片保存。';/*end-web-only*/
-}
-// Xiaohongshu: open the note composer with the poster attached; the player writes and posts it themselves.
-let posterSpec = null;
-async function postPoster() {
-  if (!posterBlob || !HOST.postNote) return;
-  const msg = $('#modalCard .poster-msg'), sp = posterSpec || {};
-  const lines = [sp.eyebrow, (sp.haiku && sp.haiku[0]) || '', (sp.lines || []).join(' · ')].filter(Boolean);
-  const ok = await HOST.postNote({title: `花合帖 · ${sp.title || ''}`.slice(0, 20), content: lines.join('\n') + '\n#花合帖 #花札', image: await blobToDataURL(posterBlob)});
-  if (msg && !ok) msg.textContent = '没能打开发布页，可以先存到相册再发笔记。';
-}
-async function sharePosterFile() {
-  try { await navigator.share({files: [new File([posterBlob], 'hana-awase.png', {type: 'image/png'})], title: '花合帖'}); } catch (e) {}
 }
 
 /* ================= sheets ================= */
@@ -2552,7 +2361,7 @@ function omamoriDetail(id) {
     <p style="margin:0">已收下 ${n} 枚${at ? ` · 初次求得于 ${at.getMonth() + 1}月${at.getDate()}日` : ''}</p>
     <ol class="om-path" aria-label="御守的成长">${OM_TIERS.map((T, i) => `<li class="${i <= t ? 'on' : ''}${i === t ? ' now' : ''}"><span class="om-mini">${omamoriSVG(x, false, i)}</span><b>${T.name}</b><small>${T.min} 枚</small></li>`).join('')}</ol>
     <p style="margin:0;font-size:13px;color:var(--muted)">${nx ? `再配对 ${nx.min - n} 次「<span class="jp" translate="no">${x.jp}</span>」，就能升为${nx.name}。` : '已经満願：愿望圆满，金线织满了整只御守。'}</p></div>
-    <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>收好</button><button class="btn" type="button" data-act="poster-om" data-id="${id}">生成海报</button></div>`);
+    <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>收好</button></div>`);
 }
 const LANG_OPTS = [['', '跟随系统'], ['zh', '中文'], ['en', 'English'], ['ja', '日本語']];
 function renderSettings() {
@@ -2592,7 +2401,8 @@ function creditsHTML() {
       <li><b>我的庭院 · 十二月花屏风</b>：${NIWA_ART.map(([id, who, what]) => `<a href="https://www.metmuseum.org/art/collection/search/${id}" target="_blank" rel="noopener">${who}「${what}」</a>`).join('、')}，均为公有领域作品，图像来自大都会艺术博物馆开放馆藏（CC0），仅裁切取景。</li>
       <li><b>月白风清 · 金碧琳琅 · 墨戏山野 · 洋灯旧梦</b>：月冈芳年《月百姿》（1885–92）中的四幅；酒井抱一《樱枫图》、尾形光琳《八桥图》（大都会艺术博物馆，CC0）、铃木其一《夏秋溪流图》、尾形光琳《红白梅图》；《鸟兽人物戏画》甲卷（12 世纪，高山寺藏）；竹久梦二为セノオ乐谱所作封面四幅（1917–24）。均为公有领域，图像经 <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> 取得，仅缩放、裁切；绘卷转成墨色以统一纸色。</li>
       <li><b>像素字体</b>：<a href="https://github.com/TakWolf/fusion-pixel-font" target="_blank" rel="noopener">Fusion Pixel Font</a>（12px，SIL OFL 1.1），只保留本作用到的字；DotGothic16（SIL OFL 1.1，Google Fonts）。</li>
-      <li><b>卡背</b>：江户至明治时期的染布型纸（katagami），<a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">大都会艺术博物馆开放馆藏</a>（CC0）：${Object.values(BACK_KATAGAMI).filter(b => b.met).map(b => `<a href="https://www.metmuseum.org/art/collection/search/${b.met}" target="_blank" rel="noopener">${b.name}</a>`).join('、')}。裁取花纹部分，镂空处透出底色；部分主题把柿涩纸染成主题色。墨戏山野的卡背是《鸟兽戏画》里欢呼的青蛙，电光游园的卡背为本作原创像素画。</li>
+      <li><b>卡背</b>：江户至明治时期的染布型纸（katagami），<a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">大都会艺术博物馆开放馆藏</a>（CC0）：${Object.values(BACK_KATAGAMI).filter(b => b.met).map(b => `<a href="https://www.metmuseum.org/art/collection/search/${b.met}" target="_blank" rel="noopener">${b.name}</a>`).join('、')}。裁取花纹部分，镂空处透出底色；部分主题把柿涩纸染成主题色。墨戏山野的卡背是《鸟兽戏画》里欢呼的青蛙；旅行手账的卡背是本作原创的明信片背面，电光游园的卡背为本作原创像素画。</li>
+      <li><b>旅行手账</b>：歌川广重《东海道五十三次》（保永堂版，1833–35）中的日本桥、平塚、箱根、冈部、日坂、浜松、庄野、京师八图，大都会艺术博物馆开放馆藏（CC0），仅缩放。</li>
       <li><b>主页插图</b>：神坂雪佳《百々世草》（1909–10）、葛饰北斋《北斋漫画》、歌川广重《名所江户百景》中的「两国花火」「龟户梅屋敷」「大桥阿宅骤雨」「月之岬」「浅草金龙山」（1856–58），均为公有领域作品，图像来自<a href="https://www.artic.edu/open-access" target="_blank" rel="noopener">芝加哥艺术博物馆开放馆藏</a>（CC0），仅缩放、裁切取景。纸纹：<a href="https://ambientcg.com/view?id=Paper006" target="_blank" rel="noopener">ambientCG Paper006</a>（CC0）。</li>
       <li><b>纸牌音效</b>：Kenney「<a href="https://kenney.nl/assets/casino-audio" target="_blank" rel="noopener">Casino Audio</a>」，CC0。</li>
       <li><b>琴声、风铃、尺八与环境音</b>：<a href="https://github.com/Tonejs/Tone.js" target="_blank" rel="noopener">Tone.js</a>（MIT）实时合成。</li>
@@ -2903,7 +2713,7 @@ function win() {
   const nextL = v ? null : LEVELS[n], opened = !v && n === LEVELS.length;
   const head = v ? (L.target ? `凑成了「${L.target.name}」` : L.variant === 'yoru' ? '夜庭里，灯笼亮了' : '花合，圆满') : n === LEVELS.length ? '八处庭院，全部点亮' : WIN_TITLE[save.look] || '庭院点亮了';
   const movesTxt = isFinite(G.budget) ? `用了 ${G.used} 步，还剩 ${movesLeft()} 步。` : `用了 ${G.used} 步（参考 ${L.std} 步）。`;
-  openModal(`<div class="eyebrow">${levelTag(L)} · ${L.name}</div><h2>${head}</h2>
+  openModal(`${save.look === 'techo' && !v ? `<span class="win-eki">${ekiStamp(n - 1)}</span>` : ''}<div class="eyebrow">${levelTag(L)} · ${L.name}</div><h2>${head}</h2>
     ${haikuHTML(L.haiku)}
     <div class="big-flowers" aria-label="获得 ${fl} 朵花">${[1, 2, 3].map(i => flowerIcon(i <= fl)).join('')}</div>
     <p>${movesTxt}收下御守 ${G.got} 枚。${G.yaku.length ? `<br>凑成役：${G.yaku.join('、')}。` : ''}${unlockedNew ? `<br>下一处庭院「${nextL.name}」的灯，也亮了。` : ''}${opened ? '<br>庭外的三种玩法也开放了：花合、夜庭、役之庭。' : ''}</p>
@@ -2912,7 +2722,6 @@ function win() {
     <div class="modal-actions">
       ${nextL ? `<button class="btn primary" type="button" data-act="next" data-focus>前往 · ${nextL.name}</button>` : v ? `<button class="btn primary" type="button" data-act="replay" data-focus>再来一局</button>` : `<button class="btn primary" type="button" data-act="dex" data-focus>打开图鉴</button>`}
       ${v ? '' : '<button class="btn" type="button" data-act="replay">再玩一次</button>'}
-      <button class="btn" type="button" data-act="poster">生成海报</button>
       <button class="btn" type="button" data-act="home">返回庭院</button>
     </div>`);
 }
@@ -3160,7 +2969,6 @@ document.addEventListener('click', e => {
   const sk = t.closest('[data-skin]'); if (sk) { save.skin = sk.dataset.skin; save.skinPinned = true; persist(); SFX.tap(); refreshBoardArt(); renderSettings(); warmDeck(); return; }
   const om = t.closest('[data-om]'); if (om) { SFX.tap(); omamoriDetail(om.dataset.om); return; }
   const pl = t.closest('[data-month]'); if (pl) { SFX.tap(); plantToast(+pl.dataset.month); return; }
-  if (t.closest('[data-poster="garden"]')) { SFX.tap(); sharePoster(gardenPoster()); return; }
   if (t.closest('.sound-btn')) setSound(!save.sound);
 });
 $('#modalCard').addEventListener('click', e => {
@@ -3169,12 +2977,6 @@ $('#modalCard').addEventListener('click', e => {
   const act = b.dataset.act, n = G ? G.n : 1;
   SFX.tap();
   if (act === 'close') return closeModal(true);
-  if (act === 'poster') return sharePoster(winPoster());
-  if (act === 'poster-om') return sharePoster(omamoriPoster(b.dataset.id));
-  if (act === 'poster-back') { const pr = posterReturn; posterReturn = null; if (pr) openModal(pr.html, pr.onClose); else closeModal(false); return; }
-  if (act === 'poster-save') { savePoster(b); return; }
-  if (act === 'poster-note') { postPoster(); return; }
-  if (act === 'poster-share') { sharePosterFile(b); return; }
   if (act === 'copy-stats') {
     const text = statsText();
     const done = () => { b.textContent = '已复制 ✓'; };

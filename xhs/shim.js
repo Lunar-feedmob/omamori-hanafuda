@@ -1,5 +1,5 @@
 /* 花合帖 · 小红书小工具 host bridge. Loaded before app.js.
-   Sets window.OMA_HOST, which the page uses for storage, saving posters, posting notes and vibration; everything degrades
+   Sets window.OMA_HOST, which the page uses for storage, layout and vibration; everything degrades
    to plain browser behaviour when window.xhs is missing (for example when previewing in a desktop browser). */
 (function () {
   'use strict';
@@ -61,23 +61,14 @@
     }, function () {});
   }
 
-  function tempFile(dataUrl) { return mt().writeTempFile({data: dataUrl}).then(function (r) { return r.filePath; }); }
   var host = {
     name: 'xhs',
     cardExt: {classic: 'webp', sumi: 'webp', shu: 'webp', hwatu: 'webp'},
-    storage: storage, vibrate: null, saveImage: null, postNote: null,
+    storage: storage, vibrate: null,
     ready: null
   };
   host.ready = readVersion().then(function (v) {
     clientVersion = v;
-    if (has('saveImageToPhotosAlbum') && has('writeTempFile')) host.saveImage = function (dataUrl) {
-      return tempFile(dataUrl).then(function (p) { return mt().saveImageToPhotosAlbum({filePath: p}); }).then(function () { return true; }, function () { return false; });
-    };
-    if (has('postNote') && has('writeTempFile')) host.postNote = function (o) {
-      return tempFile(o.image).then(function (p) {
-        return mt().postNote({title: o.title, content: o.content, pageType: 'photo_publish', mediaInfo: {image_resources: [{url: p}]}});
-      }).then(function () { return true; }, function () { return false; });
-    };
     if (atLeast(9500) && has('vibrateShort')) host.vibrate = function (kind) {
       var type = {win: 'heavy', miss: 'medium', combo: 'medium', lose: 'medium'}[kind] || 'light';
       mt().vibrateShort({type: type}).catch(function () {});

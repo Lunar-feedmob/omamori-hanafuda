@@ -74,7 +74,7 @@ def images():
             if ext not in ('.jpg', '.webp'): continue
             if stem == 'giga-scroll':   # a long handscroll strip: keep its height, it is shown 150-200 px tall
                 n += save(os.path.join(OUT, 'art', stem + '.webp'), pg.evaluate(JS, [base + 'art/' + f, 0, 240, .72])); continue
-            width = 640 if stem.startswith(('rinpa', 'manga', 'matsuri', 'ukiyo')) else 520
+            width = 640 if stem.startswith(('rinpa', 'manga', 'matsuri', 'ukiyo', 'techo-0')) else 520
             n += save(os.path.join(OUT, 'art', stem + '.webp'), pg.evaluate(JS, [base + 'art/' + f, width, 0, .74]))
         sizes['art'] = n
         b.close()

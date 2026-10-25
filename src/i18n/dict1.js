@@ -53,7 +53,7 @@ Object.assign(I18N.dict, {
   '京都和纸': ['Kyoto Washi', '京都和紙'], '和紙': ['washi', '和紙'], '一册文库本，封面是雪佳的四季，朱印只落一枚。': ['A small paperback with Sekka’s seasons on the cover, and a single red seal.', '一冊の文庫本。表紙は雪佳の四季、朱印はひとつだけ。'],
   '砂纹石庭': ['Raked Sand', '砂紋石庭'], '枯山水': ['karesansui', '枯山水'], '砂纹如水，石上生苔，风从耙痕间走过。': ['Sand raked like water, moss on the stone, wind through the furrows.', '水のような砂紋、石に苔、風が熊手の跡を渡る。'],
   '灯火夜祭': ['Lantern Festival', '灯火夜祭'], '夜祭り': ['night festival', '夜祭り'], '广重的烟花照着夜色，灯笼一串串亮起。': ['Hiroshige’s fireworks light the night; strings of lanterns glow.', '広重の花火が夜を照らし、提灯がひとつずつ灯る。'],
-  '旅行手账': ['Travel Journal', '旅の手帖'], '旅の手帳': ['travel journal', '旅の手帳'], '纸页、邮戳、纸胶带，北斋的草花夹在页间。': ['Paper, postmarks, washi tape, and Hokusai’s flowers pressed between the pages.', '紙と消印とマスキングテープ。ページのあいだに北斎の草花。'],
+  '旅行手账': ['Travel Journal', '旅の手帖'], '旅の手帳': ['travel journal', '旅の手帳'], '沿东海道一路往西，八处庭院是八个宿场，广重的版画贴在手帐里。': ['West along the Tōkaidō: the eight gardens are eight post towns, with Hiroshige’s prints taped into the journal.', '東海道を西へ。八つの庭は八つの宿場、広重の版画を手帖に貼って。'],
   '月白风清': ['Moonlit Breeze', '月白風清'], '月夜': ['moonlit night', '月夜'], '芳年的月挂在卷轴上，八处庭院是一轮渐满的月。': ['Yoshitoshi’s moon hangs as a scroll; the eight gardens are a moon slowly filling.', '芳年の月が掛軸に。八つの庭は満ちていく月。'],
   '金碧琳琅': ['Gold and Azure', '金碧琳琅'], '琳派': ['Rinpa', '琳派'], '光琳与抱一的金屏风，群青、绿青落在金箔上。': ['Kōrin’s and Hōitsu’s gold screens: azurite and malachite on gold leaf.', '光琳と抱一の金屏風。金箔に群青と緑青。'],
   '墨戏山野': ['Ink Frolics', '墨戯山野'], '戯画': ['giga', '戯画'], '兔与蛙在绘卷里嬉闹，墨线一路展开到庭院。': ['Rabbits and frogs romp through the scroll, the ink line running on into the gardens.', '兎と蛙が絵巻で戯れ、墨の線が庭までつづく。'],

@@ -68,9 +68,9 @@ css += `
 @supports not (aspect-ratio:1/1){
   .card{height:calc(var(--cw) * 100 / 61)}
   .om-badge{height:72px}
-  .np-art,.hv-ukiyo .uk-print .uk-scene,.hv-ukiyo .uk-thumb .uk-mini,.hv-techo .tc-photo{height:0;padding-top:240%}
-  .hv-ukiyo .uk-print .uk-scene{padding-top:125%} .hv-ukiyo .uk-thumb .uk-mini{padding-top:133%} .hv-techo .tc-photo{padding-top:100%}
-  .np-art>img,.hv-ukiyo .uk-print .uk-scene>*,.hv-ukiyo .uk-thumb .uk-mini>*,.hv-techo .tc-photo>*{position:absolute;top:0;left:0;width:100%;height:100%}
+  .np-art,.hv-ukiyo .uk-print .uk-scene,.hv-ukiyo .uk-thumb .uk-mini{height:0;padding-top:240%}
+  .hv-ukiyo .uk-print .uk-scene{padding-top:125%} .hv-ukiyo .uk-thumb .uk-mini{padding-top:133%}
+  .np-art>img,.hv-ukiyo .uk-print .uk-scene>*,.hv-ukiyo .uk-thumb .uk-mini>*{position:absolute;top:0;left:0;width:100%;height:100%}
   .hv-washi .wa-cover{width:250px;height:352px}
   .hv-kare .ka-stone{width:300px;height:300px}
   .hv-rinpa .rp-tile{min-height:76px}
@@ -80,7 +80,6 @@ css += `
 :root[style*="--xhs-top"] #app{padding-top:var(--xhs-top)}
 :root[style*="--xhs-top"] .sheet,:root[style*="--xhs-top"] .modal{padding-top:var(--xhs-top)}
 /* ---- 小工具: long-press menus are off in the container, so don't promise them ---- */
-.poster-tip{display:none}
 `;
 const fontsCss = fs.readFileSync(path.join(CACHE, 'fonts.css'), 'utf8') +
   '@font-face{font-family:"Fusion Pixel";src:url(./fonts/fusion-pixel-12.woff2) format("woff2");font-display:swap}\n';

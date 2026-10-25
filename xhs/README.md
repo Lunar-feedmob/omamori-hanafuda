@@ -21,7 +21,6 @@ cd xhs && npm install && node build.mjs
 | 存档 | 客户端 9.46+ 用平台 Storage API；低版本退回浏览器存储 |
 | 声音 | Tone.js 换成 `tone-lite.js`（同名接口，Web Audio 实现）；纸牌音效实时合成（包内不能放音频文件） |
 | 落花 | canvas-confetti 换成 `confetti-lite.js`（原库含 Web Worker） |
-| 海报 | 「发到小红书」（postNote 带图唤起发布页）与「存到相册」 |
 | 振动 | 客户端 9.50+ 用平台 vibrateShort |
 | 顶部 | 客户端 9.49+ 读取容器按钮位置并留出空间 |
 | 字体 | 日文显示字体按用到的字裁成子集打包；中文正文用手机自带字体 |
@@ -30,5 +29,5 @@ cd xhs && npm install && node build.mjs
 
 ## 已验证 / 未验证
 
-- 已验证：官方审计脚本 PASS（包体 4.5 MB，高于建议的 2 MB、低于 10 MB 上限）；离线运行（拦截全部外部请求）、模拟容器 SDK 下的存档、海报存相册、发笔记、振动均正常。
+- 已验证：官方审计脚本 PASS（包体 4.5 MB，高于建议的 2 MB、低于 10 MB 上限）；离线运行（拦截全部外部请求）、模拟容器 SDK 下的存档与振动均正常。
 - 未验证：真机与 PC 模拟器（需要 Builder Hub 权限）；Android 8.1 / Chrome 61 真机兼容性。
