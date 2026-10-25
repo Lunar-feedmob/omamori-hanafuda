@@ -218,14 +218,14 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .combo{color:var(--season);font-weight:700}
 #board{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow-y:auto;overflow-x:hidden;padding:4px 0;border-radius:var(--panel-radius);transition:box-shadow .6s}
 #board.aura{animation:aura 1.4s ease-out}
-@keyframes aura{0%{box-shadow:inset 0 0 0 transparent}35%{box-shadow:inset 0 0 46px var(--season)}100%{box-shadow:inset 0 0 0 transparent}}
+@keyframes aura{0%{box-shadow:inset 0 0 0 transparent}35%{box-shadow:inset 0 0 var(--aura,46px) var(--season)}100%{box-shadow:inset 0 0 0 transparent}}
 .deck{box-sizing:content-box;display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:var(--gap,8px);margin:auto;padding:var(--board-pad);background:var(--board-bg);
   border:var(--board-bd,0);box-shadow:var(--board-sh,none);border-radius:var(--panel-radius)}
 .game-veil{position:absolute;inset:0;background:linear-gradient(var(--bg),transparent 26%,transparent 74%,var(--bg));opacity:.8}
 /* Cards keep the artwork's own 61:100 shape; faces are shown as-is: no crop, no filter, nothing drawn on top. */
 .card{--cw:70px;width:var(--cw);aspect-ratio:61/100;padding:0;border:0;background:none;cursor:pointer;perspective:800px;touch-action:manipulation;border-radius:calc(var(--cw)*.04)}
 .card .inner{position:relative;display:block;width:100%;height:100%;transition:transform .45s cubic-bezier(.3,.7,.25,1);transform-style:preserve-3d}
-.card.up .inner{transform:rotateY(180deg)}
+.card.up .inner{transform:translateY(0) rotateY(180deg) rotate(0deg)}
 .face{position:absolute;inset:0;display:block;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:calc(var(--cw)*.04);box-shadow:0 2px 0 rgba(0,0,0,.22),0 7px 16px rgba(0,0,0,.22)}
 .face.back{overflow:hidden;border-radius:calc(var(--cw)*.08)}
 .face svg{display:block;width:100%;height:100%}
@@ -239,6 +239,28 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 @keyframes pop{0%{transform:rotateY(180deg) scale(1)}40%{transform:rotateY(180deg) scale(1.07)}100%{transform:rotateY(180deg) scale(1)}}
 .deck.dealing .card{animation:deal .42s cubic-bezier(.2,.8,.3,1) both;animation-delay:calc(var(--d,0)*22ms)}
 @keyframes deal{from{opacity:0;transform:translateY(14px) scale(.92)}to{opacity:1;transform:none}}
+/* motion: cards are dealt from a pile, a flipped card lifts, a pair is stamped, the win ripples across the board */
+.deck.predeal .card{opacity:0}
+#board.dealing{overflow:hidden}
+.face{transition:box-shadow .3s}
+.card.lift .inner{transform:translateY(-4px) rotateY(180deg) rotate(var(--tilt,0deg))}
+.card.lift .front{box-shadow:0 3px 0 rgba(0,0,0,.16),0 16px 28px rgba(0,0,0,.3)}
+:root[data-look="pixel"] .card .inner{transition-timing-function:steps(5,end)}
+:root[data-look="manga"] .card .inner{transition-duration:.28s}
+.card.glint .front{animation:glint .7s ease-out var(--gd,0ms) both}
+@keyframes glint{40%{box-shadow:0 0 0 3px var(--accent),0 0 26px 8px var(--season)}}
+.mark-fx{position:fixed;z-index:30;display:grid;place-items:center;pointer-events:none;border:2.5px solid var(--mark);border-radius:var(--mark-r);color:var(--mark);background:rgba(255,251,242,.9);
+  font-family:var(--f-jp);font-weight:900;line-height:1;box-shadow:0 4px 10px rgba(0,0,0,.18);animation:mark-in 1.05s ease-out forwards}
+.mark-fx::after{content:"";position:absolute;inset:-3px;border:2px solid var(--mark);border-radius:inherit;opacity:0;animation:bleed .7s ease-out .18s}
+@keyframes mark-in{0%{opacity:0;transform:scale(1.9) rotate(-18deg)}22%{opacity:1;transform:scale(.92) rotate(-6deg)}32%{transform:scale(1) rotate(-6deg)}72%{opacity:1}100%{opacity:0;transform:scale(1) rotate(-6deg)}}
+@keyframes bleed{from{opacity:.6;transform:scale(1)}to{opacity:0;transform:scale(1.55)}}
+.plus-fx{position:fixed;z-index:37;pointer-events:none;font-family:var(--f-num,var(--f-body));font-weight:900;font-size:15px;color:var(--accent);animation:plus .9s ease-out forwards}
+@keyframes plus{from{opacity:0;transform:translate(-50%,-60%)}25%{opacity:1}to{opacity:0;transform:translate(-50%,-200%)}}
+.bump{animation:bump .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{40%{transform:scale(1.35)}}
+.combo{display:inline-block}
+.stamp-fx .seal{position:relative}
+.stamp-fx .seal::after{content:"";position:absolute;inset:-4px;border:2px solid #c23b22;border-radius:12px;opacity:0;animation:bleed .8s ease-out .3s}
 .g-actions{display:flex;gap:10px}
 .g-actions .peek{flex:1}
 .pill{min-width:22px;height:22px;padding:0 7px;border-radius:99px;background:rgba(0,0,0,.14);font-size:13px;display:inline-grid;place-items:center}
@@ -279,6 +301,20 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .big-flowers svg{width:34px;height:34px}
 .got-row{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 4px}
 .got{display:flex;flex-direction:column;align-items:center;gap:4px;width:64px;text-align:center;font-size:12px;line-height:1.25}
+.tally{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 12px}
+.tally div{display:grid;justify-items:center;gap:2px;padding:8px 4px 7px;border-radius:var(--panel-radius);background:var(--chip);border:1px solid var(--line)}
+.tally b{font-family:var(--f-num,var(--f-body));font-weight:900;font-size:24px;line-height:1.1;color:var(--text)}
+.tally small{font-size:12px;color:var(--muted);text-align:center}
+/* the win card plays in order: title, flowers, tally, seals, new cards */
+.win-card h2{animation:brush .7s cubic-bezier(.3,.7,.3,1) .15s both}
+@keyframes brush{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.win-card .big-flowers svg{animation:bloom .6s cubic-bezier(.3,1.7,.5,1) both}
+.win-card .big-flowers svg:nth-child(1){animation-delay:.45s} .win-card .big-flowers svg:nth-child(2){animation-delay:.7s} .win-card .big-flowers svg:nth-child(3){animation-delay:.95s}
+@keyframes bloom{from{opacity:0;transform:scale(.2) rotate(-90deg)}}
+.win-card .tally div{animation:rise .4s ease-out both} .win-card .tally div:nth-child(2){animation-delay:.1s} .win-card .tally div:nth-child(3){animation-delay:.2s}
+.win-card .seal-cell{animation:seal-in .5s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(1.1s + var(--i,0) * .2s)}
+@keyframes seal-in{from{opacity:0;transform:scale(1.8) rotate(-12deg)}}
+.win-card .got{animation:rise .4s ease-out both;animation-delay:calc(1.2s + var(--i,0) * 70ms)}
 .got .g-art{width:44px}
 .got .g-art img{display:block;width:100%;height:auto}
 .got span{font-family:var(--f-jp);font-weight:var(--w-jp)}
@@ -649,6 +685,12 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 :root[data-look="manga"] .np.n4 .np-art img{filter:grayscale(1) contrast(1.15)}
 .np.n4{box-shadow:0 0 0 1px #f3d27a,0 0 10px rgba(243,210,122,.55)}
 .np-empty{position:absolute;inset:0;display:grid;place-items:center;writing-mode:vertical-rl;font-family:var(--f-jp);font-size:13px;letter-spacing:.3em;color:rgba(90,70,50,.38)}
+/* a month whose four cards just arrived soaks its colour upward the next time the garden is seen */
+.np-ink{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;-webkit-mask-image:linear-gradient(to top,#000 45%,transparent 55%);mask-image:linear-gradient(to top,#000 45%,transparent 55%);
+  -webkit-mask-size:100% 300%;mask-size:100% 300%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:0 0;mask-position:0 0}
+.np-ink.play{animation:ink-up 2.4s cubic-bezier(.3,.6,.3,1) forwards}
+@keyframes ink-up{to{-webkit-mask-position:0 100%;mask-position:0 100%}}
+.np.inking .np-art img:not(.np-ink){filter:grayscale(.85) sepia(.15) opacity(.6);-webkit-mask-image:none;mask-image:none}
 .np-lab{display:grid;justify-items:center;gap:0;padding:2px 2px 3px;background:#2b2116;color:#f3e6c4;min-width:0;line-height:1.25}
 .np-lab b{font-family:var(--f-jp);font-weight:600;font-size:12px;white-space:nowrap}
 .np-lab i{font-style:normal;font-size:7px;letter-spacing:-.5px;color:#a8916a;white-space:nowrap}
@@ -913,8 +955,72 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 }
 @media (min-width:720px){ .stat .val b{font-size:32px} }
 @media (max-height:640px){ .stat{padding:5px 10px 6px} .stat .val b{font-size:24px} .btn{min-height:46px} }
+/* ---------- each home moves in its own way, slowly ---------- */
+.hv-matsuri .mt-fw{position:absolute;left:0;right:0;top:-8px;height:140px;pointer-events:none}
+.hv-matsuri .mt-fw i{position:absolute;width:4px;height:4px;border-radius:50%;background:currentColor;opacity:0;box-shadow:30.0px 0.0px currentColor,26.0px 15.0px currentColor,15.0px 26.0px currentColor,0.0px 30.0px currentColor,-15.0px 26.0px currentColor,-26.0px 15.0px currentColor,-30.0px 0.0px currentColor,-26.0px -15.0px currentColor,-15.0px -26.0px currentColor,-0.0px -30.0px currentColor,15.0px -26.0px currentColor,26.0px -15.0px currentColor,14.7px 6.2px currentColor,6.0px 14.8px currentColor,-6.2px 14.7px currentColor,-14.8px 6.0px currentColor,-14.7px -6.2px currentColor,-6.0px -14.8px currentColor,6.2px -14.7px currentColor,14.8px -6.0px currentColor}
+.hv-matsuri .mt-fw i:nth-child(1){left:14%;top:44px;color:#ffcf6a}
+.hv-matsuri .mt-fw i:nth-child(2){left:84%;top:26px;color:#ff8fa3;animation-delay:1.9s}
+.hv-matsuri .mt-fw i:nth-child(3){left:60%;top:84px;color:#9fd8ff;animation-delay:3.6s}
+.hv-pixel{position:relative;isolation:isolate}
+.hv-pixel::before,.hv-pixel::after{content:"";position:absolute;left:0;top:0;width:2px;height:2px;z-index:-1;pointer-events:none}
+.hv-pixel::before{box-shadow:667px 312px #ffd23f,812px 1337px #f4f1ff,102px 152px #f4f1ff,1101px 196px #3ee6ff,752px 1197px #f4f1ff,122px 1043px #ffd23f,443px 80px #3ee6ff,180px 892px #f4f1ff,860px 147px #f4f1ff,496px 189px #3ee6ff,1132px 873px #ffd23f,125px 1162px #f4f1ff,257px 461px #3ee6ff,1197px 130px #f4f1ff,1185px 1203px #f4f1ff,816px 105px #ffd23f,456px 99px #f4f1ff,1144px 276px #f4f1ff,597px 862px #3ee6ff,299px 1111px #f4f1ff,245px 1173px #ffd23f,635px 1151px #3ee6ff,374px 215px #f4f1ff,1195px 1173px #f4f1ff,388px 766px #3ee6ff,203px 1125px #ffd23f,132px 1159px #f4f1ff,126px 1271px #3ee6ff,425px 1020px #f4f1ff,1092px 879px #f4f1ff,647px 957px #ffd23f,1203px 932px #f4f1ff,744px 617px #f4f1ff,512px 372px #3ee6ff,503px 171px #f4f1ff,1180px 618px #ffd23f,1079px 1017px #3ee6ff,707px 1497px #f4f1ff,923px 593px #f4f1ff,153px 245px #3ee6ff,1052px 860px #ffd23f,341px 704px #f4f1ff,315px 1005px #3ee6ff,867px 84px #f4f1ff,162px 1146px #f4f1ff,1177px 646px #ffd23f}
+.hv-pixel::after{box-shadow:700px 1427px #f4f1ff,721px 1221px #f4f1ff,1021px 1191px #f4f1ff,938px 144px #f4f1ff,195px 556px #f4f1ff,974px 1431px #f4f1ff,137px 128px #f4f1ff,638px 1329px #f4f1ff,1187px 1399px #f4f1ff,916px 586px #f4f1ff,794px 1373px #f4f1ff,714px 50px #f4f1ff,949px 731px #f4f1ff,348px 1255px #f4f1ff,243px 1015px #f4f1ff,124px 450px #f4f1ff,592px 268px #f4f1ff,511px 818px #f4f1ff,804px 1020px #f4f1ff,169px 344px #f4f1ff,923px 826px #f4f1ff,1129px 573px #f4f1ff,284px 885px #f4f1ff,1130px 574px #f4f1ff,854px 738px #f4f1ff,783px 476px #f4f1ff,313px 173px #f4f1ff,364px 313px #f4f1ff,479px 1352px #f4f1ff,481px 28px #f4f1ff;opacity:.7}
+@media (prefers-reduced-motion:no-preference){
+  /* the print, the cover and the screen push in very slowly */
+  .hv-ukiyo .uk-scene img,.hv-washi .wa-art,.hv-rinpa .rp-panels img{animation:kb 30s ease-in-out infinite alternate}
+  /* 浮世锦绘: a band of bokashi mist drifts across the print */
+  .hv-ukiyo .uk-scene{position:relative}
+  .hv-ukiyo .uk-scene::after{content:"";position:absolute;top:8%;left:0;width:70%;height:26%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3) 40%,rgba(255,255,255,.3) 60%,transparent);filter:blur(8px);transform:translateX(-110%);animation:mist 24s linear infinite;pointer-events:none}
+  /* 京都和纸: sunlight through the lattice moves over the cover */
+  .hv-washi .wa-cover::after{content:"";position:absolute;top:-10%;bottom:-10%;left:-60%;width:220%;background:repeating-linear-gradient(90deg,transparent 0 42px,rgba(255,244,214,.22) 42px 47px);animation:shoji 18s ease-in-out infinite alternate;pointer-events:none}
+  /* 砂纹石庭: the rake draws each ring, then a slow ripple keeps moving outward */
+  .hv-kare .ka-stone .kr{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:rake 1.4s ease-out calc(var(--i) * .1s) forwards,ripple 8s ease-in-out calc(2.4s + var(--i) * .5s) infinite}
+  /* 月白风清: the hanging scroll sways; thin cloud crosses the moon */
+  .hv-tsuki .ts-scroll{transform-origin:50% 0;animation:hang 8s ease-in-out infinite}
+  .hv-tsuki .ts-silk{position:relative}
+  .hv-tsuki .ts-silk::after{content:"";position:absolute;top:18px;left:14px;right:14px;bottom:28px;pointer-events:none;background:radial-gradient(ellipse 38% 9% at 30% 30%,rgba(230,232,240,.4),transparent 70%),radial-gradient(ellipse 30% 7% at 75% 55%,rgba(230,232,240,.3),transparent 70%);background-size:200% 100%;animation:cloud 46s linear infinite}
+  /* 金碧琳琅: light runs across the gold leaf */
+  .hv-rinpa .rp-panels{overflow:hidden}
+  .hv-rinpa .rp-panels::after{content:"";position:absolute;top:-10%;bottom:-10%;left:0;width:34%;background:linear-gradient(100deg,transparent,rgba(255,240,190,.5) 50%,transparent);transform:translateX(-120%) skewX(-14deg);animation:sweep-gold 8s ease-in-out 1.2s infinite;pointer-events:none}
+  /* 墨戏山野: the frog and the hare wrestle a little */
+  .hv-giga .gg-hero img{transform-origin:50% 100%;animation:hop 6s ease-in-out 1s infinite}
+  /* 灯火夜祭: far-off fireworks behind the lanterns */
+  .hv-matsuri .mt-fw i{animation:fw 5.4s ease-out infinite}
+  /* 旅行手账: the print lifts in the draught; the pin taps the next stop */
+  .hv-techo .tc-print{animation:pinned 9s ease-in-out infinite}
+  .hv-techo .tc-pin{animation:pin 2.6s ease-in-out infinite}
+  /* 洋灯旧梦: the gas lamp flickers */
+  .hv-taisho .tsh-lamp{animation:flicker 6s linear infinite}
+  /* 昭和漫画: the speed lines throb; the balloon pops in */
+  .hv-manga .mg-lines{animation:speed 1.2s steps(2,end) infinite}
+  .hv-manga .mg-balloon{animation:pop-in .5s cubic-bezier(.3,1.6,.5,1) .35s both}
+  /* 四叠青春: the arrow nudges; the speech bubble wobbles */
+  .hv-youth .yo-arrow{display:inline-block;animation:nudge 1.4s ease-in-out infinite}
+  .hv-youth .yo-bubble{transform-origin:0 100%;animation:wobble 5s ease-in-out infinite}
+  /* 电光游园: two fields of stars blink out of step */
+  .hv-pixel::before{animation:px-blink 2.2s steps(1) infinite}
+  .hv-pixel::after{animation:px-blink 3.1s steps(1) .7s infinite}
+}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.07)}}
+@keyframes mist{to{transform:translateX(260%)}}
+@keyframes shoji{to{transform:translateX(18%)}}
+@keyframes rake{to{stroke-dashoffset:0}}
+@keyframes ripple{50%{stroke:#ada38a}}
+@keyframes hang{0%,100%{transform:rotate(-.5deg)}50%{transform:rotate(.5deg)}}
+@keyframes cloud{from{background-position:100% 0}to{background-position:-100% 0}}
+@keyframes sweep-gold{0%{transform:translateX(-120%) skewX(-14deg)}45%,100%{transform:translateX(400%) skewX(-14deg)}}
+@keyframes hop{0%,72%,100%{transform:none}76%{transform:translateY(-6px) rotate(-1deg)}80%{transform:none}84%{transform:translateY(-3px) rotate(1deg)}88%{transform:none}}
+@keyframes fw{0%{opacity:0;transform:scale(.1)}4%{opacity:1}34%{opacity:.85;transform:scale(1)}52%,100%{opacity:0;transform:scale(1.12) translateY(8px)}}
+@keyframes pinned{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(-.8deg) translateY(-2px)}}
+@keyframes pin{0%,55%,100%{transform:rotate(-45deg)}65%{transform:rotate(-45deg) translate(3px,-3px)}75%{transform:rotate(-45deg)}82%{transform:rotate(-45deg) translate(1.5px,-1.5px)}}
+@keyframes flicker{0%,100%{opacity:1}6%{opacity:.75}8%{opacity:.95}44%{opacity:.9}46%{opacity:.62}48%{opacity:1}70%{opacity:.88}}
+@keyframes speed{50%{opacity:.18;transform:scale(1.02)}}
+@keyframes pop-in{from{opacity:0;transform:scale(.6)}}
+@keyframes nudge{50%{transform:translateX(6px)}}
+@keyframes wobble{0%,100%{transform:rotate(-.8deg)}50%{transform:rotate(.8deg)}}
 @media (prefers-reduced-motion:reduce){
   .card .inner{transition:none}
+  .card.glint .front,.mark-fx,.plus-fx,.bump,.stamp-fx .seal::after,.win-card h2,.win-card .big-flowers svg,.win-card .tally div,.win-card .seal-cell,.win-card .got{animation:none}
   .deck.dealing .card,.card.pop .inner,.modal-card,.float,#board.aura,.hv-matsuri .mt-l,.btn.coach-btn,.hv-pixel .px-start .blink,.hv-pixel .px-stage.next,.modal-actions .btn.primary::before,#hintText::after{animation:none}
   .stamp-fx .seal,.stamp-fx small{animation-duration:.01s;animation-delay:1.6s}
   .toast,.rail i,.mbar i{transition:none}
@@ -1842,6 +1948,8 @@ const SFX = {
   unflip() { if (save.look === 'pixel') play('chip', 'B5', 0, .16); if (!sample(Math.random() < .5 ? 'shove' : 'slide', save.look === 'pixel' ? .2 : .5)) fbNoise(1900, .06, .09); },
   miss() { A.combo = 0; },
   deal() { if (sample('shuffle', .5, 1.5)) sample('take', .4); else fbNoise(2600, .4, .06); },
+  dealTick() { if (save.look === 'pixel') play('chip', 'C6', 0, .07); else sample('place', .16); },
+  ink() { const sc = SCALES[season()]; play('chime', sc[4], 0, .22); play('chime', sc[7], .2, .2); },
   peek() { if (!sample('fan', .65)) fbNoise(700, .6, .06); },
   page() { if (scape().page) sample('fan', .4); else SFX.tap(); },
   match(m, fresh) {
@@ -2158,7 +2266,7 @@ const HOME = {
       <div class="ka-row">${c.levels.map(l => go(l, 'ka-pebble', `${pebble(l)}<span>${l.name}</span>`)).join('')}</div>
       ${c.stats}</div></div>`,
   matsuri: c => `<div class="hv hv-matsuri"><div class="hv-a">
-      <header class="mt-lanterns" aria-label="花合帖">${['花', '合', '帖'].map(ch => `<span class="mt-l">${ch}</span>`).join('')}</header>
+      <header class="mt-lanterns" aria-label="花合帖"><span class="mt-fw" aria-hidden="true"><i></i><i></i><i></i></span>${['花', '合', '帖'].map(ch => `<span class="mt-l">${ch}</span>`).join('')}</header>
       <p class="mt-sub">灯火夜祭 · 四季八景</p>
       <button type="button" class="go mt-noren" data-go="${c.tgt.n}"><span class="mt-stripes"></span><b>${c.tgt.name}</b><small>${c.S.name} · 第${c.k}庭 · ${c.meta}</small><span class="mt-go">${c.allDone ? '再逛一次' : '参加'} ▶</span></button>
       <div class="mt-fan">${haikuHTML(c.hk)}</div></div><div class="hv-b">${modeSegHTML()}
@@ -2232,7 +2340,7 @@ function mangaLines() {
 }
 function karePlate() {
   let rings = '';
-  for (let i = 9; i >= 1; i--) rings += `<circle cx="150" cy="140" r="${18 + i * 12}" fill="none" stroke="#cbc4b3" stroke-width="2.2"/>`;
+  for (let i = 9; i >= 1; i--) rings += `<circle class="kr" style="--i:${9 - i};--len:${Math.ceil(2 * Math.PI * (18 + i * 12))}px" cx="150" cy="140" r="${18 + i * 12}" fill="none" stroke="#cbc4b3" stroke-width="2.2"/>`;
   return `<svg viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="140" r="140" fill="#e4dfd2"/>${rings}`
     + `<path d="M108 156 Q112 104 152 98 Q196 102 196 156Z" fill="#8d8a82"/><path d="M118 130 Q150 88 186 122 Q152 112 118 130Z" fill="#6e7f4f" opacity=".9"/></svg>`;
 }
@@ -2264,7 +2372,7 @@ function renderHome() {
   else paintScene(homeLevel(), th.homeScene ? 'home' : 'none');
   const view = $('#homeView'), y = view.scrollTop;
   view.innerHTML = HOME[save.look](c);
-  balanceHome(view);
+  balanceHome(view); playInk(view);
   const roll = view.querySelector('.gg-scroll');
   if (roll) { const at = roll.querySelector('.gg-stop.next') || [...roll.querySelectorAll('.gg-stop:not(.st-lock)')].pop(); if (at) roll.scrollLeft = at.offsetLeft - roll.clientWidth / 2; }
   view.scrollTop = y;
@@ -2285,9 +2393,9 @@ const niwaSrc = mo => `niwa/${String(mo).padStart(2, '0')}.webp`;
 const RISE = [0, 38, 62, 84, 100];
 const gardenThumb = mo => `<img src="${niwaSrc(mo)}" alt="">`;
 function gardenPanel(i) {
-  const mo = i + 1, n = monthCount(mo);
-  return `<button type="button" class="np n${n}" data-month="${mo}" style="--rise:${RISE[n]}%" aria-label="${PLANT_NAMES[i]}，${MONTHS[i][2]}，已收 ${n} / 4 张">
-    <span class="np-art"><img src="${niwaSrc(mo)}" alt="" loading="lazy" decoding="async">${n ? '' : `<span class="np-empty">${MONTHS[i][2]}</span>`}</span>
+  const mo = i + 1, n = monthCount(mo), ink = n === 4 && INK_NEW.has(mo);
+  return `<button type="button" class="np n${n}${ink ? ' inking' : ''}" data-month="${mo}" style="--rise:${RISE[n]}%" aria-label="${PLANT_NAMES[i]}，${MONTHS[i][2]}，已收 ${n} / 4 张">
+    <span class="np-art"><img src="${niwaSrc(mo)}" alt="" loading="lazy" decoding="async">${ink ? `<img class="np-ink" src="${niwaSrc(mo)}" alt="">` : ''}${n ? '' : `<span class="np-empty">${MONTHS[i][2]}</span>`}</span>
     <span class="np-lab"><b>${PLANT_NAMES[i]}</b><i aria-hidden="true">${'●'.repeat(n)}${'○'.repeat(4 - n)}</i></span></button>`;
 }
 function gardenHTML() {
@@ -2390,7 +2498,7 @@ function closeSheet(id) {
 }
 
 let modalOnClose = null;
-function openModal(html, onClose) { $('#modalCard').innerHTML = html; $('#modal').hidden = false; modalOnClose = onClose || null; const f = $('#modalCard [data-focus]') || $('#modalCard button'); if (f) f.focus(); }
+function openModal(html, onClose) { $('#modalCard').classList.remove('win-card'); $('#modalCard').innerHTML = html; $('#modal').hidden = false; modalOnClose = onClose || null; const f = $('#modalCard [data-focus]') || $('#modalCard button'); if (f) f.focus(); }
 function closeModal(run = true) { $('#modal').hidden = true; const cb = modalOnClose; modalOnClose = null; if (run && cb) cb(); }
 function creditsHTML() {
   return `<div class="eyebrow">素材致谢</div><h2>开源素材</h2>
@@ -2415,12 +2523,144 @@ let toastTimer = 0;
 function toast(html, long) { const el = $('#toast'); el.innerHTML = html; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), long ? 3000 : 1800); }
 const cardToast = (m, fresh) => toast(`<div class="t-art">${omamoriSVG(m, false, omTierOf(m))}</div><div><div class="t1">${fresh ? '初见 · 记入图鉴' : '再会 · 御守 +1'}</div>
   <div class="t2"><span class="jp" translate="no">${m.jp}</span> · ${m.cn}</div><div class="t3">${m.mean} · 收下一枚${m.om}</div></div>`, fresh);
-function floatOmamori(cardEl, m) {
+/* ================= motion =================
+   Dealing, matching, collecting and the win, each in the look's own manner. All of it is decoration: with reduced motion
+   (or without the Web Animations API) it is skipped and the game plays the same. */
+const canAnimate = () => !reduceMotion() && typeof Element.prototype.animate === 'function';
+// from: where the pile sits, as a fraction of the board; order: which card leaves first; mark: the stamp a pair receives.
+const MOTION = {
+  ukiyo: {from: [.5, .9], spin: 12, mark: ['摺', '#c23b22', '6px']},
+  washi: {from: [1.2, .45], spin: 3, order: 'rtl', mark: ['読', '#b8392a', '3px']},
+  kare: {from: [.5, .5], scale: .2, fade: 1, dur: 760, step: 34, order: 'ripple', ease: 'cubic-bezier(.2,.7,.2,1)', mark: ['静', '#55704a', '50%']},
+  tsuki: {from: [.5, -.25], spin: 6, fade: 1, dur: 720, mark: ['月', '#a8873a', '50%']},
+  rinpa: {from: [.5, .5], unfold: 1, dur: 520, order: 'ripple', mark: ['金', '#a8862a', '3px']},
+  giga: {from: [1.2, .5], spin: 16, order: 'rtl', mark: ['戯', '#b23a2a', '10px']},
+  matsuri: {from: [.5, -.3], spin: 10, dur: 560, ease: 'cubic-bezier(.3,1.35,.5,1)', mark: ['祭', '#e0782a', '50%']},
+  techo: {from: [-.2, .5], spin: 9, mark: ['済', '#2c4a7a', '50%']},
+  taisho: {from: [.5, .9], spin: 4, dur: 560, ease: 'cubic-bezier(.25,.8,.25,1)', mark: ['合', '#7a2236', '4px']},
+  manga: {from: [1.25, .2], dur: 280, step: 26, order: 'manga', ease: 'cubic-bezier(.2,1.4,.4,1)', mark: ['!!', '#d7261e', '0']},
+  youth: {from: [.5, 1.3], spin: 18, dur: 560, ease: 'cubic-bezier(.3,1.5,.5,1)', mark: ['OK', '#e8553e', '50%']},
+  pixel: {from: [.5, -.3], dur: 420, ease: 'steps(6,end)', mark: ['+1', '#ff4f9a', '0']}
+};
+const lookMotion = () => MOTION[save.look] || MOTION.ukiyo;
+// Rank the cards for the deal: 'rtl' right to left, 'manga' row by row from the right, 'ripple' outward from the pile.
+function dealOrder(rs, mo, px, py) {
+  const key = mo.order === 'rtl' ? r => -r.left * 1e4 + r.top : mo.order === 'manga' ? r => Math.round(r.top / 8) * 1e5 - r.left
+    : mo.order === 'ripple' ? r => Math.hypot(r.left + r.width / 2 - px, r.top + r.height / 2 - py) : null;
+  const rank = rs.map((r, i) => i), out = [];
+  if (key) rank.sort((x, y) => key(rs[x]) - key(rs[y]));
+  rank.forEach((k, j) => { out[k] = j; });
+  return out;
+}
+// Cards leave the pile one by one and land in place. Returns the deal's length in ms (0 when skipped).
+function dealFX() {
+  const deck = $('#deck'), board = $('#board'), els = [...deck.children], mo = lookMotion();
+  deck.classList.remove('predeal');
+  if (!els.length || reduceMotion()) return 0;
+  if (!canAnimate()) { deck.classList.add('dealing'); return 450 + els.length * 22; }
+  const b = board.getBoundingClientRect(), px = b.left + b.width * mo.from[0], py = b.top + b.height * mo.from[1];
+  const rs = els.map(el => el.getBoundingClientRect()), order = dealOrder(rs, mo, px, py);
+  const step = Math.min(mo.step || 40, 1000 / els.length), dur = mo.dur || 460;
+  board.classList.add('dealing');
+  els.forEach((el, i) => {
+    const r = rs[i], dx = px - (r.left + r.width / 2), dy = py - (r.top + r.height / 2), rot = ((i * 53 % 17) / 8 - 1) * (mo.spin || 0);
+    const from = mo.unfold ? {transform: 'scaleX(.04)', opacity: 0} : {transform: `translate(${r2(dx)}px,${r2(dy)}px) rotate(${r2(rot)}deg) scale(${mo.scale || .72})`, opacity: mo.fade ? 0 : 1};
+    el.animate([from, {transform: 'none', opacity: 1}], {duration: dur, delay: order[i] * step, easing: mo.ease || 'cubic-bezier(.2,.8,.3,1)', fill: 'backwards'});
+    if (order[i] % 3 === 0) later(SFX.dealTick, order[i] * step + dur * .7);
+  });
+  const total = (els.length - 1) * step + dur;
+  later(() => board.classList.remove('dealing'), total + 40);
+  return total;
+}
+// A pair leans together, then the look's stamp lands on the second card.
+function matchFX(a, b) {
+  if (!canAnimate()) return;
+  const els = $('#deck').children, ea = els[a], eb = els[b];
+  if (!ea || !eb) return;
+  const ra = ea.getBoundingClientRect(), rb = eb.getBoundingClientRect(), dx = rb.left - ra.left, dy = rb.top - ra.top, k = Math.min(.2, 22 / (Math.hypot(dx, dy) || 1));
+  const lean = (x, y) => [{transform: 'none'}, {transform: `translate(${r2(x)}px,${r2(y)}px) scale(1.05)`, offset: .4}, {transform: 'none'}];
+  ea.animate(lean(dx * k, dy * k), {duration: 500, easing: 'cubic-bezier(.3,.7,.3,1)'});
+  eb.animate(lean(-dx * k, -dy * k), {duration: 500, easing: 'cubic-bezier(.3,.7,.3,1)'});
+  later(() => markFX(eb), 200);
+}
+function markFX(el) {
+  const r = el.getBoundingClientRect(), [txt, color, radius] = lookMotion().mark, sz = Math.round(Math.max(26, Math.min(46, r.width * .62)));
+  const m = document.createElement('span');
+  m.className = 'mark-fx'; m.textContent = txt; m.setAttribute('translate', 'no'); m.setAttribute('aria-hidden', 'true');
+  m.style.cssText = `left:${r2(r.left + r.width * .72)}px;top:${r2(r.top + r.height * .24)}px;width:${sz}px;height:${sz}px;margin:${-sz / 2}px 0 0 ${-sz / 2}px;font-size:${Math.round(sz * (txt.length > 1 ? .4 : .5))}px;--mark:${color};--mark-r:${radius}`;
+  document.body.appendChild(m); setTimeout(() => m.remove(), 1150);
+}
+// Not a pair: both cards shake their heads.
+function shakeFX(a, b) {
+  if (!canAnimate()) return;
+  const kf = [0, -5, 5, -3, 2, 0].map(x => ({transform: `translateX(${x}px) rotate(${x * .25}deg)`}));
+  [a, b].forEach(k => { const el = $('#deck').children[k]; if (el) el.animate(kf, {duration: 380, delay: 240, easing: save.look === 'pixel' ? 'steps(6,end)' : 'ease-in-out'}); });
+}
+// The board answers a win (or a long streak) with light spreading out from the last pair. Returns its length in ms.
+function sweepFX(from, k = 1) {
+  if (!canAnimate()) return 0;
+  const els = [...$('#deck').children], o = els[from] && els[from].getBoundingClientRect();
+  if (!o) return 0;
+  let last = 0;
+  els.forEach(el => {
+    const r = el.getBoundingClientRect(), d = Math.round(Math.hypot(r.left - o.left, r.top - o.top) / Math.max(o.width, 1) * 50);
+    last = Math.max(last, d);
+    el.animate([{transform: 'none'}, {transform: `translateY(${-7 * k}px) scale(${1 + .07 * k})`, offset: .35}, {transform: 'none'}], {duration: 520, delay: d, easing: 'ease-out'});
+    el.style.setProperty('--gd', d + 'ms'); el.classList.remove('glint'); void el.offsetWidth; el.classList.add('glint');
+  });
+  setTimeout(() => els.forEach(el => el.classList.remove('glint')), last + 800);
+  return last + 520;
+}
+function bump(el, plus) {
+  if (!el || reduceMotion()) return;
+  el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');
+  setTimeout(() => el.classList.remove('bump'), 500);
+  if (!plus) return;
+  const r = el.getBoundingClientRect(), p = document.createElement('span');
+  p.className = 'plus-fx'; p.textContent = plus; p.style.left = r2(r.left + r.width / 2) + 'px'; p.style.top = r2(r.top) + 'px';
+  document.body.appendChild(p); setTimeout(() => p.remove(), 950);
+}
+// The charm flies from the pair to where it is counted: a new card goes into the book, a repeat adds to the pairs.
+function floatOmamori(cardEl, m, fresh) {
   if (reduceMotion() || !cardEl) return;
-  const r = cardEl.getBoundingClientRect(), f = document.createElement('div');
+  const r = cardEl.getBoundingClientRect(), to = fresh ? $('#game [data-sheet="dex"]') : $('#pairsDone'), t = to && to.getBoundingClientRect();
+  const f = document.createElement('div'), x0 = r.left + r.width / 2, y0 = r.top + r.height / 2;
   f.className = 'float'; f.innerHTML = omamoriSVG(m, false, omTierOf(m));
-  f.style.left = (r.left + r.width / 2) + 'px'; f.style.top = (r.top + r.height / 2) + 'px';
-  document.body.appendChild(f); setTimeout(() => f.remove(), 1300);
+  f.style.left = r2(x0) + 'px'; f.style.top = r2(y0) + 'px';
+  document.body.appendChild(f);
+  if (!canAnimate() || !t || !t.width) { setTimeout(() => f.remove(), 1300); return; }
+  f.style.animation = 'none';
+  const dx = t.left + t.width / 2 - x0, dy = t.top + t.height / 2 - y0, arc = Math.min(-50, dy * .3 - 50), c = 'translate(-50%,-50%)';
+  const fly = f.animate([{transform: `${c} scale(.5)`, opacity: 0}, {transform: `${c} translate(0,-24px) scale(1.15)`, opacity: 1, offset: .22},
+    {transform: `${c} translate(${r2(dx * .5)}px,${r2(dy * .5 + arc)}px) scale(.95)`, opacity: 1, offset: .6}, {transform: `${c} translate(${r2(dx)}px,${r2(dy)}px) scale(.4)`, opacity: .3}],
+    {duration: 900, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards'});
+  fly.onfinish = () => { f.remove(); bump(to, fresh ? '' : '+1'); };
+}
+// Count numbers up from zero (the win card's tally); the final values are already in the markup.
+function rollNumbers(root) {
+  if (reduceMotion()) return;
+  root.querySelectorAll('[data-roll]').forEach((el, j) => {
+    const to = +el.dataset.roll;
+    if (!(to > 0)) return;
+    const t0 = performance.now() + 350 + j * 120, dur = Math.min(900, 300 + to * 40);
+    el.textContent = '0';
+    const tick = () => { const k = Math.min(1, Math.max(0, (performance.now() - t0) / dur)); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  });
+}
+// Months completed since the garden was last seen: their panel soaks its colour upward when it scrolls into view.
+const INK_NEW = new Set();
+function playInk(view) {
+  const inks = [...view.querySelectorAll('.np-ink')];
+  if (!inks.length) return;
+  const go = el => {
+    const np = el.closest('.np');
+    INK_NEW.delete(+np.dataset.month); el.classList.add('play'); SFX.ink();
+    el.addEventListener('animationend', () => np.classList.remove('inking'), {once: true});
+  };
+  if (!window.IntersectionObserver) { inks.forEach(go); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); setTimeout(() => go(e.target), 250); } }), {threshold: .6});
+  inks.forEach(el => io.observe(el));
 }
 
 /* ================= game ================= */
@@ -2525,7 +2765,8 @@ function startLevel(n, sameSet) {
   buildBoard(); show('game'); renderHud(); setHint('发牌中…');
   SFX.deal();
   const cards = G.deck.length, token = G;
-  const dealt = new Promise(res => setTimeout(res, reduceMotion() ? 150 : 450 + cards * 22));
+  // the deal starts once the board has its final layout (show() lays it out on the next frame, a compact switch on the one after)
+  const dealt = new Promise(res => requestAnimationFrame(() => requestAnimationFrame(() => { if (G !== token) return res(); const ms = dealFX(); setTimeout(res, ms ? ms + 80 : 150); })));
   const backLoaded = BACK_KATAGAMI[save.look] ? new Promise(res => { const im = new Image(); im.onload = im.onerror = res; im.src = backSrc(save.look); }) : Promise.resolve();
   const loaded = Promise.race([Promise.all([preloadArt(ids), backLoaded]), new Promise(res => setTimeout(res, 4000))]);
   Promise.all([dealt, loaded]).then(() => {
@@ -2543,9 +2784,9 @@ function startLevel(n, sameSet) {
 }
 function buildBoard() {
   const deck = $('#deck');
-  deck.innerHTML = G.deck.map((c, i) => `<button class="card" type="button" data-i="${i}" style="--d:${i}" aria-label="第 ${i + 1} 张，背面朝上">
+  deck.innerHTML = G.deck.map((c, i) => `<button class="card" type="button" data-i="${i}" style="--d:${i};--tilt:${r2((i * 37 % 7 - 3) * .6)}deg" aria-label="第 ${i + 1} 张，背面朝上">
     <span class="inner"><span class="face back">${cardBack()}</span><span class="face front">${art(BY_ID[c.id])}</span></span></button>`).join('');
-  deck.classList.remove('dealing'); void deck.offsetWidth; deck.classList.add('dealing');
+  deck.classList.remove('dealing'); deck.classList.add('predeal');
   layoutBoard();
 }
 // Swap card art in place (a deck change mid-game) without touching the game state.
@@ -2558,7 +2799,7 @@ function paint(i) {
   const c = G.deck[i], el = $('#deck').children[i];
   if (!el) return;
   const up = c.up || c.done || c.peek;
-  el.classList.toggle('up', up); el.classList.toggle('done', c.done);
+  el.classList.toggle('up', up); el.classList.toggle('done', c.done); el.classList.toggle('lift', c.up && !c.done);
   el.setAttribute('aria-label', `第 ${i + 1} 张，${c.done ? '已配对：' + BY_ID[c.id].jp : up ? BY_ID[c.id].jp : '背面朝上'}`);
 }
 const paintAll = () => G.deck.forEach((_, i) => paint(i));
@@ -2576,6 +2817,8 @@ function renderHud() {
   $('#pairsLab').textContent = G.goal ? `役札 · ${G.L.target.name}` : '已配对';
   $('#pairsDone').textContent = G.goal ? G.goalDone : G.pairs; $('#pairsTotal').textContent = G.goal ? `/ ${G.goal} 组` : `/ ${G.total} 组`;
   $('#comboLab').innerHTML = A.combo >= 2 ? `<span class="combo">连续 ${A.combo}</span>` : '';
+  if (A.combo >= 2 && A.combo !== G.shownCombo) bump($('#comboLab .combo'));
+  G.shownCombo = A.combo;
   $('#peekLeft').textContent = G.peeks;
   $('#btnPeek').disabled = G.peeks < 1 || G.phase !== 'play';
   $('#btnPeek').setAttribute('aria-label', G.peeks ? `重新看牌，本关还剩 ${G.peeks} 次，不消耗步数` : '本关的重新看牌已用完');
@@ -2612,16 +2855,17 @@ function tap(i) {
       Acard.done = c.done = true; paint(a); paint(b);
       const els = $('#deck').children;
       [a, b].forEach(k => { els[k].classList.add('pop'); later(() => els[k] && els[k].classList.remove('pop'), 600); });
+      matchFX(a, b);
       G.pairs++; collect(Acard.id === c.id ? [c.id] : [Acard.id, c.id], els[b]); buzz('match');
       if (G.L.target && G.L.target.ids.includes(c.id)) G.goalDone++;
       renderHud();
-      if (A.combo === 3 || A.combo === 5 || A.combo === 7) later(comboFX, 450);
-      if (G.L.target ? G.goalDone === G.goal : G.pairs === G.total) { G.phase = 'end'; later(win, 900); }
+      if (A.combo === 3 || A.combo === 5 || A.combo === 7) later(() => comboFX(b), 450);
+      if (G.L.target ? G.goalDone === G.goal : G.pairs === G.total) { G.phase = 'end'; later(() => later(win, Math.max(550, sweepFX(b) + 200)), 320); }
       else if (movesLeft() <= 0) { G.phase = 'end'; later(lose, 900); }
       else { G.phase = 'play'; renderHud(); setHint(A.combo >= 2 ? `连续配对 ${A.combo} 组` : playHint()); }
     }, 300);
   } else {
-    SFX.miss(); buzz('miss'); G.misses++; setHint('不是一对，记下它们 · 点任意处继续');
+    SFX.miss(); buzz('miss'); G.misses++; shakeFX(a, b); setHint('不是一对，记下它们 · 点任意处继续');
     const run = () => {
       G.missPending = null;
       Acard.up = c.up = false; paint(a); paint(b); SFX.unflip();
@@ -2639,10 +2883,13 @@ function stampFX(k, line) {
   SFX.stamp();
 }
 // Streaks: 3 in a row gives a step, 5 gives a look-back, 7 brings a petal storm. Each first time also earns a seal.
-function comboFX() {
+// The board's glow grows with the streak, and from 5 on a ripple runs out from the pair.
+function comboFX(at) {
   const c = A.combo, board = $('#board');
   buzz('combo');
+  board.style.setProperty('--aura', c >= 7 ? '130px' : c >= 5 ? '84px' : '46px');
   board.classList.remove('aura'); void board.offsetWidth; board.classList.add('aura');
+  if (c >= 5 && G.phase !== 'end') sweepFX(at, c >= 7 ? .8 : .45);
   if (c === 3) { if (isFinite(G.budget)) G.budget++; awardSeal('san'); stampFX('三連', isFinite(G.budget) ? '花信 · 多给一步' : '花信'); }
   else if (c === 5) { G.peeks++; awardSeal('go'); stampFX('五連', '风来 · 多一次回看'); }
   else if (c === 7) { awardSeal('nana'); stampFX('七連', '花吹雪'); petals({particleCount: 120, spread: 160, startVelocity: 30, origin: {x: .5, y: .35}}); }
@@ -2662,7 +2909,7 @@ function collect(ids, el) {
   const made = YAKU.filter(y => y.ids.every(k => save.collected[k]) && !before.includes(y.name));
   persist();
   SFX.match(m, isFresh);
-  floatOmamori(el, m);
+  floatOmamori(el, m, isFresh);
   if (isFresh && el) { const rc = el.getBoundingClientRect(); petals({particleCount: 22, spread: 60, startVelocity: 17, origin: {x: (rc.left + rc.width / 2) / innerWidth, y: (rc.top + rc.height / 2) / innerHeight}}); }
   if (made.length) {
     G.yaku.push(...made.map(y => y.name)); SFX.yaku();
@@ -2673,6 +2920,7 @@ function collect(ids, el) {
     toast(`<div class="t-art">${omamoriSVG(u, false, tier)}</div><div><div class="t1">御守升级 · ${T.name}</div><div class="t2">${u.om}</div><div class="t3">${tier > 1 ? '金线织满，挂上了庭院的绘马架' : '布面绣上了金线'} · 第 ${save.collected[up]} 枚</div></div>`, true);
     SFX.upgrade(tier);
   } else cardToast(m, isFresh);
+  if (!reduceMotion()) grown.forEach(mo => INK_NEW.add(mo));
   grown.forEach((mo, j) => later(() => toast(`<div class="t-art">${gardenThumb(mo)}</div><div><div class="t1">屏风上的「${PLANT_NAMES[mo - 1]}」着色了</div><div class="t2">${MONTHS[mo - 1][2]}的四张花札都到齐了</div><div class="t3">回主页看看「我的庭院」</div></div>`, true), 2100 + j * 1600));
   if (collectedCount() === MOTIFS.length && awardSeal('zensatsu')) later(() => stampFX('全札', '四十八张，都在这里了'), 2200);
   refreshMeta();
@@ -2689,8 +2937,8 @@ function peek() {
 }
 function freshRow() {
   if (!G.fresh.length) return '';
-  return `<p style="margin:10px 0 0;color:var(--text)">本局新收进图鉴（${G.fresh.length}）</p><div class="got-row">${G.fresh.map(id => {
-    const m = BY_ID[id]; return `<div class="got"><div class="g-art">${art(m)}</div><span translate="no">${m.jp}</span></div>`; }).join('')}</div>`;
+  return `<p style="margin:10px 0 0;color:var(--text)">本局新收进图鉴（${G.fresh.length}）</p><div class="got-row">${G.fresh.map((id, k) => {
+    const m = BY_ID[id]; return `<div class="got" style="--i:${k}"><div class="g-art">${art(m)}</div><span translate="no">${m.jp}</span></div>`; }).join('')}</div>`;
 }
 function flowersFor() {
   if (!isFinite(G.budget)) return G.used <= G.L.hard ? 3 : G.used <= G.L.std ? 2 : 1;
@@ -2712,18 +2960,21 @@ function win() {
   petals({particleCount: 70, angle: 120, spread: 70, startVelocity: 42, origin: {x: 1, y: .95}});
   const nextL = v ? null : LEVELS[n], opened = !v && n === LEVELS.length;
   const head = v ? (L.target ? `凑成了「${L.target.name}」` : L.variant === 'yoru' ? '夜庭里，灯笼亮了' : '花合，圆满') : n === LEVELS.length ? '八处庭院，全部点亮' : WIN_TITLE[save.look] || '庭院点亮了';
-  const movesTxt = isFinite(G.budget) ? `用了 ${G.used} 步，还剩 ${movesLeft()} 步。` : `用了 ${G.used} 步（参考 ${L.std} 步）。`;
+  const tally = [[G.used, '已用步数'], isFinite(G.budget) ? [movesLeft(), '剩余步数'] : [L.std, '参考步数'], [G.got, '收下御守']];
+  const notes = [G.yaku.length && `凑成役：${G.yaku.join('、')}。`, unlockedNew && `下一处庭院「${nextL.name}」的灯，也亮了。`, opened && '庭外的三种玩法也开放了：花合、夜庭、役之庭。'].filter(Boolean);
   openModal(`${save.look === 'techo' && !v ? `<span class="win-eki">${ekiStamp(n - 1)}</span>` : ''}<div class="eyebrow">${levelTag(L)} · ${L.name}</div><h2>${head}</h2>
     ${haikuHTML(L.haiku)}
     <div class="big-flowers" aria-label="获得 ${fl} 朵花">${[1, 2, 3].map(i => flowerIcon(i <= fl)).join('')}</div>
-    <p>${movesTxt}收下御守 ${G.got} 枚。${G.yaku.length ? `<br>凑成役：${G.yaku.join('、')}。` : ''}${unlockedNew ? `<br>下一处庭院「${nextL.name}」的灯，也亮了。` : ''}${opened ? '<br>庭外的三种玩法也开放了：花合、夜庭、役之庭。' : ''}</p>
-    ${G.seals.length ? `<div class="seals" style="margin:4px 0 8px">${G.seals.map(id => { const x = SEALS.find(z => z.id === id); return `<div class="seal-cell">${sealHTML(x.k, true)}<span>${x.how}</span></div>`; }).join('')}</div>` : ''}
+    <div class="tally">${tally.map(([v, lab]) => `<div><b class="tnum" data-roll="${v}">${v}</b><small>${lab}</small></div>`).join('')}</div>
+    ${notes.length ? `<p>${notes.join('<br>')}</p>` : ''}
+    ${G.seals.length ? `<div class="seals" style="margin:4px 0 8px">${G.seals.map((id, k) => { const x = SEALS.find(z => z.id === id); return `<div class="seal-cell" style="--i:${k}">${sealHTML(x.k, true)}<span>${x.how}</span></div>`; }).join('')}</div>` : ''}
     ${freshRow()}
     <div class="modal-actions">
       ${nextL ? `<button class="btn primary" type="button" data-act="next" data-focus>前往 · ${nextL.name}</button>` : v ? `<button class="btn primary" type="button" data-act="replay" data-focus>再来一局</button>` : `<button class="btn primary" type="button" data-act="dex" data-focus>打开图鉴</button>`}
       ${v ? '' : '<button class="btn" type="button" data-act="replay">再玩一次</button>'}
       <button class="btn" type="button" data-act="home">返回庭院</button>
     </div>`);
+  $('#modalCard').classList.add('win-card'); rollNumbers($('#modalCard'));
 }
 function lose() {
   statEnd(false); persist();
