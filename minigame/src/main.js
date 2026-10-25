@@ -21,7 +21,7 @@ const app = {
   start: n => ui.go(Play(app, n)),
   home: () => ui.go(Home(app))
 };
-pf.share.setup(() => ({title: '御守花札 · 翻开两张，找出成对的花札', query: 'from=share'}));
+pf.share.setup(() => ({title: '花合帖 · 翻开两张，找出成对的花札', query: 'from=share'}));
 app.home();
 if (pf.name === 'web' && typeof window !== 'undefined') window.__app = app;   // test hook, browser preview only
 module.exports = app;

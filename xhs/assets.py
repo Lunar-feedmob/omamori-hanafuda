@@ -24,14 +24,14 @@ def jp_chars():
         for m in re.finditer(pat, html): s |= cjk(''.join(m.groups()))
     for a, b in [('const HOME = {', 'function mangaLines()'), ('const PAINT = {', 'const scopeIds'), ('const NIWA_ART = [', 'const niwaSrc'), ('const UKIYO_PRINTS', 'const HOME_BG')]:
         i = html.index(a); s |= cjk(html[i:html.index(b, i)])
-    s |= cjk('御守花札睦月如月弥生卯月皐月水無月文月葉月長月神無月霜月師走松梅桜藤菖蒲牡丹萩芒菊紅葉柳桐名所江戸百景読む済次号印春夏秋冬第庭話目次段')
+    s |= cjk('花合帖睦月如月弥生卯月皐月水無月文月葉月長月神無月霜月師走松梅桜藤菖蒲牡丹萩芒菊紅葉柳桐名所江戸百景読む済次号印春夏秋冬第庭話目次段')
     s |= {chr(c) for c in range(0x3041, 0x3097)} | {chr(c) for c in range(0x30a1, 0x30fb)} | set('ー々〆「」『』・、。…！？（）〜')
     return ''.join(sorted(s)) + ''.join(chr(c) for c in range(0x20, 0x7f))
 def fonts():
     os.makedirs(os.path.join(OUT, 'fonts'), exist_ok=True)
     text, faces, total = jp_chars(), [], 0
     for fam, w in FONTS:
-        t = '御守花札' if fam == 'Yuji Syuku' else text
+        t = '花合帖' if fam == 'Yuji Syuku' else text
         q = urllib.parse.urlencode({'family': f'{fam}:wght@{w}', 'text': t, 'display': 'swap'}, safe=':@;')
         css = urllib.request.urlopen(urllib.request.Request('https://fonts.googleapis.com/css2?' + q, headers=UA), timeout=60).read().decode()
         urls = re.findall(r'url\((https://[^)]+)\)', css)

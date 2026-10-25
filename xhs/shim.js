@@ -1,4 +1,4 @@
-/* 御守花札 · 小红书小工具 host bridge. Loaded before app.js.
+/* 花合帖 · 小红书小工具 host bridge. Loaded before app.js.
    Sets window.OMA_HOST, which the page uses for storage, saving posters, posting notes and vibration; everything degrades
    to plain browser behaviour when window.xhs is missing (for example when previewing in a desktop browser). */
 (function () {

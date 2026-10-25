@@ -1,4 +1,4 @@
-// Builds the 小红书小工具 package from the web page (src/page.html) — the web build stays the single source.
+// Builds the 小红书小工具 package of 花合帖 from the web page (src/page.html) — the web build stays the single source.
 // Usage:  python3 xhs/assets.py   (once; fonts + images into xhs/.cache)
 //         cd xhs && npm install && node build.mjs     -> xhs/dist/ and xhs/omamori-hanafuda-xhs.zip
 // What changes on the way, following the container rules (offline, CSP, Chrome 61 baseline):
@@ -13,7 +13,7 @@ import {execFileSync} from 'node:child_process';
 import {transform} from 'esbuild';
 
 const HERE = path.dirname(new URL(import.meta.url).pathname), ROOT = path.resolve(HERE, '..');
-const CACHE = path.join(HERE, '.cache'), DIST = path.join(HERE, 'dist'), ZIP = path.join(HERE, 'omamori-hanafuda-xhs.zip');
+const CACHE = path.join(HERE, '.cache'), DIST = path.join(HERE, 'dist'), ZIP = path.join(HERE, 'hana-awase-xhs.zip');
 const SHIPPED_SKINS = ['classic', 'ink', 'kirie', 'tone'];
 const page = fs.readFileSync(path.join(ROOT, 'src', 'page.html'), 'utf8');
 const must = (cond, msg) => { if (!cond) throw new Error(msg); };
@@ -25,7 +25,7 @@ must(scripts.length === 1, 'expected one inline script');
 const bodyStart = page.indexOf('<div id="scene"'), bodyEnd = page.indexOf('<script src=');
 must(bodyStart > 0 && bodyEnd > bodyStart, 'body markers not found');
 let markup = page.slice(bodyStart, bodyEnd).trim();
-const title = (page.match(/<title>(.*?)<\/title>/) || [])[1] || '御守花札';
+const title = (page.match(/<title>(.*?)<\/title>/) || [])[1] || '花合帖';
 
 // ---- JS ----
 let js = scripts[0];

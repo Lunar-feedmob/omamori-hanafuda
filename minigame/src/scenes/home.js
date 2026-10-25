@@ -18,11 +18,11 @@ module.exports = function Home(app) {
       // title
       if (th === app.themes.pixel) {
         const blink = Math.floor(t / 500) % 2;
-        for (const [dx, col] of [[3, '#ff4f9a'], [-3, '#3ee6ff'], [0, '#ffd23f']]) text(c, '御守花札', w / 2 + dx, top + 50, {size: 52, font: th.title, color: col, align: 'center'});
+        for (const [dx, col] of [[3, '#ff4f9a'], [-3, '#3ee6ff'], [0, '#ffd23f']]) text(c, '花合帖', w / 2 + dx, top + 50, {size: 52, font: th.title, color: col, align: 'center'});
         text(c, `HANAFUDA · MEMORY · ${['SPRING', 'SUMMER', 'AUTUMN', 'WINTER'][tgt.s]}`, w / 2, top + 74, {size: 11, font: th.font, color: '#3ee6ff', align: 'center', spacing: 2});
         ui.animate(1000); this.blink = blink;
       } else {
-        text(c, '御守花札', pad, top + 36, {size: 32, weight: 700, font: th.title, color: th.text, spacing: 3});
+        text(c, '花合帖', pad, top + 36, {size: 32, weight: 700, font: th.title, color: th.text, spacing: 3});
         text(c, `${S.name} · ${tgt.sub}`, w - pad, top + 32, {size: 12, font: th.font, color: th.muted, align: 'right'});
         text(c, tgt.haiku[0], pad, top + 62, {size: 13, font: th.font, color: th.muted});
       }
@@ -44,7 +44,7 @@ module.exports = function Home(app) {
           c.save(); c.shadowColor = 'rgba(58,47,38,.35)'; c.shadowBlur = 16; c.shadowOffsetY = 8; c.fillStyle = '#fbf8f0'; c.fillRect(cx, heroY, cw, heroH); c.restore();
           picture(c, im, cx, heroY, cw, heroH * .72, 'cover');
           c.fillStyle = th.accent; c.fillRect(cx, heroY + heroH * .72, cw, heroH * .28);
-          vtext(c, '御守花札', cx + cw - 22, heroY + 30, {size: 22, font: th.title, color: '#3a2f26', weight: 700});
+          vtext(c, '花合帖', cx + cw - 22, heroY + 30, {size: 22, font: th.title, color: '#3a2f26', weight: 700});
           text(c, `第${KANJI[tgt.n - 1]}庭「${tgt.name}」へ`, cx + 12, heroY + heroH * .72 + 28, {size: 14, font: th.font, color: '#fbf8f0', weight: 700});
           text(c, tgt.haiku[1], cx + 12, heroY + heroH * .72 + 50, {size: 11, font: th.font, color: 'rgba(251,248,240,.85)'});
         } else {   // ukiyo: a framed print with a title slip

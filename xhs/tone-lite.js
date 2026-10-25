@@ -1,4 +1,4 @@
-/* tone-lite: the part of Tone.js 14 that 御守花札 uses, rebuilt on plain Web Audio for the 小红书小工具 container
+/* tone-lite: the part of Tone.js 14 that 花合帖 uses, rebuilt on plain Web Audio for the 小红书小工具 container
    (the full library carries Worker / fetch code paths the container forbids, and weighs 350 KB).
    Same names and call shapes as Tone: Volume, Gain, Reverb, Filter, Vibrato, Tremolo, AutoFilter, Noise, Synth, FMSynth,
    NoiseSynth, MembraneSynth, PluckSynth, PolySynth, ToneAudioBuffers, ToneBufferSource, Frequency, now, start, context,

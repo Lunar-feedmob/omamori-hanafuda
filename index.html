@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="日本庭院主题的花札记忆配对小游戏：七种主题、七套卡面、48 张花札图鉴与御守徽章。">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>御守花札</title>
+<title>花合帖</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&family=Zen+Old+Mincho:wght@600;900&family=Shippori+Mincho+B1:wght@600;800&family=Shippori+Mincho:wght@500;700&family=Kaisei+Decol:wght@700&family=Yusei+Magic&family=Zen+Antique&family=Klee+One:wght@600&family=ZCOOL+XiaoWei&family=ZCOOL+KuaiLe&family=Yuji+Syuku&family=Hina+Mincho&family=Kaisei+Tokumin:wght@700;800&family=Yuji+Boku&family=Shippori+Antique+B1&family=DotGothic16&display=swap">
@@ -151,6 +151,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
   backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur))}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border-radius:var(--panel-radius);background:var(--panel);border:var(--panel-bw) solid var(--line)}
 .seg button{min-height:40px;border:0;border-radius:var(--btn-radius);background:transparent;cursor:pointer;font-size:14px;color:var(--muted)}
+.seg.seg4{grid-template-columns:repeat(4,1fr)}
 .seg button[aria-checked="true"]{background:var(--accent);color:var(--accent-ink);font-weight:700}
 .rail{height:5px;border-radius:99px;background:var(--line);overflow:hidden}
 .rail i{display:block;height:100%;background:var(--accent);border-radius:inherit;transition:width .6s}
@@ -970,6 +971,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 <div class="sheet" id="settings" role="dialog" aria-modal="true" aria-labelledby="setTitle" hidden>
   <div class="sheet-head"><button class="icon-btn back-btn" data-close="settings" type="button" aria-label="返回"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4 6.5 10l6 6"/></svg></button><h2 id="setTitle">设置</h2><span class="count"></span></div>
   <div class="sheet-body"><div class="sheet-inner">
+    <section class="set-group" id="langGroup" hidden><h3>语言</h3><div class="seg seg4" id="langSeg" role="radiogroup" aria-label="语言"></div></section>
     <section class="set-group"><h3>卡面</h3><p><span id="skinCount">七</span>套牌面，图像原样显示。切换主题时会换成推荐卡面，自己选过之后就不再自动更换。</p><div class="skins" id="skins" role="radiogroup" aria-label="卡面"></div></section>
     <section class="set-group"><h3>难度</h3><div class="seg" id="modeSeg2" role="radiogroup" aria-label="难度"></div><p id="modeNote2"></p></section>
     <section class="set-group"><h3>声音</h3><div class="toggles">
@@ -1014,6 +1016,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 <div class="modal" id="modal" hidden><div class="modal-card" role="dialog" aria-modal="true" id="modalCard"></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script src="i18n.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.js"></script>
 <script>
@@ -1197,7 +1200,7 @@ const peekMs = cards => 1500 + cards * 50;
 /* ================= save ================= */
 const KEY = 'omamori-hanafuda-v1';
 const save = {unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, collectedAt: {}, seals: {}, unseen: [], sound: true, ambience: false, bgm: true,
-  seenRules: false, mode: 'std', look: 'ukiyo', skin: 'classic', skinPinned: false, demoDone: false, musicVol: .7, sfxVol: .9, haptics: true, stats: {levels: {}, themes: {}, demo: {shown: 0, done: 0, skipped: 0}}};
+  seenRules: false, mode: 'std', look: 'ukiyo', skin: 'classic', skinPinned: false, demoDone: false, lang: '', musicVol: .7, sfxVol: .9, haptics: true, stats: {levels: {}, themes: {}, demo: {shown: 0, done: 0, skipped: 0}}};
 const DEFAULT_SAVE = JSON.stringify(save);
 const OLD_LOOKS = {emaki: 'ukiyo', cha: 'washi', dream: 'ukiyo'};
 function mergeBest(src, into) { for (const k in src) { const v = Number(src[k]); if (v > 0 && LEVELS[k - 1]) into[k] = Math.max(into[k] || 0, Math.min(3, v)); } }
@@ -1218,6 +1221,7 @@ function mergeProgress(d, withPrefs) {
     if (typeof d.demoDone !== 'boolean' && (d.seenRules || d.coached)) save.demoDone = true;   // players from before the demo existed skip it
     if (d.stats && typeof d.stats === 'object') save.stats = {levels: d.stats.levels || {}, themes: d.stats.themes || {}, demo: d.stats.demo || {shown: 0, done: 0, skipped: 0}};
     if (MODES[d.mode]) save.mode = d.mode;
+    if (['', 'zh', 'en', 'ja'].includes(d.lang)) save.lang = d.lang;
     const look = OLD_LOOKS[d.look] || d.look;
     if (THEMES[look]) save.look = look;
     if (SKINS[d.skin]) save.skin = d.skin;
@@ -1226,6 +1230,12 @@ function mergeProgress(d, withPrefs) {
 try { const d = JSON.parse(HOST.storage.get(KEY) || 'null'); if (d && typeof d === 'object') mergeProgress(d, true); } catch (e) {}
 function persist() { HOST.storage.set(KEY, JSON.stringify(save)); cloudQueue(); }
 const cleared = n => Object.values(save.best).some(b => b[n] > 0);
+// Language. The page is written in Chinese; i18n.js (web build only) translates what reaches the screen into English or
+// Japanese. Without it (the 小红书 build) everything stays Chinese.
+const sysLang = () => { const l = String(navigator.language || 'zh').toLowerCase(); return l.indexOf('ja') === 0 ? 'ja' : l.indexOf('zh') === 0 ? 'zh' : 'en'; };
+const LANG = window.I18N && window.I18N.start ? (['zh', 'en', 'ja'].includes(save.lang) ? save.lang : sysLang()) : 'zh';
+const T = s => LANG === 'zh' || s == null ? s : window.I18N.t(String(s), LANG);
+if (LANG !== 'zh') window.I18N.registerCards(MOTIFS);
 
 let cloud = null, cloudTimer = 0, cloudBusy = false, cloudDirty = false;
 function cloudQueue() { if (!cloud) return; clearTimeout(cloudTimer); cloudTimer = setTimeout(cloudWrite, 700); }
@@ -1296,7 +1306,7 @@ BACKS.pixel = (() => {
 const cardBack = (look = save.look) => `<svg viewBox="0 0 50 80" aria-hidden="true" preserveAspectRatio="xMidYMid slice">${BACKS[look] || BACKS.ukiyo}</svg>`;
 const flowerIcon = on => `<svg viewBox="0 0 20 20" aria-hidden="true">${blossom(10, 10, 9, on ? 'var(--accent)' : 'var(--line-2)', on ? 'var(--shu)' : 'var(--line)')}</svg>`.replace(/fill="(var\([^)]+\))"/g, 'style="fill:$1"');
 const LANTERN_SVG = `<svg viewBox="0 0 44 64" aria-hidden="true"><path fill="currentColor" d="M5 18 L22 7 L39 18Z"/><rect fill="currentColor" x="19" y="2" width="6" height="6" rx="2"/><rect x="11" y="19" width="22" height="17" rx="2" fill="currentColor" opacity=".6"/><rect x="16" y="22" width="12" height="11" rx="1" fill="#f2c46a"/><rect fill="currentColor" x="9" y="36" width="26" height="4" rx="1"/><rect fill="currentColor" x="18" y="40" width="8" height="15"/><rect fill="currentColor" x="10" y="55" width="24" height="6" rx="2"/></svg>`;
-const sealHTML = (k, on) => `<span class="seal${on ? '' : ' off'}" aria-hidden="true">${k}</span>`;
+const sealHTML = (k, on) => `<span class="seal${on ? '' : ' off'}" aria-hidden="true" translate="no">${k}</span>`;   // a stamp keeps its kanji in every language
 
 /* ================= omamori ================= */
 // One original set: a brocade pouch with a double-loop cord, a month crest, and the charm's name embroidered on a label.
@@ -2055,19 +2065,19 @@ const go = (l, cls, inner, extra = '') => `<button type="button" class="go ${cls
 const haikuHTML = (hk, cls = '') => `<p class="haiku ${cls}"><span class="jp">${hk[0]}</span><span class="cn">${hk[1]}</span><small>— ${hk[2]}</small></p>`;
 const HOME = {
   youth: c => `<div class="hv hv-youth"><div class="hv-a">
-      <header class="yo-head"><h1>御守花札</h1><span>四叠半花札部 · 招新中</span></header>
+      <header class="yo-head"><h1>花合帖</h1><span>四叠半花札部 · 招新中</span></header>
       <button type="button" class="go yo-cta" data-go="${c.tgt.n}"><span class="yo-num">${c.tgt.n}</span><span><small>NEXT! ${c.S.name} · ${c.verb}</small><b>${c.tgt.name}</b><small>${c.meta}</small></span><span class="yo-arrow" aria-hidden="true">→</span></button>
       <div class="yo-bubble">${haikuHTML(c.hk)}</div></div><div class="hv-b">${modeSegHTML()}
       <div class="yo-grid">${c.levels.map(l => go(l, 'yo-tile', `<b class="yo-big" aria-hidden="true">${l.n}</b><span class="jp">${l.name}</span><small>${SEASONS[l.s].name} · ${l.status}</small>`)).join('')}</div>
       ${c.stats}</div></div>`,
   manga: c => `<div class="hv hv-manga"><div class="hv-a">
-      <header class="mg-mast"><img class="mg-hok" src="art/manga-hokusai.jpg" alt=""><div class="mg-lines" aria-hidden="true">${mangaLines()}</div><h1>御守花札</h1><div class="mg-issue"><span>四季八景 · 好评连载中</span><span>第${c.k}話</span></div></header>
+      <header class="mg-mast"><img class="mg-hok" src="art/manga-hokusai.jpg" alt=""><div class="mg-lines" aria-hidden="true">${mangaLines()}</div><h1>花合帖</h1><div class="mg-issue"><span>四季八景 · 好评连载中</span><span>第${c.k}話</span></div></header>
       <button type="button" class="go mg-koma" data-go="${c.tgt.n}"><span class="mg-art">${art(c.card)}</span><span class="mg-v"><small>${c.allDone ? '完結 · 再読' : '最新話'}</small><b>第${c.k}話「${c.tgt.name}」</b><span>${c.S.name} · ${c.meta}</span></span><span class="mg-read">読む</span></button>
       <div class="mg-balloon">${haikuHTML(c.hk)}</div></div><div class="hv-b">${modeSegHTML()}
       <section class="mg-toc"><h2>目次</h2>${c.levels.map(l => go(l, '', `<span class="no">第${l.k}話</span><span class="jp">${l.name}</span><i></i><span class="mk">${l.locked ? '次号' : l.done ? '済' : l.next ? '▶' : ''}</span>`)).join('')}</section>
       ${c.stats}<p class="art-credit">刊头底图：葛饰北斋《北斋漫画》，芝加哥艺术博物馆开放馆藏</p></div></div>`,
   ukiyo: c => `<div class="hv hv-ukiyo"><div class="hv-a">
-      <header class="uk-head"><div class="uk-cart"><b>御守花札</b><small>四季八景</small></div><div class="uk-side"><span class="uk-seal">${c.S.name}</span>${haikuHTML(c.hk)}</div></header>
+      <header class="uk-head"><div class="uk-cart"><b>花合帖</b><small>四季八景</small></div><div class="uk-side"><span class="uk-seal">${c.S.name}</span>${haikuHTML(c.hk)}</div></header>
       <button type="button" class="go uk-print" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><span class="uk-scene"><img src="art/ukiyo-${UKIYO_PRINTS[c.tgt.s][0]}.jpg" alt="歌川广重《名所江户百景 · ${UKIYO_PRINTS[c.tgt.s][1]}》"></span><span class="uk-label">名所江戸百景 · ${UKIYO_PRINTS[c.tgt.s][3]}</span><span class="uk-go"><span>第${c.k}庭「${c.tgt.name}」 · ${c.meta}</span><b>${c.verb} ▶</b></span></button>
       <p class="art-credit">歌川广重《名所江户百景 · ${UKIYO_PRINTS[c.tgt.s][1]}》（${UKIYO_PRINTS[c.tgt.s][2]}），芝加哥艺术博物馆开放馆藏</p></div><div class="hv-b">
       ${modeSegHTML()}
@@ -2077,7 +2087,7 @@ const HOME = {
       <div class="wa-lattice" aria-hidden="true"></div><div class="hv-a">
       <button type="button" class="go wa-cover" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}">
         <img class="wa-art" src="art/washi-${WASHI_COVERS[c.tgt.s][0]}.jpg" alt=""><span class="wa-band"></span>
-        <span class="wa-mark">${c.S.name}</span><span class="wa-title">御守花札</span><span class="wa-author">花札 · 四季八景</span><span class="wa-pub">庭院文库</span>
+        <span class="wa-mark">${c.S.name}</span><span class="wa-title">花合帖</span><span class="wa-author">花札 · 四季八景</span><span class="wa-pub">庭院文库</span>
         <span class="wa-obi"><em>${c.hk[0]}</em><small>${c.hk[1]}　— ${c.hk[2]}</small><b>第${c.k}庭「${c.tgt.name}」へ</b></span></button>
       <button type="button" class="go btn primary" data-go="${c.tgt.n}">翻开 · ${c.tgt.name}　${c.meta}</button>
       <p class="art-credit">封面：神坂雪佳《百々世草》「${WASHI_COVERS[c.tgt.s][1]}」（1909–10），芝加哥艺术博物馆开放馆藏</p></div><div class="hv-b">
@@ -2085,21 +2095,21 @@ const HOME = {
       <section class="wa-toc"><h2>目次</h2>${c.levels.map(l => go(l, '', `<span class="no">第${l.k}庭</span><span class="jp">${l.name}</span><i></i><span class="pg">${l.done ? '印' : l.locked ? '' : l.sub}</span>`)).join('')}</section>
       ${c.stats}</div></div>`,
   kare: c => `<div class="hv hv-kare"><div class="hv-a">
-      <header class="ka-head"><h1>御守花札</h1><small>${c.S.name} · ${c.hk[0]}</small></header>
+      <header class="ka-head"><h1>花合帖</h1><small>${c.S.name} · ${c.hk[0]}</small></header>
       <button type="button" class="go ka-stone" data-go="${c.tgt.n}">${karePlate()}<span><b>${c.tgt.name}</b><small>第${c.k}庭 · ${c.meta} · ${c.verb}</small></span></button>
       <p class="ka-hk">${c.hk[1]}　— ${c.hk[2]}</p></div><div class="hv-b">
       ${modeSegHTML()}
       <div class="ka-row">${c.levels.map(l => go(l, 'ka-pebble', `${pebble(l)}<span>${l.name}</span>`)).join('')}</div>
       ${c.stats}</div></div>`,
   matsuri: c => `<div class="hv hv-matsuri"><div class="hv-a">
-      <header class="mt-lanterns" aria-label="御守花札">${['御', '守', '花', '札'].map(ch => `<span class="mt-l">${ch}</span>`).join('')}</header>
+      <header class="mt-lanterns" aria-label="花合帖">${['花', '合', '帖'].map(ch => `<span class="mt-l">${ch}</span>`).join('')}</header>
       <p class="mt-sub">灯火夜祭 · 四季八景</p>
       <button type="button" class="go mt-noren" data-go="${c.tgt.n}"><span class="mt-stripes"></span><b>${c.tgt.name}</b><small>${c.S.name} · 第${c.k}庭 · ${c.meta}</small><span class="mt-go">${c.allDone ? '再逛一次' : '参加'} ▶</span></button>
       <div class="mt-fan">${haikuHTML(c.hk)}</div></div><div class="hv-b">${modeSegHTML()}
       <div class="mt-stalls">${c.levels.map(l => go(l, 'mt-stall', `<span class="mt-roof" style="--season:${l.sc}"></span><span class="jp">${l.name}</span><small>第${l.k}庭 · ${l.status}</small>`)).join('')}</div>
       ${c.stats}<p class="art-credit">背景：歌川广重《名所江户百景 · 两国花火》（1858），芝加哥艺术博物馆开放馆藏</p></div></div>`,
   techo: c => `<div class="hv hv-techo"><div class="hv-a">
-      <header class="tc-head"><h1>御守花札</h1><span>${new Date().getMonth() + 1}月${new Date().getDate()}日 · 旅行记</span></header>
+      <header class="tc-head"><h1>花合帖</h1><span>${new Date().getMonth() + 1}月${new Date().getDate()}日 · 旅行记</span></header>
       <div class="tc-spread">
         <button type="button" class="go tc-polaroid" data-go="${c.tgt.n}"><span class="tc-tape"></span><span class="tc-photo">${sceneSVG(c.tgt, 'techo', 'hp', '20 40 360 360')}</span><span class="tc-cap">第${c.k}庭 · ${c.tgt.name}</span></button>
         <div class="tc-note">${haikuHTML(c.hk)}</div></div>
@@ -2109,7 +2119,7 @@ const HOME = {
       <section class="tc-rally"><h2>四季印章集</h2><div class="tc-stamps">${c.levels.map(l => go(l, 'tc-stamp', `<span class="ring">${l.done ? `${l.name}<br>${SEASONS[l.s].name}` : l.next ? '次の駅' : l.k}</span><small>${l.name}</small>`)).join('')}</div></section>
       ${c.stats}<p class="art-credit">草花：葛饰北斋《北斋漫画》 · 纸纹：ambientCG（CC0）</p></div></div>`,
   tsuki: c => `<div class="hv hv-tsuki"><div class="hv-a">
-      <header class="ts-head"><h1>御守花札</h1><p>${c.S.name}夜 · ${c.hk[0]}</p></header>
+      <header class="ts-head"><h1>花合帖</h1><p>${c.S.name}夜 · ${c.hk[0]}</p></header>
       <button type="button" class="go ts-scroll" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><span class="ts-rod"></span>
         <span class="ts-silk"><img src="art/tsuki-${SEASONS[c.tgt.s].key}.webp" ${artDim('tsuki', c.tgt.s)} alt="月冈芳年《月百姿》「${TSUKI_PRINTS[c.tgt.s]}」"></span><span class="ts-rod"></span>
         <span class="ts-cap"><b>${c.tgt.name}</b><small>第${c.k}庭 · ${c.meta}</small><em>${c.verb}</em></span></button>
@@ -2118,14 +2128,14 @@ const HOME = {
       <div class="ts-hk">${haikuHTML(c.hk)}</div>
       ${c.stats}</div></div>`,
   rinpa: c => { const sc = RINPA_SCREENS[c.tgt.s]; return `<div class="hv hv-rinpa"><div class="hv-a">
-      <header class="rp-head"><h1>御守花札</h1><span>${c.S.name} · ${c.hk[0]}</span></header>
+      <header class="rp-head"><h1>花合帖</h1><span>${c.S.name} · ${c.hk[0]}</span></header>
       <button type="button" class="go rp-screen" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><span class="rp-panels"><img src="art/rinpa-${SEASONS[c.tgt.s].key}.webp" ${artDim('rinpa', c.tgt.s)} alt="${sc[1]}《${sc[0]}》"><i class="rp-folds" aria-hidden="true"></i></span></button>
       <button type="button" class="go rp-plaque" data-go="${c.tgt.n}"><b>${c.tgt.name}</b><small>第${c.k}庭 · ${c.meta}</small><em>${c.verb}</em></button>
       <p class="art-credit">${sc[1]}《${sc[0]}》（${sc[2]}），${sc[3]}</p></div><div class="hv-b">${modeSegHTML()}
       <div class="rp-shikishi">${c.levels.map(l => go(l, 'rp-tile', `<span class="rp-k">${l.k}</span><span class="jp">${l.name}</span><small>${SEASONS[l.s].name} · ${l.status}</small>`, `style="--season:${l.sc}"`)).join('')}</div>
       <div class="rp-hk">${haikuHTML(c.hk)}</div>${c.stats}</div></div>`; },
   giga: c => `<div class="hv hv-giga"><div class="hv-a">
-      <header class="gg-head"><h1>御守花札</h1><span class="gg-seal">${c.S.name}</span></header>
+      <header class="gg-head"><h1>花合帖</h1><span class="gg-seal">${c.S.name}</span></header>
       <button type="button" class="go gg-hero" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}段 ${c.tgt.name}"><img src="art/giga-sumo.webp" width="563" height="372" alt="《鸟兽人物戏画》甲卷：青蛙与兔子相扑"><span class="gg-cap"><b>${c.tgt.name}</b><small>第${c.k}段 · ${c.meta}</small><em>${c.verb}</em></span></button>
       <div class="gg-hk">${haikuHTML(c.hk)}</div>
       <p class="art-credit">《鸟兽人物戏画》甲卷（12 世纪），高山寺藏，公有领域，图像来自 Wikimedia Commons</p></div><div class="hv-b">${modeSegHTML()}
@@ -2134,7 +2144,7 @@ const HOME = {
       </div></div></section>
       ${c.stats}</div></div>`,
   taisho: c => { const cv = TAISHO_COVERS[c.tgt.s]; return `<div class="hv hv-taisho"><div class="hv-a">
-      <header class="tsh-sign"><span class="tsh-lamp" aria-hidden="true"></span><h1>御守花札</h1><small>喫茶 · 四季八景</small></header>
+      <header class="tsh-sign"><span class="tsh-lamp" aria-hidden="true"></span><h1>花合帖</h1><small>喫茶 · 四季八景</small></header>
       <button type="button" class="go tsh-frame" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><img src="art/taisho-${SEASONS[c.tgt.s].key}.webp" ${artDim('taisho', c.tgt.s)} alt="竹久梦二 乐谱封面《${cv[0]}》"></button>
       <button type="button" class="go tsh-ticket" data-go="${c.tgt.n}"><small>本日推荐 · ${c.S.name}</small><b>第${c.k}庭「${c.tgt.name}」</b><span>${c.meta}</span><em>${c.verb}</em></button>
       <p class="art-credit">竹久梦二为セノオ乐谱所作封面《${cv[0]}》（${cv[1]}），公有领域，图像来自 Wikimedia Commons</p></div><div class="hv-b">${modeSegHTML()}
@@ -2142,7 +2152,7 @@ const HOME = {
         <p class="tsh-hk">${c.hk[0]}<br><small>${c.hk[1]}　— ${c.hk[2]}</small></p></section>
       ${c.stats}</div></div>`; },
   pixel: c => `<div class="hv hv-pixel"><div class="hv-a">
-      <header class="px-title"><h1>御守花札</h1><p>HANAFUDA · MEMORY · ${['SPRING', 'SUMMER', 'AUTUMN', 'WINTER'][c.tgt.s]}</p></header>
+      <header class="px-title"><h1>花合帖</h1><p>HANAFUDA · MEMORY · ${['SPRING', 'SUMMER', 'AUTUMN', 'WINTER'][c.tgt.s]}</p></header>
       <button type="button" class="go px-start" data-go="${c.tgt.n}"><span><span class="blink" aria-hidden="true">▶</span> PRESS START</span><small>STAGE ${c.tgt.n} · ${c.tgt.name} · ${c.meta}</small></button>
       <div class="px-hk">${haikuHTML(c.hk)}</div></div><div class="hv-b">${modeSegHTML()}
       <div class="px-map">${c.levels.map(l => go(l, 'px-stage', `<span class="px-n">STAGE ${l.n}</span><span class="jp">${l.name}</span><span class="px-stars">${l.locked ? 'LOCKED' : [1, 2, 3].map(k => k <= l.best ? '★' : '☆').join('')}</span>`)).join('')}</div>
@@ -2279,31 +2289,31 @@ function wrapText(g, text, x, y, maxW, lh, align = 'left') {
 }
 function vtext(g, str, x, y, size, step = 1.1) { [...str].forEach((ch, i) => g.fillText(ch, x, y + i * size * step)); }
 function bloomAt(g, x, y, r, fill) { g.fillStyle = fill; for (let k = 0; k < 5; k++) { const a = k * Math.PI * 2 / 5 - Math.PI / 2; g.beginPath(); g.arc(x + Math.cos(a) * r * .5, y + Math.sin(a) * r * .5, r * .48, 0, Math.PI * 2); g.fill(); } }
-// Per-look decoration drawn behind the content, and the 御守花札 brand drawn in that look's manner.
+// Per-look decoration drawn behind the content, and the 花合帖 brand drawn in that look's manner.
 const FRAMES = {
   cartouche(g, st, F, W, H) {
     g.strokeStyle = st.ink; g.lineWidth = 6; g.strokeRect(36, 36, W - 72, H - 72); g.lineWidth = 2; g.strokeRect(50, 50, W - 100, H - 100);
     g.fillStyle = '#fbf6e8'; g.fillRect(860, 80, 130, 400); g.lineWidth = 4; g.strokeRect(860, 80, 130, 400); g.lineWidth = 1.5; g.strokeRect(870, 90, 110, 380);
-    g.fillStyle = st.ink; g.font = `900 72px ${F.jp}`; g.textAlign = 'center'; vtext(g, '御守花札', 925, 160, 72, 1.15);
+    g.fillStyle = st.ink; g.font = `900 72px ${F.jp}`; g.textAlign = 'center'; vtext(g, '花合帖', 925, 160, 72, 1.15);
     g.fillStyle = st.acc; g.fillRect(890, 500, 70, 70); g.fillStyle = '#fbf6e8'; g.font = `900 40px ${F.jp}`; g.fillText(SEASONS[season()].name, 925, 548); g.textAlign = 'left';
   },
   cover(g, st, F, W, H) {
     g.fillStyle = seasonColor(season()); g.globalAlpha = .85; g.fillRect(56, 0, 54, H); g.globalAlpha = 1;
-    g.fillStyle = st.ink; g.font = `900 84px ${F.jp}`; g.textAlign = 'center'; vtext(g, '御守花札', 960, 150, 84, 1.12);
-    g.font = `600 30px ${F.body}`; g.fillStyle = st.sub; vtext(g, '庭院文库', 960, 560, 30, 1.2); g.textAlign = 'left';
+    g.fillStyle = st.ink; g.font = `900 84px ${F.jp}`; g.textAlign = 'center'; vtext(g, '花合帖', 960, 150, 84, 1.12);
+    g.font = `600 30px ${F.body}`; g.fillStyle = st.sub; vtext(g, LANG === 'zh' ? '庭院文库' : '庭の文庫', 960, 560, 30, 1.2); g.textAlign = 'left';
     g.fillStyle = st.acc; g.fillRect(0, H - 150, W, 150);
   },
   rings(g, st, F, W, H) {
     g.strokeStyle = '#cbc4b3'; g.lineWidth = 3;
     for (let r = 40; r <= 330; r += 26) { g.globalAlpha = 1 - r / 420; g.beginPath(); g.arc(W / 2, 700, r, 0, Math.PI * 2); g.stroke(); }
     g.globalAlpha = 1;
-    g.fillStyle = st.ink; g.font = `600 44px ${F.jp}`; g.textAlign = 'center'; g.fillText('御 守 花 札', W / 2, 150); g.textAlign = 'left';
+    g.fillStyle = st.ink; g.font = `600 44px ${F.jp}`; g.textAlign = 'center'; g.fillText('花 合 帖', W / 2, 150); g.textAlign = 'left';
   },
   lanterns(g, st, F, W, H) {
     for (let k = 0; k < 90; k++) { g.fillStyle = ['#f29a3a', '#f4ead2', '#e8553e', '#7a8bb0'][k % 4]; g.globalAlpha = .35; g.beginPath(); g.arc((k * 397) % W, 240 + ((k * 211) % 760), 2 + (k % 3), 0, Math.PI * 2); g.fill(); }
     g.globalAlpha = 1;
-    [...'御守花札'].forEach((ch, i) => {
-      const x = 210 + i * 220, y = 140;
+    [...'花合帖'].forEach((ch, i) => {
+      const x = W / 2 + (i - 1) * 240, y = 140;
       const grd = g.createRadialGradient(x, y, 10, x, y, 120); grd.addColorStop(0, 'rgba(242,154,58,.45)'); grd.addColorStop(1, 'rgba(242,154,58,0)');
       g.fillStyle = grd; g.fillRect(x - 120, y - 120, 240, 240);
       g.fillStyle = '#e8553e'; g.beginPath(); g.ellipse(x, y, 62, 78, 0, 0, Math.PI * 2); g.fill();
@@ -2314,8 +2324,8 @@ const FRAMES = {
   },
   polaroid(g, st, F, W, H) {
     g.fillStyle = '#e2d6c2'; for (let x = 40; x < W; x += 36) for (let y = 40; y < H; y += 36) { g.beginPath(); g.arc(x, y, 2, 0, Math.PI * 2); g.fill(); }
-    g.fillStyle = st.ink; g.font = `700 64px ${F.head}`; g.fillText('御守花札', 90, 160);
-    g.font = `600 32px ${F.head}`; g.fillStyle = st.sub; const d = new Date(); g.fillText(`${d.getMonth() + 1}月${d.getDate()}日 · 旅行记`, 90, 210);
+    g.fillStyle = st.ink; g.font = `700 64px ${F.head}`; g.fillText('花合帖', 90, 160);
+    g.font = `600 32px ${F.head}`; g.fillStyle = st.sub; const d = new Date(); g.fillText(T(`${d.getMonth() + 1}月${d.getDate()}日 · 旅行记`), 90, 210);
     g.strokeStyle = st.acc; g.lineWidth = 5; g.beginPath(); g.arc(900, 1210, 92, 0, Math.PI * 2); g.stroke(); g.lineWidth = 2; g.beginPath(); g.arc(900, 1210, 78, 0, Math.PI * 2); g.stroke();
     g.fillStyle = st.acc; g.font = `700 34px ${F.head}`; g.textAlign = 'center'; g.fillText(SEASONS[season()].name, 900, 1200); g.font = `600 22px ${F.body}`; g.fillText(String(d.getFullYear()), 900, 1236); g.textAlign = 'left';
   },
@@ -2323,53 +2333,55 @@ const FRAMES = {
     g.fillStyle = '#bfe3f7'; for (let k = -H; k < W; k += 90) { g.save(); g.globalAlpha = .35; g.beginPath(); g.moveTo(k, 0); g.lineTo(k + 40, 0); g.lineTo(k + 40 + H, H); g.lineTo(k + H, H); g.fill(); g.restore(); }
     g.save(); g.translate(90, 70); g.rotate(-.025);
     g.fillStyle = '#222'; g.fillRect(12, 12, 560, 150); g.fillStyle = '#4aa3df'; g.fillRect(0, 0, 560, 150); g.lineWidth = 6; g.strokeStyle = '#222'; g.strokeRect(0, 0, 560, 150);
-    g.font = `900 104px ${F.jp}`; g.lineWidth = 10; g.strokeText('御守花札', 30, 116); g.fillStyle = '#fff'; g.fillText('御守花札', 30, 116); g.restore();
+    g.font = `900 104px ${F.jp}`; g.lineWidth = 10; g.strokeText('花合帖', 30, 116); g.fillStyle = '#fff'; g.fillText('花合帖', 30, 116); g.restore();
   },
   koma(g, st, F, W, H) {
     g.save(); g.beginPath(); g.rect(40, 40, W - 80, 220); g.clip();
     for (let k = 0; k < 64; k++) { const a = k * Math.PI * 2 / 64; g.fillStyle = '#111'; g.globalAlpha = .9; g.beginPath(); g.moveTo(W - 160, 120); g.lineTo(W - 160 + Math.cos(a - .012) * 1400, 120 + Math.sin(a - .012) * 1400); g.lineTo(W - 160 + Math.cos(a + .012) * 1400, 120 + Math.sin(a + .012) * 1400); g.fill(); }
     g.restore(); g.globalAlpha = 1;
     g.fillStyle = '#fff'; g.fillRect(70, 80, 520, 130); g.strokeStyle = '#111'; g.lineWidth = 6; g.strokeRect(70, 80, 520, 130);
-    g.fillStyle = '#111'; g.font = `900 100px ${F.jp}`; g.fillText('御守花札', 92, 180);
+    g.fillStyle = '#111'; g.font = `900 100px ${F.jp}`; g.fillText('花合帖', 92, 180);
     g.lineWidth = 12; g.strokeRect(40, 40, W - 80, H - 80); g.beginPath(); g.moveTo(40, 268); g.lineTo(W - 40, 268); g.stroke();
-    g.fillStyle = '#d7261e'; g.fillRect(W - 250, 196, 170, 52); g.fillStyle = '#fff'; g.font = `900 30px ${F.body}`; g.textAlign = 'center'; g.fillText('好评连载中', W - 165, 232); g.textAlign = 'left';
+    g.fillStyle = '#d7261e'; g.fillRect(W - 250, 196, 170, 52); g.fillStyle = '#fff'; g.font = `900 ${LANG === 'en' ? 22 : 30}px ${F.body}`; g.textAlign = 'center'; g.fillText(T('好评连载中'), W - 165, 232); g.textAlign = 'left';
   },
   moon(g, st, F, W, H) {
     const grd = g.createRadialGradient(W - 230, 220, 60, W - 230, 220, 330); grd.addColorStop(0, 'rgba(236,230,207,.35)'); grd.addColorStop(1, 'rgba(236,230,207,0)');
     g.fillStyle = grd; g.fillRect(0, 0, W, 600); g.fillStyle = '#ece6cf'; g.beginPath(); g.arc(W - 230, 220, 130, 0, Math.PI * 2); g.fill();
     g.fillStyle = '#26305a'; [[-40, 270, 520], [W - 520, 330, 600]].forEach(([x, y, w]) => { g.beginPath(); g.roundRect ? g.roundRect(x, y, w, 30, 15) : g.rect(x, y, w, 30); g.fill(); });
     g.strokeStyle = 'rgba(217,199,143,.5)'; g.lineWidth = 2; g.strokeRect(40, 40, W - 80, H - 80);
-    g.fillStyle = st.ink; g.font = `400 56px ${F.jp}`; g.fillText('御 守 花 札', 90, 150);
+    g.fillStyle = st.ink; g.font = `400 56px ${F.jp}`; g.fillText('花 合 帖', 90, 150);
   },
   gold(g, st, F, W, H) {
     for (let y = 0; y < H; y += 90) for (let x = (y / 90) % 2 ? -45 : 0; x < W; x += 90) { g.fillStyle = (x + y) % 180 ? '#e6c878' : '#dcb862'; g.fillRect(x, y, 90, 90); g.strokeStyle = 'rgba(150,110,30,.25)'; g.lineWidth = 1.5; g.strokeRect(x, y, 90, 90); }
     g.fillStyle = 'rgba(243,220,154,.9)'; [[-60, 230, 520], [W - 470, 1210, 560]].forEach(([x, y, w]) => { g.beginPath(); g.roundRect ? g.roundRect(x, y, w, 60, 30) : g.rect(x, y, w, 60); g.fill(); });
     g.strokeStyle = '#1b120a'; g.lineWidth = 26; g.strokeRect(13, 13, W - 26, H - 26);
-    g.fillStyle = st.acc; g.font = `800 84px ${F.jp}`; g.fillText('御守花札', 90, 170);
+    g.fillStyle = st.acc; g.font = `800 84px ${F.jp}`; g.fillText('花合帖', 90, 170);
   },
   scroll(g, st, F, W, H) {
     g.fillStyle = '#6b5a44'; g.fillRect(0, 0, W, 34); g.fillRect(0, H - 34, W, 34);
     g.strokeStyle = 'rgba(38,33,28,.35)'; g.lineWidth = 3; g.beginPath(); g.moveTo(-20, 250); g.quadraticCurveTo(300, 190, 560, 240); g.quadraticCurveTo(820, 290, W + 20, 230); g.stroke();
-    g.fillStyle = st.ink; g.font = `400 92px ${F.jp}`; g.fillText('御守花札', 90, 180);
+    g.fillStyle = st.ink; g.font = `400 92px ${F.jp}`; g.fillText('花合帖', 90, 180);
     g.strokeStyle = st.acc; g.lineWidth = 5; g.strokeRect(W - 190, 96, 96, 96); g.fillStyle = st.acc; g.font = `400 58px ${F.jp}`; g.textAlign = 'center'; g.fillText('戯', W - 142, 164); g.textAlign = 'left';
   },
   deco(g, st, F, W, H) {
     for (let i = 0; i < 24; i++) { const a0 = Math.PI + i * Math.PI / 24, a1 = a0 + Math.PI / 24; g.fillStyle = i % 2 ? '#f3e6cb' : '#e8d4ae'; g.beginPath(); g.moveTo(W / 2, 300); g.lineTo(W / 2 + Math.cos(a0) * 900, 300 + Math.sin(a0) * 900); g.lineTo(W / 2 + Math.cos(a1) * 900, 300 + Math.sin(a1) * 900); g.fill(); }
     g.strokeStyle = st.acc; g.lineWidth = 4; g.strokeRect(30, 30, W - 60, H - 60); g.lineWidth = 1.5; g.strokeRect(44, 44, W - 88, H - 88);
     [[44, 44, 0], [W - 44, 44, 1], [W - 44, H - 44, 2], [44, H - 44, 3]].forEach(([x, y, q]) => { for (let r = 30; r <= 90; r += 30) { g.beginPath(); g.arc(x, y, r, q * Math.PI / 2, (q + 1) * Math.PI / 2); g.stroke(); } });
-    g.fillStyle = st.acc; g.fillRect(W / 2 - 300, 110, 600, 120); g.fillStyle = '#fbf4e4'; g.font = `400 76px ${F.jp}`; g.textAlign = 'center'; g.fillText('御守花札', W / 2, 196); g.textAlign = 'left';
+    g.fillStyle = st.acc; g.fillRect(W / 2 - 300, 110, 600, 120); g.fillStyle = '#fbf4e4'; g.font = `400 76px ${F.jp}`; g.textAlign = 'center'; g.fillText('花合帖', W / 2, 196); g.textAlign = 'left';
   },
   arcade(g, st, F, W, H) {
     for (let x = 0; x < W; x += 30) for (const y of [0, H - 30]) { g.fillStyle = (x / 30) % 2 ? '#3ee6ff' : '#ff4f9a'; g.fillRect(x, y, 30, 30); }
     for (let y = 30; y < H - 30; y += 30) for (const x of [0, W - 30]) { g.fillStyle = (y / 30) % 2 ? '#ff4f9a' : '#3ee6ff'; g.fillRect(x, y, 30, 30); }
-    g.font = `400 108px ${F.head}`; g.fillStyle = '#000'; g.fillText('御守花札', 96, 196); g.fillStyle = '#3ee6ff'; g.fillText('御守花札', 84, 186); g.fillStyle = '#ff4f9a'; g.fillText('御守花札', 96, 186); g.fillStyle = '#ffd23f'; g.fillText('御守花札', 90, 186);
+    g.font = `400 108px ${F.head}`; g.fillStyle = '#000'; g.fillText('花合帖', 96, 196); g.fillStyle = '#3ee6ff'; g.fillText('花合帖', 84, 186); g.fillStyle = '#ff4f9a'; g.fillText('花合帖', 96, 186); g.fillStyle = '#ffd23f'; g.fillText('花合帖', 90, 186);
     g.fillStyle = '#ff4f9a'; g.font = `400 36px ${F.head}`; g.textAlign = 'right'; g.fillText('STAGE CLEAR', W - 80, 260); g.textAlign = 'left';
   }
 };
 async function makePoster(spec) {
+  spec = Object.assign({}, spec, {eyebrow: T(spec.eyebrow), title: T(spec.title), lines: (spec.lines || []).map(T),
+    haiku: spec.haiku && [spec.haiku[0], T(spec.haiku[1]), T(spec.haiku[2])]});
   const st = POSTER[save.look] || POSTER.ukiyo, W = 1080, H = 1440;
   const F = {jp: cssVar('--f-jp') || 'serif', head: cssVar('--f-head') || 'serif', body: cssVar('--f-body') || 'sans-serif'};
-  const text = ['御守花札旅行记庭院文库', spec.eyebrow, spec.title, ...(spec.lines || []), ...(spec.haiku || []), THEMES[save.look].name, '春夏秋冬0123456789月日年'].join('');
+  const text = ['花合帖旅行记庭院文库', spec.eyebrow, spec.title, ...(spec.lines || []), ...(spec.haiku || []), THEMES[save.look].name, '春夏秋冬0123456789月日年'].join('');
   try { await Promise.race([Promise.all([`900 80px ${F.jp}`, `600 40px ${F.jp}`, `700 40px ${F.head}`, `600 30px ${F.body}`].map(f => document.fonts.load(f, text))), new Promise(r => setTimeout(r, 2500))]); } catch (e) {}
   const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
   const g = cv.getContext('2d'); g.textBaseline = 'alphabetic';
@@ -2438,7 +2450,7 @@ async function makePoster(spec) {
   const onObi = st.frame === 'cover';
   g.fillStyle = onObi ? '#fbf8f0' : st.sub; g.font = `600 26px ${F.body}`; g.textAlign = 'left';
   const d = new Date(), fy = H - (onObi ? 64 : 84);
-  g.fillText(`御守花札 · ${THEMES[save.look].name}`, X, fy);
+  g.fillText(LANG === 'zh' ? `花合帖 · ${THEMES[save.look].name}` : `${LANG === 'ja' ? '花合わせ帖' : 'Hana Awase'} · ${T(THEMES[save.look].name)}`, X, fy);
   g.textAlign = 'right'; g.fillText(`${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`, W - 90, fy);
   if (/github\.io$/.test(location.hostname)) { g.font = `400 22px ${F.body}`; g.fillText(location.host + location.pathname.replace(/index\.html$/, ''), W - 90, fy + 34); }
   g.textAlign = 'left';
@@ -2454,7 +2466,7 @@ async function sharePoster(spec) {
   const blob = cv && await new Promise(r => { try { cv.toBlob(r, 'image/png'); } catch (e) { r(null); } });
   if (posterUrl) URL.revokeObjectURL(posterUrl);
   posterBlob = blob; posterUrl = blob ? URL.createObjectURL(blob) : '';
-  const file = blob && typeof File === 'function' ? new File([blob], 'omamori-hanafuda.png', {type: 'image/png'}) : null;
+  const file = blob && typeof File === 'function' ? new File([blob], 'hana-awase.png', {type: 'image/png'}) : null;
   const canShare = !HOST.saveImage && !!(file && navigator.canShare && navigator.canShare({files: [file]}));
   $('#modalCard').innerHTML = blob ? `<div class="eyebrow">海报 · ${THEMES[save.look].name}</div><div class="poster-view"><img src="${posterUrl}" alt="${spec.title} 的分享海报"></div>
     ${HOST.saveImage ? '' : '<p class="poster-tip">也可以长按或右键图片直接保存。</p>'}<p class="poster-msg" aria-live="polite"></p>
@@ -2467,7 +2479,7 @@ let dlCap = null;
 const blobToDataURL = blob => new Promise(res => { const f = new FileReader(); f.onload = () => res(f.result); f.onerror = () => res(''); f.readAsDataURL(blob); });
 async function savePoster(btn) {
   if (!posterBlob) return;
-  const name = `omamori-hanafuda-${Date.now()}.png`, msg = $('#modalCard .poster-msg');
+  const name = `hana-awase-${Date.now()}.png`, msg = $('#modalCard .poster-msg');
   if (HOST.saveImage) {
     if (msg) msg.textContent = '正在保存…';
     const ok = await HOST.saveImage(await blobToDataURL(posterBlob));
@@ -2489,11 +2501,11 @@ async function postPoster() {
   if (!posterBlob || !HOST.postNote) return;
   const msg = $('#modalCard .poster-msg'), sp = posterSpec || {};
   const lines = [sp.eyebrow, (sp.haiku && sp.haiku[0]) || '', (sp.lines || []).join(' · ')].filter(Boolean);
-  const ok = await HOST.postNote({title: `御守花札 · ${sp.title || ''}`.slice(0, 20), content: lines.join('\n') + '\n#御守花札 #花札', image: await blobToDataURL(posterBlob)});
+  const ok = await HOST.postNote({title: `花合帖 · ${sp.title || ''}`.slice(0, 20), content: lines.join('\n') + '\n#花合帖 #花札', image: await blobToDataURL(posterBlob)});
   if (msg && !ok) msg.textContent = '没能打开发布页，可以先存到相册再发笔记。';
 }
 async function sharePosterFile() {
-  try { await navigator.share({files: [new File([posterBlob], 'omamori-hanafuda.png', {type: 'image/png'})], title: '御守花札'}); } catch (e) {}
+  try { await navigator.share({files: [new File([posterBlob], 'hana-awase.png', {type: 'image/png'})], title: '花合帖'}); } catch (e) {}
 }
 
 /* ================= sheets ================= */
@@ -2520,7 +2532,7 @@ function renderDex() {
       <p>在庭院里翻出这张花札，就会记入图鉴。</p></div></article>`;
     const at = save.collectedAt[x.id] ? new Date(save.collectedAt[x.id]) : null;
     return `<article class="entry">${save.unseen.includes(x.id) ? '<span class="new-badge">新</span>' : ''}<div class="e-art">${art(x)}</div><div class="e-text">
-      <div class="e-name"><b>${x.jp}</b><span class="tag${tagCls}">${x.tag}</span></div><div class="e-sub">${x.cn} · ${x.kana}</div>
+      <div class="e-name"><b translate="no">${x.jp}</b><span class="tag${tagCls}">${x.tag}</span></div><div class="e-sub">${x.cn} · ${x.kana}</div>
       <div class="e-mean"><span>寓意</span>${x.mean}</div><p>${x.desc}</p>
       <div class="e-foot"><span class="e-om">${omamoriSVG(x, false, omTier(n))}${x.om} × ${n}</span>${at ? `<span class="e-date">收于 ${at.getMonth() + 1}月${at.getDate()}日</span>` : ''}</div></div></article>`;
   }).join('')}</div></section>`;
@@ -2544,13 +2556,18 @@ function omamoriDetail(id) {
   const x = BY_ID[id], n = save.collected[id] || 0, at = save.collectedAt[id] ? new Date(save.collectedAt[id]) : null;
   const t = omTier(n), nx = OM_TIERS[t + 1];
   openModal(`<div class="om-big t${t}">${omamoriSVG(x, false, t)}<div class="eyebrow">御守 · ${MONTHS[x.m - 1][2]} · ${OM_TIERS[t].name}</div><h2 style="margin:0">${x.om}</h2>
-    <p style="margin:0">保佑「${x.mean}」。得自花札「<span class="jp">${x.jp}</span>」。</p>
+    <p style="margin:0">保佑「${x.mean}」。得自花札「<span class="jp" translate="no">${x.jp}</span>」。</p>
     <p style="margin:0">已收下 ${n} 枚${at ? ` · 初次求得于 ${at.getMonth() + 1}月${at.getDate()}日` : ''}</p>
     <ol class="om-path" aria-label="御守的成长">${OM_TIERS.map((T, i) => `<li class="${i <= t ? 'on' : ''}${i === t ? ' now' : ''}"><span class="om-mini">${omamoriSVG(x, false, i)}</span><b>${T.name}</b><small>${T.min} 枚</small></li>`).join('')}</ol>
-    <p style="margin:0;font-size:13px;color:var(--muted)">${nx ? `再配对 ${nx.min - n} 次「<span class="jp">${x.jp}</span>」，就能升为${nx.name}。` : '已经満願：愿望圆满，金线织满了整只御守。'}</p></div>
+    <p style="margin:0;font-size:13px;color:var(--muted)">${nx ? `再配对 ${nx.min - n} 次「<span class="jp" translate="no">${x.jp}</span>」，就能升为${nx.name}。` : '已经満願：愿望圆满，金线织满了整只御守。'}</p></div>
     <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>收好</button><button class="btn" type="button" data-act="poster-om" data-id="${id}">生成海报</button></div>`);
 }
+const LANG_OPTS = [['', '跟随系统'], ['zh', '中文'], ['en', 'English'], ['ja', '日本語']];
 function renderSettings() {
+  if (window.I18N && window.I18N.start) {
+    $('#langGroup').hidden = false;
+    $('#langSeg').innerHTML = LANG_OPTS.map(([k, label]) => `<button type="button" role="radio" data-lang-pick="${k}" aria-checked="${save.lang === k}"${k ? ' translate="no"' : ''}>${label}</button>`).join('');
+  }
   $('#skinCount').textContent = '一二三四五六七'[Object.keys(SKINS).length - 1] || Object.keys(SKINS).length;
   $('#skins').innerHTML = Object.entries(SKINS).map(([k, s]) => `<button class="skin" type="button" role="radio" data-skin="${k}" aria-checked="${save.skin === k}">
     <span class="mini">${['matsu-tsuru', 'susuki-tsuki'].map(id => art(BY_ID[id], k)).join('')}</span><b>${s.name}</b><small>${s.note}</small></button>`).join('');
@@ -2595,7 +2612,7 @@ function creditsHTML() {
 let toastTimer = 0;
 function toast(html, long) { const el = $('#toast'); el.innerHTML = html; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), long ? 3000 : 1800); }
 const cardToast = (m, fresh) => toast(`<div class="t-art">${omamoriSVG(m, false, omTierOf(m))}</div><div><div class="t1">${fresh ? '初见 · 记入图鉴' : '再会 · 御守 +1'}</div>
-  <div class="t2"><span class="jp">${m.jp}</span> · ${m.cn}</div><div class="t3">${m.mean} · 收下一枚${m.om}</div></div>`, fresh);
+  <div class="t2"><span class="jp" translate="no">${m.jp}</span> · ${m.cn}</div><div class="t3">${m.mean} · 收下一枚${m.om}</div></div>`, fresh);
 function floatOmamori(cardEl, m) {
   if (reduceMotion() || !cardEl) return;
   const r = cardEl.getBoundingClientRect(), f = document.createElement('div');
@@ -2650,7 +2667,7 @@ function statsHTML() {
 }
 function statsText() {
   const head = ['庭院', '开局', '通关', '失败', '通关率', '均步数', '均回看', '均翻错', '均用时'].join('\t');
-  return [`御守花札 游玩统计 ${new Date().toLocaleString()}`, `难度 ${MODES[save.mode].name} · 主题 ${THEMES[save.look].name} · 卡面 ${SKINS[save.skin].name}`, head,
+  return [`花合帖 游玩统计 ${new Date().toLocaleString()}`, `难度 ${MODES[save.mode].name} · 主题 ${THEMES[save.look].name} · 卡面 ${SKINS[save.skin].name}`, head,
     ...statsRows().map(x => [x.l.name, x.plays, x.wins, x.losses, x.rate, x.moves, x.peeks, x.misses, x.time].join('\t')),
     '新手演示 ' + JSON.stringify(save.stats.demo), '主题切换 ' + JSON.stringify(save.stats.themes), '原始数据 ' + JSON.stringify(save.stats.levels)].join('\n');
 }
@@ -2871,7 +2888,7 @@ function peek() {
 function freshRow() {
   if (!G.fresh.length) return '';
   return `<p style="margin:10px 0 0;color:var(--text)">本局新收进图鉴（${G.fresh.length}）</p><div class="got-row">${G.fresh.map(id => {
-    const m = BY_ID[id]; return `<div class="got"><div class="g-art">${art(m)}</div><span>${m.jp}</span></div>`; }).join('')}</div>`;
+    const m = BY_ID[id]; return `<div class="got"><div class="g-art">${art(m)}</div><span translate="no">${m.jp}</span></div>`; }).join('')}</div>`;
 }
 function flowersFor() {
   if (!isFinite(G.budget)) return G.used <= G.L.hard ? 3 : G.used <= G.L.std ? 2 : 1;
@@ -3146,6 +3163,8 @@ document.addEventListener('click', e => {
   const cl = t.closest('[data-close]'); if (cl) { closeSheet(cl.dataset.close); return; }
   const md = t.closest('[data-mode]'); if (md) { save.mode = md.dataset.mode; persist(); SFX.tap(); renderModes(); if (current === 'home') renderHome(); return; }
   if (t.closest('[data-cycle-look]')) { cycleLook(); return; }
+  const lp = t.closest('[data-lang-pick]');
+  if (lp) { save.lang = lp.dataset.langPick; persist(); SFX.tap(); try { location.reload(); } catch (e) {} return; }
   const sk = t.closest('[data-skin]'); if (sk) { save.skin = sk.dataset.skin; save.skinPinned = true; persist(); SFX.tap(); refreshBoardArt(); renderSettings(); warmDeck(); return; }
   const om = t.closest('[data-om]'); if (om) { SFX.tap(); omamoriDetail(om.dataset.om); return; }
   const pl = t.closest('[data-month]'); if (pl) { SFX.tap(); plantToast(+pl.dataset.month); return; }
@@ -3235,6 +3254,7 @@ else window.addEventListener('resize', layoutBoard);
 /* ================= boot ================= */
 document.documentElement.dataset.look = save.look;
 if (!save.skinPinned) save.skin = deckFor(save.look);
+if (LANG !== 'zh') { window.I18N.start(LANG); document.title = LANG === 'ja' ? '花合わせ帖' : 'Hana Awase · 花合帖'; }
 renderModes(); renderSoundUI(); setSaveNote(); refreshMeta(); warmDeck(); renderLookName();
 initCloud();
 function start(data) {

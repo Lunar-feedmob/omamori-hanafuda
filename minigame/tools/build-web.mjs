@@ -16,7 +16,7 @@ load('src/main.js');
 })();`;
 fs.mkdirSync(path.join(root, 'dev'), {recursive: true});
 fs.writeFileSync(path.join(root, 'dev', 'index.html'), `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>御守花札 · 小游戏开发预览</title>
+<title>花合帖 · 小游戏开发预览</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
 <base href="../">
 <style>html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:manipulation}canvas{display:block}</style></head>
