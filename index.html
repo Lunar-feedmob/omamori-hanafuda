@@ -125,7 +125,7 @@ button{font:inherit;color:inherit}
 button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .jp{font-family:var(--f-jp);font-weight:var(--w-jp)}
 /* Japanese display faces get proportional kana spacing; Chinese text never sits in a Japanese-only face */
-.jp,.g-title b,.e-name b,.s-kanji,.pv-top,[class^="hv-"] h1{font-feature-settings:"palt" 1}
+.jp,.g-title b,.e-name b,.s-kanji,[class^="hv-"] h1{font-feature-settings:"palt" 1}
 .tnum{font-variant-numeric:tabular-nums}
 .eyebrow{font-size:12px;letter-spacing:.16em;color:var(--muted)}
 
@@ -179,6 +179,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
   padding:4px max(8px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 4px) max(8px,env(safe-area-inset-left,0px))}
 .tabs button{min-height:52px;border:0;background:transparent;cursor:pointer;display:grid;justify-items:center;align-content:center;gap:2px;font-size:11px;color:var(--muted);position:relative;border-radius:var(--btn-radius)}
 .tabs button svg{width:22px;height:22px}
+.tabs .look-name{white-space:nowrap}
 .tabs button[aria-current="page"]{color:var(--accent);font-weight:700}
 
 /* ---------- game ---------- */
@@ -388,35 +389,12 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .om-path small{font-size:11px}
 .danger{color:var(--shu);border-color:var(--shu)}
 .btn.primary.danger-fill{background:var(--shu);border-color:var(--shu);color:#fff}
-.themes{--sel:var(--accent);display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.theme-card{display:grid;gap:0;padding:0;border:0;border-radius:12px;overflow:hidden;cursor:pointer;text-align:left;background:var(--panel-solid);color:var(--text);outline:2px solid var(--line);outline-offset:0}
-.theme-card[aria-checked="true"]{outline:3px solid var(--sel);outline-offset:2px}
-.theme-card .tc-txt{padding:8px 10px 10px;display:grid;gap:2px;border-top:1px solid var(--line)}
-.theme-card .tc-txt b{font-family:var(--f-head);font-weight:var(--w-head);font-size:16px;line-height:1.25}
-.theme-card .tc-txt small{font-size:12px;line-height:1.5;color:var(--muted)}
-.theme-card .tc-txt em{font-style:normal;font-size:12px;color:var(--accent)}
-.theme-card .tc-jp{margin-left:6px;font-family:var(--f-jp);font-size:12px;font-weight:400;opacity:.75}
-.th-groups{display:grid;gap:22px}
-.th-group h3{margin:0 0 10px;font-family:var(--f-head);font-weight:var(--w-head);font-size:17px;color:var(--text);letter-spacing:.2em}
 .art-credit{margin:0;font-size:12px;line-height:1.5;color:var(--faint);text-align:center}
 .scene-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 28%}
 .scene-veil{position:absolute;inset:0}
 .sv-matsuri{background:linear-gradient(rgba(18,28,54,.3),rgba(18,28,54,.6) 30%,rgba(18,28,54,.86) 60%)}
 .sa-ukiyo{object-position:50% 18%;filter:blur(1.5px)} .sv-ukiyo{background:linear-gradient(rgba(243,236,221,.62),rgba(243,236,221,.86) 40%,rgba(243,236,221,.95))}
 :root[data-look="techo"] #homeView{background:linear-gradient(rgba(250,246,238,.86),rgba(250,246,238,.86)),url(art/techo-paper.jpg) 0 0/320px,var(--bg)}
-/* mini game mock used as the theme preview */
-.pv{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--bg)}
-.pv-bg{position:absolute;inset:0}
-.pv-bg svg{display:block;width:100%;height:100%}
-.pv-ui{position:absolute;inset:0;display:grid;grid-template-rows:auto auto 1fr auto;gap:5px;padding:8px}
-.pv-top{display:flex;justify-content:center;font-family:var(--f-jp);font-weight:var(--w-jp);font-size:15px;letter-spacing:.08em;color:var(--text)}
-.pv-hud{display:grid;grid-template-columns:1.3fr 1fr;gap:4px}
-.pv-hud span{padding:2px 6px;font-size:10px;color:var(--muted);background:var(--panel);border:var(--panel-bw) solid var(--line);border-radius:var(--panel-radius);box-shadow:var(--panel-shadow)}
-.pv-hud b{font-size:13px;color:var(--text);font-family:var(--f-num,var(--f-body))}
-.pv-deck{align-self:center;justify-self:center;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:6px;background:var(--board-bg);border:var(--board-bd,0);border-radius:var(--panel-radius);transform:scale(.92)}
-.pv-deck i{display:block;width:24px;aspect-ratio:61/100;border-radius:2px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.25)}
-.pv-deck i svg,.pv-deck i img{display:block;width:100%;height:100%;object-fit:contain}
-.pv-btn{justify-self:stretch;text-align:center;padding:5px 0;font-size:11px;font-weight:700;border-radius:var(--btn-radius);background:var(--accent);color:var(--accent-ink);box-shadow:var(--btn-shadow)}
 .skins{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px}
 .skin{display:grid;justify-items:center;gap:6px;padding:10px 6px;border-radius:var(--panel-radius);border:2px solid var(--line);background:var(--panel-solid);cursor:pointer;font-size:13px;text-align:center}
 .skin[aria-checked="true"]{border-color:var(--accent)}
@@ -933,7 +911,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
       <button type="button" aria-current="page" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 10 12 4l9 6M5 9v11h14V9M10 20v-6h4v6"/></svg>庭院</button>
       <button type="button" data-sheet="dex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 5h6.5A2.5 2.5 0 0 1 12 7.5V20a2 2 0 0 0-2-2H3zM21 5h-6.5A2.5 2.5 0 0 0 12 7.5V20a2 2 0 0 1 2-2h7z"/></svg>图鉴<span class="dot" id="dotHome" hidden></span></button>
       <button type="button" data-sheet="omamori"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M7 8q0-2 2-2h6q2 0 2 2v12H7zM12 6Q9 2 12 3q3-1 0 3M10 11h4M10 14h4"/></svg>御守</button>
-      <button type="button" data-sheet="themes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 1.8-1.2 1.2-2.2-.7-1.2.1-2.8 1.6-2.8H17a4 4 0 0 0 4-4c0-5-4-9-9-9z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10.5" cy="7.5" r="1.2"/><circle cx="15" cy="7.5" r="1.2"/></svg>主题</button>
+      <button type="button" data-cycle-look aria-label="切换主题"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 1.8-1.2 1.2-2.2-.7-1.2.1-2.8 1.6-2.8H17a4 4 0 0 0 4-4c0-5-4-9-9-9z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10.5" cy="7.5" r="1.2"/><circle cx="15" cy="7.5" r="1.2"/></svg><span class="look-name">主题</span></button>
       <button type="button" data-sheet="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h11M19 7h1M4 17h3M11 17h9"/><circle cx="17" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>设置</button>
     </nav>
   </section>
@@ -943,7 +921,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
       <button class="icon-btn" id="btnHome" type="button" aria-label="返回庭院"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4 6.5 10l6 6"/></svg></button>
       <div class="g-title"><span class="eyebrow" id="gNum">春 · 第一庭</span><b id="gName">初音</b></div>
       <button class="icon-btn" type="button" data-sheet="dex" aria-label="打开图鉴"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 5h6.5A2.5 2.5 0 0 1 12 7.5V20a2 2 0 0 0-2-2H3zM21 5h-6.5A2.5 2.5 0 0 0 12 7.5V20a2 2 0 0 1 2-2h7z"/></svg><span class="dot" id="dotGame" hidden></span></button>
-      <button class="icon-btn" type="button" data-sheet="themes" aria-label="切换主题"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 1.8-1.2 1.2-2.2-.7-1.2.1-2.8 1.6-2.8H17a4 4 0 0 0 4-4c0-5-4-9-9-9z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10.5" cy="7.5" r="1.2"/><circle cx="15" cy="7.5" r="1.2"/></svg></button>
+      <button class="icon-btn" type="button" data-cycle-look aria-label="切换主题"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 1.8-1.2 1.2-2.2-.7-1.2.1-2.8 1.6-2.8H17a4 4 0 0 0 4-4c0-5-4-9-9-9z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10.5" cy="7.5" r="1.2"/><circle cx="15" cy="7.5" r="1.2"/></svg></button>
       <button class="icon-btn sound-btn" type="button" aria-pressed="true"></button>
     </div>
     <div class="hud">
@@ -983,13 +961,6 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
   <div class="sheet-body"><div class="sheet-inner">
     <p class="sheet-note">四十八枚御守徽章。配对一组花札，对应的徽章就会点亮；还没求得的只留一道剪影。同一枚收得越多，布面会绣上金线（3 枚），再织成「満願」（6 枚）。点开亮着的徽章，看看它保佑什么。</p>
     <div id="omSeasons" class="dex-seasons"></div>
-  </div></div>
-</div>
-<div class="sheet" id="themes" role="dialog" aria-modal="true" aria-labelledby="thTitle" hidden>
-  <div class="sheet-head"><h2 id="thTitle">庭院主题</h2><span class="count" id="thCount"></span><button class="btn" data-close="themes" type="button">完成</button></div>
-  <div class="sheet-body"><div class="sheet-inner">
-    <p class="sheet-note">主题只改变画面、字体和装饰。正在进行的这一局、步数和收集进度都会原样保留。</p>
-    <div id="themeList" class="th-groups" role="radiogroup" aria-label="庭院主题"></div>
   </div></div>
 </div>
 <div class="sheet" id="settings" role="dialog" aria-modal="true" aria-labelledby="setTitle" hidden>
@@ -1981,6 +1952,20 @@ function applySeason(i) {
   document.documentElement.style.setProperty('--season', seasonColor(i));
   if (changed) FX.set(SEASONS[i].key);
 }
+// One tap, next look (in the order of the theme groups). The garden in play, its steps and the collection all stay as they are.
+const LOOK_ORDER = THEME_GROUPS.reduce((a, g) => a.concat(g[1]), []);
+function renderLookName() { document.querySelectorAll('.look-name').forEach(el => { el.textContent = THEMES[save.look].name; }); }
+function cycleLook() {
+  const i = LOOK_ORDER.indexOf(save.look), next = LOOK_ORDER[(i + 1) % LOOK_ORDER.length];
+  save.look = next;
+  if (!save.skinPinned) save.skin = THEMES[next].deck;
+  refreshBoardArt();
+  save.stats.themes[next] = (save.stats.themes[next] || 0) + 1;
+  persist(); SFX.tap(); applyLook(); renderLookName(); warmDeck();
+  if (current === 'home') enter(screens.home);
+  const th = THEMES[next];
+  toast(`<div><div class="t1">主题 · ${LOOK_ORDER.indexOf(next) + 1} / ${LOOK_ORDER.length}</div><div class="t2">${th.name}<span class="jp" style="margin-left:6px;font-weight:400;font-size:12px;opacity:.75">${th.jp}</span></div><div class="t3">${th.line}</div></div>`);
+}
 function applyLook() {
   document.documentElement.dataset.look = save.look;
   applySoundscape(); renderSoundUI(); warmDeck();
@@ -2528,24 +2513,12 @@ function omamoriDetail(id) {
     <p style="margin:0;font-size:13px;color:var(--muted)">${nx ? `再配对 ${nx.min - n} 次「<span class="jp">${x.jp}</span>」，就能升为${nx.name}。` : '已经満願：愿望圆满，金线织满了整只御守。'}</p></div>
     <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>收好</button><button class="btn" type="button" data-act="poster-om" data-id="${id}">生成海报</button></div>`);
 }
-function themePreview(key) {
-  const deck = THEMES[key].deck, ids = ['susuki-tsuki', 'kiku-sakazuki'];
-  const cells = [0, 1, 2, 3, 4, 5, 6, 7].map(i => i === 1 || i === 6 ? `<i>${art(BY_ID[ids[i === 1 ? 0 : 1]], deck)}</i>` : `<i>${cardBack(key)}</i>`).join('');
-  return `<span class="pv"><span class="pv-bg">${sceneSVG(LEVELS[4], key, 'pv-' + key)}</span><span class="pv-ui"><span class="pv-top">月見</span>
-    <span class="pv-hud"><span>步数 <b>13</b>/17</span><span>配对 <b>2</b>/8</span></span><span class="pv-deck">${cells}</span><span class="pv-btn">重新看牌</span></span></span>`;
-}
-function renderThemes() {
-  $('#thCount').textContent = '当前：' + THEMES[save.look].name;
-  $('#themeList').innerHTML = THEME_GROUPS.map(([g, keys]) => `<section class="th-group" role="group" aria-label="${g}"><h3>${g}</h3><div class="themes">${keys.map(k => { const t = THEMES[k];
-    return `<button type="button" class="theme-card" role="radio" data-look="${k}" data-pick-look="${k}" aria-checked="${save.look === k}">
-    ${themePreview(k)}<span class="tc-txt"><b>${t.name}<span class="tc-jp">${t.jp}</span></b><small>${t.line}</small><em>推荐卡面：${SKINS[t.deck].name}</em></span></button>`; }).join('')}</div></section>`).join('');
-}
 function renderSettings() {
   $('#skins').innerHTML = Object.entries(SKINS).map(([k, s]) => `<button class="skin" type="button" role="radio" data-skin="${k}" aria-checked="${save.skin === k}">
     <span class="mini">${['matsu-tsuru', 'susuki-tsuki'].map(id => art(BY_ID[id], k)).join('')}</span><b>${s.name}</b><small>${s.note}</small></button>`).join('');
   renderModes(); renderSoundUI(); setSaveNote();
 }
-const SHEETS = {dex: renderDex, omamori: renderOmamori, themes: renderThemes, settings: renderSettings};
+const SHEETS = {dex: renderDex, omamori: renderOmamori, settings: renderSettings};
 const sheetReturn = {};
 function openSheet(id) {
   sheetReturn[id] = document.activeElement;
@@ -3134,14 +3107,7 @@ document.addEventListener('click', e => {
   const sh = t.closest('[data-sheet]'); if (sh) { SFX.tap(); openSheet(sh.dataset.sheet); return; }
   const cl = t.closest('[data-close]'); if (cl) { closeSheet(cl.dataset.close); return; }
   const md = t.closest('[data-mode]'); if (md) { save.mode = md.dataset.mode; persist(); SFX.tap(); renderModes(); if (current === 'home') renderHome(); return; }
-  const lk = t.closest('[data-pick-look]');
-  if (lk) {
-    save.look = lk.dataset.pickLook;
-    if (!save.skinPinned) save.skin = THEMES[save.look].deck;
-    refreshBoardArt();
-    save.stats.themes[save.look] = (save.stats.themes[save.look] || 0) + 1;
-    persist(); SFX.tap(); applyLook(); renderThemes(); return;
-  }
+  if (t.closest('[data-cycle-look]')) { cycleLook(); return; }
   const sk = t.closest('[data-skin]'); if (sk) { save.skin = sk.dataset.skin; save.skinPinned = true; persist(); SFX.tap(); refreshBoardArt(); renderSettings(); warmDeck(); return; }
   const om = t.closest('[data-om]'); if (om) { SFX.tap(); omamoriDetail(om.dataset.om); return; }
   const pl = t.closest('[data-month]'); if (pl) { SFX.tap(); plantToast(+pl.dataset.month); return; }
@@ -3193,7 +3159,7 @@ document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
   if (!$('#modal').hidden && $('#modalCard [data-act="close"]')) { closeModal(true); return; }
   if (!$('#demo').hidden) { skipDemo(); return; }
-  for (const id of ['settings', 'themes', 'omamori', 'dex']) if (!$('#' + id).hidden) { closeSheet(id); return; }
+  for (const id of ['settings', 'omamori', 'dex']) if (!$('#' + id).hidden) { closeSheet(id); return; }
 });
 // Mobile audio unlock. iOS Safari only lets audio start inside touchend/click (not pointerdown/touchstart), and a context can be
 // suspended again later (calls, backgrounding), so every tap re-checks. 'playback' keeps sound on when the ring/silent switch is set.
@@ -3230,7 +3196,7 @@ else window.addEventListener('resize', layoutBoard);
 /* ================= boot ================= */
 document.documentElement.dataset.look = save.look;
 if (!save.skinPinned) save.skin = THEMES[save.look].deck;
-renderModes(); renderSoundUI(); setSaveNote(); refreshMeta(); warmDeck();
+renderModes(); renderSoundUI(); setSaveNote(); refreshMeta(); warmDeck(); renderLookName();
 initCloud();
 function start(data) {
   const n = data && Number(data.level);
