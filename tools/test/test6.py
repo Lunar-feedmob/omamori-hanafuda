@@ -52,7 +52,9 @@ with sync_playwright() as p:
             tgt = pg.evaluate("document.querySelector('#hintText').textContent")
         for a, c in prs:
             if pg.evaluate("!document.querySelector('#modal').hidden || !document.querySelector('#deck .card:not(.done)')"): break
-            pg.click(f'.card[data-i="{a}"]'); pg.click(f'.card[data-i="{c}"]'); pg.wait_for_timeout(500)
+            try: pg.click(f'.card[data-i="{a}"]', timeout=3000); pg.click(f'.card[data-i="{c}"]', timeout=3000)
+            except Exception: break   # the round ended (a 役 can win before every card is matched) and the win card took the tap
+            pg.wait_for_timeout(500)
         pg.wait_for_timeout(2500)
         won = pg.evaluate("!document.querySelector('#modal').hidden && document.querySelector('#modalCard h2').textContent")
         seal = pg.evaluate(f"Object.keys(JSON.parse(localStorage.getItem('{KEY}')).seals)")

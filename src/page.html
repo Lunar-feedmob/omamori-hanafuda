@@ -1,8 +1,8 @@
 <title>花合帖</title>
+<script data-early>/* paint the saved look (or the default, 本所怪谈) from the first frame, before the game script runs */try{var d=JSON.parse(localStorage.getItem('omamori-hanafuda-v1')||'null');document.documentElement.setAttribute('data-look',(d&&d.look)||'honjo')}catch(e){document.documentElement.setAttribute('data-look','honjo')}</script>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&family=Zen+Old+Mincho:wght@600;900&family=Shippori+Mincho+B1:wght@600;800&family=Shippori+Mincho:wght@500;700&family=Kaisei+Decol:wght@700&family=Yusei+Magic&family=Zen+Antique&family=Klee+One:wght@600&family=ZCOOL+XiaoWei&family=ZCOOL+KuaiLe&family=Yuji+Syuku&family=Hina+Mincho&family=Kaisei+Tokumin:wght@700;800&family=Yuji+Boku&family=Shippori+Antique+B1&family=DotGothic16&family=New+Tegomin&display=swap">
 <style>
 /* Layout: one game shell shared by eight looks. Each look swaps tokens (colour, type, button and panel shape), paints its own garden
    backdrops, and has its own home page (poster, paperback cover, magazine contents page, journal spread …).
@@ -12,7 +12,7 @@
   --bg:#f3ecdd; --panel:rgba(250,246,236,.92); --panel-solid:#f8f2e4; --line:rgba(31,58,104,.16); --line-2:rgba(31,58,104,.34);
   --text:#1c2a44; --muted:#4a5670; --faint:#5f697f; --accent:#1f3a68; --accent-ink:#f8f2e4; --shu:#c8402a; --moss:#3e7a5e; --gold:#b8913e;
   --back:#1f3a68; --back-line:rgba(243,236,221,.6); --stone:#6b7890; --stone-2:#8994a8; --unlit:#d9d2c2; --scrim:rgba(28,42,68,.45); --chip:rgba(31,58,104,.06);
-  --f-jp:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif; --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --f-jp:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho","Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-head:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-body:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif;
   --w-jp:800; --w-head:900; --btn-radius:3px; --btn-bw:2px; --btn-shadow:none; --panel-radius:4px; --panel-bw:1.5px;
   --panel-shadow:inset 0 0 0 3px #f8f2e4,inset 0 0 0 4px rgba(31,58,104,.16); --blur:3px; --board-bg:linear-gradient(rgba(248,242,228,.93),rgba(248,242,228,.93)); --board-pad:8px; --board-bd:1.5px solid rgba(31,58,104,.35); --board-sh:inset 0 0 0 3px rgba(248,242,228,.9),inset 0 0 0 4px rgba(31,58,104,.18);
   color-scheme:light;
@@ -30,7 +30,7 @@
   --bg:#f7f5f0; --panel:#fff; --panel-solid:#fff; --line:#111; --line-2:#111;
   --text:#111; --muted:#3a3a3a; --faint:#6e6e6e; --accent:#111; --accent-ink:#fff; --shu:#d7261e; --moss:#111; --gold:#d7261e;
   --back:#111; --back-line:rgba(255,255,255,.8); --stone:#111; --stone-2:#555; --unlit:#fff; --scrim:rgba(0,0,0,.5); --chip:rgba(0,0,0,.04);
-  --f-jp:"Zen Antique","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Serif SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --f-jp:"Zen Antique","Hiragino Mincho ProN","Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-head:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-body:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif;
   --w-jp:400; --w-head:900; --btn-radius:0; --btn-bw:2px; --btn-shadow:3px 3px 0 #111; --panel-radius:0; --panel-bw:2px; --panel-shadow:4px 4px 0 #111;
   --blur:0px; --board-bg:#fff; --board-pad:9px; --board-bd:3px solid #111; --board-sh:5px 5px 0 #111; color-scheme:light;
 }
@@ -38,7 +38,7 @@
   --bg:#f4efe3; --panel:rgba(255,253,247,.92); --panel-solid:#fbf8f0; --line:rgba(74,58,44,.15); --line-2:rgba(74,58,44,.3);
   --text:#3a2f26; --muted:#6b5e50; --faint:#77685e; --accent:#b8392a; --accent-ink:#fbf8f0; --shu:#b8392a; --moss:#6b7a4a; --gold:#b8963e;
   --back:#6e2a20; --back-line:rgba(184,150,62,.75); --stone:#8a7a66; --stone-2:#a8988a; --unlit:#e2dacb; --scrim:rgba(58,47,38,.42); --chip:rgba(74,58,44,.05);
-  --f-jp:"Zen Old Mincho","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif; --f-head:"ZCOOL XiaoWei","Noto Serif SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --f-jp:"Zen Old Mincho","Hiragino Mincho ProN","Yu Mincho","Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-head:"ZCOOL XiaoWei","Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-body:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif;
   --w-jp:600; --w-head:400; --btn-radius:2px; --btn-bw:1px; --btn-shadow:none; --panel-radius:2px; --panel-bw:1px; --panel-shadow:0 1px 0 rgba(74,58,44,.08);
   --blur:2px; --board-bg:repeating-linear-gradient(90deg,rgba(74,58,44,.035) 0 1px,transparent 1px 7px),rgba(251,248,240,.93); --board-pad:8px; --board-bd:1px solid rgba(74,58,44,.2); --board-sh:0 6px 18px -10px rgba(74,58,44,.45); color-scheme:light;
 }
@@ -46,8 +46,8 @@
   --bg:#ebe7dd; --panel:rgba(250,248,242,.9); --panel-solid:#f6f3ec; --line:rgba(43,43,40,.12); --line-2:rgba(43,43,40,.24);
   --text:#2b2b28; --muted:#5e5c56; --faint:#6a6564; --accent:#55704a; --accent-ink:#f6f3ec; --shu:#b8432f; --moss:#6e7f4f; --gold:#a89060;
   --back:#4b4a45; --back-line:rgba(235,231,221,.55); --stone:#9a968c; --stone-2:#b4b0a6; --unlit:#dcd7cb; --scrim:rgba(43,43,40,.4); --chip:rgba(43,43,40,.04);
-  --f-jp:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho","Noto Serif SC",serif; --f-display:"Yuji Syuku","Shippori Mincho",serif;
-  --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --f-jp:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho","Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-display:"Yuji Syuku","Shippori Mincho",serif;
+  --f-head:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-body:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif;
   --w-jp:500; --w-head:600; --btn-radius:999px; --btn-bw:1px; --btn-shadow:none; --panel-radius:14px; --panel-bw:1px; --panel-shadow:none;
   --blur:4px; --board-bg:repeating-linear-gradient(0deg,rgba(43,43,40,.07) 0 1px,transparent 1px 9px),rgba(236,232,222,.92); --board-pad:9px; --board-bd:1px solid rgba(43,43,40,.16); --board-sh:none; color-scheme:light;
 }
@@ -55,7 +55,7 @@
   --bg:#121c36; --panel:rgba(26,38,70,.86); --panel-solid:#1b2747; --line:rgba(244,234,210,.14); --line-2:rgba(244,234,210,.3);
   --text:#f4ead2; --muted:#c9c1aa; --faint:#949187; --accent:#f29a3a; --accent-ink:#2a1606; --shu:#d8432c; --moss:#7fb59a; --gold:#f2c46a;
   --back:#c43a26; --back-line:rgba(244,234,210,.65); --stone:#3a4566; --stone-2:#2c3656; --unlit:#26304e; --scrim:rgba(8,12,26,.72); --chip:rgba(255,255,255,.05);
-  --f-jp:"Kaisei Decol","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Sans SC","PingFang SC",sans-serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
+  --f-jp:"Kaisei Decol","Hiragino Mincho ProN","Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-head:"Noto Sans SC","PingFang SC",sans-serif; --f-body:"Noto Sans SC","PingFang SC",sans-serif;
   --w-jp:700; --w-head:700; --btn-radius:14px; --btn-bw:1px; --btn-shadow:0 0 22px -8px #f29a3a; --panel-radius:14px; --panel-bw:1px; --panel-shadow:none;
   --blur:6px; --board-bg:rgba(18,28,54,.74); --board-pad:8px; --board-bd:1px solid rgba(242,154,58,.4); --board-sh:0 0 30px -12px rgba(242,154,58,.6); color-scheme:dark;
 }
@@ -71,7 +71,7 @@
   --bg:#10162a; --panel:rgba(22,30,56,.86); --panel-solid:#19213f; --line:rgba(236,230,207,.14); --line-2:rgba(236,230,207,.32);
   --text:#efebdf; --muted:#c6c1b2; --faint:#9c988d; --accent:#d9c78f; --accent-ink:#141a2e; --shu:#d0573c; --moss:#8fb3a0; --gold:#d9c78f;
   --back:#1e2642; --back-line:rgba(236,230,207,.6); --stone:#3c4566; --stone-2:#2c3456; --unlit:#252d4b; --scrim:rgba(6,9,20,.72); --chip:rgba(255,255,255,.05);
-  --f-jp:"Hina Mincho","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --f-jp:"Hina Mincho","Hiragino Mincho ProN","Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-head:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-body:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif;
   --w-jp:400; --w-head:600; --btn-radius:2px; --btn-bw:1px; --btn-shadow:none; --panel-radius:2px; --panel-bw:1px; --panel-shadow:inset 0 0 0 1px rgba(217,199,143,.08);
   --blur:6px; --board-bg:rgba(14,19,38,.74); --board-pad:8px; --board-bd:1px solid rgba(217,199,143,.38); --board-sh:0 0 40px -16px rgba(236,230,207,.45); color-scheme:dark;
 }
@@ -79,7 +79,7 @@
   --home-veil:.5; --bg:#0f111c; --panel:rgba(24,26,40,.88); --panel-solid:#1a1c2b; --line:rgba(233,228,214,.14); --line-2:rgba(233,228,214,.3);
   --text:#ece6d6; --muted:#c3bca9; --faint:#958f80; --accent:#e0703f; --accent-ink:#1a1206; --shu:#d9583a; --moss:#7fb3a3; --gold:#e3c27a;
   --back:#1b2036; --back-line:rgba(169,214,207,.6); --stone:#363a52; --stone-2:#2a2d44; --unlit:#22253a; --scrim:rgba(5,6,12,.76); --chip:rgba(255,255,255,.05);
-  --f-jp:"New Tegomin","Hina Mincho","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"New Tegomin","Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --f-jp:"New Tegomin","Hina Mincho","Hiragino Mincho ProN","Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-head:"New Tegomin","Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-body:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif;
   --w-jp:400; --w-head:400; --btn-radius:3px; --btn-bw:1px; --btn-shadow:none; --panel-radius:3px; --panel-bw:1px; --panel-shadow:inset 0 0 0 1px rgba(224,112,63,.06);
   --blur:6px; --board-bg:rgba(12,14,26,.8); --board-pad:8px; --board-bd:1px solid rgba(224,112,63,.3); --board-sh:0 0 46px -18px rgba(224,112,63,.55); color-scheme:dark;
 }
@@ -87,7 +87,7 @@
   --home-veil:.62; --bg:#ecdcb0; --panel:rgba(251,245,228,.93); --panel-solid:#faf3e0; --line:rgba(70,52,18,.18); --line-2:rgba(70,52,18,.36);
   --text:#232619; --muted:#55503a; --faint:#6a634a; --accent:#1d4b86; --accent-ink:#fbf3dc; --shu:#b23a26; --moss:#2c7563; --gold:#b8913e;
   --back:#2c7563; --back-line:rgba(233,207,134,.8); --stone:#8a7a52; --stone-2:#a8986a; --unlit:#e3d2a4; --scrim:rgba(40,32,12,.45); --chip:rgba(70,52,18,.05);
-  --f-jp:"Kaisei Tokumin","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --f-jp:"Kaisei Tokumin","Hiragino Mincho ProN","Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-head:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-body:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif;
   --w-jp:800; --w-head:900; --btn-radius:1px; --btn-bw:1.5px; --btn-shadow:none; --panel-radius:1px; --panel-bw:1px; --panel-shadow:inset 0 0 0 3px #faf3e0,inset 0 0 0 4px rgba(184,145,62,.55);
   --blur:2px; --board-bg:linear-gradient(rgba(150,110,30,.1) 1px,transparent 1px) 0 0/36px 36px,linear-gradient(90deg,rgba(150,110,30,.1) 1px,transparent 1px) 0 0/36px 36px,linear-gradient(135deg,#ecd391,#d8b45c 48%,#ebd08c);
   --board-pad:9px; --board-bd:3px solid #1b120a; --board-sh:0 10px 24px -12px rgba(40,28,8,.6); color-scheme:light;
@@ -96,7 +96,7 @@
   --home-veil:.55; --bg:#f0eadb; --panel:rgba(250,246,236,.93); --panel-solid:#f8f3e6; --line:rgba(38,33,28,.18); --line-2:rgba(38,33,28,.42);
   --text:#26211c; --muted:#574f45; --faint:#6b6358; --accent:#2b2620; --accent-ink:#f8f3e6; --shu:#b23a2a; --moss:#6b7a4a; --gold:#a8916a;
   --back:#d9cdb2; --back-line:rgba(38,33,28,.6); --stone:#7b746a; --stone-2:#a39b8e; --unlit:#e5dccb; --scrim:rgba(38,33,28,.42); --chip:rgba(38,33,28,.05);
-  --f-jp:"Yuji Boku","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --f-jp:"Yuji Boku","Hiragino Mincho ProN","Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-head:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-body:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif;
   --w-jp:400; --w-head:700; --btn-radius:3px 8px 4px 9px; --btn-bw:1.5px; --btn-shadow:none; --panel-radius:4px 10px 6px 12px; --panel-bw:1.5px; --panel-shadow:none;
   --blur:0px; --board-bg:rgba(248,243,230,.94); --board-pad:9px; --board-bd:1.5px solid rgba(38,33,28,.55); --board-sh:0 8px 18px -12px rgba(38,33,28,.5); color-scheme:light;
 }
@@ -104,7 +104,7 @@
   --home-veil:.74; --bg:#efe2c8; --panel:rgba(252,246,233,.95); --panel-solid:#fbf4e4; --line:rgba(96,28,44,.2); --line-2:rgba(96,28,44,.4);
   --text:#2c1b1e; --muted:#5b4645; --faint:#6e5a56; --accent:#7a2236; --accent-ink:#fbf4e4; --shu:#b8392a; --moss:#2e6a69; --gold:#c4923a;
   --back:#7a2236; --back-line:rgba(226,180,83,.8); --stone:#8a6a5a; --stone-2:#a98a78; --unlit:#e6d6b8; --scrim:rgba(44,27,30,.45); --chip:rgba(96,28,44,.05);
-  --f-jp:"Shippori Antique B1","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --f-jp:"Shippori Antique B1","Hiragino Mincho ProN","Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-head:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif; --f-body:"Songti SC","Noto Serif CJK SC","Noto Serif SC",serif;
   --w-jp:400; --w-head:700; --btn-radius:999px; --btn-bw:1.5px; --btn-shadow:0 2px 0 rgba(96,28,44,.25); --panel-radius:0; --panel-bw:1px; --panel-shadow:inset 0 0 0 3px #fbf4e4,inset 0 0 0 4px rgba(122,34,54,.45);
   --blur:0px; --board-bg:radial-gradient(circle at 50% 0,rgba(226,180,83,.18),transparent 60%),#fbf4e4; --board-pad:9px; --board-bd:3px double #7a2236; --board-sh:0 10px 22px -12px rgba(44,27,30,.5); color-scheme:light;
 }
@@ -135,6 +135,12 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 #scene svg{display:block;width:100%;height:100%}
 #petals{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
 #app{position:relative;z-index:2;height:100%;display:flex;flex-direction:column}
+/* phones: no pull-to-refresh mid-game, no double-tap zoom (pinch zoom still works), no long-press image menu or text
+   selection on cards and controls; reading text in the sheets stays selectable */
+html,body{overscroll-behavior:none}
+#app{touch-action:manipulation}
+#game,.tabs,.card,.btn,.icon-btn,.go,.seg button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.card img,.go img,.np img{-webkit-touch-callout:none}
 .screen{flex:1;min-height:0;width:100%;display:flex;flex-direction:column}
 .pad-x{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 
@@ -343,6 +349,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .demo-cap{margin:0;min-height:2.8em;max-width:22em;text-align:center;font-family:var(--f-head);font-weight:var(--w-head);font-size:18px;line-height:1.4}
 .demo-deck{display:grid;grid-template-columns:repeat(2,auto);gap:14px;margin:0}
 .demo-deck .card{--cw:min(32vw,calc((100vh - 340px) / 3.5),124px)}
+.demo-deck .card{--cw:min(32vw,calc((100dvh - 340px) / 3.5),124px)}
 .demo-done{width:min(420px,100%);padding:18px;display:grid;gap:10px}
 .demo-done h3{margin:0;font-family:var(--f-head);font-weight:var(--w-head);font-size:22px}
 .demo-done ul{margin:0;padding-left:1.2em;display:grid;gap:6px;color:var(--muted);font-size:14px;line-height:1.7}
@@ -1171,6 +1178,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 <div class="sheet" id="settings" role="dialog" aria-modal="true" aria-labelledby="setTitle" hidden>
   <div class="sheet-head"><button class="icon-btn back-btn" data-close="settings" type="button" aria-label="返回"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4 6.5 10l6 6"/></svg></button><h2 id="setTitle">设置</h2><span class="count"></span></div>
   <div class="sheet-body"><div class="sheet-inner">
+    <section class="set-group" id="installGroup" hidden><h3>装到桌面</h3><p id="installNote"></p><button class="btn" type="button" id="btnInstall" hidden>添加到主屏幕</button></section>
     <section class="set-group" id="langGroup" hidden><h3>语言</h3><div class="seg seg4" id="langSeg" role="radiogroup" aria-label="语言"></div></section>
     <section class="set-group"><h3>卡面</h3><p><span id="skinCount">七</span>套牌面，图像原样显示。切换主题时会换成推荐卡面，自己选过之后就不再自动更换。</p><div class="skins" id="skins" role="radiogroup" aria-label="卡面"></div></section>
     <section class="set-group"><h3>难度</h3><div class="seg" id="modeSeg2" role="radiogroup" aria-label="难度"></div><p id="modeNote2"></p></section>
@@ -1217,13 +1225,33 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="i18n.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" crossorigin="anonymous" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.js" crossorigin="anonymous" defer></script>
 <script>
 (() => {
 'use strict';
 // The host the page runs in. On the web and in claude.ai this is plain browser storage; inside the Xiaohongshu 小工具
 // container, xhs/shim.js sets window.OMA_HOST to the platform's storage, album, note and vibration bridges.
+/*web-only*/
+// Fonts come from Google Fonts, only the current look's (plus the shared Chinese serif), and without holding up the first
+// paint: text shows in the phone's own fonts until they arrive. Chinese sans text always uses the phone's own font.
+const FONT_FAMILIES = {
+  base: ['Noto+Serif+SC:wght@400;600;900'],
+  ukiyo: ['Shippori+Mincho+B1:wght@600;800'], washi: ['Zen+Old+Mincho:wght@600;900', 'ZCOOL+XiaoWei'], kare: ['Shippori+Mincho:wght@500;700', 'Yuji+Syuku'],
+  tsuki: ['Hina+Mincho'], rinpa: ['Kaisei+Tokumin:wght@700;800'], giga: ['Yuji+Boku'], honjo: ['New+Tegomin', 'Hina+Mincho'], matsuri: ['Kaisei+Decol:wght@700'],
+  techo: ['Klee+One:wght@600', 'ZCOOL+KuaiLe'], taisho: ['Shippori+Antique+B1'], manga: ['Zen+Antique'], youth: ['Yusei+Magic'], pixel: ['DotGothic16']
+};
+const fontsAsked = {};
+function loadFonts(key) {
+  if (fontsAsked[key] || !FONT_FAMILIES[key]) return;
+  fontsAsked[key] = true;
+  const l = document.createElement('link');
+  l.rel = 'stylesheet'; l.media = 'print'; l.onload = () => { l.media = 'all'; };
+  l.href = 'https://fonts.googleapis.com/css2?' + FONT_FAMILIES[key].map(f => 'family=' + f).join('&') + '&display=swap';
+  document.head.appendChild(l);
+}
+loadFonts('base');
+/*end-web-only*/
 const HOST = window.OMA_HOST || {
   name: 'web', cardExt: {},
   storage: {
@@ -1419,7 +1447,7 @@ const peekMs = cards => 1500 + cards * 50;
 /* ================= save ================= */
 const KEY = 'omamori-hanafuda-v1';
 const save = {unlocked: 1, best: {relax: {}, std: {}, hard: {}}, collected: {}, collectedAt: {}, seals: {}, unseen: [], sound: true, ambience: false, bgm: true,
-  seenRules: false, mode: 'std', look: 'ukiyo', skin: 'classic', skinPinned: false, demoDone: false, lang: '', musicVol: .7, sfxVol: .9, haptics: true, stats: {levels: {}, themes: {}, demo: {shown: 0, done: 0, skipped: 0}}};
+  seenRules: false, mode: 'std', look: 'honjo', skin: 'sumi', skinPinned: false, demoDone: false, lang: '', musicVol: .7, sfxVol: .9, haptics: true, stats: {levels: {}, themes: {}, demo: {shown: 0, done: 0, skipped: 0}}};
 const DEFAULT_SAVE = JSON.stringify(save);
 const OLD_LOOKS = {emaki: 'ukiyo', cha: 'washi', dream: 'ukiyo'};
 function mergeBest(src, into) { for (const k in src) { const v = Number(src[k]); if (v > 0 && LEVELS[k - 1]) into[k] = Math.max(into[k] || 0, Math.min(3, v)); } }
@@ -1489,8 +1517,10 @@ const art = (m, skin) => `<img src="${cardSrc(m, skin)}" alt="" draggable="false
 const warmed = {};
 function warmDeck() {
   const k = save.skin; if (warmed[k]) return; warmed[k] = true;
-  const run = () => { preloadArt(MOTIFS.map(m => m.id)); Object.keys(BACK_KATAGAMI).forEach(k => { const im = new Image(); im.src = backSrc(k); }); };   // the pixel back is inline
-  if ('requestIdleCallback' in window) requestIdleCallback(run, {timeout: 4000}); else setTimeout(run, 1500);
+  // after the page has loaded and gone quiet, so first paint never waits on it; only this look's back (some looks draw theirs inline)
+  const run = () => { preloadArt(MOTIFS.map(m => m.id)); if (BACK_KATAGAMI[save.look]) { const im = new Image(); im.src = backSrc(save.look); } };
+  const idle = () => { if ('requestIdleCallback' in window) requestIdleCallback(run, {timeout: 4000}); else setTimeout(run, 1500); };
+  if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle, {once: true});
 }
 function preloadArt(ids) { return Promise.all(ids.map(id => new Promise(res => { const im = new Image(); im.onload = im.onerror = res; im.src = cardSrc(BY_ID[id]); }))); }
 // One card back per look. Pattern ids are namespaced per look so several backs can share a page (the theme picker).
@@ -1830,7 +1860,7 @@ const PAINT = {
       + band(-40, 186, 260) + band(190, 250, 300) + band(-60, 540, 320) + `<g opacity=".5">${top}</g>`
       + `<path d="M-20 690 L60 630 L130 660 L220 600 L300 650 L420 610 L420 800 L-20 800Z" fill="${p.ground}"/><g opacity=".75">${m.bottom}</g>`;
   },
-  honjo(lv, p, rnd) {   // a night by the Sumida: willow fronds, a sending-lantern ahead, will-o'-the-wisps, reeds with leaves on one side only
+  honjo(lv, p, rnd) {   // a moonless night by the Sumida (the prints carry the moon): willow fronds, a sending-lantern ahead, will-o'-the-wisps, one-sided reeds
     const m = sceneMotifs(lv, p, rnd);
     let fronds = ''; for (let i = 0; i < 9; i++) { const x = 10 + i * 15 + rnd() * 8, l = 150 + rnd() * 170; fronds += `<path d="M${r2(x)} -10 Q${r2(x + 16)} ${r2(l * .5)} ${r2(x + 4 + rnd() * 10)} ${r2(l)}" fill="none" stroke="#2c3a33" stroke-width="2" opacity=".8"/>`; }
     let water = ''; for (let i = 0; i < 7; i++) { const y = 622 + i * 24; water += `<path d="M-20 ${y} Q60 ${y - 6} 140 ${y} T300 ${y} T460 ${y}" fill="none" stroke="#34446c" stroke-width="1.6" opacity="${r2(.55 - i * .05)}"/>`; }
@@ -1841,7 +1871,7 @@ const PAINT = {
     const lantern = `<g transform="translate(116 440)"><circle r="76" fill="url(#glow)" opacity=".6"/><path d="M0 -60 V-30" stroke="#8a7a5a" stroke-width="1.2"/><ellipse rx="17" ry="25" fill="#f0a060"/>`
       + `<path d="M-15 -14 H15 M-17 -4 H17 M-17 6 H17 M-15 16 H15" stroke="#b9532c" stroke-width="1.4"/><rect x="-12" y="-31" width="24" height="6" rx="1.5" fill="#1a1410"/><rect x="-12" y="25" width="24" height="6" rx="1.5" fill="#1a1410"/></g>`;
     return sky(p) + `<radialGradient id="wisp"><stop offset="0" stop-color="#bfe8de" stop-opacity=".5"/><stop offset="1" stop-color="#bfe8de" stop-opacity="0"/></radialGradient>`
-      + `<circle cx="338" cy="96" r="100" fill="url(#glow)" opacity=".12"/><circle cx="338" cy="96" r="34" fill="${p.moon}" opacity=".7"/>` + fronds + `<g opacity=".35">${m.top}</g>`
+      + `<circle cx="338" cy="96" r="110" fill="url(#glow)" opacity=".1"/>` + fronds + `<g opacity=".35">${m.top}</g>`
       + `<rect y="606" width="400" height="194" fill="${p.ground}"/>` + water + lantern + wisp(300, 380, .8) + wisp(64, 270, .55) + wisp(220, 560, .45) + reeds + `<g opacity=".5">${m.bottom}</g>`;
   },
   rinpa(lv, p, rnd) {   // gold leaf laid in squares, drifting gold clouds, Kōrin's swirling blue water below
@@ -2254,8 +2284,33 @@ function petals(opts) {
 const screens = {home: $('#home'), game: $('#game')};
 let current = 'home', seasonNow = -1;
 const seasonColor = i => THEMES[save.look].mono ? '#d7261e' : SEASONS[i].accent;
+// The phone's back gesture (or the browser's back button) steps back inside the game instead of leaving the page: each
+// garden, sheet, walkthrough or dialog adds one history entry when it opens; back closes the top one, as Escape does, and
+// from a garden goes home. A layer closed from inside the page drops its entry too. Web only: the mini tool's container
+// handles its own back button.
+const NAV = {on: HOST.name === 'web' && typeof history.pushState === 'function', depth: 0, skip: 0, free: 0};
+function navPush() { if (!NAV.on) return; try { history.pushState({hana: NAV.depth + 1}, ''); NAV.depth++; } catch (e) { NAV.on = false; } }
+function navPop() {
+  if (!NAV.on || NAV.depth < 1) return;
+  NAV.depth--;
+  if (NAV.free) { NAV.free--; return; }   // the back press itself already removed this entry
+  NAV.skip++; try { history.back(); } catch (e) { NAV.skip--; }
+}
+function backStep() {
+  if (!$('#modal').hidden) { if ($('#modalCard [data-act="close"]')) closeModal(true); else { closeModal(false); if (current === 'game') goHome(); } return; }
+  if (!$('#demo').hidden) { closeDemo(false); return; }
+  for (const id of ['settings', 'omamori', 'dex']) if (!$('#' + id).hidden) { closeSheet(id); return; }
+  if (current === 'game') goHome();
+}
+window.addEventListener('popstate', () => {
+  if (!NAV.on) return;
+  if (NAV.skip) { NAV.skip--; return; }
+  NAV.free = 1; backStep();
+  if (NAV.free) { NAV.free = 0; NAV.depth = Math.max(0, NAV.depth - 1); }   // nothing was open: keep the count in step
+});
 function show(name) {
   const prev = current; current = name;
+  if (name === 'game' && prev !== 'game') navPush(); else if (prev === 'game' && name !== 'game') navPop();
   for (const k in screens) screens[k].hidden = k !== name;
   if (name === 'home') renderHome();
   if (name === 'game') requestAnimationFrame(layoutBoard);
@@ -2286,11 +2341,15 @@ function cycleLook() {
   const th = THEMES[next];
   toast(`<div><div class="t1">主题 · ${LOOK_ORDER.indexOf(next) + 1} / ${LOOK_ORDER.length}</div><div class="t2">${th.name}<span class="jp" style="margin-left:6px;font-weight:400;font-size:12px;opacity:.75">${th.jp}</span></div><div class="t3">${th.line}</div></div>`);
 }
-function applyLook() {
-  document.documentElement.dataset.look = save.look;
-  // the browser bar takes the look's paper colour; the app icon itself stays the same for every look
+// The browser bar takes the look's paper colour (the app icon stays the same for every look); the look's fonts start loading.
+function lookChrome() {
   const tc = document.querySelector('meta[name="theme-color"]');
   if (tc) tc.content = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || tc.content;
+  /*web-only*/loadFonts(save.look);/*end-web-only*/
+}
+function applyLook() {
+  document.documentElement.dataset.look = save.look;
+  lookChrome();
   applySoundscape(); renderSoundUI(); warmDeck();
   sceneKey = '';
   if (seasonNow >= 0) applySeason(seasonNow);
@@ -2614,6 +2673,7 @@ function omamoriDetail(id) {
 }
 const LANG_OPTS = [['', '跟随系统'], ['zh', '中文'], ['en', 'English'], ['ja', '日本語']];
 function renderSettings() {
+  /*web-only*/renderInstall();/*end-web-only*/
   if (window.I18N && window.I18N.start) {
     $('#langGroup').hidden = false;
     $('#langSeg').innerHTML = LANG_OPTS.map(([k, label]) => `<button type="button" role="radio" data-lang-pick="${k}" aria-checked="${save.lang === k}"${k ? ' translate="no"' : ''}>${label}</button>`).join('');
@@ -2627,10 +2687,12 @@ const SHEETS = {dex: renderDex, omamori: renderOmamori, settings: renderSettings
 const sheetReturn = {};
 function openSheet(id) {
   sheetReturn[id] = document.activeElement;
+  if ($('#' + id).hidden) navPush();
   SHEETS[id](); $('#' + id).hidden = false; $('#' + id + ' .sheet-body').scrollTop = 0; enter($('#' + id));
   $('#' + id + ' .sheet-head .back-btn').focus();
 }
 function closeSheet(id) {
+  if (!$('#' + id).hidden) navPop();
   $('#' + id).hidden = true;
   if (id === 'dex' && save.unseen.length) { save.unseen = []; persist(); }
   refreshMeta();
@@ -2639,8 +2701,8 @@ function closeSheet(id) {
 }
 
 let modalOnClose = null;
-function openModal(html, onClose) { $('#modalCard').classList.remove('win-card'); $('#modalCard').innerHTML = html; $('#modal').hidden = false; modalOnClose = onClose || null; const f = $('#modalCard [data-focus]') || $('#modalCard button'); if (f) f.focus(); }
-function closeModal(run = true) { $('#modal').hidden = true; const cb = modalOnClose; modalOnClose = null; if (run && cb) cb(); }
+function openModal(html, onClose) { if ($('#modal').hidden) navPush(); $('#modalCard').classList.remove('win-card'); $('#modalCard').innerHTML = html; $('#modal').hidden = false; modalOnClose = onClose || null; const f = $('#modalCard [data-focus]') || $('#modalCard button'); if (f) f.focus(); }
+function closeModal(run = true) { if (!$('#modal').hidden) navPop(); $('#modal').hidden = true; const cb = modalOnClose; modalOnClose = null; if (run && cb) cb(); }
 function creditsHTML() {
   return `<div class="eyebrow">素材致谢</div><h2>开源素材</h2>
     <ul class="credits">
@@ -3151,7 +3213,7 @@ function openDemo(n) {
   $('#demoDeck').hidden = false; $('#demoDone').hidden = true;
   const pb = $('#demoPeek'); pb.hidden = false; pb.disabled = true; pb.classList.remove('coach-btn');
   $('#demoGo').textContent = n ? `开始第${KANJI[n - 1]}庭「${LEVELS[n - 1].name}」` : '回到庭院';
-  $('#demo').hidden = false; $('#demoSkip').focus();
+  navPush(); $('#demo').hidden = false; $('#demoSkip').focus();
   demoStep(1, '看牌'); demoCap('开局时，牌会亮几秒。记住它们的位置。'); SFX.peek();
   dLater(() => { D.cards.forEach(c => c.peek = false); dPaint(); SFX.unflip(); D.phase = 'play'; demoStep(2, '翻牌'); demoCap('现在翻开两张。每翻两张，算一步。'); }, 2800);
 }
@@ -3203,6 +3265,7 @@ function demoFinish() {
 function closeDemo(run = true) {
   if (D) D.timers.forEach(clearTimeout);
   const n = D ? D.n : 0;
+  if (!$('#demo').hidden) navPop();
   D = null; $('#demo').hidden = true;
   if (run && n) startLevel(n);
 }
@@ -3442,8 +3505,34 @@ function testSound() {
 if ('ResizeObserver' in window) new ResizeObserver(() => layoutBoard()).observe($('#board'));
 else window.addEventListener('resize', layoutBoard);
 
+/*web-only*/
+// 装到桌面: Android and desktop Chrome offer an install prompt the page can trigger; iPhone Safari never does, so it gets
+// the two taps to make. Hidden once the game runs from the home screen, and in browsers that can't install it.
+let installPrompt = null;
+const standalone = () => (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installPrompt = e; renderInstall(); });
+window.addEventListener('appinstalled', () => { installPrompt = null; renderInstall(); });
+function renderInstall() {
+  const g = $('#installGroup'), btn = $('#btnInstall'), note = $('#installNote');
+  if (!g) return;
+  const ios = IS_IOS && !standalone() && window.top === window;
+  g.hidden = standalone() || !(installPrompt || ios);
+  btn.hidden = !installPrompt;
+  note.textContent = installPrompt ? '装到手机桌面或电脑上，像应用一样打开；玩过的庭院断网也能接着玩。' : '在 Safari 里点底部的「分享」按钮，选「添加到主屏幕」，就能像应用一样打开；玩过的庭院断网也能接着玩。';
+}
+$('#btnInstall').addEventListener('click', () => {
+  if (!installPrompt) return;
+  const ev = installPrompt; installPrompt = null; ev.prompt();
+  (ev.userChoice || Promise.resolve()).then(() => renderInstall(), () => renderInstall());
+});
+/*end-web-only*/
 /* ================= boot ================= */
-document.documentElement.dataset.look = save.look;
+/*web-only*/
+// Offline play for the home-screen app (see sw.js). Only on the real site: not inside an embedding frame such as claude.ai.
+if ('serviceWorker' in navigator && window.top === window && (location.protocol === 'https:' || location.hostname === 'localhost'))
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+/*end-web-only*/
+document.documentElement.dataset.look = save.look; lookChrome();
 if (!save.skinPinned) save.skin = deckFor(save.look);
 if (LANG !== 'zh') { window.I18N.start(LANG); document.title = LANG === 'ja' ? '花合わせ帖' : 'Hana Awase · 花合帖'; }
 renderModes(); renderSoundUI(); setSaveNote(); refreshMeta(); warmDeck(); renderLookName();

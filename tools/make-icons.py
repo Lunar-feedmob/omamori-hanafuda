@@ -1,10 +1,10 @@
 # The game's one app icon, in every size the web and the mini tool need. Drawn here as SVG and rasterised with headless
 # Chromium (no image libraries needed). The icon does not change with the theme: it uses the default look's colours
-# (浮世锦绘: indigo, vermilion, paper) and one bold card, 芒に月 — red sky, full moon, dark hill — with no text.
+# (本所怪谈: a night navy tile, lantern vermilion, paper) and one bold card, 芒に月 — red sky, full moon, dark hill — with no text.
 import base64, os, struct
 from playwright.sync_api import sync_playwright
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-INDIGO, INDIGO_LIGHT, PAPER, SHU, MOON, HILL = '#1f3a68', '#2c4f86', '#f8f2e4', '#c8402a', '#fbf6e8', '#16223a'
+INDIGO, INDIGO_LIGHT, PAPER, SHU, MOON, HILL = '#141a30', '#2a3462', '#f3ead6', '#d4532e', '#fbf3dc', '#0e1222'
 
 def card(scale, rot):
     # a 61:100 hanafuda card centred on a 512 canvas: paper border, red sky, full moon, a dark hill with three bold blades

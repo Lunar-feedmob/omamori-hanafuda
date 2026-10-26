@@ -7,7 +7,7 @@ head = '''<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="日本庭院主题的花札记忆配对小游戏：十三种主题、七套卡面、48 张花札图鉴与御守。">
-<meta name="theme-color" content="#f3ecdd">
+<meta name="theme-color" content="#0f111c">
 <meta name="application-name" content="花合帖">
 <meta name="apple-mobile-web-app-title" content="花合帖">
 <meta name="apple-mobile-web-app-capable" content="yes">

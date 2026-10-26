@@ -2,6 +2,7 @@
 import hashlib, os, json
 DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fontcache')
 def attach(ctx):
+    os.makedirs(DIR, exist_ok=True)
     def handle(route):
         url = route.request.url
         if 'fonts.googleapis.com' not in url and 'fonts.gstatic.com' not in url: return route.fallback()
