@@ -1,0 +1,6 @@
+# local test pages and outputs (made by tools/build-web.sh and tools/test/*)
+/_preview.html
+/_dbg.html
+tools/test/out/
+tools/test/fontcache/
+__pycache__/

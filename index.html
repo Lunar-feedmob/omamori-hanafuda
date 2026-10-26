@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="日本庭院主题的花札记忆配对小游戏：七种主题、七套卡面、48 张花札图鉴与御守徽章。">
+<meta name="description" content="日本庭院主题的花札记忆配对小游戏：十三种主题、七套卡面、48 张花札图鉴与御守。">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>花合帖</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&family=Zen+Old+Mincho:wght@600;900&family=Shippori+Mincho+B1:wght@600;800&family=Shippori+Mincho:wght@500;700&family=Kaisei+Decol:wght@700&family=Yusei+Magic&family=Zen+Antique&family=Klee+One:wght@600&family=ZCOOL+XiaoWei&family=ZCOOL+KuaiLe&family=Yuji+Syuku&family=Hina+Mincho&family=Kaisei+Tokumin:wght@700;800&family=Yuji+Boku&family=Shippori+Antique+B1&family=DotGothic16&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&family=Zen+Old+Mincho:wght@600;900&family=Shippori+Mincho+B1:wght@600;800&family=Shippori+Mincho:wght@500;700&family=Kaisei+Decol:wght@700&family=Yusei+Magic&family=Zen+Antique&family=Klee+One:wght@600&family=ZCOOL+XiaoWei&family=ZCOOL+KuaiLe&family=Yuji+Syuku&family=Hina+Mincho&family=Kaisei+Tokumin:wght@700;800&family=Yuji+Boku&family=Shippori+Antique+B1&family=DotGothic16&family=New+Tegomin&display=swap">
 <style>
 /* Layout: one game shell shared by eight looks. Each look swaps tokens (colour, type, button and panel shape), paints its own garden
    backdrops, and has its own home page (poster, paperback cover, magazine contents page, journal spread …).
@@ -80,6 +80,14 @@
   --f-jp:"Hina Mincho","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
   --w-jp:400; --w-head:600; --btn-radius:2px; --btn-bw:1px; --btn-shadow:none; --panel-radius:2px; --panel-bw:1px; --panel-shadow:inset 0 0 0 1px rgba(217,199,143,.08);
   --blur:6px; --board-bg:rgba(14,19,38,.74); --board-pad:8px; --board-bd:1px solid rgba(217,199,143,.38); --board-sh:0 0 40px -16px rgba(236,230,207,.45); color-scheme:dark;
+}
+[data-look="honjo"]{
+  --home-veil:.5; --bg:#0f111c; --panel:rgba(24,26,40,.88); --panel-solid:#1a1c2b; --line:rgba(233,228,214,.14); --line-2:rgba(233,228,214,.3);
+  --text:#ece6d6; --muted:#c3bca9; --faint:#958f80; --accent:#e0703f; --accent-ink:#1a1206; --shu:#d9583a; --moss:#7fb3a3; --gold:#e3c27a;
+  --back:#1b2036; --back-line:rgba(169,214,207,.6); --stone:#363a52; --stone-2:#2a2d44; --unlit:#22253a; --scrim:rgba(5,6,12,.76); --chip:rgba(255,255,255,.05);
+  --f-jp:"New Tegomin","Hina Mincho","Hiragino Mincho ProN","Noto Serif SC",serif; --f-head:"New Tegomin","Noto Serif SC","Songti SC",serif; --f-body:"Noto Serif SC","Songti SC",serif;
+  --w-jp:400; --w-head:400; --btn-radius:3px; --btn-bw:1px; --btn-shadow:none; --panel-radius:3px; --panel-bw:1px; --panel-shadow:inset 0 0 0 1px rgba(224,112,63,.06);
+  --blur:6px; --board-bg:rgba(12,14,26,.8); --board-pad:8px; --board-bd:1px solid rgba(224,112,63,.3); --board-sh:0 0 46px -18px rgba(224,112,63,.55); color-scheme:dark;
 }
 [data-look="rinpa"]{
   --home-veil:.62; --bg:#ecdcb0; --panel:rgba(251,245,228,.93); --panel-solid:#faf3e0; --line:rgba(70,52,18,.18); --line-2:rgba(70,52,18,.36);
@@ -193,7 +201,9 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 #game.compact .stat{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:3px 10px}
 #game.compact .stat .top{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #game.compact #usedMoves,#game.compact .mbar{display:none}
+#game.compact .stat .val{white-space:nowrap}
 #game.compact .stat .val b{font-size:20px}
+@media (max-width:359px){#game.compact .hud{grid-template-columns:1fr 1fr}}
 #game.compact .stat .val small{font-size:12px}
 #game.compact .hint{min-height:20px;padding:0 10px;font-size:12px;line-height:20px}
 #game.compact .g-actions .btn{min-height:44px}
@@ -645,9 +655,63 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 .tc-stop.next .eki.blank{--ink:#b85644;border-width:2px}
 .tc-pin{position:absolute;top:-10px;left:50%;width:18px;height:18px;margin-left:12px;border-radius:50% 50% 50% 0;background:#d9483b;transform:rotate(-45deg);box-shadow:1px 2px 3px rgba(0,0,0,.3)}
 .tc-pin::after{content:"";position:absolute;inset:5px;border-radius:50%;background:#fffdf8}
+/* 本所怪谈: a night of the hundred tales. Kuniteru's print of tonight's wonder, a sending-lantern to follow, eight lamps blown out one by one */
+:root[data-look="honjo"] #homeView{background:radial-gradient(ellipse 80% 40% at 50% 0,rgba(224,112,63,.1),transparent 70%)}
+.hv-honjo .hj-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hv-honjo .hj-head h1{margin:0;white-space:nowrap;font-family:var(--f-jp);font-weight:400;font-size:40px;line-height:1.05;letter-spacing:.06em;color:#f1ead6;text-shadow:0 0 18px rgba(169,214,207,.25)}
+.hv-honjo .hj-head p{display:grid;justify-items:end;gap:4px;margin:0 0 4px}
+.hv-honjo .hj-head p b{padding:2px 8px;font-family:var(--f-jp);font-weight:400;font-size:13px;letter-spacing:.18em;color:#1a1206;background:#e0703f;box-shadow:0 0 14px rgba(224,112,63,.45)}
+.hv-honjo .hj-head p small{font-size:12px;letter-spacing:.12em;color:var(--muted)}
+.hv-honjo .hj-stage{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:14px;align-items:start;margin-top:14px}
+.hv-honjo .hj-stage.wide{grid-template-columns:1fr}
+.hv-honjo .hj-print{position:relative;display:block;padding:6px;border:0;background:#e9e2cf;box-shadow:0 18px 40px -14px rgba(0,0,0,.85),0 0 0 1px rgba(0,0,0,.5);transform:rotate(-1deg);cursor:pointer}
+.hv-honjo .hj-print::before,.hv-honjo .hj-print::after{content:"";position:absolute;top:-4px;width:7px;height:7px;border-radius:50%;background:#2a2016;box-shadow:0 1px 2px rgba(0,0,0,.6)}
+.hv-honjo .hj-print::before{left:14px} .hv-honjo .hj-print::after{right:14px}
+.hv-honjo .hj-print img{display:block;width:100%;height:auto}
+.hv-honjo .hj-side{display:grid;justify-items:center;gap:16px;padding-top:4px}
+.hv-honjo .hj-stage.wide .hj-side{grid-template-columns:1fr auto;align-items:center;justify-items:start;padding:0}
+.hv-honjo .hj-title{display:flex;flex-direction:column;align-items:center;gap:6px;margin:0;writing-mode:vertical-rl;font-family:var(--f-jp)}
+.hv-honjo .hj-stage.wide .hj-title{writing-mode:horizontal-tb;flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.hv-honjo .hj-stage.wide .hj-title > *{flex:none;white-space:nowrap}
+:root[data-lang="en"] .hv-honjo .hj-title{writing-mode:horizontal-tb;text-align:center}
+.hv-honjo .hj-title small{font-size:13px;letter-spacing:.2em;color:#e0703f}
+.hv-honjo .hj-title b{font-weight:400;font-size:34px;letter-spacing:.12em;line-height:1.1;color:#f1ead6}
+.hv-honjo .hj-title i{font-style:normal;font-size:12px;letter-spacing:.14em;color:var(--muted)}
+.hv-honjo .hj-lantern{display:grid;justify-items:center;gap:6px;padding:0;border:0;background:none;color:var(--text);cursor:pointer;text-align:center}
+.hv-honjo .hj-chochin{position:relative;display:grid;place-items:center;width:62px;height:80px;margin-top:10px;border-radius:46%/40%;
+  background:repeating-linear-gradient(transparent 0 9px,rgba(150,52,24,.35) 9px 10.5px),radial-gradient(circle at 50% 42%,#ffe0a8,#f0a060 55%,#c2522c);box-shadow:0 0 34px 10px rgba(224,112,63,.4);
+  font-family:var(--f-jp);font-size:26px;color:#6a2412}
+.hv-honjo .hj-chochin::before,.hv-honjo .hj-chochin::after{content:"";position:absolute;left:14px;right:14px;height:8px;border-radius:2px;background:#1a120c}
+.hv-honjo .hj-chochin::before{top:-5px} .hv-honjo .hj-chochin::after{bottom:-5px}
+.hv-honjo .hj-chochin i{position:absolute;top:-22px;left:50%;width:1px;height:18px;background:rgba(233,228,214,.4)}
+.hv-honjo .hj-lantern > b{font-family:var(--f-jp);font-weight:400;font-size:18px;letter-spacing:.1em;color:#f3c08f}
+.hv-honjo .hj-lantern > small{font-size:12px;color:var(--muted);line-height:1.5}
+.hv-honjo .hj-tale{margin:16px 0 0;padding:10px 14px;border-left:2px solid #e0703f;background:rgba(0,0,0,.25);font-size:14px;line-height:1.75;color:var(--text)}
+.hv-honjo .hj-hundred{padding:14px 14px 12px;background:rgba(14,16,28,.82);border:1px solid var(--line);border-radius:3px}
+.hv-honjo .hj-hundred h2{margin:0;font-family:var(--f-jp);font-weight:400;font-size:20px;letter-spacing:.08em}
+.hv-honjo .hj-hundred > p{margin:4px 0 12px;font-size:12px;color:var(--muted)}
+.hv-honjo .hj-lamps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 6px}
+.hv-honjo .hj-lamp{display:grid;justify-items:center;gap:5px;padding:4px 0;border:0;background:transparent;color:var(--muted);cursor:pointer;font-family:var(--f-jp)}
+.hv-honjo .hj-lamp b{font-weight:400;font-size:14px;color:var(--text);white-space:nowrap}
+.hv-honjo .hj-lamp b.ro{font-family:var(--f-body);font-size:11px;white-space:normal;text-align:center;line-height:1.2}
+.hv-honjo .hj-lamp small{font-size:11px}
+.hv-honjo .hj-lamp.st-lock{cursor:default;opacity:.5}
+.hv-honjo .hj-lamp.next b{color:#f3c08f}
+.hv-honjo .andon{position:relative;display:block;width:28px;height:40px;margin:12px 0 4px;border-radius:3px 3px 2px 2px;background:linear-gradient(#fbe2ae,#eeb06a);box-shadow:0 0 18px 5px rgba(240,170,90,.42),inset 0 0 0 2px #3a2a1a,inset 0 13px 0 -11px #3a2a1a,inset 0 -13px 0 -11px #3a2a1a}
+.hv-honjo .andon::before{content:"";position:absolute;left:-4px;right:-4px;top:-5px;height:4px;border-radius:2px;background:#3a2a1a}
+.hv-honjo .andon::after{content:"";position:absolute;left:2px;right:2px;bottom:-6px;height:6px;border-left:3px solid #3a2a1a;border-right:3px solid #3a2a1a}
+.hv-honjo .andon .fl{position:absolute;left:50%;top:15px;width:8px;height:12px;margin-left:-4px;border-radius:50% 50% 45% 45%/60% 60% 40% 40%;background:radial-gradient(circle at 50% 70%,#fff6d8,#ffb347 70%);opacity:.9}
+.hv-honjo .andon .sm{display:none}
+.hv-honjo .andon.out{background:linear-gradient(#3a3d52,#2b2e42);box-shadow:inset 0 0 0 2px #1a1410,inset 0 13px 0 -11px #1a1410,inset 0 -13px 0 -11px #1a1410}
+.hv-honjo .andon.out .fl{display:none}
+.hv-honjo .andon.out .sm{display:block;position:absolute;left:50%;top:-20px;width:10px;height:16px;margin-left:-3px;border:2px solid rgba(200,200,210,.4);border-color:rgba(200,200,210,.4) transparent transparent rgba(200,200,210,.4);border-radius:50%;transform:rotate(20deg)}
+.hv-honjo .hj-lamp.next .andon{box-shadow:0 0 26px 9px rgba(240,170,90,.6),inset 0 0 0 2px #3a2a1a,inset 0 13px 0 -11px #3a2a1a,inset 0 -13px 0 -11px #3a2a1a}
+.win-hj{position:absolute;top:18px;right:18px;z-index:2;padding:8px 5px;writing-mode:vertical-rl;font-family:var(--f-jp);font-size:17px;letter-spacing:.14em;color:#1a1206;background:#e0703f;box-shadow:0 0 18px rgba(224,112,63,.5);animation:eki-press .5s cubic-bezier(.3,1.6,.5,1) .35s backwards}
+:root[data-lang="en"] .win-hj{writing-mode:horizontal-tb;font-size:13px;padding:4px 8px}
 /* garden: the board is a notebook page held by tape; the HUD is a luggage tag and a ticket stub */
 :root[data-look="techo"] #game .deck{position:relative;background:linear-gradient(90deg,transparent 22px,rgba(217,72,59,.35) 22px 23.5px,transparent 23.5px),linear-gradient(rgba(44,74,122,.1) 1px,transparent 1px) 0 0/100% 18px,#fffdf8;
   border:0;box-shadow:0 10px 24px -14px rgba(74,61,50,.6);padding-left:30px}
+@media (max-width:420px){:root[data-look="techo"] #game .deck{background:linear-gradient(90deg,transparent 12px,rgba(217,72,59,.35) 12px 13.5px,transparent 13.5px),linear-gradient(rgba(44,74,122,.1) 1px,transparent 1px) 0 0/100% 18px,#fffdf8;padding-left:19px}}
 :root[data-look="techo"] #game .deck::before,:root[data-look="techo"] #game .deck::after{content:"";position:absolute;top:-9px;width:64px;height:20px;background:rgba(168,195,160,.82);z-index:2}
 :root[data-look="techo"] #game .deck::before{left:-12px;transform:rotate(-24deg)} :root[data-look="techo"] #game .deck::after{right:-12px;transform:rotate(22deg);background:rgba(232,180,184,.85)}
 :root[data-look="techo"] #statMoves{border-radius:4px 14px 14px 4px;background:#f2e6c8;border:0;box-shadow:0 4px 10px -6px rgba(74,61,50,.5);position:relative;padding-left:26px}
@@ -847,6 +911,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 [data-look="tsuki"]{--orn-h:10px;--orn:radial-gradient(circle,#ece6cf 0 1px,transparent 1.6px) 0 1px/26px 10px,radial-gradient(circle,rgba(217,199,143,.85) 0 .9px,transparent 1.4px) 13px 6px/26px 10px;--tm-w:10px;--tm-h:10px;--tm-r:50%;--tm-bg:#ece6cf;--tm-sh:0 0 10px rgba(236,230,207,.8)}
 [data-look="rinpa"]{--orn-h:14px;--orn:linear-gradient(#1b120a,#1b120a) 0 100%/100% 3px no-repeat,linear-gradient(90deg,rgba(150,110,30,.28) 1px,transparent 1px) 0 0/18px 100%,linear-gradient(135deg,#efd795,#d9b45a 50%,#e9cd86);--tm-w:30px;--tm-h:4px;--tm-bg:#b8913e}
 [data-look="giga"]{--orn-h:8px;--orn:linear-gradient(#7a6650,#4a3c2c);--tm-w:22px;--tm-h:3px;--tm-r:2px;--tm-bg:#26211c}
+[data-look="honjo"]{--orn-h:10px;--orn:radial-gradient(circle at 50% 0,transparent 5px,rgba(169,214,207,.45) 5.5px 6.5px,transparent 7px) 0 3px/16px 10px,linear-gradient(90deg,transparent,rgba(224,112,63,.5),transparent) 0 0/100% 1px no-repeat;--tm-w:8px;--tm-h:12px;--tm-r:50% 50% 50% 50%/60% 60% 40% 40%;--tm-bg:#bfe8de;--tm-sh:0 0 12px rgba(169,214,207,.9)}
 [data-look="matsuri"]{--orn-h:14px;--orn:repeating-linear-gradient(90deg,#d8432c 0 22px,#f4ead2 22px 30px);--tm-w:10px;--tm-h:14px;--tm-r:45%;--tm-bg:#f29a3a;--tm-sh:0 0 12px #f29a3a}
 [data-look="techo"]{--orn-h:10px;--orn:repeating-linear-gradient(135deg,rgba(232,180,184,.9) 0 8px,rgba(255,255,255,.7) 8px 16px);--tm-w:26px;--tm-h:8px;--tm-r:0;--tm-bg:rgba(168,195,160,.85)}
 [data-look="taisho"]{--orn-h:12px;--orn:linear-gradient(#e2b453,#e2b453) 0 3px/100% 1px no-repeat,linear-gradient(#e2b453,#e2b453) 0 7px/100% 1px no-repeat,#7a2236;--tm-w:20px;--tm-h:3px;--tm-bg:#e2b453}
@@ -856,6 +921,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 /* popup emblems */
 :root[data-look="kare"] .modal-card::after{content:"";right:-34px;top:-34px;width:150px;height:150px;border-radius:50%;border:12px solid rgba(43,43,40,.06)}
 :root[data-look="tsuki"] .modal-card::after{content:"";right:18px;top:24px;width:34px;height:34px;border-radius:50%;background:#ece6cf;box-shadow:0 0 26px rgba(236,230,207,.55)}
+:root[data-look="honjo"] .modal-card::after{content:"";right:20px;top:20px;width:22px;height:30px;border-radius:46%/40%;background:radial-gradient(circle at 50% 42%,#ffe0a8,#f0a060 55%,#c2522c);box-shadow:0 0 22px 6px rgba(224,112,63,.5)}
 :root[data-look="giga"] .modal-card::after{content:"戯";right:16px;top:20px;width:34px;height:34px;display:grid;place-items:center;border:2px solid #b23a2a;border-radius:3px;color:#b23a2a;font-family:var(--f-jp);font-size:19px;transform:rotate(-5deg)}
 :root[data-look="washi"] .modal-card::after{content:"";right:18px;top:26px;width:14px;height:56px;border-radius:2px;background:#b8392a;opacity:.85}
 :root[data-look="techo"] .modal-card{background:radial-gradient(circle,rgba(110,90,70,.12) 0 1px,transparent 1.5px) 0 0/14px 14px,#fffdf8}
@@ -879,6 +945,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 :root[data-look="matsuri"] .toast{box-shadow:0 0 26px rgba(242,154,58,.45)}
 :root[data-look="rinpa"] .toast{border:2px solid #b8913e;background:linear-gradient(135deg,#fbf3dc,#f3e3b0)}
 :root[data-look="tsuki"] .toast{border-color:rgba(217,199,143,.6);box-shadow:0 0 30px rgba(236,230,207,.18),0 10px 30px rgba(0,0,0,.4)}
+:root[data-look="honjo"] .toast{border-color:rgba(169,214,207,.5);box-shadow:0 0 26px rgba(169,214,207,.18),0 10px 30px rgba(0,0,0,.45)}
 :root[data-look="giga"] .toast{border:1.5px solid #26211c;border-radius:4px 10px 6px 12px}
 /* the hint strip */
 :root[data-look="manga"] #game .hint{border:2px solid #111;border-radius:999px;background:#fff}
@@ -889,6 +956,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 :root[data-look="giga"] #game .hint{border:0;border-bottom:2px solid rgba(38,33,28,.55);border-radius:0;background:transparent}
 :root[data-look="youth"] #game .hint{border:2px solid #222;background:#fff;transform:rotate(-1deg)}
 :root[data-look="rinpa"] #game .hint{border:1px solid #b8913e;background:linear-gradient(135deg,#fbf3dc,#f3e3b0)}
+:root[data-look="honjo"] #game .hint{border:0;border-left:3px solid #e0703f;border-radius:0;background:rgba(12,14,26,.8)}
 /* ---------- screen transitions: each look enters its own way (backwards fill, so nothing lingers afterwards) ---------- */
 .screen.enter{animation:enter-rise .42s cubic-bezier(.2,.7,.25,1) backwards}
 :root[data-look="washi"] .screen.enter,:root[data-look="techo"] .screen.enter{animation:enter-page .62s cubic-bezier(.2,.7,.2,1) backwards;transform-origin:0 50%}
@@ -901,6 +969,8 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
 :root[data-look="giga"] .screen.enter{animation:enter-unroll .75s cubic-bezier(.4,.1,.3,1) backwards}
 :root[data-look="taisho"] .screen.enter{animation:enter-iris .7s ease-out backwards}
 :root[data-look="pixel"] .screen.enter{animation:enter-pixel .4s steps(4) backwards}
+:root[data-look="honjo"] .screen.enter{animation:enter-fog .9s ease backwards}
+@keyframes enter-fog{from{opacity:0;transform:scale(1.02)}}
 @keyframes enter-moonrise{from{opacity:0;transform:translateY(-10px)}}
 @keyframes enter-unfold{from{clip-path:inset(0 50% 0 50%)}to{clip-path:inset(0 0 0 0)}}
 @keyframes enter-unroll{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0 0 0 0)}}
@@ -995,6 +1065,11 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
   /* 旅行手账: the print lifts in the draught; the pin taps the next stop */
   .hv-techo .tc-print{animation:pinned 9s ease-in-out infinite}
   .hv-techo .tc-pin{animation:pin 2.6s ease-in-out infinite}
+  /* 本所怪谈: the lamps still lit flicker, the blown-out ones smoke, the sending-lantern sways */
+  .hv-honjo .andon:not(.out) .fl{animation:flame 1.7s ease-in-out infinite}
+  .hv-honjo .hj-lamp:nth-child(odd) .andon:not(.out) .fl{animation-duration:2.3s}
+  .hv-honjo .andon.out .sm{animation:smoke 3.4s ease-out infinite}
+  .hv-honjo .hj-chochin{transform-origin:50% -22px;animation:sway 4.6s ease-in-out infinite}
   /* 洋灯旧梦: the gas lamp flickers */
   .hv-taisho .tsh-lamp{animation:flicker 6s linear infinite}
   /* 昭和漫画: the speed lines throb; the balloon pops in */
@@ -1008,6 +1083,8 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--accent);outline
   .hv-pixel::after{animation:px-blink 3.1s steps(1) .7s infinite}
 }
 @keyframes kb{from{transform:scale(1)}to{transform:scale(1.07)}}
+@keyframes flame{0%,100%{transform:scale(1)}30%{transform:scale(.9,1.08)}55%{transform:scale(1.06,.94) translateX(.5px)}80%{transform:scale(.95,1.04) translateX(-.5px)}}
+@keyframes smoke{0%{opacity:0;transform:translateY(4px) rotate(20deg)}30%{opacity:1}100%{opacity:0;transform:translateY(-10px) rotate(40deg)}}
 @keyframes mist{to{transform:translateX(260%)}}
 @keyframes shoji{to{transform:translateX(18%)}}
 @keyframes rake{to{stroke-dashoffset:0}}
@@ -1306,9 +1383,10 @@ const THEMES = {
   rinpa: {name: '金碧琳琅', jp: '琳派', line: '光琳与抱一的金屏风，群青、绿青落在金箔上。', deck: 'classic', light: true, homeScene: true, fx: {k: .6, colors: ['#e9c46a', '#2c7563', '#1d4b86', '#f6efe0']}},
   giga: {name: '墨戏山野', jp: '戯画', line: '兔与蛙在绘卷里嬉闹，墨线一路展开到庭院。', deck: 'ink', light: true, homeScene: true, fx: {k: .5, colors: ['rgba(38,33,28,.55)', 'rgba(107,122,74,.55)', 'rgba(178,58,42,.5)']}},
   taisho: {name: '洋灯旧梦', jp: '浪漫', line: '梦二的乐谱封面挂在墙上，庭院写进咖啡馆的菜单。', deck: 'shu', light: true, homeScene: true, fx: {k: .55, colors: ['#7a2236', '#2e6a69', '#e2b453', '#e8a0a8']}},
+  honjo: {name: '本所怪谈', jp: '本所七不思議', line: '本所的七个怪谈，国辉的版画一夜一张；讲完一个，吹熄一盏灯。', deck: 'sumi', light: false, homeScene: true, fx: {k: .55, kind: 'summer', colors: ['rgba(191,232,222,.9)', 'rgba(240,160,96,.8)']}},
   pixel: {name: '电光游园', jp: 'ドット', line: '霓虹与像素的夜间游园，八处庭院是八个关卡。', deck: 'kirie', light: false, homeScene: true, fx: {k: .6, colors: ['#ff4f9a', '#3ee6ff', '#ffd23f']}}
 };
-const THEME_GROUPS = [['传统和风', ['ukiyo', 'washi', 'kare']], ['古画新游', ['tsuki', 'rinpa', 'giga']], ['节令生活', ['matsuri', 'techo']], ['摩登时光', ['taisho', 'manga', 'youth', 'pixel']]];
+const THEME_GROUPS = [['传统和风', ['ukiyo', 'washi', 'kare']], ['古画新游', ['tsuki', 'rinpa', 'giga', 'honjo']], ['节令生活', ['matsuri', 'techo']], ['摩登时光', ['taisho', 'manga', 'youth', 'pixel']]];
 // Public-domain art used on the home pages (Art Institute of Chicago open access, CC0) plus a CC0 paper texture from ambientCG.
 const WASHI_COVERS = [['spring', '梅与诗笺'], ['summer', '紫阳花'], ['autumn', '武藏野之月'], ['winter', '冬之川']];
 // 歌川广重《名所江户百景》, one per season, chosen to echo that season's gardens (梅 → 初音, 夕立, 月見, 除夜の雪).
@@ -1324,6 +1402,18 @@ const TOKAIDO = [['日本橋', '朝之景', 36922], ['平塚', '縄手道', 3692
   ['日坂', '佐夜ノ中山', 36947], ['浜松', '冬枯ノ図', 36951], ['庄野', '白雨', 36521], ['京師', '三条大橋', 36976]];
 const INK = ['#2c4a7a', '#b8473a', '#3f7a5a', '#6a4a8a', '#a0562a', '#2c6a7a', '#8a3a5a', '#4a5a2a'];
 // an eki stamp: a double ring with the station's name, its print number and the date it was earned
+// 本所七不思議, one per garden (Kuniteru's print titles in HONJO_PRINT); the eighth night ends at dawn, in Hokusai's lumberyard at Tatekawa, Honjo.
+const HONJO = [
+  ['置行堀', 'おいてけぼり', '在锦糸堀钓了一篓鱼，回家路上，水里有声音说：「放下，再走。」'],
+  ['送提灯', 'おくりちょうちん', '夜路上，前面总有一盏提灯。走近了它就灭，一抬头，又在更远处亮起。'],
+  ['片葉の葦', 'かたはのあし', '驹止桥边的芦苇，叶子只朝一侧长，传说是一段冤情留下的。'],
+  ['足洗邸', 'あしあらいやしき', '半夜天花板破开，伸下一只满是泥的大脚：「给我洗脚。」'],
+  ['狸囃子', 'たぬきばやし', '月夜里不知哪里传来笛与太鼓，循声去找，声音总在更远处。'],
+  ['燈無蕎麦', 'あかりなしそば', '这家荞麦面摊的灯从来不亮。替它点上的人，回家都会遇到怪事。'],
+  ['送拍子木', 'おくりひょうしぎ', '巡夜的人敲两下拍子木，身后的黑暗里，有人回敲两声。'],
+  ['夜明け', 'よあけ', '七个怪谈讲完，天亮了。立川的木场堆向天空，远处是富士。']
+];
+const HONJO_PRINT = ['置行堀', '送提燈', '片葉芦', '足洗邸', '狸囃子', '無燈蕎麦', '送拍子木'];
 const ekiStamp = (i, cls = '') => { const [st, view] = TOKAIDO[i]; return `<span class="eki${st.length > 2 ? ' l3' : ''} ${cls}" style="--ink:${INK[i]};--rot:${(i % 2 ? 1 : -1) * (6 + i * 2)}deg" translate="no"><b>${st}</b><i>${view}</i><small>${i ? '第' + ['', '七', '十', '廿一', '廿五', '廿九', '四十五', '五十五'][i] + '景' : '起点'}</small></span>`; };
 const ART_SIZE = {tsuki: [[512, 723], [623, 900], [417, 600], [509, 721]], rinpa: [[1500, 708], [1500, 684], [1280, 565], [1500, 668]], taisho: [[676, 900], [655, 900], [653, 900], [668, 900]]};
 const artDim = (look, si) => { const [w, h] = ART_SIZE[look][si]; return `width="${w}" height="${h}"`; };
@@ -1449,6 +1539,16 @@ BACKS.pixel = (() => {
   for (const [x, y] of [[3, 3], [16, 4], [4, 27], [15, 28]]) out += px(x, y, '#3ee6ff');
   return `<g shape-rendering="crispEdges">${out}<rect x="1.25" y="1.25" width="47.5" height="77.5" fill="none" stroke="#3ee6ff" stroke-width="2.5"/></g>`;
 })();
+// 本所怪谈's back: a sending-lantern (送り提灯) glowing over the dark river, the one-sided reeds (片葉の葦) at its foot.
+BACKS.honjo = `<defs><radialGradient id="bk-hj"><stop offset="0" stop-color="#ffcf8a" stop-opacity=".7"/><stop offset="1" stop-color="#ffcf8a" stop-opacity="0"/></radialGradient></defs>`
+  + `<rect width="50" height="80" fill="#171b2e"/><g fill="none" stroke="#2f3a60" stroke-width=".6">${[61, 65.5, 70, 74.5].map(y => `<path d="M0 ${y} q6.25 -2 12.5 0 t12.5 0 t12.5 0 t12.5 0"/>`).join('')}</g>`
+  + `<circle cx="25" cy="33" r="18" fill="url(#bk-hj)"/><path d="M25 10 V20" stroke="#8a7a5a" stroke-width=".5"/>`
+  + `<ellipse cx="25" cy="33" rx="8.6" ry="12.4" fill="#f2a464"/><ellipse cx="25" cy="31.5" rx="5" ry="9" fill="#ffdcaa" opacity=".65"/>`
+  + `<g stroke="#c0592e" stroke-width=".45" opacity=".75">${[24, 27, 30, 33, 36, 39, 42].map(y => { const w = 8.6 * Math.sqrt(Math.max(0, 1 - Math.pow((y - 33) / 12.4, 2))); return `<path d="M${r2(25 - w)} ${y} H${r2(25 + w)}"/>`; }).join('')}</g>`
+  + `<rect x="20.5" y="19.4" width="9" height="2.2" rx=".6" fill="#120e0a"/><rect x="20.5" y="44.4" width="9" height="2.2" rx=".6" fill="#120e0a"/>`
+  + `<text x="25" y="35.6" text-anchor="middle" font-size="7" fill="#7a2a16" style="font-family:var(--f-jp)">本</text>`
+  + `<g fill="none" stroke="#5b7a68" stroke-width=".7" stroke-linecap="round">${[7, 10, 13, 40, 43].map((x, i) => `<path d="M${x} 80 Q${x - 1} ${66 - i % 2 * 4} ${x + 1} ${54 - i % 3 * 4}"/><path d="M${x} ${70 - i % 2 * 3} q3 -2 5.5 .6 M${x + .3} ${62 - i % 3 * 2} q3 -2 5.5 .6"/>`).join('')}</g>`
+  + `<rect x="2.6" y="2.6" width="44.8" height="74.8" rx="1" fill="none" stroke="#a9d6cf" stroke-opacity=".45" stroke-width=".6"/>`;
 const cardBack = (look = save.look) => `<svg viewBox="0 0 50 80" aria-hidden="true" preserveAspectRatio="xMidYMid slice">${BACKS[look] || BACKS.ukiyo}</svg>`;
 const flowerIcon = on => `<svg viewBox="0 0 20 20" aria-hidden="true">${blossom(10, 10, 9, on ? 'var(--accent)' : 'var(--line-2)', on ? 'var(--shu)' : 'var(--line)')}</svg>`.replace(/fill="(var\([^)]+\))"/g, 'style="fill:$1"');
 const sealHTML = (k, on) => `<span class="seal${on ? '' : ' off'}" aria-hidden="true" translate="no">${k}</span>`;   // a stamp keeps its kanji in every language
@@ -1516,6 +1616,8 @@ const PAL = {
     acc: {plum: '#e8a0a8', cherry: '#f2c4cc', maple: '#a8c3a0', pampas: '#e6cf9a', willow: '#a8c3a0'}},
   tsuki: {sky: ['#0b1124', '#1e2846'], ink: '#0a0f1e', inkA: .95, flowerA: .6, moon: '#ece6cf', ground: '#141b33', line: '#2a3458', mist: '#8e9bc0', rain: '#8e9bc0', snow: '#ece6cf', water: '#3a4a7a',
     acc: {plum: '#c9a0b0', cherry: '#e6d4dc', maple: '#b0705a', pampas: '#d9c78f', willow: '#6f8a7a'}},
+  honjo: {sky: ['#0b0d19', '#1b2036'], ink: '#05070f', inkA: .9, flowerA: .5, moon: '#e8e2cc', ground: '#10152a', line: '#262c4a', mist: '#7f8fb4', rain: '#7f8fb4', snow: '#e8e2cc', water: '#26305a',
+    acc: {plum: '#b88a9a', cherry: '#d8c4cc', maple: '#9a5a44', pampas: '#bfae7a', willow: '#4f6a5c'}},
   rinpa: {sky: ['#ead08a', '#d9b45a'], ink: '#1d4b86', inkA: .9, flowerA: 1, moon: '#fbf3dc', ground: '#2c7563', line: '#b8913e', mist: '#f3dc9a', rain: '#1d4b86', snow: '#fbf3dc', water: '#1d4b86',
     acc: {plum: '#c8402a', cherry: '#f6efe0', maple: '#c8402a', pampas: '#f3e3b0', willow: '#2c7563'}},
   giga: {sky: ['#f3eee2', '#ece4d2'], ink: '#26211c', inkA: .8, flowerA: .7, moon: '#fbf8f0', ground: '#e6dcc6', line: '#c9bda4', mist: '#ffffff', rain: '#6e665b', snow: '#ffffff', water: '#8a8278',
@@ -1736,6 +1838,20 @@ const PAINT = {
       + band(-40, 186, 260) + band(190, 250, 300) + band(-60, 540, 320) + `<g opacity=".5">${top}</g>`
       + `<path d="M-20 690 L60 630 L130 660 L220 600 L300 650 L420 610 L420 800 L-20 800Z" fill="${p.ground}"/><g opacity=".75">${m.bottom}</g>`;
   },
+  honjo(lv, p, rnd) {   // a night by the Sumida: willow fronds, a sending-lantern ahead, will-o'-the-wisps, reeds with leaves on one side only
+    const m = sceneMotifs(lv, p, rnd);
+    let fronds = ''; for (let i = 0; i < 9; i++) { const x = 10 + i * 15 + rnd() * 8, l = 150 + rnd() * 170; fronds += `<path d="M${r2(x)} -10 Q${r2(x + 16)} ${r2(l * .5)} ${r2(x + 4 + rnd() * 10)} ${r2(l)}" fill="none" stroke="#2c3a33" stroke-width="2" opacity=".8"/>`; }
+    let water = ''; for (let i = 0; i < 7; i++) { const y = 622 + i * 24; water += `<path d="M-20 ${y} Q60 ${y - 6} 140 ${y} T300 ${y} T460 ${y}" fill="none" stroke="#34446c" stroke-width="1.6" opacity="${r2(.55 - i * .05)}"/>`; }
+    let reeds = ''; for (let i = 0; i < 13; i++) { const x = 262 + i * 11 + rnd() * 6, h = 120 + rnd() * 90;
+      reeds += `<path d="M${r2(x)} 800 Q${r2(x - 4)} ${r2(800 - h * .6)} ${r2(x + 2)} ${r2(800 - h)}" stroke="#24322b" stroke-width="2.2" fill="none"/>`;
+      for (let k = 1; k < 4; k++) reeds += `<path d="M${r2(x)} ${r2(800 - h * k / 4)} q14 -6 26 4" stroke="#2c3d33" stroke-width="2" fill="none"/>`; }
+    const wisp = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})"><circle r="28" fill="url(#wisp)"/><path d="M0 -11 Q9 -2 0 8 Q-9 -2 0 -11Z" fill="#cfeee6" opacity=".9"/><path d="M0 8 Q-7 22 4 36" stroke="#cfeee6" stroke-width="2" fill="none" opacity=".45"/></g>`;
+    const lantern = `<g transform="translate(116 440)"><circle r="76" fill="url(#glow)" opacity=".6"/><path d="M0 -60 V-30" stroke="#8a7a5a" stroke-width="1.2"/><ellipse rx="17" ry="25" fill="#f0a060"/>`
+      + `<path d="M-15 -14 H15 M-17 -4 H17 M-17 6 H17 M-15 16 H15" stroke="#b9532c" stroke-width="1.4"/><rect x="-12" y="-31" width="24" height="6" rx="1.5" fill="#1a1410"/><rect x="-12" y="25" width="24" height="6" rx="1.5" fill="#1a1410"/></g>`;
+    return sky(p) + `<radialGradient id="wisp"><stop offset="0" stop-color="#bfe8de" stop-opacity=".5"/><stop offset="1" stop-color="#bfe8de" stop-opacity="0"/></radialGradient>`
+      + `<circle cx="338" cy="96" r="100" fill="url(#glow)" opacity=".12"/><circle cx="338" cy="96" r="34" fill="${p.moon}" opacity=".7"/>` + fronds + `<g opacity=".35">${m.top}</g>`
+      + `<rect y="606" width="400" height="194" fill="${p.ground}"/>` + water + lantern + wisp(300, 380, .8) + wisp(64, 270, .55) + wisp(220, 560, .45) + reeds + `<g opacity=".5">${m.bottom}</g>`;
+  },
   rinpa(lv, p, rnd) {   // gold leaf laid in squares, drifting gold clouds, Kōrin's swirling blue water below
     const m = sceneMotifs(lv, p, rnd);
     let leaf = ''; for (let y = 0; y < 800; y += 40) for (let x = (y / 40) % 2 ? -20 : 0; x < 400; x += 40) leaf += `<rect x="${x}" y="${y}" width="40" height="40" fill="${rnd() < .5 ? '#e6c878' : '#dcb862'}" stroke="#c9a24a" stroke-width=".6"/>`;
@@ -1818,6 +1934,7 @@ const SOUNDSCAPE = {
   rinpa: {lead: 'flute', name: '笙与龙笛', pad: true, win: 'bowl', step: [.42, .7], gap: [8, 12], notes: [3, 4]},
   giga: {lead: 'shinobue', name: '笛与小鼓', tsuzumi: true, win: 'tsuzumi', combo: 'tsuzumi', step: [.2, .34], gap: [6, 10], notes: [3, 5]},
   taisho: {lead: 'mandolin', name: '曼陀林与留声机', amb: 'crackle', step: [.3, .48], gap: [6, 10], notes: [3, 5]},
+  honjo: {lead: 'shamisen', name: '三味线与拍子木', scale: 2, win: 'okuri', combo: 'dorodoro', amb: 'wind', step: [.48, .82], gap: [9, 14], notes: [2, 4]},
   pixel: {lead: 'chip', name: '芯片音', win: 'chip', combo: 'coin', step: [.12, .18], gap: [5, 8], notes: [6, 9]}
 };
 const scape = () => SOUNDSCAPE[save.look] || SOUNDSCAPE.ukiyo;
@@ -1945,11 +2062,16 @@ function hit(what, delay = 0, vel = .7, kind = 'sfx') {
     else if (what === 'stamp') { queue('wood'); A.wood.triggerAttackRelease('C3', .12, t, vel); }
     else if (what === 'tsuzumi') { queue('taiko'); A.taiko.triggerAttackRelease('A3', .25, t, vel * .9); }
     else if (what === 'bell') { queue('temple'); A.temple.triggerAttackRelease('D3', 5, t, vel); }
+    else if (what === 'okuri') {   // two claps of the night watch, and two fainter ones answering from the dark
+      queue('wood'); [[0, 'G5', 1], [.16, 'A5', .9], [.95, 'G5', .3], [1.11, 'A5', .27]].forEach(([d, n, v]) => A.wood.triggerAttackRelease(n, .05, t + d, vel * v)); A.lastT.wood = t + 1.11;
+    }
     else if (what === 'coin') { A.chip.triggerAttackRelease('B5', .07, t, vel * .9); A.chip.triggerAttackRelease('E6', .22, t + .08, vel * .9); }
     else { queue('wood'); A.wood.triggerAttackRelease('A4', .05, t, vel * .3); }
   } catch (e) {}
 }
 const season = () => Math.max(0, seasonNow);
+// the scale follows the season, unless the band keeps its own mode (本所怪谈 stays in the dark miyako-bushi scale all year)
+const keyOf = () => scape().scale ?? season();
 const stepFor = () => ({shinobue: .2, flute: .24, bowl: .32, musicbox: .13, pop: .12, toy: .14, biwa: .3, mandolin: .2, chip: .09}[scape().lead] || .15);
 const SFX = {
   flip() { if (save.look === 'pixel') play('chip', 'E6', 0, .22); if (!sample('place', save.look === 'pixel' ? .35 : .85)) fbNoise(3400, .05, .16); },
@@ -1957,12 +2079,12 @@ const SFX = {
   miss() { A.combo = 0; },
   deal() { if (sample('shuffle', .5, 1.5)) sample('take', .4); else fbNoise(2600, .4, .06); },
   dealTick() { if (save.look === 'pixel') play('chip', 'C6', 0, .07); else sample('place', .16); },
-  ink() { const sc = SCALES[season()]; play('chime', sc[4], 0, .22); play('chime', sc[7], .2, .2); },
+  ink() { const sc = SCALES[keyOf()]; play('chime', sc[4], 0, .22); play('chime', sc[7], .2, .2); },
   peek() { if (!sample('fan', .65)) fbNoise(700, .6, .06); },
   page() { if (scape().page) sample('fan', .4); else SFX.tap(); },
   match(m, fresh) {
     A.combo++;
-    const sc = SCALES[season()], i = Math.min(A.combo - 1, 6), sp = scape();
+    const sc = SCALES[keyOf()], i = Math.min(A.combo - 1, 6), sp = scape();
     play('lead', sc[i], 0, .75); play('lead', sc[i + 2], stepFor() * .7, .55);
     if (sp.clap) hit('clap', .05, .6);
     if (sp.drum) hit('taiko', 0, .35);
@@ -1970,12 +2092,13 @@ const SFX = {
     if (m.tag === '光札') play('chime', 'A6', .3, .4), play('chime', 'D7', .36, .35);
     if (fresh) [5, 6, 8].forEach((k, j) => play('chime', SCALES[1][k], .32 + j * .09, .3));
   },
-  yaku() { const sc = SCALES[season()], st = stepFor(); [0, 2, 4, 5, 7, 8].forEach((k, j) => play('lead', sc[k], .6 + j * st, .6)); },
+  yaku() { const sc = SCALES[keyOf()], st = stepFor(); [0, 2, 4, 5, 7, 8].forEach((k, j) => play('lead', sc[k], .6 + j * st, .6)); },
   win() {
-    const sc = SCALES[season()], ph = PHRASES[Math.floor(Math.random() * PHRASES.length)], st = stepFor(), end = ph.length * st, sp = scape();
+    const sc = SCALES[keyOf()], ph = PHRASES[Math.floor(Math.random() * PHRASES.length)], st = stepFor(), end = ph.length * st, sp = scape();
     ph.forEach((k, j) => play('lead', sc[k], j * st, j === ph.length - 1 ? .85 : .65));
     if (sp.pad && A.tone) play('chime', sc[5], end, .3), A.sho.triggerAttackRelease([sc[0], sc[2], sc[4]], 3, window.Tone.now() + .1, .4 * save.sfxVol);
     if (sp.win === 'hyoshigi') hit('hyoshigi', end + .15, .9);
+    else if (sp.win === 'okuri') hit('okuri', end + .15, .9);
     else if (sp.win === 'fireworks') { hit('boom', end + .1, .8); [0, .12, .2, .34].forEach(d => hit('clap', end + .7 + d, .35)); }
     else if (sp.win === 'claps') [0, .2, .4].forEach(d => hit('clap', end + .1 + d, .8));
     else if (sp.win === 'bowl') play('bowl', 'D4', end + .1, .8);
@@ -1984,24 +2107,26 @@ const SFX = {
     else if (sp.win === 'chip') [0, 2, 4, 5, 7, 8].forEach((k, j) => play('chip', sc[k], end + j * .06, .7));
     else { play('chime', 'D7', end + .1, .45); play('chime', 'A6', end + .22, .35); }
   },
-  flash() { hit('boom', 0, .6); play('chime', SCALES[season()][7], .25, .35); play('chime', SCALES[season()][8], .32, .3); },
-  upgrade(tier) { const sc = SCALES[season()]; [4, 5, 7, 8].slice(0, tier + 2).forEach((k, j) => play('chime', sc[k], .35 + j * .12, .4)); },
-  lose() { const sc = SCALES[season()]; play('lead', sc[2], 0, .45); play('lead', sc[0], .38, .4); },
+  flash() { hit('boom', 0, .6); play('chime', SCALES[keyOf()][7], .25, .35); play('chime', SCALES[keyOf()][8], .32, .3); },
+  upgrade(tier) { const sc = SCALES[keyOf()]; [4, 5, 7, 8].slice(0, tier + 2).forEach((k, j) => play('chime', sc[k], .35 + j * .12, .4)); },
+  lose() { const sc = SCALES[keyOf()]; play('lead', sc[2], 0, .45); play('lead', sc[0], .38, .4); },
   // a button tap, voiced by the look: paper for the books, a bell tick for the moon, a drum tap for the festival…
   tap() {
-    const k = save.look, sc = SCALES[season()];
+    const k = save.look, sc = SCALES[keyOf()];
     if (k === 'youth') play('pop', 'A6', 0, .25); else if (k === 'manga') play('toy', 'E6', 0, .2); else if (k === 'pixel') play('chip', 'A5', 0, .2);
     else if (k === 'washi' || k === 'techo') { if (!sample('fan', .28, .25)) hit('tap'); }
     else if (k === 'kare') play('bowl', sc[7], 0, .12); else if (k === 'tsuki') play('biwa', sc[4], 0, .22); else if (k === 'rinpa') play('chime', sc[8], 0, .16);
+    else if (k === 'honjo') play('shamisen', sc[0], 0, .22);
     else if (k === 'giga') hit('tsuzumi', 0, .3); else if (k === 'matsuri') hit('taiko', 0, .22); else if (k === 'taisho') play('mandolin', sc[5], 0, .2);
     else hit('tap');
   },
   // the look's calling card, played when switching to it: a short phrase on its lead instrument and its signature sound
   theme() {
-    const sp = scape(), sc = SCALES[season()], st = stepFor() * 1.15, end = 3 * st;
+    const sp = scape(), sc = SCALES[keyOf()], st = stepFor() * 1.15, end = 3 * st;
     [2, 4, 5].forEach((k, j) => play('lead', sc[k], j * st, j === 2 ? .7 : .55));
     if (sp.pad && A.tone) A.sho.triggerAttackRelease([sc[0], sc[2], sc[4]], 2.2, window.Tone.now(), .3 * save.sfxVol);
     if (sp.win === 'hyoshigi') hit('hyoshigi', end, .7);
+    else if (sp.win === 'okuri') hit('okuri', end, .7);
     else if (sp.win === 'bell') hit('bell', end, .45);
     else if (sp.win === 'bowl') play('bowl', 'D4', end, .5);
     else if (sp.win === 'fireworks') { hit('taiko', end, .5); hit('taiko', end + .2, .35); }
@@ -2013,10 +2138,11 @@ const SFX = {
     else play('chime', sc[8], end, .3);
   },
   stamp() {
-    const sp = scape(), sc = SCALES[season()];
+    const sp = scape(), sc = SCALES[keyOf()];
     if (sp.combo === 'taiko' || sp.combo === 'don') { hit('taiko', .25, .95); hit('taiko', .5, .6); }
     else if (sp.combo === 'tsuzumi') { hit('tsuzumi', .25, .9); hit('tsuzumi', .48, .7); }
     else if (sp.combo === 'coin') hit('coin', .25, .9);
+    else if (sp.combo === 'dorodoro') for (let i = 0; i < 10; i++) hit('taiko', .2 + i * .06, .16 + i * .05);   // the low drum roll of a kabuki ghost entrance
     else if (sp.combo === 'stamp') { hit('stamp', .28, .95); sample('shove', .5); }
     else hit('stamp', .3, .8);
     sc.forEach((n, j) => play('lead', n, .35 + j * Math.min(.06, stepFor() * .4), .4));
@@ -2030,7 +2156,7 @@ function scheduleBgm(first = 1800) {
     const sp = scape();
     if (save.bgm && save.sound && A.tone && !document.hidden && save.musicVol > 0) {
       try {
-        const sc = SCALES[season()], n = sp.notes[0] + Math.floor(rnd(0, sp.notes[1] - sp.notes[0] + 1));
+        const sc = SCALES[keyOf()], n = sp.notes[0] + Math.floor(rnd(0, sp.notes[1] - sp.notes[0] + 1));
         let k = Math.floor(rnd(0, 5)), t = 0;
         if (sp.pad) A.sho.triggerAttackRelease([sc[0], sc[2], sc[4]], 3.5, window.Tone.now(), .35 * save.musicVol);
         for (let j = 0; j < n; j++) {
@@ -2152,7 +2278,7 @@ function applySeason(i) {
   const changed = i !== seasonNow;
   seasonNow = i;
   document.documentElement.style.setProperty('--season', seasonColor(i));
-  if (changed) FX.set(SEASONS[i].key);
+  if (changed) FX.set(THEMES[save.look].fx.kind || SEASONS[i].key);
 }
 // One tap, next look (in the order of the theme groups). The garden in play, its steps and the collection all stay as they are.
 const LOOK_ORDER = THEME_GROUPS.reduce((a, g) => a.concat(g[1]), []);
@@ -2173,7 +2299,7 @@ function applyLook() {
   applySoundscape(); renderSoundUI(); warmDeck();
   sceneKey = '';
   if (seasonNow >= 0) applySeason(seasonNow);
-  FX.set(SEASONS[season()].key);
+  FX.set(THEMES[save.look].fx.kind || SEASONS[season()].key);
   if (current === 'game' && G) paintScene(G.L, 'game'); else renderHome();
 }
 const collectedCount = () => MOTIFS.filter(m => save.collected[m.id]).length;
@@ -2310,6 +2436,18 @@ const HOME = {
       <div class="ts-phases">${c.levels.map((l, i) => go(l, 'ts-moon', `<span class="ph" style="--k:${(6 + i * 5.7).toFixed(1)}px" aria-hidden="true"></span><span class="jp">${l.name}</span><small>${l.status}</small>`)).join('')}</div>
       <div class="ts-hk">${haikuHTML(c.hk)}</div>
       ${c.stats}</div></div>`,
+  honjo: c => { const i = c.tgt.n - 1, [name, kana, tale] = HONJO[i], wide = c.tgt.n === 8; return `<div class="hv hv-honjo"><div class="hv-a">
+      <header class="hj-head"><h1>花合帖</h1><p><b>本所七不思議</b><small>百物語 · ${c.S.name}之夜</small></p></header>
+      <div class="hj-stage${wide ? ' wide' : ''}">
+        <button type="button" class="go hj-print" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}夜 ${name}"><img src="art/honjo-0${c.tgt.n}.webp" ${wide ? 'width="1100" height="733"' : 'width="760" height="1230"'} alt="${wide ? '葛饰北斋《富岳三十六景 · 本所立川》' : `歌川国辉《本所七不思议之内 · ${HONJO_PRINT[i]}》`}"></button>
+        <div class="hj-side"><p class="hj-title"><small>第${c.k}夜</small><b translate="no">${LANG === 'en' ? T(name) : name}</b>${LANG === 'en' ? '' : `<i translate="no">${kana}</i>`}</p>
+          <button type="button" class="go hj-lantern" data-go="${c.tgt.n}"><span class="hj-chochin" aria-hidden="true" translate="no"><i></i>${c.k}</span><b>${c.verb}</b><small>「${c.tgt.name}」<br>${c.meta}</small></button></div></div>
+      <p class="hj-tale">${tale}</p>
+      <p class="art-credit">${wide ? '葛饰北斋《富岳三十六景 · 本所立川》（约 1830–32），大都会艺术博物馆开放馆藏（CC0）' : '歌川国辉《本所七不思议之内》（1886），早稻田大学图书馆藏，公有领域，图像来自 Wikimedia Commons'}</p></div><div class="hv-b">
+      ${modeSegHTML()}
+      <section class="hj-hundred"><h2>百物語 · 八盏灯</h2><p>讲完一个怪谈，吹熄一盏灯。八盏都熄了，天就亮了。</p>
+        <div class="hj-lamps">${c.levels.map((l, j) => go(l, 'hj-lamp', `<span class="andon${l.done ? ' out' : ''}" aria-hidden="true"><i class="fl"></i><i class="sm"></i></span>${LANG === 'en' ? `<b class="ro">${T(HONJO[j][0])}</b>` : `<b translate="no">${HONJO[j][0]}</b>`}<small>${l.name}</small>`)).join('')}</div></section>
+      ${c.stats}</div></div>`; },
   rinpa: c => { const sc = RINPA_SCREENS[c.tgt.s]; return `<div class="hv hv-rinpa"><div class="hv-a">
       <header class="rp-head"><h1>花合帖</h1><span>${c.S.name} · ${c.hk[0]}</span></header>
       <button type="button" class="go rp-screen" data-go="${c.tgt.n}" aria-label="${c.verb}第${c.k}庭 ${c.tgt.name}"><span class="rp-panels"><img src="art/rinpa-${SEASONS[c.tgt.s].key}.webp" ${artDim('rinpa', c.tgt.s)} alt="${sc[1]}《${sc[0]}》"><i class="rp-folds" aria-hidden="true"></i></span></button>
@@ -2518,12 +2656,13 @@ function creditsHTML() {
       <li><b>月白风清 · 金碧琳琅 · 墨戏山野 · 洋灯旧梦</b>：月冈芳年《月百姿》（1885–92）中的四幅；酒井抱一《樱枫图》、尾形光琳《八桥图》（大都会艺术博物馆，CC0）、铃木其一《夏秋溪流图》、尾形光琳《红白梅图》；《鸟兽人物戏画》甲卷（12 世纪，高山寺藏）；竹久梦二为セノオ乐谱所作封面四幅（1917–24）。均为公有领域，图像经 <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a> 取得，仅缩放、裁切；绘卷转成墨色以统一纸色。</li>
       <li><b>像素字体</b>：<a href="https://github.com/TakWolf/fusion-pixel-font" target="_blank" rel="noopener">Fusion Pixel Font</a>（12px，SIL OFL 1.1），只保留本作用到的字；DotGothic16（SIL OFL 1.1，Google Fonts）。</li>
       <li><b>卡背</b>：江户至明治时期的染布型纸（katagami），<a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">大都会艺术博物馆开放馆藏</a>（CC0）：${Object.values(BACK_KATAGAMI).filter(b => b.met).map(b => `<a href="https://www.metmuseum.org/art/collection/search/${b.met}" target="_blank" rel="noopener">${b.name}</a>`).join('、')}。裁取花纹部分，镂空处透出底色；部分主题把柿涩纸染成主题色。墨戏山野的卡背是《鸟兽戏画》里欢呼的青蛙；旅行手账的卡背是本作原创的明信片背面，电光游园的卡背为本作原创像素画。</li>
+      <li><b>本所怪谈</b>：歌川国辉《本所七不思议之内》（1886）七图——置行堀、送提灯、片叶芦、足洗邸、狸囃子、无灯荞麦、送拍子木，早稻田大学图书馆藏，公有领域，图像经 Wikimedia Commons 取得，仅裁切、缩放；第八夜为葛饰北斋《富岳三十六景 · 本所立川》（约 1830–32），大都会艺术博物馆开放馆藏（CC0）。卡背为本作原创的送提灯。</li>
       <li><b>旅行手账</b>：歌川广重《东海道五十三次》（保永堂版，1833–35）中的日本桥、平塚、箱根、冈部、日坂、浜松、庄野、京师八图，大都会艺术博物馆开放馆藏（CC0），仅缩放。</li>
       <li><b>主页插图</b>：神坂雪佳《百々世草》（1909–10）、葛饰北斋《北斋漫画》、歌川广重《名所江户百景》中的「两国花火」「龟户梅屋敷」「大桥阿宅骤雨」「月之岬」「浅草金龙山」（1856–58），均为公有领域作品，图像来自<a href="https://www.artic.edu/open-access" target="_blank" rel="noopener">芝加哥艺术博物馆开放馆藏</a>（CC0），仅缩放、裁切取景。纸纹：<a href="https://ambientcg.com/view?id=Paper006" target="_blank" rel="noopener">ambientCG Paper006</a>（CC0）。</li>
       <li><b>纸牌音效</b>：Kenney「<a href="https://kenney.nl/assets/casino-audio" target="_blank" rel="noopener">Casino Audio</a>」，CC0。</li>
       <li><b>琴声、风铃、尺八与环境音</b>：<a href="https://github.com/Tonejs/Tone.js" target="_blank" rel="noopener">Tone.js</a>（MIT）实时合成。</li>
       <li><b>落花特效</b>：<a href="https://github.com/catdad/canvas-confetti" target="_blank" rel="noopener">canvas-confetti</a>（ISC）。</li>
-      <li><b>字体</b>：每个主题两到三种。日文显示字体 Shippori Mincho B1、Zen Old Mincho、Shippori Mincho、Kaisei Decol、Klee One、Yusei Magic、Zen Antique、Hina Mincho、Kaisei Tokumin、Yuji Boku、Shippori Antique B1、DotGothic16；中文 Noto Serif SC、Noto Sans SC；点缀用 Yuji Syuku（石庭标题）、ZCOOL XiaoWei（和纸标题）、ZCOOL KuaiLe（手账标题），均为 SIL OFL 1.1，经 Google Fonts 提供。</li>
+      <li><b>字体</b>：每个主题两到三种。日文显示字体 Shippori Mincho B1、Zen Old Mincho、Shippori Mincho、Kaisei Decol、Klee One、Yusei Magic、Zen Antique、Hina Mincho、Kaisei Tokumin、Yuji Boku、Shippori Antique B1、DotGothic16、New Tegomin；中文 Noto Serif SC、Noto Sans SC；点缀用 Yuji Syuku（石庭标题）、ZCOOL XiaoWei（和纸标题）、ZCOOL KuaiLe（手账标题），均为 SIL OFL 1.1，经 Google Fonts 提供。</li>
     </ul>
     <div class="modal-actions"><button class="btn primary" type="button" data-act="close" data-focus>关闭</button></div>`;
 }
@@ -2548,6 +2687,7 @@ const MOTION = {
   taisho: {from: [.5, .9], spin: 4, dur: 560, ease: 'cubic-bezier(.25,.8,.25,1)', mark: ['合', '#7a2236', '4px']},
   manga: {from: [1.25, .2], dur: 280, step: 26, order: 'manga', ease: 'cubic-bezier(.2,1.4,.4,1)', mark: ['!!', '#d7261e', '0']},
   youth: {from: [.5, 1.3], spin: 18, dur: 560, ease: 'cubic-bezier(.3,1.5,.5,1)', mark: ['OK', '#e8553e', '50%']},
+  honjo: {from: [.5, 1.15], spin: 5, fade: 1, scale: .5, dur: 820, ease: 'cubic-bezier(.25,.6,.3,1)', mark: ['怪', '#5fa898', '50%']},
   pixel: {from: [.5, -.3], dur: 420, ease: 'steps(6,end)', mark: ['+1', '#ff4f9a', '0']}
 };
 const lookMotion = () => MOTION[save.look] || MOTION.ukiyo;
@@ -2738,9 +2878,9 @@ function variantLevel(v) {
 }
 // What a cleared or a lost garden is called, in each look's own words.
 const WIN_TITLE = {ukiyo: '一枚摺成', washi: '一卷读毕', kare: '砂纹耙定', tsuki: '月已满', rinpa: '金屏成', giga: '一段画成', matsuri: '灯火通明',
-  techo: '盖上了这一站的印', taisho: '一曲终了', manga: '本话完', youth: '完美收工！', pixel: 'STAGE CLEAR!'};
+  techo: '盖上了这一站的印', honjo: '吹熄了一盏灯', taisho: '一曲终了', manga: '本话完', youth: '完美收工！', pixel: 'STAGE CLEAR!'};
 const LOSE_TITLE = {ukiyo: '墨色未足', washi: '书页还没读完', kare: '风乱了砂纹', tsuki: '云遮了月', rinpa: '金箔还没贴满', giga: '画卷还没画完', matsuri: '灯火将熄',
-  techo: '这一页还空着', taisho: '今日打烊', manga: '下回待续', youth: '再来一次！', pixel: 'GAME OVER'};
+  techo: '这一页还空着', honjo: '这一夜还没讲完', taisho: '今日打烊', manga: '下回待续', youth: '再来一次！', pixel: 'GAME OVER'};
 const levelFor = n => n > 100 ? variantLevel(VARIANTS.find(v => v.n === n)) : LEVELS[n - 1];
 const levelTag = L => L.variant ? `庭外 · ${SEASONS[L.s].name}` : `${SEASONS[L.s].name} · 第${KANJI[L.n - 1]}庭`;
 function idsFor(L) {
@@ -2970,7 +3110,7 @@ function win() {
   const head = v ? (L.target ? `凑成了「${L.target.name}」` : L.variant === 'yoru' ? '夜庭里，灯笼亮了' : '花合，圆满') : n === LEVELS.length ? '八处庭院，全部点亮' : WIN_TITLE[save.look] || '庭院点亮了';
   const tally = [[G.used, '已用步数'], isFinite(G.budget) ? [movesLeft(), '剩余步数'] : [L.std, '参考步数'], [G.got, '收下御守']];
   const notes = [G.yaku.length && `凑成役：${G.yaku.join('、')}。`, unlockedNew && `下一处庭院「${nextL.name}」的灯，也亮了。`, opened && '庭外的三种玩法也开放了：花合、夜庭、役之庭。'].filter(Boolean);
-  openModal(`${save.look === 'techo' && !v ? `<span class="win-eki">${ekiStamp(n - 1)}</span>` : ''}<div class="eyebrow">${levelTag(L)} · ${L.name}</div><h2>${head}</h2>
+  openModal(`${save.look === 'techo' && !v ? `<span class="win-eki">${ekiStamp(n - 1)}</span>` : save.look === 'honjo' && !v ? `<span class="win-hj" translate="no">${LANG === 'en' ? T(HONJO[n - 1][0]) : HONJO[n - 1][0]}</span>` : ''}<div class="eyebrow">${levelTag(L)} · ${L.name}</div><h2>${head}</h2>
     ${haikuHTML(L.haiku)}
     <div class="big-flowers" aria-label="获得 ${fl} 朵花">${[1, 2, 3].map(i => flowerIcon(i <= fl)).join('')}</div>
     <div class="tally">${tally.map(([v, lab]) => `<div><b class="tnum" data-roll="${v}">${v}</b><small>${lab}</small></div>`).join('')}</div>
@@ -3086,9 +3226,12 @@ $('#demoGo').addEventListener('click', () => { SFX.tap(); closeDemo(true); });
 function layoutBoard() {
   if (!G || current !== 'game') return;
   const board = $('#board'), deck = $('#deck');
-  const ds = getComputedStyle(deck), pad = (parseFloat(ds.paddingLeft) || 0) + (parseFloat(ds.borderLeftWidth) || 0);
+  // the deck's own padding and border, side by side (a look may pad one side more, like the journal's margin)
+  const ds = getComputedStyle(deck), px = k => parseFloat(ds[k]) || 0;
+  const padX = px('paddingLeft') + px('paddingRight') + px('borderLeftWidth') + px('borderRightWidth');
+  const padY = px('paddingTop') + px('paddingBottom') + px('borderTopWidth') + px('borderBottomWidth');
   const bs = getComputedStyle(board);
-  const W = board.clientWidth - pad * 2, H = board.clientHeight - parseFloat(bs.paddingTop) - parseFloat(bs.paddingBottom) - 2 - pad * 2, N = G.deck.length;
+  const W = board.clientWidth - padX, H = board.clientHeight - parseFloat(bs.paddingTop) - parseFloat(bs.paddingBottom) - 2 - padY, N = G.deck.length;
   if (W <= 0 || H <= 0) return;
   const ratio = 100 / 61, gap = G.compact ? (W < 480 ? 4 : 8) : (W < 480 ? 6 : W < 720 ? 10 : 14), MAX = W < 480 ? 92 : W < 720 ? 118 : 156;
   const fitFor = cols => { const rows = Math.ceil(N / cols); return Math.min((W - gap * (cols - 1)) / cols, ((H - gap * (rows - 1)) / rows) / ratio, MAX); };
@@ -3213,7 +3356,7 @@ $('#tgHaptic').addEventListener('click', () => { save.haptics = !save.haptics; p
 for (const [id, k] of [['#volMusic', 'musicVol'], ['#volSfx', 'sfxVol']]) {
   const el = $(id);
   el.addEventListener('input', () => { save[k] = el.value / 100; el.nextElementSibling.textContent = el.value; if (k === 'musicVol') applyAmbience(); });
-  el.addEventListener('change', () => { persist(); if (k === 'sfxVol') SFX.match({tag: ''}, false); else play('lead', SCALES[season()][4], 0, .6, 'music'); A.combo = 0; });
+  el.addEventListener('change', () => { persist(); if (k === 'sfxVol') SFX.match({tag: ''}, false); else play('lead', SCALES[keyOf()][4], 0, .6, 'music'); A.combo = 0; });
 }
 document.addEventListener('click', e => {
   const t = e.target;
@@ -3296,7 +3439,7 @@ function audioReport() {
 function testSound() {
   if (!save.sound) setSound(true);
   unlockAudio();
-  const go = () => { const sc = SCALES[season()]; [0, 2, 4, 5].forEach((k, j) => play('lead', sc[k], j * stepFor(), .7)); SFX.flip(); };
+  const go = () => { const sc = SCALES[keyOf()]; [0, 2, 4, 5].forEach((k, j) => play('lead', sc[k], j * stepFor(), .7)); SFX.flip(); };
   (A.starting || Promise.resolve()).then(() => { go(); setTimeout(() => { $('#audioDiag').textContent = audioReport() + '。如果显示「运行中」却仍听不到，请调高手机的媒体音量（不是铃声音量）。'; }, 400); });
   $('#audioDiag').textContent = '正在播放测试音…';
 }

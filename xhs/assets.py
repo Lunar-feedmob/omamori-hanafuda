@@ -15,14 +15,14 @@ UA = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.3
 FONTS = [  # family, weight used by its look
     ('Shippori Mincho B1', 800), ('Zen Old Mincho', 600), ('Shippori Mincho', 500), ('Kaisei Decol', 700), ('Klee One', 600),
     ('Yusei Magic', 400), ('Zen Antique', 400), ('Hina Mincho', 400), ('Kaisei Tokumin', 800), ('Yuji Boku', 400),
-    ('Shippori Antique B1', 400), ('DotGothic16', 400), ('Yuji Syuku', 400)]
+    ('Shippori Antique B1', 400), ('DotGothic16', 400), ('Yuji Syuku', 400), ('New Tegomin', 400)]
 cjk = lambda s: {c for c in s if '぀' <= c <= 'ヿ' or '一' <= c <= '鿿' or '々' <= c <= '〇'}
 def jp_chars():
     s = set()
     for pat in [r"\['[a-z0-9-]+', \d+, '[0-9a-z-]+', '([^']+)', '([^']+)'", r"name: '([^']+)', s: \d", r"haiku: \['([^']+)'",
                 r"\[\d+, '[^']+', '([^']+)'\]", r"k: '([^']+)', how", r"jp: '([^']+)'"]:
         for m in re.finditer(pat, html): s |= cjk(''.join(m.groups()))
-    for a, b in [('const HOME = {', 'function mangaLines()'), ('const PAINT = {', 'const scopeIds'), ('const NIWA_ART = [', 'const niwaSrc'), ('const UKIYO_PRINTS', 'const HOME_BG')]:
+    for a, b in [('const HOME = {', 'function mangaLines()'), ('const PAINT = {', 'const scopeIds'), ('const NIWA_ART = [', 'const niwaSrc'), ('const UKIYO_PRINTS', 'const HOME_BG'), ('const HONJO = [', 'const ekiStamp')]:
         i = html.index(a); s |= cjk(html[i:html.index(b, i)])
     s |= cjk('花合帖睦月如月弥生卯月皐月水無月文月葉月長月神無月霜月師走松梅桜藤菖蒲牡丹萩芒菊紅葉柳桐名所江戸百景読む済次号印春夏秋冬第庭話目次段')
     s |= {chr(c) for c in range(0x3041, 0x3097)} | {chr(c) for c in range(0x30a1, 0x30fb)} | set('ー々〆「」『』・、。…！？（）〜')
@@ -74,7 +74,7 @@ def images():
             if ext not in ('.jpg', '.webp'): continue
             if stem == 'giga-scroll':   # a long handscroll strip: keep its height, it is shown 150-200 px tall
                 n += save(os.path.join(OUT, 'art', stem + '.webp'), pg.evaluate(JS, [base + 'art/' + f, 0, 240, .72])); continue
-            width = 640 if stem.startswith(('rinpa', 'manga', 'matsuri', 'ukiyo', 'techo-0')) else 520
+            width = 640 if stem.startswith(('rinpa', 'manga', 'matsuri', 'ukiyo', 'techo-0', 'honjo-08')) else 520
             n += save(os.path.join(OUT, 'art', stem + '.webp'), pg.evaluate(JS, [base + 'art/' + f, width, 0, .74]))
         sizes['art'] = n
         b.close()

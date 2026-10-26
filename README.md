@@ -42,7 +42,7 @@
 
 ## 主题
 
-十二种主题共用同一套玩法和布局。主页底栏（桌面端左侧栏）的「主题」按钮点一下就换到下一个主题，按钮上显示当前主题名；对局顶栏的调色盘按钮同样一点即换，不会打断正在进行的一局，每个主题有自己的卡背、牌桌、转场和一组乐器（季节决定音阶），切换时不会打断正在进行的一局。设置里可以分别调音乐和音效的音量。
+十三种主题共用同一套玩法和布局。主页底栏（桌面端左侧栏）的「主题」按钮点一下就换到下一个主题，按钮上显示当前主题名；对局顶栏的调色盘按钮同样一点即换，不会打断正在进行的一局，每个主题有自己的卡背、牌桌、转场和一组乐器（季节决定音阶），切换时不会打断正在进行的一局。设置里可以分别调音乐和音效的音量。
 
 | 分组 | 主题 | 主页 | 推荐卡面 | 声音 |
 |---|---|---|---|---|
@@ -52,6 +52,7 @@
 | 古画新游 | 月白风清 | 月冈芳年《月百姿》挂成卷轴，八处庭院是一轮渐满的月 | 彩绘 | 琵琶与虫声，通关寺钟 |
 | 古画新游 | 金碧琳琅 | 光琳、抱一、其一的金屏风，关卡是一枚枚色纸 | 彩绘 | 笙与龙笛 |
 | 古画新游 | 墨戏山野 | 《鸟兽戏画》相扑一段做封面，关卡排在可横向展开的绘卷上 | 墨绘 | 笛与小鼓 |
+| 古画新游 | 本所怪谈 | 本所七不思议：歌川国辉的版画一夜一张，八处庭院是百物语的八盏灯，讲完一个吹熄一盏，第八夜是北斋《本所立川》的天亮；卡背是送提灯 | 墨染 | 三味线（都节音阶），通关是一来一回的送拍子木，连击是「ドロドロ」太鼓 |
 | 节令生活 | 灯火夜祭 | 广重「两国花火」上的灯笼与摊位 | 朱缘 | 篠笛与太鼓，通关远处烟火 |
 | 节令生活 | 旅行手账 | 东海道旅行手帐：广重《东海道五十三次》八处宿场、乘车券、驿站印章路线图，卡背是明信片背面 | 剪纸 | 八音盒，盖章声 |
 | 摩登时光 | 洋灯旧梦 | 咖啡馆墙上挂着竹久梦二的乐谱封面，关卡写在菜单上 | 朱缘 | 曼陀林与留声机底噪 |
@@ -81,10 +82,11 @@ python3 -m http.server 8000
 - 卡背（`backs/`）：江户至明治时期的染布型纸（katagami），[大都会艺术博物馆开放馆藏](https://www.metmuseum.org/about-the-met/policies-and-documents/open-access)（CC0）：[菊菱](https://www.metmuseum.org/art/collection/search/69131)、[麻の葉](https://www.metmuseum.org/art/collection/search/53215)、[杉綾と波](https://www.metmuseum.org/art/collection/search/69130)、[菊菱に紗綾形](https://www.metmuseum.org/art/collection/search/69138)、[梅散らし](https://www.metmuseum.org/art/collection/search/69145)、[梅](https://www.metmuseum.org/art/collection/search/69107)、[矢筈](https://www.metmuseum.org/art/collection/search/69114)。裁取花纹，镂空处做成透明，部分主题把柿涩纸染成主题色。
 - 十二月花屏风（`niwa/`）：歌川广重「雪中松に錦鶏」「梅」「枝垂桜に鳥」「藤に燕」「菖蒲に雀」「牡丹に鶏」「月に雁」「菊に鷦鷯」「紅葉に孔雀」，松村景文「萩に虫」，窪俊満「柳に翡翠」，礒田湖龍斎「桐に鳳凰」；公有领域，图像来自大都会艺术博物馆开放馆藏（CC0，馆藏号 44894、56940、36725、36726、36724、56939、36742、36731、36741、55364、54058、36694），仅裁切取景。
 - 新主题插图（`art/tsuki-*`、`art/rinpa-*`、`art/giga-*`、`art/taisho-*`）：月冈芳年《月百姿》「忍冈之月」「云居之月」「原野之月」「浅野川雪月」（1885–92）；酒井抱一《樱枫图》、尾形光琳《八桥图》（大都会艺术博物馆，CC0）、铃木其一《夏秋溪流图》左扇、尾形光琳《红白梅图》；《鸟兽人物戏画》甲卷（12 世纪，高山寺藏）；竹久梦二为セノオ乐谱所作封面《桜町》《羽衣》《月光》《Old Refrain》（1917–24）。均为公有领域，图像经 [Wikimedia Commons](https://commons.wikimedia.org/) 取得，仅缩放、裁切；绘卷转为墨色以统一纸色。
+- 本所怪谈（`art/honjo-*`）：歌川国辉《本所七不思议之内》（1886）七图，早稻田大学图书馆藏，公有领域，经 [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:WUL-chi05_01063_0002_%E6%9C%AC%E6%89%80%E4%B8%83%E4%B8%8D%E6%80%9D%E8%AD%B0%E4%B9%8B%E5%86%85.pdf) 取得，仅裁切、缩放；葛饰北斋《富岳三十六景 · 本所立川》（约 1830–32），[大都会艺术博物馆](https://www.metmuseum.org/art/collection/search/56386)开放馆藏（CC0）。
 - 新主题卡背：大都会艺术博物馆型纸「草花」(69147)、「紗綾形」(65305)、「八角繋ぎ」(69143)；墨戏山野卡背取自《鸟兽戏画》相扑一段的青蛙；电光游园卡背为本项目原创像素画。
 - 像素字体（`fonts/`）：[Fusion Pixel Font](https://github.com/TakWolf/fusion-pixel-font) 12px 简体中文版，SIL OFL 1.1（许可证见 `fonts/fusion-pixel-OFL.txt`），只保留本作用到的字。
 - 纸牌音效（`sfx/`）：Kenney「[Casino Audio](https://kenney.nl/assets/casino-audio)」，CC0，已转码为 MP3。
 - 琴声、风铃、尺八与环境音：[Tone.js](https://github.com/Tonejs/Tone.js)（MIT）实时合成。
 - 落花特效：[canvas-confetti](https://github.com/catdad/canvas-confetti)（ISC）。
-- 字体：每个主题两到三种。日文显示字体 Shippori Mincho B1、Zen Old Mincho、Shippori Mincho、Kaisei Decol、Klee One、Yusei Magic、Zen Antique、Hina Mincho、Kaisei Tokumin、Yuji Boku、Shippori Antique B1、DotGothic16；中文 Noto Serif SC、Noto Sans SC；点缀用 Yuji Syuku、ZCOOL XiaoWei、ZCOOL KuaiLe（SIL OFL 1.1），经 Google Fonts 提供。
+- 字体：每个主题两到三种。日文显示字体 Shippori Mincho B1、Zen Old Mincho、Shippori Mincho、Kaisei Decol、Klee One、Yusei Magic、Zen Antique、Hina Mincho、Kaisei Tokumin、Yuji Boku、Shippori Antique B1、DotGothic16、New Tegomin；中文 Noto Serif SC、Noto Sans SC；点缀用 Yuji Syuku、ZCOOL XiaoWei、ZCOOL KuaiLe（SIL OFL 1.1），经 Google Fonts 提供。
 - 俳句：服部嵐雪、松尾芭蕉、山口素堂、与謝蕪村的作品（公有领域），中文译文为本项目所作。

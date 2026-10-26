@@ -6,15 +6,15 @@
     ukiyo: ['"Cormorant Garamond"', '"Source Serif 4"'], washi: ['"Cormorant Garamond"', '"Source Serif 4"'], kare: ['"Cormorant Garamond"', '"Source Serif 4"'],
     tsuki: ['"Cormorant Garamond"', '"Source Serif 4"'], rinpa: ['"Cormorant Garamond"', '"Source Serif 4"'], giga: ['"IM Fell English"', '"Source Serif 4"'],
     matsuri: ['"Fraunces"', '"Inter"'], techo: ['"Caveat"', '"Inter"'], taisho: ['"Poiret One"', '"Source Serif 4"'],
-    manga: ['"Bangers"', '"Inter"'], youth: ['"Baloo 2"', '"Inter"'], pixel: ['"Silkscreen"', '"Inter"']
+    manga: ['"Bangers"', '"Inter"'], youth: ['"Baloo 2"', '"Inter"'], pixel: ['"Silkscreen"', '"Inter"'], honjo: ['"IM Fell English SC"', '"Source Serif 4"']
   };
   var JP_STACK = {
     ukiyo: '"Shippori Mincho B1"', washi: '"Zen Old Mincho"', kare: '"Shippori Mincho"', tsuki: '"Hina Mincho"', rinpa: '"Kaisei Tokumin"', giga: '"Yuji Boku"',
-    matsuri: '"Kaisei Decol"', techo: '"Klee One"', taisho: '"Shippori Antique B1"', manga: '"Zen Antique"', youth: '"Yusei Magic"', pixel: '"DotGothic16","Fusion Pixel"'
+    matsuri: '"Kaisei Decol"', techo: '"Klee One"', taisho: '"Shippori Antique B1"', manga: '"Zen Antique"', youth: '"Yusei Magic"', pixel: '"DotGothic16","Fusion Pixel"', honjo: '"New Tegomin"'
   };
   var SANS = {matsuri: 1, techo: 1, youth: 1, pixel: 1, manga: 0};
   var FONT_URL = {
-    en: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;600;700&family=IM+Fell+English&family=Fraunces:opsz,wght@9..144,600&family=Caveat:wght@600&family=Poiret+One&family=Bangers&family=Baloo+2:wght@600;800&family=Silkscreen&display=swap',
+    en: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;600;700&family=IM+Fell+English&family=IM+Fell+English+SC&family=Fraunces:opsz,wght@9..144,600&family=Caveat:wght@600&family=Poiret+One&family=Bangers&family=Baloo+2:wght@600;800&family=Silkscreen&display=swap',
     ja: 'https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&family=Shippori+Mincho:wght@500;700&display=swap'
   };
   function compile() {
