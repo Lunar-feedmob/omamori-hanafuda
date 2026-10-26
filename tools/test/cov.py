@@ -1,4 +1,4 @@
-import sys, threading, http.server, functools, socketserver, json, re
+import os, sys, threading, http.server, functools, socketserver, json, re
 from playwright.sync_api import sync_playwright
 import fontcache; fontcache.patch()
 site, lang = sys.argv[1], sys.argv[2]
@@ -6,7 +6,7 @@ H = functools.partial(http.server.SimpleHTTPRequestHandler, directory=site); H.l
 srv = socketserver.ThreadingTCPServer(('127.0.0.1', 0), H); port = srv.server_address[1]
 threading.Thread(target=srv.serve_forever, daemon=True).start()
 url = f'http://127.0.0.1:{port}/_preview.html'; KEY = 'omamori-hanafuda-v1'
-ids = json.load(open(site + '/../ids.json'))
+ids = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ids.json')))
 coll = {k: (6 if i % 9 == 0 else (3 if i % 5 == 0 else 1)) for i, k in enumerate(ids) if i % 4 != 3}
 SCAN = r"""() => { const out = new Set(), cjk = /[㐀-鿿぀-ヿ]/;
   const skip = el => !el || el.closest('[translate="no"],svg,script,style,textarea,canvas,[hidden]');

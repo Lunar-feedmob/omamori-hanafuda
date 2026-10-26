@@ -1,11 +1,11 @@
-import sys, threading, http.server, functools, socketserver, json
+import os, sys, threading, http.server, functools, socketserver, json
 from playwright.sync_api import sync_playwright
 site, out = sys.argv[1], sys.argv[2]; looks = sys.argv[3].split(',')
 H = functools.partial(http.server.SimpleHTTPRequestHandler, directory=site); H.log_message = lambda *a: None
 srv = socketserver.ThreadingTCPServer(('127.0.0.1', 0), H); port = srv.server_address[1]
 threading.Thread(target=srv.serve_forever, daemon=True).start()
 url = f'http://127.0.0.1:{port}/_preview.html'; KEY = 'omamori-hanafuda-v1'
-ids = json.load(open(site + '/../ids.json'))
+ids = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ids.json')))
 coll = {k: (6 if i % 9 == 0 else 1) for i, k in enumerate(ids) if i % 4 != 3}
 SAVE = {'unlocked': 5, 'demoDone': True, 'best': {'std': {'1': 3, '2': 2, '3': 3, '4': 1}}, 'collected': coll, 'seals': {'san': 1, 'muku': 1}}
 with sync_playwright() as p:

@@ -1,4 +1,4 @@
-import sys, threading, http.server, functools, socketserver, json
+import os, sys, threading, http.server, functools, socketserver, json
 from playwright.sync_api import sync_playwright
 import fontcache; fontcache.patch()
 site, out = sys.argv[1], sys.argv[2]
@@ -69,7 +69,7 @@ with sync_playwright() as p:
         pg.close()
     # omamori tiers + upgrade toast + settings
     pg = page(390, 800, True)
-    allTwo = {k: 2 for k in json.loads(open(site + '/../ids.json').read())}
+    allTwo = {k: 2 for k in json.loads(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ids.json')).read())}
     load(pg, dict(SAVE, look='washi', collected=dict(allTwo, **{'ume-uguisu': 6, 'fuji': 7, 'matsu-tsuru': 3})))
     pg.click('.tabs [data-sheet="omamori"]'); pg.wait_for_timeout(600); pg.screenshot(path=f'{out}/m-om.png')
     print('om count', pg.evaluate("document.querySelector('#omCount').textContent"), 'tiers', pg.evaluate("[document.querySelectorAll('.om-cell.t1').length, document.querySelectorAll('.om-cell.t2').length]"), 'overflow', ov(pg))

@@ -2288,6 +2288,9 @@ function cycleLook() {
 }
 function applyLook() {
   document.documentElement.dataset.look = save.look;
+  // the browser bar takes the look's paper colour; the app icon itself stays the same for every look
+  const tc = document.querySelector('meta[name="theme-color"]');
+  if (tc) tc.content = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || tc.content;
   applySoundscape(); renderSoundUI(); warmDeck();
   sceneKey = '';
   if (seasonNow >= 0) applySeason(seasonNow);

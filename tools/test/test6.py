@@ -1,4 +1,4 @@
-import sys, threading, http.server, functools, socketserver, json, base64
+import os, sys, threading, http.server, functools, socketserver, json, base64
 from playwright.sync_api import sync_playwright
 import fontcache; fontcache.patch()
 site, out = sys.argv[1], sys.argv[2]
@@ -6,7 +6,7 @@ H = functools.partial(http.server.SimpleHTTPRequestHandler, directory=site); H.l
 srv = socketserver.ThreadingTCPServer(('127.0.0.1', 0), H); port = srv.server_address[1]
 threading.Thread(target=srv.serve_forever, daemon=True).start()
 url = f'http://127.0.0.1:{port}/_dbg.html'; KEY = 'omamori-hanafuda-v1'
-ids = json.load(open(site + '/../ids.json'))
+ids = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ids.json')))
 coll = {k: (6 if i % 7 == 0 else 1) for i, k in enumerate(ids) if i % 3 != 2}
 ALL = {'unlocked': 8, 'demoDone': True, 'seenRules': True, 'best': {'std': {str(i): 2 for i in range(1, 9)}}, 'collected': coll, 'seals': {'san': 1, 'muku': 1, 'hakkei': 1}}
 LOOKS = ['ukiyo', 'youth', 'manga', 'washi', 'kare', 'matsuri', 'techo']

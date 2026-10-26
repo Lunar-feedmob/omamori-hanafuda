@@ -1,4 +1,4 @@
-import sys, threading, http.server, functools, socketserver, json, base64
+import os, sys, threading, http.server, functools, socketserver, json, base64
 from playwright.sync_api import sync_playwright
 import fontcache; fontcache.patch()
 site, out = sys.argv[1], sys.argv[2]
@@ -6,7 +6,7 @@ H = functools.partial(http.server.SimpleHTTPRequestHandler, directory=site); H.l
 srv = socketserver.ThreadingTCPServer(('127.0.0.1', 0), H); port = srv.server_address[1]
 threading.Thread(target=srv.serve_forever, daemon=True).start()
 url = f'http://127.0.0.1:{port}/_dbg.html'; KEY = 'omamori-hanafuda-v1'
-ids = json.load(open(site + '/../ids.json'))
+ids = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ids.json')))
 # month m gets (m % 5) cards, clipped to 4: a mix of bare, rising and full panels
 coll = {}
 for i, k in enumerate(ids):
