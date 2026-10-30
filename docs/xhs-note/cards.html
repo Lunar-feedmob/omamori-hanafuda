@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>花合帖 · 小红书笔记卡片</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=New+Tegomin&family=Noto+Serif+SC:wght@400;600;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+/* Ten 3:4 cards (1080 x 1440) for a 小红书 note, in 本所怪谈's night palette: navy, lantern vermilion, paper. */
+:root{--night:#0f111c;--night2:#1a1c2b;--line:rgba(233,228,214,.16);--paper:#f3ead6;--ink:#1c1a17;--text:#ece6d6;--muted:#b9b2a0;--lantern:#e0703f;--lantern2:#f3c08f;--teal:#a9d6cf}
+*{box-sizing:border-box}
+body{margin:0;background:#555;font-family:"Noto Sans SC",sans-serif;color:var(--text)}
+.card{position:relative;width:1080px;height:1440px;margin:0 0 40px;overflow:hidden;padding:84px 80px 96px;
+  background:radial-gradient(ellipse 70% 40% at 80% 0,rgba(224,112,63,.18),transparent 70%),radial-gradient(ellipse 60% 50% at 0 100%,rgba(169,214,207,.08),transparent 70%),var(--night)}
+.kicker{display:flex;align-items:center;gap:14px;font-size:26px;letter-spacing:.18em;color:var(--lantern2)}
+.kicker::before{content:"";width:40px;height:3px;background:var(--lantern)}
+h1,h2{margin:0;font-family:"New Tegomin","Noto Serif SC",serif;font-weight:400;color:#f6f0e0}
+h2{margin-top:22px;font-size:76px;line-height:1.15;letter-spacing:.04em}
+.lead{margin:26px 0 0;font-size:34px;line-height:1.65;color:var(--text)}
+.muted{color:var(--muted)}
+.num{position:absolute;right:80px;bottom:52px;font-size:24px;letter-spacing:.2em;color:var(--muted)}
+.brand{position:absolute;left:80px;bottom:52px;font-family:"New Tegomin",serif;font-size:28px;letter-spacing:.2em;color:var(--muted)}
+.phone{position:relative;border-radius:46px;padding:14px;background:#05060b;box-shadow:0 30px 60px -20px rgba(0,0,0,.8),0 0 0 2px rgba(255,255,255,.08)}
+.phone img{display:block;width:100%;border-radius:34px}
+.hl{color:var(--lantern2)}
+/* 1 cover */
+.c1 h1{margin-top:40px;font-size:128px;line-height:1.08;letter-spacing:.02em}
+.c1 h1 em{font-style:normal;color:var(--lantern)}
+.c1 .sub{margin-top:30px;font-size:40px;letter-spacing:.12em;color:var(--lantern2)}
+.c1 .phones{position:absolute;left:60px;right:60px;top:800px;height:900px}
+.c1 .phone{position:absolute;width:390px}
+.c1 .p1{left:20px;top:30px;transform:rotate(-6deg)} .c1 .p2{right:20px;top:110px;transform:rotate(5deg)}
+.c1 .tag{position:absolute;right:80px;top:96px;padding:14px 18px;writing-mode:vertical-rl;font-family:"New Tegomin",serif;font-size:40px;letter-spacing:.2em;color:#1a1206;background:var(--lantern);box-shadow:0 0 30px rgba(224,112,63,.5)}
+/* 2 what */
+.c2 .row{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:44px;height:740px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 82%,transparent);mask-image:linear-gradient(#000 82%,transparent)}
+.c2 .phone{width:100%}
+.c2 ul{margin:34px 0 0;padding:0;list-style:none;display:grid;gap:14px;font-size:31px;line-height:1.5}
+.c2 li::before{content:"✦";margin-right:14px;color:var(--lantern)}
+/* 3 themes */
+.c3 .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:40px}
+.c3 figure{margin:0}
+.c3 .shot{height:258px;border-radius:16px;overflow:hidden;box-shadow:0 0 0 2px rgba(255,255,255,.08)}
+.c3 .shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 0}
+.c3 figcaption{margin-top:8px;text-align:center;font-size:24px;color:var(--text)}
+.c3 .more{display:grid;place-items:center;align-content:center;gap:10px;height:258px;border:2px dashed var(--line);border-radius:16px;text-align:center;font-size:26px;line-height:1.5;color:var(--muted)}
+/* 4 art */
+.c4 .wall{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;gap:14px;margin-top:40px}
+.c4 .wall div{border-radius:8px;overflow:hidden;background:#222;box-shadow:0 0 0 6px var(--paper)}
+.c4 .wall img{display:block;width:100%;height:100%;object-fit:cover}
+.c4 .tall{grid-row:span 2}
+.c4 .wide{grid-column:span 2}
+.c4 .list{margin-top:44px;font-size:30px;line-height:1.75}
+.c4 .src{margin-top:22px;padding:22px 26px;border-left:4px solid var(--lantern);background:rgba(0,0,0,.25);font-size:27px;line-height:1.6;color:var(--muted)}
+/* 5 roles */
+.c5 .cols{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:44px}
+.c5 .who{padding:30px 32px;border-radius:20px;background:var(--night2);border:2px solid var(--line)}
+.c5 .who b{display:block;font-family:"New Tegomin",serif;font-weight:400;font-size:44px;color:#f6f0e0}
+.c5 .who p{margin:14px 0 0;font-size:28px;line-height:1.6;color:var(--muted)}
+.c5 .who.me{border-color:var(--lantern)}
+.c5 .quotes{margin-top:44px;display:grid;gap:18px}
+.c5 .q{justify-self:end;max-width:840px;padding:20px 28px;border-radius:28px 28px 6px 28px;background:var(--paper);color:var(--ink);font-size:30px;line-height:1.5}
+.c5 .qh{font-size:26px;color:var(--muted);letter-spacing:.1em}
+/* 6 timeline */
+.c6 .tl{position:relative;margin-top:50px;padding-left:70px}
+.c6 .tl::before{content:"";position:absolute;left:24px;top:10px;bottom:10px;width:3px;background:linear-gradient(var(--lantern),rgba(224,112,63,.2))}
+.c6 .day{position:relative;margin-bottom:40px}
+.c6 .day::before{content:"";position:absolute;left:-58px;top:8px;width:26px;height:26px;border-radius:50%;background:var(--lantern);box-shadow:0 0 18px rgba(224,112,63,.7)}
+.c6 .day b{font-family:"New Tegomin",serif;font-weight:400;font-size:42px;color:#f6f0e0}
+.c6 .day b small{margin-left:16px;font-family:"Noto Sans SC",sans-serif;font-size:26px;color:var(--muted)}
+.c6 .day p{margin:10px 0 0;font-size:30px;line-height:1.6;color:var(--text)}
+.c6 .total{margin-top:10px;font-size:30px;color:var(--lantern2)}
+/* 7 pits */
+.c7 .pit{display:grid;grid-template-columns:88px 1fr;gap:24px;align-items:start;margin-top:46px}
+.c7 .pit i{display:grid;place-items:center;width:88px;height:88px;border-radius:50%;font-style:normal;font-family:"New Tegomin",serif;font-size:44px;color:#1a1206;background:var(--lantern)}
+.c7 .pit b{display:block;font-size:34px;font-weight:700;color:#f6f0e0}
+.c7 .pit p{margin:8px 0 0;font-size:28px;line-height:1.6;color:var(--muted)}
+/* 8 mobile */
+.c8 .big{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:44px}
+.c8 .stat{padding:32px;border-radius:20px;background:var(--night2);border:2px solid var(--line)}
+.c8 .stat .v{font-family:"Noto Serif SC",serif;font-weight:900;font-size:88px;line-height:1.1;color:#f6f0e0}
+.c8 .stat .v s{display:block;font-size:44px;color:var(--muted);text-decoration-thickness:3px}
+.c8 .stat .v em{font-style:normal;color:var(--lantern)}
+.c8 .stat p{margin:12px 0 0;font-size:27px;line-height:1.5;color:var(--muted)}
+.c8 ul{margin:56px 0 0;padding:0;list-style:none;display:grid;gap:28px;font-size:34px;line-height:1.5}
+.c8 li::before{content:"✓";display:inline-grid;place-items:center;width:44px;height:44px;margin-right:16px;border-radius:50%;background:rgba(224,112,63,.18);color:var(--lantern);font-weight:700}
+.c8 .note{margin-top:30px;font-size:24px;color:var(--muted)}
+/* 9 tips */
+.c9 ol{margin:64px 0 0;padding:0;list-style:none;counter-reset:t;display:grid;gap:52px}
+.c9 li{counter-increment:t;display:grid;grid-template-columns:96px 1fr;gap:26px;align-items:start}
+.c9 li::before{content:counter(t);display:grid;place-items:center;width:96px;height:96px;border-radius:24px;background:var(--paper);color:var(--ink);font-family:"Noto Serif SC",serif;font-weight:900;font-size:52px}
+.c9 b{display:block;font-size:44px;color:#f6f0e0}
+.c9 span{display:block;margin-top:10px;font-size:32px;line-height:1.55;color:var(--muted)}
+/* 10 end */
+.c10{display:grid;justify-items:center;align-content:center;text-align:center}
+.c10 .icon{width:260px;height:260px;border-radius:58px;box-shadow:0 30px 60px -20px rgba(0,0,0,.8),0 0 60px rgba(224,112,63,.25)}
+.c10 h2{margin-top:50px;font-size:96px}
+.c10 .slogan{margin-top:16px;font-size:36px;letter-spacing:.2em;color:var(--lantern2)}
+.c10 .now{margin-top:70px;display:grid;gap:22px;font-size:34px;line-height:1.5}
+.c10 .now div{padding:22px 40px;border-radius:999px;border:2px solid var(--line);background:var(--night2)}
+.c10 .now .on{border-color:var(--lantern);color:#f6f0e0}
+.c10 .cta{margin-top:70px;font-size:36px;color:var(--lantern2)}
+</style>
+</head>
+<body>
+
+<section class="card c1" id="c1">
+  <div class="kicker">「花合帖」开发全记录</div>
+  <h1>我和 <em>AI</em><br>做了一款<br>花札游戏</h1>
+  <div class="sub">4 天 · 25 次提交 · 13 个主题</div>
+  <div class="tag">花合帖</div>
+  <div class="phones">
+    <div class="phone p1"><img src="shots/home-honjo.webp" alt=""></div>
+    <div class="phone p2"><img src="shots/game-honjo.webp" alt=""></div>
+  </div>
+</section>
+
+<section class="card c2" id="c2">
+  <div class="kicker">它是什么</div>
+  <h2>翻开两张，<br>找出成对的花札</h2>
+  <ul>
+    <li>日本花札的记忆配对：48 张牌，春夏秋冬 8 处庭院</li>
+    <li>配对收下御守，凑「役」盖朱印，牌慢慢收进图鉴</li>
+    <li>8 处庭院走完，再开 3 种玩法：花合、夜庭、役之庭</li>
+  </ul>
+  <div class="row">
+    <div class="phone"><img src="shots/game-honjo.webp" alt=""></div>
+    <div class="phone"><img src="shots/win-honjo.webp" alt=""></div>
+  </div>
+  <div class="brand">花合帖</div><div class="num">02 / 10</div>
+</section>
+
+<section class="card c3" id="c3">
+  <div class="kicker">13 个主题，一键切换</div>
+  <h2 style="font-size:66px">画面、卡背、音乐、<br>动画都不一样</h2>
+  <div class="grid">
+    <figure><div class="shot"><img src="shots/home-honjo.webp" alt=""></div><figcaption>本所怪谈</figcaption></figure>
+    <figure><div class="shot"><img src="shots/home-ukiyo.webp" alt=""></div><figcaption>浮世锦绘</figcaption></figure>
+    <figure><div class="shot"><img src="shots/home-washi.webp" alt=""></div><figcaption>京都和纸</figcaption></figure>
+    <figure><div class="shot"><img src="shots/home-kare.webp" alt=""></div><figcaption>砂纹石庭</figcaption></figure>
+    <figure><div class="shot"><img src="shots/home-tsuki.webp" alt=""></div><figcaption>月白风清</figcaption></figure>
+    <figure><div class="shot"><img src="shots/home-rinpa.webp" alt=""></div><figcaption>金碧琳琅</figcaption></figure>
+    <figure><div class="shot"><img src="shots/home-giga.webp" alt=""></div><figcaption>墨戏山野</figcaption></figure>
+    <figure><div class="shot"><img src="shots/home-matsuri.webp" alt=""></div><figcaption>灯火夜祭</figcaption></figure>
+    <figure><div class="shot"><img src="shots/home-techo.webp" alt=""></div><figcaption>旅行手账</figcaption></figure>
+    <figure><div class="shot"><img src="shots/home-taisho.webp" alt=""></div><figcaption>洋灯旧梦</figcaption></figure>
+    <figure><div class="shot"><img src="shots/home-manga.webp" alt=""></div><figcaption>昭和漫画</figcaption></figure>
+    <figure><div class="shot"><img src="shots/home-youth.webp" alt=""></div><figcaption>四叠青春</figcaption></figure>
+    <figure><div class="shot"><img src="shots/home-pixel.webp" alt=""></div><figcaption>电光游园</figcaption></figure>
+    <div class="more" style="grid-column:span 2">还有 7 套卡面<br>中、英、日三种语言</div>
+  </div>
+  <div class="brand">花合帖</div><div class="num">03 / 10</div>
+</section>
+
+<section class="card c4" id="c4">
+  <div class="kicker">画从哪来</div>
+  <h2>博物馆开放馆藏里的<br>古画，都能免费用</h2>
+  <div class="wall">
+    <div class="tall"><img src="../../art/honjo-05.webp" alt=""></div>
+    <div class="wide"><img src="../../art/techo-05.webp" alt=""></div>
+    <div class="tall"><img src="../../art/tsuki-autumn.webp" alt=""></div>
+    <div><img src="../../art/ukiyo-spring.jpg" alt=""></div>
+    <div><img src="../../art/taisho-spring.webp" alt=""></div>
+    <div class="wide"><img src="../../art/honjo-08.webp" alt=""></div>
+    <div class="wide"><img src="../../art/rinpa-spring.webp" alt=""></div>
+  </div>
+  <div class="list">歌川广重《名所江户百景》《东海道五十三次》<br>葛饰北斋 · 月冈芳年 · 歌川国辉 · 竹久梦二<br>神坂雪佳 · 《鸟兽戏画》 · 琳派屏风 · 江户型纸</div>
+  <div class="src">全部是公有领域或 CC0：大都会艺术博物馆、芝加哥艺术博物馆、早稻田大学图书馆、Wikimedia Commons。每张都核对过授权，游戏里有完整致谢。</div>
+  <div class="brand">花合帖</div><div class="num">04 / 10</div>
+</section>
+
+<section class="card c5" id="c5">
+  <div class="kicker">怎么分工</div>
+  <h2>我出想法和取舍，<br>AI 动手</h2>
+  <div class="cols">
+    <div class="who me"><b>我</b><p>想法、审美、取舍，<br>第一个玩家，负责挑毛病</p></div>
+    <div class="who"><b>AI</b><p>写代码、找素材核授权、<br>做声音动画、翻译、测试</p></div>
+  </div>
+  <div class="quotes">
+    <div class="qh">我提过的需求（原话）</div>
+    <div class="q">主题不要单独放一个页面，在 Homepage 放一个按钮，点击即切换</div>
+    <div class="q">各个页面的返回键位置不统一，游玩起来有点不方便</div>
+    <div class="q">切换主题后音效没变化</div>
+    <div class="q">感觉分享功能不太实用，可以去掉</div>
+    <div class="q">把所有人首次打开的默认主题改成本所怪谈</div>
+  </div>
+  <div class="brand">花合帖</div><div class="num">05 / 10</div>
+</section>
+
+<section class="card c6" id="c6">
+  <div class="kicker">4 天时间线</div>
+  <h2>从一个想法，<br>到能装进手机</h2>
+  <div class="tl">
+    <div class="day"><b>Day 1<small>10.23</small></b><p>能玩的第一版：48 张花札、四季主题、连击朱印；当天加到 8 个主题、几套卡面和御守</p></div>
+    <div class="day"><b>Day 2<small>10.24</small></b><p>每个主题配上自己的音乐音效；庭院屏风、3 种新玩法；5 个古画主题</p></div>
+    <div class="day"><b>Day 3<small>10.25</small></b><p>改名「花合帖」，加英文和日文；一键换主题；旅行手账改成东海道之旅；整套动画</p></div>
+    <div class="day"><b>Day 4<small>10.26</small></b><p>新主题「本所怪谈」；应用图标；手机网页版大优化：更快、能装到桌面、断网能玩</p></div>
+  </div>
+  <div class="total">一共 25 次提交，每一步都能回看</div>
+  <div class="brand">花合帖</div><div class="num">06 / 10</div>
+</section>
+
+<section class="card c7" id="c7">
+  <div class="kicker">踩过的坑</div>
+  <h2>做的时候<br>踩过的坑</h2>
+  <div class="pit"><i>一</i><div><b>手机上没有声音</b><p>iPhone 要在点按时才允许播放，改成第一下点按时启动音频</p></div></div>
+  <div class="pit"><i>二</i><div><b>换了主题，音乐却没变</b><p>背景音乐要等下一段旋律才换。现在一切换，乐器和音乐立刻跟着变</p></div></div>
+  <div class="pit"><i>三</i><div><b>手机打开要等 12 秒</b><p>十几种字体一次全加载。改成按主题加载、中文优先用手机自带字体：1.6 秒</p></div></div>
+  <div class="pit"><i>四</i><div><b>侧滑返回直接退出网页</b><p>改成一层层退：弹窗 → 图鉴 → 对局 → 主页</p></div></div>
+  <div class="pit"><i>五</i><div><b>小屏上，旅行手账的牌偏小</b><p>排版把一侧的本子边距算了两次。修好后，最小的 iPhone 上牌也和别的主题一样大</p></div></div>
+  <div class="brand">花合帖</div><div class="num">07 / 10</div>
+</section>
+
+<section class="card c8" id="c8">
+  <div class="kicker">手机网页版</div>
+  <h2>用手机浏览器打开<br>就能玩</h2>
+  <div class="big">
+    <div class="stat"><div class="v"><s>12.0s</s> <em>1.6s</em></div><p>首页出现的时间</p></div>
+    <div class="stat"><div class="v"><s>5.1MB</s> <em>2.2MB</em></div><p>打开时要下载的内容</p></div>
+  </div>
+  <ul>
+    <li>能「添加到主屏幕」，像 App 一样打开</li>
+    <li>玩过的庭院，断网也能接着玩</li>
+    <li>侧滑返回一层层退，不会误退出</li>
+    <li>长按不弹菜单，下拉不会刷新</li>
+    <li>8 种屏幕 × 13 个主题，自动截图逐一检查</li>
+  </ul>
+  <div class="note">速度数据：模拟中端手机 + 慢速 4G 测得</div>
+  <div class="brand">花合帖</div><div class="num">08 / 10</div>
+</section>
+
+<section class="card c9" id="c9">
+  <div class="kicker">给想用 AI 做东西的你</div>
+  <h2>5 条心得</h2>
+  <ol>
+    <li><div><b>先做能玩的最小版本</b><span>第一天早上就能玩了，后面一轮轮加</span></div></li>
+    <li><div><b>反馈越具体越好</b><span>「返回键位置不统一」比「不好用」有用得多</span></div></li>
+    <li><div><b>让 AI 自己验收</b><span>自动截图、换屏幕尺寸测，问题它自己先看见</span></div></li>
+    <li><div><b>功能做减法，取舍自己定</b><span>我砍掉了分享功能，游戏反而更干净</span></div></li>
+    <li><div><b>用素材先看授权</b><span>公有领域、CC0 最省心，致谢写清楚</span></div></li>
+  </ol>
+  <div class="brand">花合帖</div><div class="num">09 / 10</div>
+</section>
+
+<section class="card c10" id="c10">
+  <img class="icon" src="../../icons/icon-512.png" alt="">
+  <h2>花合帖</h2>
+  <div class="slogan">四季八庭的花札记忆</div>
+  <div class="now">
+    <div class="on">网页版已上线，手机浏览器就能玩</div>
+    <div>小红书小工具版，正在准备中</div>
+  </div>
+  <div class="cta">想玩的朋友，评论区见</div>
+  <div class="num">10 / 10</div>
+</section>
+
+</body>
+</html>

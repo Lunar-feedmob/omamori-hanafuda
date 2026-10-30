@@ -1,0 +1,131 @@
+<title>花合帖小红书笔记</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=New+Tegomin&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+/* One column of working material for posting: steps, the ten cards, then title / body / tags, each copyable.
+   Single night look on purpose: it matches the cards (本所怪谈's navy, lantern vermilion and paper). */
+:root{
+  --bg:#0f111c; --panel:#1a1c2b; --line:rgba(233,228,214,.16); --text:#ece6d6; --muted:#b4ad9c; --lantern:#e0703f; --lantern-soft:#f3c08f; --paper:#f3ead6; --ink:#1c1a17;
+  --f-display:"New Tegomin","Songti SC","Noto Serif SC",serif; --f-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font:16px/1.7 var(--f-body)}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px;display:grid;gap:40px}
+header{display:grid;gap:10px}
+.eyebrow{font-size:13px;letter-spacing:.2em;color:var(--lantern-soft)}
+h1{margin:0;font:400 clamp(34px,7vw,52px)/1.15 var(--f-display);letter-spacing:.04em;text-wrap:balance}
+header p{margin:0;max-width:62ch;color:var(--muted)}
+h2{margin:0 0 14px;font:400 26px/1.3 var(--f-display);letter-spacing:.06em}
+.steps{margin:0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--lantern);color:#1a1206;font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.cards figure{margin:0;display:grid;gap:6px}
+.cards img{display:block;width:100%;height:auto;aspect-ratio:3/4;border-radius:8px;box-shadow:0 0 0 1px var(--line)}
+.cards figcaption{font-size:12px;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+.hint{margin:12px 0 0;font-size:14px;color:var(--muted)}
+.block{display:grid;gap:12px;padding:20px;border-radius:14px;background:var(--panel);border:1px solid var(--line)}
+.block-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.block-head h2{margin:0}
+.text{margin:0;white-space:pre-wrap;word-break:break-word;font:inherit;color:var(--text)}
+.title-text{font-size:20px;font-weight:700}
+.count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+button.copy{flex:none;min-height:40px;padding:0 18px;border:0;border-radius:999px;background:var(--lantern);color:#1a1206;font:700 15px var(--f-body);cursor:pointer}
+button.copy:focus-visible{outline:3px solid var(--lantern-soft);outline-offset:2px}
+button.copy.done{background:var(--paper);color:var(--ink)}
+.url{display:inline-block;padding:2px 8px;border-radius:6px;background:rgba(255,255,255,.06);font-family:ui-monospace,Menlo,monospace;font-size:14px;color:var(--lantern-soft);user-select:all;word-break:break-all}
+@media (max-width:720px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion:no-preference){button.copy{transition:background .2s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">花合帖 · 小红书图文笔记</div>
+    <h1>我和 AI 用 4 天<br>做了款花札游戏</h1>
+    <p>10 张 3:4 图片，加上标题、正文和话题，按顺序发就行。文案里只写了已经上线的网页版，小红书小工具标成「正在准备中」。</p>
+  </header>
+
+  <section>
+    <h2>发布步骤</h2>
+    <ol class="steps">
+      <li>把下面 10 张图按顺序存到手机相册（手机上长按图片保存）。</li>
+      <li>小红书里新建图文笔记，按 01 到 10 的顺序选图。</li>
+      <li>复制标题、正文、话题，分别粘贴。</li>
+      <li>第 10 张写着「想玩的朋友，评论区见」：发布后在评论区放网页版地址，<span class="url">https://lunar-feedmob.github.io/omamori-hanafuda/</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>10 张图</h2>
+    <div class="cards">
+      <figure><img src="png/01.png" alt="封面：我和 AI 做了一款花札游戏"><figcaption>01 封面</figcaption></figure>
+      <figure><img src="png/02.png" alt="它是什么"><figcaption>02 它是什么</figcaption></figure>
+      <figure><img src="png/03.png" alt="13 个主题"><figcaption>03 十三个主题</figcaption></figure>
+      <figure><img src="png/04.png" alt="画从哪来"><figcaption>04 画从哪来</figcaption></figure>
+      <figure><img src="png/05.png" alt="怎么分工"><figcaption>05 怎么分工</figcaption></figure>
+      <figure><img src="png/06.png" alt="4 天时间线"><figcaption>06 时间线</figcaption></figure>
+      <figure><img src="png/07.png" alt="踩过的坑"><figcaption>07 踩过的坑</figcaption></figure>
+      <figure><img src="png/08.png" alt="手机网页版"><figcaption>08 手机网页版</figcaption></figure>
+      <figure><img src="png/09.png" alt="5 条心得"><figcaption>09 心得</figcaption></figure>
+      <figure><img src="png/10.png" alt="结尾"><figcaption>10 结尾</figcaption></figure>
+    </div>
+    <p class="hint">每张 1080 × 1440，小红书 3:4 竖图的标准尺寸。电脑上这些图也在项目的 docs/xhs-note/png 文件夹里。</p>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><h2>标题</h2><button class="copy" type="button" id="copyTitle" data-target="titleText">复制</button></div>
+    <p class="text title-text" id="titleText">我和AI用4天做了款花札游戏🎴</p>
+    <span class="count" id="titleCount"></span>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><h2>正文</h2><button class="copy" type="button" id="copyBody" data-target="bodyText">复制</button></div>
+    <pre class="text" id="bodyText">最近和 AI 一起做了个小游戏：「花合帖」🎴
+日本花札的记忆配对——翻开两张，找出成对的花札，沿着春夏秋冬走完八处庭院。
+
+✨ 做了些什么
+· 48 张花札、8 处庭院，走完再开 3 种玩法
+· 13 个主题一键切换：浮世绘、京都和纸、月夜卷轴、金屏风、鸟兽戏画、东海道手账、本所怪谈……画面、卡背、音乐、动画都不一样
+· 画都来自博物馆开放馆藏（公有领域 / CC0）：广重、北斋、芳年、国辉、梦二……
+· 中、英、日三种语言
+
+🤝 怎么和 AI 分工
+我负责想法和取舍，算是产品经理 + 第一个玩家；AI（我用的是 Claude Code）负责写代码、找素材核授权、做声音动画、翻译和测试。
+我说「返回键位置不统一」「切换主题后音效没变化」「分享功能不太实用，可以去掉」，它就改好、自己测完、截图给我看。
+
+🕳 踩过的坑
+· 手机打开要等 12 秒 → 字体按需加载，现在 1.6 秒
+· 侧滑返回直接退出网页 → 改成一层层退回
+· 换了主题音乐不变 → 一切换立刻换乐器
+
+💡 几点心得
+① 先做能玩的最小版本，再一轮轮加
+② 反馈越具体越好
+③ 让 AI 自己测、自己截图
+④ 功能做减法，取舍自己定
+⑤ 用素材先看授权
+
+现在网页版已经上线，用手机浏览器就能玩，还能添加到主屏幕；小红书小工具版正在准备中。想玩的朋友评论区见👇</pre>
+    <span class="count" id="bodyCount"></span>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><h2>话题</h2><button class="copy" type="button" id="copyTags" data-target="tagsText">复制</button></div>
+    <p class="text" id="tagsText">#AI做游戏 #花札 #独立游戏 #浮世绘 #ClaudeCode #小游戏 #记忆游戏 #日本文化 #AI编程</p>
+  </section>
+</div>
+
+<script>
+// Character counts against 小红书's limits (title 20, body 1000), and copy buttons that fall back to selecting the text.
+const len = s => [...s].length;
+const t = document.getElementById('titleText').textContent, b = document.getElementById('bodyText').textContent;
+document.getElementById('titleCount').textContent = `${len(t)} / 20 字`;
+document.getElementById('bodyCount').textContent = `${len(b)} / 1000 字`;
+document.querySelectorAll('button.copy').forEach(btn => btn.addEventListener('click', () => {
+  const el = document.getElementById(btn.dataset.target);
+  const done = () => { btn.textContent = '已复制'; btn.classList.add('done'); setTimeout(() => { btn.textContent = '复制'; btn.classList.remove('done'); }, 1800); };
+  const select = () => { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = '已选中，请手动复制'; };
+  try { navigator.clipboard.writeText(el.textContent).then(done, select); } catch (e) { select(); }
+}));
+</script>
