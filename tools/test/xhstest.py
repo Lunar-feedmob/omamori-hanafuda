@@ -45,7 +45,7 @@ with sync_playwright() as p:
     pg.reload(); pg.wait_for_timeout(2500)
     print('after reload unlocked', pg.evaluate("JSON.parse(JSON.parse(sessionStorage.getItem('__xhsStore'))['omamori-hanafuda-v1']).unlocked"), '| localStorage used', pg.evaluate("localStorage.length"))
     pg.click('.tabs [data-cycle-look]'); pg.wait_for_timeout(600); pg.click('.tabs [data-cycle-look]'); pg.wait_for_timeout(600); pg.screenshot(path=f'{out}/xhs-kare.png')
-    print('look', pg.evaluate("document.documentElement.dataset.look"), '| fonts ok', pg.evaluate("document.fonts.check('20px \"Shippori Mincho\"')"))
+    print('look', pg.evaluate("document.documentElement.dataset.look"), '| its display font loaded', pg.evaluate("(async () => { await document.fonts.ready; const fam = getComputedStyle(document.documentElement).getPropertyValue('--f-jp').split(',')[0].trim().replace(/\"/g, ''); return [fam, [...document.fonts].some(f => f.family.replace(/\"/g, '') === fam && f.status === 'loaded')]; })()"))
     print('external requests', external[:5], '| errors', errs[:6])
     b.close()
 srv.shutdown()

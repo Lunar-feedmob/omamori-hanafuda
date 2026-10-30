@@ -96,8 +96,9 @@ fs.rmSync(DIST, {recursive: true, force: true});
 const put = (rel, data) => { const p = path.join(DIST, rel); fs.mkdirSync(path.dirname(p), {recursive: true}); fs.writeFileSync(p, data); };
 const copy = (from, rel) => put(rel, fs.readFileSync(from));
 const tjs = async (code, name) => (await transform(code, {loader: 'js', target: 'chrome61', minify: true, legalComments: 'none', sourcefile: name})).code;
+// the default look (本所怪谈) from the first frame; a player's own look takes over once the platform storage has loaded
 put('index.html', `<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-look="honjo">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />

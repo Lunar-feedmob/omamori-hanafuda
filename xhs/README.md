@@ -4,8 +4,9 @@
 这一版由网页源码 `src/page.html` 自动生成，网页仍是唯一源码。
 
 - 上传包：`xhs/release/hana-awase-xhs.zip`（zip 根目录即 `index.html`），也挂在 GitHub Releases 上
-- 图标：`xhs/release/icon-1024.png`、`icon-512.png`（本作原创剪纸卡面）
-- 规范依据：官方打包 Skill `minitool-zip-builder` 1.7.0（总包上限 10 MB，建议 2 MB 以内）；以上传页提供的最新改写口令为准，口令更新后需重新校验。
+- 图标：`xhs/release/icon-1024.png`、`icon-512.png`（和网页版同一枚图标：夜色底上的「芒に月」）
+- 上架信息：`xhs/release/LISTING.md`（名称、Slogan、简介、权限、扫码预览清单）
+- 规范依据：官方「小工具容器能力清单」（2026-10-30 版）与打包 Skill `minitool-zip-builder` 1.7.0（总包上限 10 MB，建议 2 MB 以内）；以上传页提供的最新改写口令为准，口令更新后需重新校验。
 
 ## 构建
 
@@ -30,7 +31,7 @@ cd xhs && npm install && node build.mjs
 
 ## 已验证 / 未验证
 
-- 已验证：官方审计脚本 PASS（包体 4.5 MB，高于建议的 2 MB、低于 10 MB 上限）；离线运行（拦截全部外部请求）、模拟容器 SDK 下的存档与振动均正常。
+- 已验证：官方审计脚本 PASS（包体 5.5 MB，高于建议的 2 MB、低于 10 MB 上限）；离线运行（拦截全部外部请求）、模拟容器 SDK 下的存档与振动均正常；320–430 宽的手机屏幕上主页与第八庭都能完整显示。
 - 未验证：真机与 PC 模拟器（需要 Builder Hub 权限）；Android 8.1 / Chrome 61 真机兼容性。
 
 ## 发布步骤
